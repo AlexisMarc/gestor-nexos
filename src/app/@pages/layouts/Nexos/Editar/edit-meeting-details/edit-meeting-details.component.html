@@ -1,0 +1,94 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchActiveSets()">Bucar Activos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear
+      Reunion</a>
+  </li>
+</ul>
+<div class="container animated slideInUp">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-4">
+        <div class="card-body">
+          <form class="form" role="form" name="form" (ngSubmit)="f.form.valid && editMeet()" #f="ngForm" novalidate>
+            <div class="row">
+              <div class="col-12">
+                <label for="formGroupExampleInput">Nombre Reunion</label>
+                <input class="form-control form-control-sm" type="text" placeholder="ASAMBLEA NO PRESENCIAL"
+                  name="Nombre Reunion" [(ngModel)]="name_meet" autocomplete="off"
+                  onkeyup="this.value = this.value.toUpperCase();">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Numeros de soporte</label>
+                <input class="form-control form-control-sm" type="text" placeholder="Pbx:4325200, tel:31236723123"
+                  name="Numeros soporte" [(ngModel)]="support" autocomplete="off">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Fecha Asamblea</label>
+                <input class="form-control form-control-sm" type="date" name="date" [(ngModel)]="date"
+                  autocomplete="off">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Url de votacion</label>
+                <input class="form-control form-control-sm" type="text"
+                  placeholder="https://www.votacioneselectronicas.com.co/Votacion/#/login/1388" name="urlVoting"
+                  value="https://www.votacioneselectronicas.com.co/Votacion/#/login/" [(ngModel)]="youtube_link"
+                  autocomplete="off">
+                  
+                  <label for="formGroupExampleInput">Url de redireccion</label>
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="url_redirection"
+                  placeholder="" name="urlredirrection" autocomplete="off">
+                <label for="formGroupExampleInput">Transmision</label>
+                <input class="form-control form-control-sm" type="text"
+                  placeholder="https://www.youtube.com/embed/FfcLrMUlzrU" name="urlYoutube" [(ngModel)]="youtube_share"
+                  autocomplete="off">
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Hora de inicio y fecha</label>
+                <input class="form-control form-control-sm" type="text" placeholder="11am del 29 de febrero del 2021."
+                  name="meeting_time" [(ngModel)]="meeting_time" autocomplete="off">
+                <label for="formGroupExampleInput">Hora de inicio del registro</label>
+                <input class="form-control form-control-sm" type="text" placeholder="11am del 29 de febrero del 2021."
+                  name="meeting_time_start" [(ngModel)]="meeting_time_start" autocomplete="off">
+                  <label for="formGroupExampleInput">Tipo de email</label>
+                <select class="form-select" aria-label="Default select example" name="Email_id"
+                  [(ngModel)]="email_request_password_id">
+                  <option value="">Seleccione el tipo email</option>
+                  <option [value]="item.id" *ngFor="let item of listTypeEmail">{{item.name_email}}</option>
+                </select>
+                <label for="formGroupExampleInput">Tiempo de ciclo de verificación de asistencia automática</label>
+                <input class="form-control form-control-sm" type="text"
+                  name="session_check_time" [(ngModel)]="session_check_time" autocomplete="off">
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-12 col-md-3"></div>
+              <div class="col-12 col-md-6">
+                <label for=""><br></label>
+                <button style="text-align: right" class="form-control form-control-sm" type="submit"
+                  style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+                  <span class="bold">Guardar</span>
+                </button>
+              </div>
+              <div class="col-12 col-md-3"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

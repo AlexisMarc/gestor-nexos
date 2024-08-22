@@ -1,0 +1,8 @@
+#option_name::-moz-placeholder {
+  color: #444;
+  opacity: 1;
+}
+#option_name::placeholder {
+  color: #444;
+  opacity: 1;
+}/*# sourceMappingURL=create-virtual-votes.component.css.map */

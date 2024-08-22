@@ -1,0 +1,193 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchActiveSets()">Bucar Activos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear
+      Reunion</a>
+  </li>
+</ul>
+<div class="container animated slideInUp">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-4">
+        <div class="card-body">
+          <form class="form" role="form" name="form" (ngSubmit)="f.form.valid && saveMeeting()" #f="ngForm" novalidate>
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <label for="formGroupExampleInput">Nombre Reunion</label>
+                <input class="form-control form-control-sm" type="text" placeholder="ASAMBLEA NO PRESENCIAL"
+                  name="Nombre Reunion" [(ngModel)]="loadDatabase.name" autocomplete="off">
+              </div>
+              <div class="col-12 col-md-3">
+                <label for="formGroupExampleInput">Hora de inicio y fecha</label>
+                <input class="form-control form-control-sm" type="text" placeholder="11am del 29 de febrero del 2021."
+                  name="meeting_time" [(ngModel)]="loadDatabase.meeting_time" autocomplete="off"
+                  >
+              </div>
+             
+              <div class="col-12 col-md-4">
+                <label for="formGroupExampleInput">Hora de inicio del registro  </label>
+                <input class="form-control form-control-sm" type="text" placeholder="11am del 29 de febrero del 2021."
+                  name="meeting_time" [(ngModel)]="loadDatabase.meeting_time_start" autocomplete="off"
+                  >
+              </div>
+              <!-- onkeyup="this.value = this.value.toUpperCase();" -->
+            </div>
+           
+
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <label for="formGroupExampleInput">Url de votacion</label>
+                <input class="form-control form-control-sm" type="text"
+                  placeholder="https://www.votacioneselectronicas.com.co/Votacion/#/login/1388" name="urlVoting"
+                  value="https://www.votacioneselectronicas.com.co/Votacion/#/login/"
+                  [(ngModel)]="loadDatabase.youtube_link" autocomplete="off">
+                <label for="formGroupExampleInput">Transmision</label>
+                <input class="form-control form-control-sm" type="text"
+                  placeholder="https://www.youtube.com/embed/FfcLrMUlzrU" name="urlYoutube"
+                  [(ngModel)]="loadDatabase.youtube_share" autocomplete="off">
+              </div>
+              <div class="col-12 col-md-3" style="text-align: center;">
+                <strong>
+                  <label for="exampleFormControlInput1" style="text-align: center; font-weight: 600;">Cargar base de
+                    datos </label>
+                </strong>
+                <div class="avatar2 d-flex justify-content-center m-b-30">
+                  <input #file type="file" id="file" name="image" (change)="fileProgress($event)">
+                  <label for="file" class="img-content null-img"
+                    style="background: url(../assets/img/database.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                    <img [src]="previewUrl" style="object-fit: cover;" *ngIf="previewUrl" class="img-content null-img">
+                  </label>
+                </div>
+               </div>
+               <div class="col-12 col-md-2">
+                <label for="formGroupExampleInput">Max unidades</label>
+                <input class="form-control form-control-sm" type="number" placeholder="2" min="0" name="max_units"
+                  [(ngModel)]="loadDatabase.max_units" autocomplete="off">
+
+                  <label for="formGroupExampleInput">Fecha Asamblea </label>
+                  <input class="form-control form-control-sm" type="date"  name="date"
+                    [(ngModel)]="loadDatabase.date" autocomplete="off">
+
+              </div>
+              <div class="col-12 col-md-2">
+                  <label for="formGroupExampleInput">Max apoderados</label>
+                <input class="form-control form-control-sm" type="number" placeholder="2" min="0" name="max_agents"
+                  [(ngModel)]="loadDatabase.max_agents" autocomplete="off">
+
+                  <label for="formGroupExampleInput">A distancia </label>
+                  <select class="form-control form-control-sm"[(ngModel)]="loadDatabase.is_online" name="is_online">
+                    <option value="0">No</option>
+                    <option value="1" selected>Si</option>
+                  </select>
+                  
+              </div>
+
+
+              
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2" style="text-align: center;">
+                <label for="formGroupExampleInput">Nombre documento 1</label>
+                <input type="text" placeholder="Convocatoria" [(ngModel)]="loadDatabase.document1" name="document1" class="form-control form-control-sm"><br>
+                <div class="avatar d-flex justify-content-center m-b-30">
+                  <input #file1 type="file" id="file1" name="image" (change)="fileProgress1($event)">
+                  <label for="file1" class="img-content null-img"
+                    style="background: url(./assets/img/cargado.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                    <img [src]="previewUrl1" style="object-fit: cover;" *ngIf="previewUrl1"
+                      class="img-content null-img">
+                  </label>
+                </div>
+              </div>
+              <div class="col-12 col-md-2" style="text-align: center;">
+                <label for="formGroupExampleInput">Nombre documento 2</label>
+                <input type="text" placeholder="Informe Administrador" name="document2" [(ngModel)]="loadDatabase.document2"
+                  class="form-control form-control-sm"><br>
+                  <div class="avatar d-flex justify-content-center m-b-30">
+                    <input #file2 type="file" id="file2" name="image" (change)="fileProgress2($event)">
+                    <label for="file2" class="img-content null-img"
+                      style="background: url(./assets/img/cargado.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                      <img [src]="previewUrl2" style="object-fit: cover;" *ngIf="previewUrl2"
+                        class="img-content null-img">
+                    </label>
+                  </div>
+              </div>
+              <div class="col-12 col-md-2" style="text-align: center;">
+                <label for="formGroupExampleInput">Nombre documento 3</label>
+                <input type="text" placeholder="Informe Revisor Fiscal" name="document3" [(ngModel)]="loadDatabase.document3"
+                  class="form-control form-control-sm"><br>
+                  <div class="avatar d-flex justify-content-center m-b-30">
+                    <input #file3 type="file" id="file3" name="image" (change)="fileProgress3($event)">
+                    <label for="file3" class="img-content null-img"
+                      style="background: url(./assets/img/cargado.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                      <img [src]="previewUrl3" style="object-fit: cover;" *ngIf="previewUrl3"
+                        class="img-content null-img">
+                    </label>
+                  </div>
+              </div>
+              <div class="col-12 col-md-2" style="text-align: center;">
+                <label for="formGroupExampleInput">Nombre documento 4</label>
+                <input type="text" placeholder="Informe Convivencia" name="document4" [(ngModel)]="loadDatabase.document4"
+                  class="form-control form-control-sm"><br>
+                  <div class="avatar d-flex justify-content-center m-b-30">
+                    <input #file4 type="file" id="file4" name="image" (change)="fileProgress4($event)">
+                    <label for="file4" class="img-content null-img"
+                      style="background: url(./assets/img/cargado.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                      <img [src]="previewUrl4" style="object-fit: cover;" *ngIf="previewUrl4"
+                        class="img-content null-img">
+                    </label>
+                  </div>
+              </div>
+              <div class="col-12 col-md-2" style="text-align: center;">
+                <label for="formGroupExampleInput">Nombre documento 5</label>
+                <input type="text" placeholder="Informe" name="document5" [(ngModel)]="loadDatabase.document5" class="form-control form-control-sm"><br>
+                <div class="avatar d-flex justify-content-center m-b-30">
+                  <input #file5 type="file" id="file5" name="image" (change)="fileProgress5($event)">
+                  <label for="file5" class="img-content null-img"
+                    style="background: url(./assets/img/cargado.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                    <img [src]="previewUrl5" style="object-fit: cover;" *ngIf="previewUrl5"
+                      class="img-content null-img">
+                  </label>
+                </div>
+              </div>
+              <div class="col-12 col-md-2" style="text-align: center;">
+                <label for="formGroupExampleInput">Nombre documento 6</label>
+                <input type="text" placeholder="Informe" name="document6" [(ngModel)]="loadDatabase.document6" class="form-control form-control-sm"><br>
+                <div class="avatar d-flex justify-content-center m-b-30">
+                  <input #file6 type="file" id="file6" name="image" (change)="fileProgress6($event)">
+                  <label for="file6" class="img-content null-img"
+                    style="background: url(./assets/img/cargado.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                    <img [src]="previewUrl6" style="object-fit: cover;" *ngIf="previewUrl6"
+                      class="img-content null-img">
+                  </label>
+                </div>
+              </div>
+             
+              
+              <hr>
+
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-3"></div>
+              <div class="col-12 col-md-6">
+                <label for=""><br></label>
+                <button style="text-align: right" class="form-control form-control-sm" type="submit"
+                  style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+                  <span class="bold">Guadar</span>
+                </button>
+              </div>
+              <div class="col-12 col-md-3"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

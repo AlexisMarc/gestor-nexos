@@ -1,0 +1,143 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="profile=='Super Usuario'">
+    <div class="col-12">
+      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <button type="button" class="btn dark" (click)="goToUserActive()">Usuarios activos</button>
+        <button type="button" class="btn orange" (click)="goToSearchUser()">Buscar por usuario</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <h3>Registro de tareas</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="taskToCreate">
+                <option value="" selected>Tareas predeterminadas</option>
+                <option *ngFor="let item of listTasksDefalut" [value]="item.name">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-7">
+            <div class="mb-3">
+              <label for="nameTask" class="form-label">Nombre tarea</label>
+              <input type="texr" class="form-control" id="nameTask" placeholder="..." [(ngModel)]="taskToCreate">
+            </div>
+          </div>
+          <div class="col-7 col-md-5">
+            <div class="mb-3">
+              <label for="nameTask" class="form-label">Duración</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Horas</span>
+                <input type="number" class="form-control" id="nameTask1" [(ngModel)]="hoursToEndTask" placeholder="2,5" min="0" max="59">
+                <span class="input-group-text">Min</span>
+                <input type="number" class="form-control" id="nameTask2" [(ngModel)]="minutesToEndTask" placeholder="2,5" min="0" max="59">
+              </div>
+              <!-- Minutos<input type="number" class="form-control" id="nameTask" [(ngModel)]="minutesToEndTask" placeholder="2,5">
+              Segundos<input type="number" class="form-control" id="nameTask" [(ngModel)]="minutesToEndTask" placeholder="2,5"> -->
+            </div>
+          </div>
+          <!-- <div class="col-7 col-md-2">
+            <div class="mb-3">
+              <label for="nameTask" class="form-label">Duración (min)</label>
+            </div>
+          </div> -->
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn btn-orange" (click)="createTask()">iniciar</button>
+          </div>
+        </div>
+        <br>
+        <div class="containerActiveTask mt-3" *ngIf="taskActiveId != ''">
+          <div class="row">
+            <div class="col-12"></div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h3><img src="./assets/img/point.png" alt="Punto verde" class="pointActiveTask2">Tarea activa</h3>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-12 col-md-12">
+              <div class="mb-3">
+                <label for="nameTaskActive" class="form-label">Nombre tarea activa</label>
+                <input type="texr" class="form-control" id="nameTaskActive" placeholder="..."
+                  [(ngModel)]="taskActiveName">
+              </div>
+            </div>
+            <div class="col-12 col-md-12">
+              <div class="mb-3">
+                <p>Activa desde : <b>{{intiTaskActive}}</b></p>
+              </div>
+            </div>
+          </div>
+          <div class="row" >
+            <div class="col-12">
+              <button type="button" class="btn btn-orange" (click)="endTask()">Terminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <h3>Tareas del día</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="mb-3">
+              <input type="date" class="form-control" id="nameTask" (change)="getListTaskByDay()" [(ngModel)]="dateFrom">
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="mb-3">
+              <input type="date" class="form-control" id="nameTask2" (change)="getListTaskByDay()" [(ngModel)]="dateTo">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="scroll">
+              <table class="table table-sm table-task">
+                <thead class="table-dark">
+                  <tr>
+                    <th style="color: #FFF;">#</th>
+                    <th style="color: #FFF;">tarea</th>
+                    <th style="color: #FFF;">Inicio</th>
+                    <th style="color: #FFF;">Final</th>
+                    <th style="color: #FFF;">Duración</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listTaksDay; index as index">
+                    <td>{{index + 1}}</td>
+                    <td>{{item['description']}}</td>
+                    <td>{{item['start_task']}}</td>
+                    <td>{{item['end_task']}}</td>
+                    <td *ngIf="item['end_task'] == null; else durationTd">Activa <img src="./assets/img/point.png"
+                        alt="Punto verde" class="pointActiveTask"></td>
+                    <ng-template #durationTd>
+                      <td>{{item['duration']}}</td>
+                    </ng-template>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

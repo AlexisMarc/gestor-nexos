@@ -1,0 +1,34 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointControl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goCreatQrCode()">Crear QR</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Entrada a sala</a>
+  </li>
+</ul>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="profileForm" (ngSubmit)="sendQR(profileForm.value)">
+        <label for="">Lea o digite el codigo QR</label>
+        <br>
+        <input type="text" formControlName="token_2" class="form-control" style="border: 1px solid #444;"
+          placeholder="...">
+        <br>
+          <button type="submit" [disabled]="!profileForm.valid" style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer; border: none; padding: 7px;">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSetting()">Configuracion</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goListUser()">Listado Usuarios</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear usuarios
+    </a>
+  </li>
+</ul>
+<div class="container animated flipInX">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <strong>
+            <span>
+              <h3 class="card-title" style="text-align: center; font-weight: 700; ">Crear Usuarios</h3>
+            </span>
+          </strong>
+          <form class="form" role="form" name="form" (ngSubmit)="createUserNew()" #f="ngForm" novalidate
+            style="width: 100%;">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Nombre y Apellido</label>
+                <input class="form-control form-control-sm" type="text" placeholder="Deison Padillla" name="name"
+                  [(ngModel)]="createParamtsUser.name" autofocus>
+                <label for="formGroupExampleInput">Contraseña</label>
+                <input class="form-control form-control-sm" type="text" placeholder="*******"
+                  [(ngModel)]="createParamtsUser.password" id="psw" name="psw"
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="off">
+                <div class="collapse" id="myCollapse">
+                  <div class="card card-body whitoutPadding">
+                    <h6>La contraseña debe contener:</h6>
+                    <p id="letter" class="invalid">Carácter(es) en minúscula</p>
+                    <p id="capital" class="invalid">Carácter(es) en mayúscula</p>
+                    <p id="number" class="invalid">Número(s)</p>
+                    <p id="length" class="invalid">Mínimo 8 caracteres</p>
+                  </div>
+                </div>
+                <!-- <div id="message">
+                </div> -->
+                <label for="formGroupExampleInput">Correo Electronico</label>
+                <input class="form-control form-control-sm" type="text" placeholder="Ejemplo@gmail.com" name="email"
+                  [(ngModel)]="createParamtsUser.email">
+                <label for="formGroupExampleInput">Telfono</label>
+                <input class="form-control form-control-sm" type="text" placeholder="3124788327" name="phone"
+                  [(ngModel)]="createParamtsUser.phone">
+                <label for="formGroupExampleInput">Perfil</label>
+                <select class="form-control form-control-sm select" name="profile_id"
+                  [(ngModel)]="createParamtsUser.profile_id">
+                  <option value="0" selected>Seleccione su Perfil ▼</option>
+                  <option *ngFor="let index of allProfile" value="{{index.id}}">{{index.name}}</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6" style="text-align: center;">
+                <span style="font-size: 20px;">Suba aqui la foto del usuario</span>
+                <div class="avatar d-flex justify-content-center m-b- 20">
+                  <input #file type="file" id="file" name="image" (change)="fileProgress($event)">
+                  <label for="file" class="img-content null-img"
+                    style="background: url(./assets/img/upload.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                    <img [src]="previewUrl" style="object-fit: cover;" *ngIf="previewUrl" class="img-content null-img">
+                  </label>
+                </div>
+                <span style="font-size: 20px;">Estado</span>
+                <div class="radio radio-success" style="text-align: center;">
+                  <input type="radio" value="1" name="option" id="yes" [(ngModel)]="createParamtsUser.status_id">
+                  <label for="yes">Activo</label>
+                  <input type="radio" checked="checked" value="0" name="option" id="no"
+                    [(ngModel)]="createParamtsUser.status_id">
+                  <label for="no">Inactivo</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12 col-md-4" style="text-align: center;">
+              </div>
+              <div class="col-12 col-md-4" style="text-align: center;">
+                <button type="submit" class="btn btn-primary block full-width m-b" style="border-color: #AAA;" id="buttonSubmit">Crear
+                  Usuarios</button>
+              </div>
+              <div class="col-12 col-md-4" style="text-align: center;">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

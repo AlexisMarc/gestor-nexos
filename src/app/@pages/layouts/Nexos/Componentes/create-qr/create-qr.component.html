@@ -1,0 +1,85 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointControl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear QR</a>
+  </li>
+</ul> 
+<br>
+<div class="container" style="width: 100%;">
+  <div class="row">
+    <div class="col-12" style="text-align: center;">
+      <h4>CREAR CODIGO QR</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <button class="btn btn btn-cons m-b-10" type="button" (click)="goInRoom()"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+        <span class="bold">&nbsp;&nbsp;Entrada a sala</span>
+      </button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn btn-cons m-b-10" type="button" (click)="goOutRoom()"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+        <span class="bold">&nbsp;&nbsp;Salida de sala</span>
+      </button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn btn-cons m-b-10" type="button" (click)="goOutTotalRoom()"
+        style="background-color: #444;border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+        <span class="bold">&nbsp;&nbsp;Volver a virtual</span>
+      </button>
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="form-group">
+        <label>Usuario (Documento)</label>
+        <input type="text" [(ngModel)]="document_number" class="form-control" style="border: 1px solid #444;"
+          placeholder="Ejemplo: 12345678">
+      </div>
+      <button (click)="getCustomerDetails()" class="btn btn-primary"
+        style="border: 1px solid #111; width: 100%; background-color: #444;">Consultar</button>
+      <h5 style="font-weight: 700;">Correo Registrado</h5>
+      <!-- <input type="text" value="{{userEmail}}"/> -->
+      <h5>{{userEmail}}</h5>
+      <h5>{{userEmail2}}</h5>
+      <h5>{{userEmail3}}</h5>
+      <h5>{{userEmail4}}</h5>
+    </div>
+    <div class="col-12 col-md-8">
+      <label>Nombre en base: {{name}}</label>
+      <br>
+      <label>Nombre de registro: {{nameRegister}}</label>
+      <hr>
+      <div style="text-align: center; border-block-end-color: rgba(255, 115, 0); font-weight: 900;">
+        <div class="card text-center" *ngIf="token_2!='' && token_2!=null">
+          <label class="selected">{{token_2}}</label>
+          <ngx-qrcode qrc-element-type="url" [qrc-value]="token_2"></ngx-qrcode>
+          <p class="card-text">Codigo del usuario</p>
+        </div>
+        <div class="card text-center" *ngIf="token_2==null">
+          {{token_2}}
+          <p class="card-text">El usuario no tiene token registrado</p>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-12 col-md-4"></div>
+    <div class="col-12 col-md-8" style="text-align: center;">
+      <div class="container">
+      </div>
+    </div> -->
+  </div>
+</div>

@@ -1,0 +1,27 @@
+graph-widget-basic {
+  display: flex;
+  width: 100%;
+}
+graph-widget-basic pgcard {
+  display: flex;
+  width: 100%;
+}
+
+.widget-12-basic .inner-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.widget-12-basic .chart-container {
+  flex: 1;
+}
+.widget-12-basic .card-body {
+  padding-top: 25px !important;
+}
+.widget-12-basic .list-inline a {
+  padding: 3px 4px;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+.widget-12-basic .nv-axisMaxMin-y {
+  display: none;
+}/*# sourceMappingURL=graph-widget-basic.component.css.map */

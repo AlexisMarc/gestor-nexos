@@ -1,0 +1,43 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-12 col-md-7">
+      <div class="input-group">
+        <input type="text" class="form-control buscar_trabajador" placeholder="Buscar trabajador...">
+        <div class="input-group-text dark">
+          <i class="bi bi-zoom-in"></i>
+          <img src="assets/img/search.png" style="height: 27px;">
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-3 calendario">
+      <div class="mb-3">
+        <input type="date" class="form-control date" id="nameTask">
+      </div>
+    </div>
+    <div class="col-12 col-md-2">
+      <button class="btn orange" (click)="goToWorks()">Volver</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive mt-3">
+        <table class="tabla_1">
+          <thead>
+            <tr>
+              <th><span class="text-th">Usuario</span></th>
+              <th><span class="text-th">Tarea</span></th>
+              <th><span class="text-th">Inicio</span></th>
+              <th><span class="text-th">Duración</span></th>
+            </tr>
+            <tr *ngFor="let item of listActiveUser">
+              <td>{{item.user_name}}</td>
+              <td>{{item.description}}</td>
+              <td>{{item.start_task}}</td>
+              <td>{{item.duration}}</td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

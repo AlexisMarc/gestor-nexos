@@ -1,0 +1,84 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goConfigIcloud()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #fff; cursor: auto">Configuracion
+      Emails</a>
+  </li>
+</ul>
+
+<div class="container bg-light animated slideInUp">
+  <p class="h2 text-center mt-4">GESTOR DE ENVIOS</p>
+  <hr>
+  <div class="row mt-5 d-flex justify-content-around">
+    <div (click)="goListCampaignWhatsapp()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold "> Crear Campaña <br> Whatsapp</h5>
+      <img class="card-img-top" src="./assets/img/campign_whatsapp.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Creación de formato de mensaje a enviar</p>
+      </div>
+    </div>
+    <div (click)="goListSendWhatsapp()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Enviar <br> Whatsapp</h5>
+      <img class="card-img-top" src="./assets/img/send_whatsapp.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Envío de Whatsapps por organización</p>
+      </div>
+    </div>
+    <div (click)="goNumberListWhatsapp()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Lista de numeros whatsapp revision </h5>
+      <img class="card-img-top " src="./assets/img/checklist-bro.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Lista de numeros <br> en meta</p>
+      </div>
+    </div>
+  
+  
+    <div  (click)="goChatWhasapp()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold "> Chat <br> Whatsapp</h5>
+      <img class="card-img-top" src="./assets/img/texting-bro.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Chat <br> interno de whatsapp</p>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="row mt-5 d-flex justify-content-around ">
+    
+    <div (click)="goListReportEmail()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Reportes <br> de correo</h5>
+      <img class="card-img-top" src="./assets/img/online-report-bro.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Visualización de reportes de correos enviados.</p>
+      </div>
+    </div>
+    
+    
+    <div  (click)="goCreateEmails()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Tipos <br> Email </h5>
+      <img class="card-img-top " src="./assets/img/type_email.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Crear editar <br> tipos de email.</p>
+      </div>
+    </div>
+    
+    <div  (click)="goSendEmail()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Enviar <br> email</h5>
+      <img class="card-img-top" src="./assets/img/send-email.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Enviar email a usuarios por conjunto.</p>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+

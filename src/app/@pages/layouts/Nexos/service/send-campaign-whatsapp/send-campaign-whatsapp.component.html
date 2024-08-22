@@ -1,0 +1,36 @@
+<div class="container">
+  <p class="h3 text-center mt-5" (click)="show()">ENVIAR CAMPAÑA DE WHATSAPP</p>
+  <hr>
+    <div class="row">
+      <div class="row mt-3">
+        <div class="col-12">
+          <h3>Seleccione la campaña a a enviar</h3>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <div class="mb-3">
+            <select (change)="onChange($event.target.value)"  name="campaña" class="form-select" aria-label="Default select example" [(ngModel)]="campaign">
+              <option value="" selected >Seleccione la Campaña</option>
+              <option *ngFor="let item of campaigns" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <div class="mb-3">
+            <select (change)="onChangeNumber($event.target.value)"  name="numero" class="form-select" aria-label="Default select example" >
+              <option value="" selected >Seleccione la linea a utilizar</option>
+              <option *ngFor="let item1 of numbers"  [value]="item1.id">{{item1.country_code}}+{{item1.phone}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <label for="content">Vista previa de la campaña</label>
+      <textarea  disabled name="content" id="content" cols="30" rows="10" [(ngModel)]="text_campaign"></textarea>
+    </div>
+    <div class="text-center mt-5">
+      <button (click)="pushPayload()" class="orange" type="submit" > Enviar</button>
+    </div>
+</div>

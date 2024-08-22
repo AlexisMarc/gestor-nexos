@@ -1,0 +1,88 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Configuracion Icloud</a>
+  </li>
+</ul>
+
+<div class="container bg-light animated slideInUp">
+  <p class="h2 text-center mt-4">GESTION ASAMBLEAS</p>
+  <hr>
+  <div class="row mt-5 d-flex justify-content-around">
+    
+
+    <div (click)="goListSetEnable()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold "> Habilitar Cloud</h5>
+      <img class="card-img-top" src="./assets/img/icloud.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Servicios Cloud.</p>
+      </div>
+    </div>
+
+    <div (click)="goListItems()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Reuniones</h5>
+      <img class="card-img-top" src="./assets/img/reuniones.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Crear/Editar reuniones</p>
+      </div>
+    </div>
+    <div  (click)="goPointControl()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Punto de Control</h5>
+      <img class="card-img-top " src="./assets/img/punto_control.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Control Asambleas</p>
+      </div>
+    </div>
+  
+  
+    <div  (click)="goListEmails()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold "> Gestor de Envios</h5>
+      <img class="card-img-top" src="./assets/img/gestor_envios.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Correos y Whatsapp.</p>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="row mt-5 d-flex justify-content-around ">
+    
+    <div (click)="goListProfileVotation()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Perfiles de Votacion</h5>
+      <img class="card-img-top" src="./assets/img/perfil_votaciones.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Perfiles de votacion.</p>
+      </div>
+    </div>
+    
+    
+    <div  (click)="goEditarBase()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Actualización</h5>
+      <img class="card-img-top " src="./assets/img/actualizacion.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Actualizar base de datos</p>
+      </div>
+    </div>
+    
+    <div   (click)="goMasiveUnion()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Poderes</h5>
+      <img class="card-img-top" src="./assets/img/poderes.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Union masiva.</p>
+      </div>
+    </div>
+    <div  (click)="goToUnits()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Unidades</h5>
+      <img class="card-img-top" src="./assets/img/unidades.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Crear/editar unidades.</p>
+      </div>
+    </div>
+    
+  </div>
+</div>

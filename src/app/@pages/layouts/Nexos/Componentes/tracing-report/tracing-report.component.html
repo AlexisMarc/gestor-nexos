@@ -1,0 +1,61 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goTracing()">Seguimiento</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Extraer Informe
+      Contratdos
+    </a>
+  </li>
+</ul>
+<div class="container animated flipInX">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <strong>
+            <span>
+              <h3 class="card-title" style="text-align: center; font-weight: 700; "> Extraer Informe Cotizaciones
+                Contratadas </h3>
+            </span>
+          </strong>
+          <hr>
+          <div class="row" style="text-align: center;">
+            <div class="col-12 col-md-12">
+              <span class="label"> La fecha es en la cual el cliente separa el servicio NO cuando es el evento </span>
+            </div>
+          </div>
+          <form class="form" role="form" name="form" #f="ngForm" novalidate style="width: 100%;">
+            <div class="row" style="text-align: center;">
+              <div class="col-12 col-md-6">
+              <label for="formGroupExampleInput"><b>Desde</b> </label>
+                <input class="form-control form-control-sm" type="datetime-local" name="init_date" [(ngModel)]="init_date" >
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="formGroupExampleInput"><b>Hasta</b></label>
+                <input class="form-control form-control-sm" type="datetime-local" name="end_date" [(ngModel)]="end_date" >
+              </div>
+            </div>
+            <br>
+            <div class="row" style="text-align: center;">
+              <div class="col-12 col-md-4">
+              </div>
+              <div class="col-12 col-md-4">
+                  <button type="button" class="btn btn-primary block full-width m-b" style="border-color: #AAA;" (click)="report()">
+                    <img src="./assets/img/files-and-folders.png" style="width: 50px;" >
+                    &nbsp;
+                    DESCARGAR
+                  </button>
+              </div>
+              <div class="col-12 col-md-4">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

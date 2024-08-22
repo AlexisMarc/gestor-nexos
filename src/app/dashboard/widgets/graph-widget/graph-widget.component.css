@@ -1,0 +1,21 @@
+.widget-12 .inner-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.widget-12 .chart-container {
+  flex: 1;
+}
+.widget-12 .card-body {
+  padding-top: 25px !important;
+}
+.widget-12 .list-inline a {
+  padding: 3px 4px;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+.widget-12 .nvd3-line svg {
+  height: 316px;
+}
+.widget-12 .nv-axisMaxMin {
+  display: none;
+}/*# sourceMappingURL=graph-widget.component.css.map */

@@ -1,0 +1,62 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Seguimiento</a>
+  </li>
+</ul>
+<div class="container" style="width: 100%;">
+  <br>
+  <div class="row">
+    <div (click)="goTracinReport()" class="col" style="text-align: right">
+      <button class="btn btn btn-cons m-b-10" type="button"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 250px; cursor: pointer;">
+        <i class="fa fa-plus"></i>
+        <span class="bold">&nbsp;&nbsp; Extraer Informe</span>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" style="text-align: center;">
+      <h4>Buscar cotizacion no contratada</h4>
+      <input class="form-control form-control-sm" name="param" type="text"
+        title="Puedes buscar por nombre, nit, encargado, #cot" placeholder="Cr Ejemplo" style="width: 100%;"
+        [(ngModel)]="param" (ngModelChange)="Search()">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12" id="collapseExample">
+      <div class="scrolltap">
+        <div class="table-responsive-lg" style="text-align: center;">
+          <table class="table table-fixed" class="table table-sm ">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Fecha cot</th>
+                <th scope="col">Fecha Evento</th>
+                <th scope="col"># Cotizacion</th>
+                <th scope="col">Ir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listQuoteConfirmation">
+                <td>{{item.name}}</td>
+                <td>{{item.last_not_hired_quote['created_at']}}</td>
+                <td>{{item.last_not_hired_quote['date']}}</td>
+                <td>{{item.last_not_hired_quote['id']}}</td>
+                <td>
+                  <div (click)="goTracingQuote(item.last_not_hired_quote['id'], item.id)" style="cursor: pointer;">
+                    <img src="./assets/img/go-to-location.png" style="width: 20px;">
+                    IR
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

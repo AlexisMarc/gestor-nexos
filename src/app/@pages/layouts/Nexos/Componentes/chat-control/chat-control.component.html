@@ -1,0 +1,63 @@
+<div class="container" style="width: 100%; background-color: rgb(220, 220, 220);">
+  <div class="row white-background">
+    <div class="col-8"></div>
+    <div class="col-4">
+      <button class="button-gray-dark" *ngIf="enable_chat == 1" (click)="cahngeStatusChat(0)">
+        Deshabilitar chat
+      </button>
+      <button class="button-orange" *ngIf="enable_chat == 0" (click)="cahngeStatusChat(1)">
+        Habilitar chat
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" style="padding-top: 10px;">
+      <div class="ex3" id="style-1">
+        <ul class="ul" style="width: 100%;">
+          <li class="li" *ngFor="let item of messages">
+            <img src="./assets/img/user.png" style="height: 15px;">&nbsp;
+            <label
+              style="font-weight: 600; font-size: 0.7rem; padding: 0; margin: 0; word-wrap: break-word; color: #777;">
+              <span *ngIf="item['customer_id'] != null && item['customer_id'] !== ''; else support">
+                {{item['sector_name']}} {{item['sector_number']}}
+                {{item['name']}} {{item['number']}} {{item['nameRegister']}}
+              </span>
+              <ng-template #support>
+                <span>
+                  Soporte técnico
+                </span>
+              </ng-template>
+            </label>
+            <span style="width: 200px; padding: 0; margin: 0; word-wrap: break-word;">
+              {{item['message']}}
+            </span>
+            <br>
+            <p style="font-size: 0.5rem; text-align: right; padding: 0; margin: 0; word-wrap: break-word;">
+              {{item['created_at']}}
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-12 col-md-8" style="padding-right: 10px; margin: 0;">
+        <input type="text" id="focus" autocomplete="off" formControlName="message" class="text"
+          placeholder="Escriba su comentario..." style="cursor: pointer;" required pattern="[A-Z]{3}[0-9]{4}"
+          maxlength="200">
+      </div>
+      <div class="col-12 col-md-2" style="padding-left: 10px; margin: 0;" style="cursor: pointer;">
+        <button class="button" type="submit">Enviar</button>
+        <div id="list-example" class="list-group" style="visibility: hidden; cursor: none;">
+        </div>
+      </div>
+      <div class="col-2" style="text-align: center;">
+        <i class="fa fa-repeat icons-chat-refresh" (click)="refreshAuto()" *ngIf="scrollAuto == 0"></i>
+        <i class="fa fa-close icons-chat-stop" (click)="stopScroll()" *ngIf="scrollAuto == 1"></i>
+        &nbsp;
+        <i class="fa fa-caret-down icons-chat-down" (click)="scrollBottom()"></i>
+      </div>
+    </div>
+  </form>
+</div>

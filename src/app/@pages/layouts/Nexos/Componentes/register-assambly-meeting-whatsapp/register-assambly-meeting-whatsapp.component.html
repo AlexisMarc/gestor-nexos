@@ -1,0 +1,196 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointContrpl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Punto de
+      control</a>
+  </li>
+</ul>
+
+<div class="container">
+  <p class="h2 text-center mt-5" (click)="show()">REGISTRO NUMEROS WHATSAPP</p>
+</div>
+<div class="container animated slideInUp">
+  <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+    <div class="card card-signin my-5 py-3">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-3 align-self-center mt-2">
+            <select class="form-select" [(ngModel)]="data.phone_code">
+              <option *ngFor="let contry of contrys" [value]="contry.phonecode">
+                {{ contry.nicename }} +({{ contry.phonecode }})
+              </option>
+            </select>
+          </div>
+          <div class="col-3">
+            <div class="mb-3">
+              <div class="text-center">
+                <label for="phone" class="form-label bold"
+                  >Numero de WHATSAPP</label
+                >
+              </div>
+              <input
+                [(ngModel)]="data.phone"
+                type="text"
+                class="form-control text-center"
+                id="form-whatsapp"
+                placeholder="3209876543"
+              />
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="mb-3">
+              <div class="text-center">
+                <label for="indentificacion" class="form-label bold"
+                  >Numero de indentificación</label
+                >
+              </div>
+              <input
+                [(ngModel)]="data.document"
+                type="text"
+                class="form-control text-center"
+                id="form-dni"
+                placeholder="1089874564"
+              />
+            </div>
+          </div>
+          <div class="col-3 align-self-center mt-2">
+            <button
+              (click)="searchUser()"
+              class="btn btn-primary mr-5"
+              type="button"
+            >
+              Buscar
+            </button>
+
+            <button
+              (click)="cleanRegister()"
+              class="btn btn-success"
+              type="button"
+              [disabled]="(data.name =='' && data.phone=='' && data.document=='')"
+            >
+              limpiar
+            </button>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <div class="col-3">
+            <div class="mb-3">
+              <div class="text-center">
+                <label for="nombre" class="form-label bold">Nombre</label>
+              </div>
+              <input
+                [(ngModel)]="data.name"
+                type="text"
+                class="form-control text-center"
+                id="form-name"
+                placeholder="Bruce Wayne"
+              />
+            </div>
+          </div>
+          <div *ngIf="(data.name !='' && data.phone!='' && data.document!='' && acccess_service==false)" class="col-3 align-self-center">
+            <select class="form-select" [(ngModel)]="id_selected" (change)="build_selected()" >
+              <option value="00">Seleccionar Unidad</option>
+              <ng-container *ngFor="let building of buildings" >
+              <option *ngFor="let unit of building.units" [value]="unit.id" >
+                  {{ building.name}} {{building.number}} {{unit.name}} {{unit.number}}
+              </option>
+            </ng-container>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="(acccess_service || data.name !='' && data.phone!='' && data.document!='')">
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <!--parte del codigo de addunits-->
+
+              <h5>Seleccione la unidad</h5>
+              <select class="custom-select custom-select-sm" [(ngModel)]="id_sector_search" name="sector" (change)="selectedSector()" 
+                style="border: 1px solid #444;" [disabled]="buildByUser === undefined">
+                <option value="00">Seleccione la {{sector}}</option>
+                <option *ngFor="let item4 of buildings; index as i4" value="{{i4}}">
+                  {{item4.number}}</option>
+              </select>
+              <br><br>
+              <select class="custom-select custom-select-sm" [(ngModel)]="id_unit_search" name="unidades" (change)="selectedUser()"
+                style="border: 1px solid #444;" [disabled]="buildByUser === undefined">
+                <option value="00">Seleccione la {{name_unidad}}</option>
+                <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index" value="{{i3}}">
+                  {{item3.name}} {{item3.number}}
+                </option>
+              </select>
+              <hr>
+
+              <!--Final parte del codigo addunits-->
+              <div class="d-grid gap-2 col-3 mx-auto mt-3">
+                <button
+                [disabled]="buildByUser === undefined"
+                  (click)="pushData()"
+                  class="btn btn-primary"
+                  type="button"
+                >
+                  Agregar
+                </button>
+              </div>
+            </div>
+            <div class="col-12 col-md-8">
+              <div class="card card-signin my-5 py-3">
+                <div class="global">
+                  <div class="collapse show" id="collapseExample">
+                    <div class="table-responsive-lg">
+                      <table class="table table-sm " style="width: 100%;">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">enviar</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">propietario</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let unit of buildByUser; index as i">
+                            <td>{{i + 1}}</td>
+                            <td><input
+                              (click)="actualizarValor(i)"
+                              [checked]="unit.value_check === 1"
+                              type="checkbox"
+                              id="firstCheckbox{{ i }}"
+                            ></td>
+                            <td >{{unit.building_name}} {{unit.building_number}} - {{unit.unit_name}} {{unit.unit_number}}</td>
+                            <td><input
+                              (click)="actualizarValor2(i)"
+                              [checked]="unit.is_owner === 1"
+                              type="checkbox"
+                              id="firstCheckbox{{ i }}"
+                            ></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-grid gap-2 col-3 mx-auto mt-3">
+                <button
+                  [disabled]="buildByUser === undefined"
+                  (click)="sendData()"
+                  class="btn btn-primary"
+                  type="button"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

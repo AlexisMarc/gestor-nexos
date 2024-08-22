@@ -1,0 +1,16 @@
+.active-pink-textarea.md-form label.active {
+  color: #000000;
+}
+
+.pink-textarea textarea.md-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #ee5622;
+  box-shadow: 0 1px 0 0 #ee5622;
+}
+
+.pink-textarea.md-form .prefix.active {
+  color: #ee5622;
+}
+
+.active-pink-textarea.md-form textarea.md-textarea:focus:not([readonly]) + label {
+  color: #ee5622;
+}/*# sourceMappingURL=create-promotion.component.css.map */

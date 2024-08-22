@@ -1,0 +1,37 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointContrpl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Visado</a>
+  </li>
+</ul>
+<div class="container animated slideInUp" style=" width: 100%;">
+  <div class="row">
+    <div class="col-12" style="text-align: center; padding: 0; margin: 0;">
+      <h5>CONTROL DE TRANSMISION</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="select" >
+        <editor apiKey="test" [init]="{height: 1000, menubar: false,
+          plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+          ]}" name="details" [(ngModel)]="texto">
+        </editor>
+      </div>
+    </div>
+  </div>
+</div>

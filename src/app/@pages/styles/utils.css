@@ -1,0 +1,38 @@
+.modal-open .cdk-overlay-container {
+  z-index: 1055;
+}
+.modal-open pg-message-container {
+  display: none;
+}
+
+.cdk-overlay-container {
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 700;
+}
+
+.cdk-overlay-backdrop, .cdk-overlay-pane {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 700;
+}
+
+.cdk-overlay-backdrop {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+}
+
+.cdk-overlay-backdrop, .cdk-overlay-pane {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 700;
+}/*# sourceMappingURL=utils.css.map */

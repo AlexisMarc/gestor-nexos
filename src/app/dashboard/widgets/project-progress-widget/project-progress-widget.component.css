@@ -1,0 +1,10 @@
+.pending-projects-widget .nav-wrap:after {
+  display: none;
+}
+.pending-projects-widget .nav-tabs > li > a {
+  padding: 8px 7px;
+}
+.pending-projects-widget .tab-content-wrapper {
+  padding-left: 0;
+  padding-right: 0;
+}/*# sourceMappingURL=project-progress-widget.component.css.map */

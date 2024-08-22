@@ -1,0 +1,254 @@
+<div class="container-fluid mt-2">
+
+  <div class="row">
+    <div class="col-12 col-md-8 mt-3">
+      <select class="form-select-vote">
+        <option selected>VOTACIONES PREDETERMINADAS</option>
+        <option value="1">APROBACION DEL ORDEN DEL DIA</option>
+        <option value="2">APROBACION DEL REGLAMENTO DE LA ASAMBLEA</option>
+        <option value="3">APROBACION DEL PRESIDENTE DE LA ASAMBLEA</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-4 mt-3 boton-votaciones-anteriores">
+      <button class="button-black">Votaciones Anteriores</button>
+    </div>
+  </div>
+
+  <!-- Encabezado -->
+  <div class="row">
+    <div class="col-12 mt-4">
+      <div class="textTitle">
+        <h3>Escriba el encabezado de la pregunta:</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 mt-2 pregunta">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Escriba la pregunta...">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 announcement">
+      <p>*Recuerde no poner caracteres especiales. S�lo se admiten 200 caracteres m�ximo*</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Votaciones -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <h4>Votaci�n</h4>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-12 col-md-6">
+      <div class="container-fluid">
+        <!-- AgregarRespuesta -->
+        <div class="row">
+          <div class="col-11">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Escriba la opci�n de respuesta">
+            </div>
+          </div>
+          <div class="col-1">
+            <!-- <span class="material-icons icons">
+              add_circle
+            </span> -->
+            <i class="fa fa-plus-circle icons"></i>
+          </div>
+        </div>
+        <!-- CantidadDeVotos -->
+        <div class="row justify-content-start mt-3">
+          <div class="col-12 col-md-5">
+            <div class="input-group">
+              <input type="number" class="form-control" placeholder="Cantidad de votos">
+            </div>
+          </div>
+        </div>
+        <!-- Boton"SiyNo" -->
+        <div class="row justify-content-start mt-3 mb-2">
+          <div class="col-12 col-md-5">
+            <button class="button-orange">Si y No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-11 answer">
+            <h5>Respuestas</h5>
+          </div>
+          <div class="col-1 titleDeleteAnswer">
+            <!-- <span class="material-icons-outlined icons">
+              delete
+            </span> -->
+            <i class="fa fa-trash icons"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-11 mt-1">
+            <input type="text" class="x">
+          </div>
+          <div class="col-1 mt-1 iconDeleteAnswer">
+            <!-- <span class="material-icons-outlined icons">
+              delete
+            </span> -->
+            <i class="fa fa-trash icons"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-11 mt-1">
+            <input type="text" class="x">
+          </div>
+          <div class="col-1 mt-1 iconDeleteAnswer">
+            <!-- <span class="material-icons-outlined icons">
+              delete
+            </span> -->
+            <i class="fa fa-trash icons"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-11 mt-1">
+            <input type="text" class="x">
+          </div>
+          <div class="col-1 mt-1 iconDeleteAnswer">
+            <!-- <span class="material-icons-outlined icons">
+              delete
+            </span> -->
+            <i class="fa fa-trash icons"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-11 mt-1">
+            <input type="text" class="x">
+          </div>
+          <div class="col-1 mt-1 iconDeleteAnswer">
+            <!-- <span class="material-icons-outlined icons">
+              delete
+            </span> -->
+            <i class="fa fa-trash icons"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ButtonCreate -->
+    <div class="row justify-content-center mt-3">
+      <div class="col-12 col-md-3">
+        <button class="button-orange create">Crear</button>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row mt-4">
+    <div class="col-12">
+      <h3>Configuracion del voto</h3>
+    </div>
+  </div>
+
+  <!-- ConfiguracionDelVoto -->
+  <div class="row justify-content-center voteConfig mt-3 mb-3">
+    <div class="col-12 col-md-3 mt-2">
+      <button class="button-orange" data-bs-toggle="collapse" data-bs-target="#graphics" aria-expanded="false"
+        aria-controls="graphics">
+        GRAFICOS
+      </button>
+
+      <div class="collapse" id="graphics">
+        <div class="card card-body">
+          <div class="row">
+            <div class="col">
+              <div class="form-check form-switch">
+                <label class="form-check-label" for="include-Earrings">Incluir
+                  pendientes</label>
+                <input class="form-check-input" type="checkbox" role="switch" id="include-Earrings" checked>
+              </div>
+              <div class="form-check form-switch">
+                <label class="form-check-label" for="includeAbsent">Incluir
+                  Ausentes</label>
+                <input class="form-check-input" type="checkbox" role="switch" id="includeAbsent">
+              </div>
+
+              <select class="form-select-vote">
+                <option selected>Coeficientes</option>
+                <option>Unidades</option>
+                <option>Aportes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-1">
+
+    </div>
+
+    <div class="col-12 col-md-3 mt-2">
+      <button class="button-orange" data-bs-toggle="collapse" data-bs-target="#votingUnites" aria-expanded="false"
+        aria-controls="votingUnites">
+        UNIDADES VOTANTES
+      </button>
+
+      <div class="collapse" id="votingUnites">
+        <div class="card card-body">
+          ...
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-1">
+
+    </div>
+
+    <div class="col-12 col-md-3 mt-2">
+      <button class="button-orange" data-bs-toggle="collapse" data-bs-target="#voterProfile" aria-expanded="false"
+        aria-controls="voterProfile">
+        PROFILE VOTANTES
+      </button>
+
+      <div class="collapse" id="voterProfile">
+        <div class="card card-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 seleccion">
+                <label for="seletionProfile" class="profile">Seleccionar todos</label><br>
+                <input type="checkbox" id="seletionProfile">
+                <hr>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="barra">
+                  <input type="checkbox" checked id="profiel_1">
+                  <label for="perfil1" class="profile">Perfil 1</label><br>
+                  <input type="checkbox" class="profile" id="profile_2">
+                  <label for="perfil2" class="profile">Perfil 2</label><br>
+                  <input type="checkbox" class="profile" id="profile_3">
+                  <label for="perfil3" class="profile">Perfil 3</label><br>
+                  <input type="checkbox" class="profile" id="profile_4">
+                  <label for="perfil4" class="profile">Perfil 4</label><br>
+                  <input type="checkbox" class="profile" id="profile_5">
+                  <label for="perfil5" class="profile">Perfil 5</label><br>
+                  <input type="checkbox" class="profile" id="profile_6">
+                  <label for="perfil6" class="profile">Perfil 6</label><br>
+                  <input type="checkbox" class="profile" id="profile_7">
+                  <label for="perfil7" class="profile">Perfil 7</label><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

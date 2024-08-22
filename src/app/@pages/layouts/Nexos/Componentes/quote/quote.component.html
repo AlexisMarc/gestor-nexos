@@ -1,0 +1,110 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Cotizaciones</a>
+  </li>
+</ul>
+<div class="container" style="width: 100%;">
+  <div class="row">
+    <div class="col-12" style="text-align: center;">
+      <div class="row">
+        <div class="col-12" style="text-align: center;">
+          <h4> Tipo de cotizacion </h4>
+        </div>
+        <br>
+      </div>
+      <div class="row" style="text-align: center;">
+        <div class="col-12 col-md-3" *ngFor="let Type of ListTypeQuotes">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" id="defaultGroupExample{{Type.id}}" name="IdTypeQuote"
+              value="{{Type.id}}" [(ngModel)]="idTypeQuote">
+            <label class="custom-control-label" for="defaultGroupExample{{Type.id}}">{{Type.name}}</label>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <h3>Buscador</h3>
+      <input class="form-control form-control-sm" type="text" title="Puedes buscar por nombre, nit, encargado, #cot"
+        placeholder="Cr Ejemplo" style="width: 100%;" [(ngModel)]="param" (ngModelChange)="Search()">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12" id="collapseExample">
+      <div class="scrolltap">
+        <div class="table-responsive-lg">
+          <table class="table table-fixed" class="table table-sm ">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Nit</th>
+                <th scope="col">Encargado</th>
+                <th scope="col">Contratada</th>
+                <th scope="col">No Contratada</th>
+                <th scope="col">Nueva</th>
+                <th scope="col">ver mas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of ListQuote">
+                <td>{{item.name}}</td>
+                <td>{{item.nit}}</td>
+                <td> 
+                  <div *ngIf="item['administrator'] == null ; then thenBlock1 else elseBlock1"></div>
+                  <ng-template #thenBlock1>
+                  </ng-template>
+                  <ng-template #elseBlock1>
+                    {{item.administrator['name']}}
+                  </ng-template>
+                </td>
+                <td>
+                  <div style="cursor: pointer;" (click)="GoQuote(item.id, item['last_hired_quote']['id'])"
+                    *ngIf="item['last_hired_quote']['id']">
+                    <img src="./assets/img/go-to-location.png" style="width: 20px;">
+                    Ir
+                  </div>
+                </td>
+                <td>
+                  <div style="cursor: pointer;" (click)="GoQuote(item.id, item['last_not_hired_quote']['id'])"
+                    *ngIf="item['last_not_hired_quote']['id']">
+                    <img src="./assets/img/go-to-location.png" style="width: 20px;">
+                    Ir
+                  </div>
+                </td>
+                <td>
+                  <div style="cursor: pointer;" (click)="GoQuote(item.id, 0)">
+                    <img src="./assets/img/go-to-location.png" style="width: 20px;">
+                    Ir
+                  </div>
+                </td>
+                <td>
+                  <div style="cursor: pointer;" (click)="goCustomerQuoteHistory(item.id)">
+                    <img src="./assets/img/go-to-location.png" style="width: 20px;">
+                    Ver mas
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12 col-md-6" style="text-align: center;">
+      <button (click)="goConfirmQuote()" class="btn btn-primary" type="button"
+        style="background-color: rgba(255, 115, 0); color: #FFF; width: 180px;">
+        Confirmar Recibido
+      </button>
+    </div>
+    <div class="col-12 col-md-6" style="text-align: center;">
+      <button (click)="goCreateQuote()" class="btn btn-primary" type="button"
+        style="background-color: rgba(255, 115, 0); color: #FFF; width: 180px;">
+        Nuevo cliente
+      </button>
+    </div>
+  </div>
+</div>

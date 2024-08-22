@@ -1,0 +1,56 @@
+<div class="container-fluid" style="background-color: #FFF;">
+  <div class="row" *ngIf="verifyShow == 1">
+    <div class="col-6 col-md-3">
+      <button type="button" class="button-gray-dark" (click)="verifyQuorum()">
+        Verificar Quórum
+      </button>
+    </div>
+    <div class="col-6 col-md-2" style="padding: 0 0 0 4px;">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" [(ngModel)]="withLimitTime">
+        <label class="form-check-label" for="flexSwitchCheckChecked">Tiempo límite para la verificación de Quórum</label>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <input type="number" class="input-limit-verify" id="time_intervention" name="time_intervention" *ngIf="withLimitTime"
+              [(ngModel)]="end_session_time">
+    </div>
+    <div class="col-6 col-md-3">
+      <button type="button" class="button-gray-dark" (click)="closeVerifyQuorum()">
+        Cerrar Verificación
+      </button>
+    </div>
+  </div>
+  <div class="row align-items-center" style="height: 100%; background-color: #FFF;">
+    <div class="col-12" style="background-color: #FFF; padding: 0;">
+      <div class="container" id="content-quorum" style="background-color: #FFF;">
+        <div class="row">
+          <div class="col-3 d-none d-md-block"></div>
+          <div class="col-12 col-md-6" style="text-align: center;">
+            <h3 style="font-weight: 600;">Asistencia</h3>
+          </div>
+          <div class="col-3 d-none d-md-block">
+            <img src="./assets/img/logoRedondo.png" alt="logo" class="logo-interno center-content"
+              (click)="screenShotQuorum()">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="caja-circulo">
+              <div class="circular-progress" id="circularprogress">
+                <div class="value-container">
+                  0%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="text-align: center;">
+            <h2>Unidades asistentes: {{unidades | number:'1.0'}}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

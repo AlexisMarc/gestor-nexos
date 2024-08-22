@@ -1,0 +1,35 @@
+pgcard {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+pgcard:after {
+  position: absolute;
+  background: transparent;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+::ng-deep .widget-7 .slide-back .row-sm-height:nth-child(1) {
+  height: 60%;
+}
+::ng-deep .widget-7 .slide-back .row-sm-height:nth-child(2) {
+  height: 40%;
+}
+::ng-deep .widget-7 .slide-front > div {
+  display: flex;
+}
+::ng-deep .widget-7 p,
+::ng-deep .widget-7 .face {
+  display: block;
+  font-size: 1em;
+  line-height: 1.2em;
+  margin: 0;
+}/*# sourceMappingURL=graph-live-widget.component.css.map */

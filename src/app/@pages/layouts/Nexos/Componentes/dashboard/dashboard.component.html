@@ -1,0 +1,45 @@
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Inicio</a>
+  </li>
+</ul>
+
+<div class="container bg-light animated slideInUp">
+  <p class="h2 text-center mt-4">INICIO GESTOR NEXOS</p>
+  <hr>
+  <div class="row mt-5 d-flex justify-content-around">
+    <div *ngIf="profile === 'Super Usuario' || profile === 'Supervisor' || profile === 'Asesor'" (click)="goQuote()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold "> Cotizacion</h5>
+      <img class="card-img-top" src="./assets/img/cotizaciones.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Crear, editar o consultar las cotizaciones.</p>
+      </div>
+    </div>
+    <div *ngIf="profile === 'Super Usuario' || profile === 'Supervisor' || profile === 'Asesor'" (click)="goTracing()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Seguimiento</h5>
+      <img class="card-img-top" src="./assets/img/SEGUIMIENTO.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Seguimiento a seccion de  cotizaciones.</p>
+      </div>
+    </div>
+    <div (click)="goSupport()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold ">Soporte</h5>
+      <img class="card-img-top " src="./assets/img/SOPORTE.png" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Realizar soporte para las  asambleas.</p>
+      </div>
+    </div>
+  
+  
+    <div  (click)="goTask()" class="card col-12 col-md-6 col-lg-3 text-center card_style reduced-height">
+      <h5 class="card-title bold "> Registro de trabajo</h5>
+      <img class="card-img-top" src="./assets/img/REGISTRO-DE-TRABAJO.png" style="height: 50%; width: 100%;"
+        alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Realizar registro de sus labores.</p>
+      </div>
+    </div>
+  </div>

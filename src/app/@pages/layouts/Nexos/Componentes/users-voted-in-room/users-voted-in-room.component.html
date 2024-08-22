@@ -1,0 +1,35 @@
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <button class="btn btn btn-cons m-b-10" type="button" (click)="goReturn()"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+        <span class="bold">&nbsp;&nbsp;Volver</span>
+      </button>
+    </div>
+    <div class="col-6" style="text-align: center;">
+      <h4>Menu Usuarios en sala no votantes</h4>
+    </div>
+    <div class="col-3">
+      <button class="btn btn btn-cons m-b-10" type="button" (click)="reloadList()"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+        <i class="fa fa-refresh"></i>
+        <span class="bold">&nbsp;&nbsp;Actualizar</span>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <ul class="list-group">
+        <li class="list-group-item" style="background-color: #ff7300; color: #FFF;">Usuarios en sala que no han votado ( Total: {{total}} )
+        </li>
+        <li class="list-group-item" *ngFor="let item of listUserInRoom; index as i">
+          {{i + 1}}. {{item['nameRegister']}} (Acciones: {{item['aportes']}}) - 
+          <label *ngIf="item['sala'] == 0">Usuario no presencial</label>
+          <label *ngIf="item['sala'] == 1">Dentro de la sala</label>
+          <label *ngIf="item['sala'] == 2">Ausente de la sala</label>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

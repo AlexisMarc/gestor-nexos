@@ -1,0 +1,375 @@
+<pg-container>
+  <div class="m-t-50">
+    <mat-tab-group tabAnimation="slide-left" Type="linetriangle" extraTabClass="no-border" extraTabContentClass="bg-white b-t b-light" [SelectedIndex]="selectedStep">
+      <mat-tab>
+        <ng-template #TabHeading><i class="fa fa-shopping-cart tab-icon"></i> <span>Your cart</span></ng-template>
+          <div class="row row-same-height">
+            <div class="col-md-5 b-r b-dashed b-grey sm-b-b">
+              <div class="padding-30 sm-padding-5 sm-m-t-15 m-t-50">
+                <i class="fa fa-shopping-cart fa-2x hint-text"></i>
+                <h2>Your Bags are ready to check out!</h2>
+                <p>Discover goods you'll love from brands that inspire. The easiest way to open your own online store. Discover amazing stuff or open your own store for free!</p>
+                <p class="small hint-text">Below is a sample page for your cart , Created using pages design UI Elementes</p>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="padding-30 sm-padding-5">
+                <table class="table table-condensed">
+                  <tr>
+                    <td class="col-lg-8 col-md-6 col-sm-7 ">
+                      <a href="javascript:void(0)" class="remove-item"><i class="pg pg-close"></i></a>
+                      <span class="m-l-10 font-montserrat fs-11 all-caps">Webarch UI Framework</span>
+                      <span class="m-l-10 ">Dashboard UI Pack</span>
+                    </td>
+                    <td class=" col-lg-2 col-md-3 col-sm-3 text-right">
+                      <span>Qty 1</span>
+                    </td>
+                    <td class=" col-lg-2 col-md-3 col-sm-2 text-right">
+                      <h4 class="text-primary no-margin font-montserrat">$27</h4>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="col-lg-8 col-md-6 col-sm-7">
+                      <a href="javascript:void(0)" class="remove-item"><i class="pg pg-close"></i></a>
+                      <span class="m-l-10 font-montserrat fs-11 all-caps">Pages UI Framework</span>
+                      <span class="m-l-10 ">Next Gen UI Pack</span>
+                    </td>
+                    <td class="col-lg-2 col-md-3 col-sm-3 text-right">
+                      <span>Qty 1</span>
+                    </td>
+                    <td class=" col-lg-2 col-md-3 col-sm-2 text-right">
+                      <h4 class="text-primary no-margin font-montserrat">$27</h4>
+                    </td>
+                  </tr>
+                </table>
+                <h5>Donation</h5>
+                <div class="row">
+                  <div class="col-lg-7 col-md-6">
+                    <p class="no-margin">Donate now and give clean, safe water to those in need. </p>
+                    <p class="small hint-text">
+                      100% of your donation goes to the field, and you can track the progress of every dollar spent. <a href="javascript:void(0)">Click Here</a>
+                    </p>
+                  </div>
+                  <div class="col-lg-5 col-md-6">
+                      <form role="form"  autocomplete="off" [formGroup]="pricingOptForm" class="form-inline">
+                          <div class="btn-group" btnRadioGroup formControlName="pricingPick">
+                            <Label btnRadio="A" class="btn btn-default"> <span class="fs-16">$0</span></Label>
+                            <Label btnRadio="B" class="btn btn-default"> <span class="fs-16">$10</span></Label>
+                            <Label btnRadio="C" class="btn btn-default"><span class="fs-16">$20</span></Label>
+                          </div>
+                      </form>
+                  </div>
+                </div>
+                <br>
+                <div class="row b-a b-grey no-margin">
+                  <div class="col-md-3 p-l-10 sm-padding-15 align-items-center d-flex">
+                    <div>
+                      <h5 class="font-montserrat all-caps small no-margin hint-text bold">Discount (10%)</h5>
+                      <p class="no-margin">$10</p>
+                    </div>
+                  </div>
+                  <div class="col-md-7 col-middle sm-padding-15 align-items-center d-flex">
+                    <div>
+                      <h5 class="font-montserrat all-caps small no-margin hint-text bold">Donations</h5>
+                      <p class="no-margin">$0</p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 text-right bg-primary padding-10">
+                    <h5 class="font-montserrat all-caps small no-margin hint-text text-white bold">Total</h5>
+                    <h4 class="no-margin text-white">$44</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end p-t-20 p-b-20">
+            <button class="btn btn-primary btn-cons pull-right btn-animated from-left fa fa-credit-card" type="button" (click)="navigateToShipping()">
+            <span>Next</span>
+            </button>
+          </div>
+            <div class="wizard-footer padding-20 bg-master-light">
+              <p class="small hint-text pull-left no-margin">
+                The Top Content Is Soley Created using pages UI Elements such as Invoice, Tabs, Form Layouts etc. and are prior for representation Purpose Only.
+              </p>
+              <div class="pull-right">
+                <img src="assets/img/logo.png" alt="logo" pgRetina src1x="assets/img/logo.png" src2x="assets/img/logo_2x.png" width="78" height="22">
+              </div>
+              <div class="clearfix"></div>
+            </div>
+        </mat-tab>
+      <mat-tab [Disabled]="disabledTabs.shippingTab">
+        <ng-template #TabHeading><i class="fa fa-truck tab-icon"></i> <span>Shipping information</span></ng-template>
+          <div class="row row-same-height">
+            <div class="col-md-5 b-r b-dashed b-grey ">
+              <div class="padding-30 sm-padding-5 sm-m-t-15 m-t-50">
+                <h2>Your Information is safe with us!</h2>
+                <p>We respect your privacy and protect it with strong encryption, plus strict policies . Two-step verification, which we encourage all our customers to use.</p>
+                <p class="small hint-text">Below is a sample page for your cart , Created using pages design UI Elementes</p>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="padding-30 sm-padding-5">
+                <form role="form"  autocomplete="off" [formGroup]="shippingForm">
+                  <p>Name and Email Address</p>
+                  <div class="form-group-attached">
+                    <div class="row clearfix">
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default required" [class.has-error]="getFormControl('firstName').invalid && (getFormControl('firstName').dirty || getFormControl('firstName').touched)">
+                          <Label>First name</Label>
+                          <input  pgFormGroupDefault type="text" class="form-control" name="firstName" formControlName="firstName">
+                          <div class="invalid-tooltip" *ngIf="getFormControl('firstName').invalid && (getFormControl('firstName').dirty || getFormControl('firstName').touched)">
+                              This field is required.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default">
+                          <Label>Last name</Label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group form-group-default required" [class.has-error]="getFormControl('email').invalid && (getFormControl('email').dirty || getFormControl('email').touched)">
+                        <Label>Email</Label>
+                        <input  pgFormGroupDefault type="text" class="form-control" name="email" formControlName="email">
+                        <div class="invalid-tooltip" *ngIf="getFormControl('email').invalid && (getFormControl('email').dirty || getFormControl('email').touched)">
+                            This field is required.
+                        </div>
+                      </div>
+                  </div>
+                  <br>
+                  <p>Billing Address</p>
+                  <div class="form-group-attached">
+                    <div class="form-group form-group-default required" [class.has-error]="getFormControl('address').invalid && (getFormControl('address').dirty || getFormControl('address').touched)">
+                        <Label>Address</Label>
+                        <input  pgFormGroupDefault type="text" class="form-control" name="address" formControlName="address" placeholder="Current address">
+                        <div class="invalid-tooltip" *ngIf="getFormControl('address').invalid && (getFormControl('address').dirty || getFormControl('address').touched)">
+                            This field is required.
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default required form-group-default-selectFx">
+                          <Label>Country</Label>
+                          <pg-select-fx class="cs-select cs-skin-slide cs-transparent form-control" [PlaceHolder]="'Select'">
+                          </pg-select-fx>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group form-group-default">
+                          <Label>City</Label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row clearfix">
+                      <div class="col-sm-9">
+                        <div class="form-group form-group-default required" [class.has-error]="getFormControl('state').invalid && (getFormControl('state').dirty || getFormControl('state').touched)">
+                          <Label>State/Province</Label>
+                          <input  pgFormGroupDefault type="text" class="form-control" name="state" formControlName="state"  placeholder="Outside US/Canada">
+                          <div class="invalid-tooltip" *ngIf="getFormControl('state').invalid && (getFormControl('state').dirty || getFormControl('state').touched)">
+                              This field is required.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="form-group form-group-default">
+                          <Label>Zip code</Label>
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end p-t-20 p-b-20">
+            <button class="btn btn-default btn-cons pull-right btn-animated from-left fa fa-shopping-cart" type="button" (click)="prevTab()">
+            <span>Previous</span>
+            </button>
+            <button class="btn btn-primary btn-cons pull-right btn-animated from-left fa fa-credit-card" [class.disabled]="shippingForm.invalid" type="button" (click)="navigateToPayment()">
+            <span>Next</span>
+            </button>
+          </div>
+        <div class="wizard-footer padding-20 bg-master-light">
+          <p class="small hint-text pull-left no-margin">
+            The Top Content Is Soley Created using pages UI Elements such as Invoice, Tabs, Form Layouts etc. and are prior for representation Purpose Only.
+          </p>
+          <div class="pull-right">
+            <img src="assets/img/logo.png" alt="logo" pgRetina src1x="assets/img/logo.png" src2x="assets/img/logo_2x.png" width="78" height="22">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </mat-tab>
+      <mat-tab [disabled]="disabledTabs.paymentTab">
+        <ng-template #TabHeading><i class="fa fa-credit-card tab-icon"></i> <span>Payment details</span></ng-template>
+          <div class="row row-same-height">
+            <div class="col-md-5 b-r b-dashed b-grey ">
+              <div class="padding-30 sm-padding-5 sm-m-t-15 m-t-50">
+                <h2>We Secured Your Line</h2>
+                <p>Below is a sample page for your cart , Created using pages design UI Elementes</p>
+                <p class="small hint-text">Below is a sample page for your cart , Created using pages design UI Elementes</p>
+                <table class="table table-condensed">
+                  <tr>
+                    <td class=" col-md-9">
+                      <span class="m-l-10 font-montserrat fs-11 all-caps">Webarch UI Framework</span>
+                      <span class="m-l-10 ">Dashboard UI Pack</span>
+                    </td>
+                    <td class=" col-md-3 text-right">
+                      <span>Qty 1</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class=" col-md-9">
+                      <span class="m-l-10 font-montserrat fs-11 all-caps">Pages UI Framework</span>
+                      <span class="m-l-10 ">Next Gen UI Pack</span>
+                    </td>
+                    <td class=" col-md-3 text-right">
+                      <span>Qty 1</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class=" col-md-3 text-right">
+                      <h4 class="text-primary no-margin font-montserrat">$27</h4>
+                    </td>
+                  </tr>
+                </table>
+                <p class="small">Invoice are issued on the date of despatch. Payment terms: Pre-orders: within 10 days of invoice date with 4% discount, from the 11th to the 30th day net. Re-orders: non-reduced stock items are payable net after 20 days. </p>
+                <p class="small">By pressing Pay Now You will Agree to the Payment <a href="javascript:void(0)">Terms &amp; Conditions</a></p>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="padding-30 sm-padding-5">
+                <ul class="list-unstyled list-inline m-l-30">
+                  <li><a href="javascript:void(0)" class="p-r-30 text-black">Credit card</a></li>
+                  <li><a href="javascript:void(0)" class="p-r-30 text-black  hint-text">PayPal</a></li>
+                  <li><a href="javascript:void(0)" class="p-r-30 text-black  hint-text">Wire transfer</a></li>
+                </ul>
+                <form role="form"  [formGroup]="billingForm" >
+                  <div class="bg-master-light padding-30 b-rad-lg">
+                    <h2 class="pull-left no-margin">Credit Card</h2>
+                    <ul class="list-unstyled pull-right list-inline no-margin">
+                      <li>
+                        <a href="javascript:void(0)">
+                          <img width="51" height="32" src2x="assets/img/form-wizard/visa2x.png" pgRetina src1x="assets/img/form-wizard/visa.png" class="brand" alt="logo" src="assets/img/form-wizard/visa.png">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)" class="hint-text">
+                          <img width="51" height="32" src2x="assets/img/form-wizard/amex2x.png" pgRetina src1x="assets/img/form-wizard/amex.png" class="brand" alt="logo" src="assets/img/form-wizard/amex.png">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)" class="hint-text">
+                          <img width="51" height="32" src2x="assets/img/form-wizard/mastercard2x.png" pgRetina src1x="assets/img/form-wizard/mastercard.png" class="brand" alt="logo" src="assets/img/form-wizard/mastercard.png">
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="form-group form-group-default required m-t-25" [class.has-error]="getFormControlBilling('cardHolderName').invalid && (getFormControlBilling('cardHolderName').dirty || getFormControlBilling('cardHolderName').touched)">
+                      <Label>Card holder's name</Label>
+                      <input type="text" class="form-control" placeholder="Name on the card"  name="cardHolderName" formControlName="cardHolderName">
+                      <div class="invalid-tooltip" *ngIf="getFormControlBilling('cardHolderName').invalid && (getFormControlBilling('cardHolderName').dirty || getFormControlBilling('cardHolderName').touched)">
+                          This field is required.
+                      </div>
+                    </div>
+                    <div class="form-group form-group-default required" [class.has-error]="getFormControlBilling('cardNumber').invalid && (getFormControlBilling('cardNumber').dirty || getFormControlBilling('cardNumber').touched)">
+                      <Label>Card number</Label>
+                      <input type="text" class="form-control" placeholder="8888-8888-8888-8888" name="cardNumber" formControlName="cardNumber">
+                      <div class="invalid-tooltip" *ngIf="getFormControlBilling('cardNumber').invalid && (getFormControlBilling('cardNumber').dirty || getFormControlBilling('cardNumber').touched)">
+                          This field is required.
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <Label>Expiration</Label>
+                        <br>
+                        <pg-select-fx [PlaceHolder]="'Select'">
+                          <pg-selectfx-option>Jan (01)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Feb (02)">Feb (02)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Mar (03)">Mar (03)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Apr (04)">Apr (04)</pg-selectfx-option>
+                          <pg-selectfx-option Label="May (05)">May (05)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Jun (06)">Jun (06)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Jul (07)">Jul (07)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Aug (08)">Aug (08)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Sep (09)">Sep (09)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Oct (10)">Oct (10)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Nov (11)">Nov (11)</pg-selectfx-option>
+                          <pg-selectfx-option Label="Dec (12)">Dec (12)</pg-selectfx-option>
+                        </pg-select-fx>
+                        <pg-select-fx [PlaceHolder]="'Select'">
+                          <pg-selectfx-option value="2014" Label="2014">2014</pg-selectfx-option>
+                          <pg-selectfx-option value="2015" Label="2015">2015</pg-selectfx-option>
+                          <pg-selectfx-option value="2016" Label="2016">2016</pg-selectfx-option>
+                          <pg-selectfx-option value="2017" Label="2017">2017</pg-selectfx-option>
+                          <pg-selectfx-option value="2018" Label="2018">2018</pg-selectfx-option>
+                          <pg-selectfx-option value="2019" Label="2019">2019</pg-selectfx-option>
+                          <pg-selectfx-option value="2020" Label="2020">2020</pg-selectfx-option>
+                          <pg-selectfx-option value="2021" Label="2021">2021</pg-selectfx-option>
+                          <pg-selectfx-option value="2022" Label="2022">2022</pg-selectfx-option>
+                          <pg-selectfx-option value="2023" Label="2023">2023</pg-selectfx-option>
+                          <pg-selectfx-option value="2024" Label="2024">2024</pg-selectfx-option>
+                          <pg-selectfx-option value="2025" Label="2025">2025</pg-selectfx-option>
+                          <pg-selectfx-option value="2026" Label="2026">2026</pg-selectfx-option>
+                          <pg-selectfx-option value="2027" Label="2027">2027</pg-selectfx-option>
+                          <pg-selectfx-option value="2028" Label="2028">2028</pg-selectfx-option>
+                          <pg-selectfx-option value="2029" Label="2029">2029</pg-selectfx-option>
+                          <pg-selectfx-option value="2030" Label="2030">2030</pg-selectfx-option>
+                        </pg-select-fx>
+                      </div>
+                      <div class="col-md-2 offset-md-4">
+                        <div class="form-group required">
+                          <Label>CVC Code</Label>
+                          <input type="text" class="form-control" placeholder="000" required>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end p-t-20 p-b-20">
+            <button class="btn btn-default btn-cons pull-right btn-animated from-left fa fa-truck" type="button" (click)="prevTab()">
+              <span>Previous</span>
+            </button>
+            <button class="btn btn-primary btn-cons pull-right btn-animated from-left fa fa-check" [class.disabled]="billingForm.invalid" type="button" (click)="navigateToFinal()">
+            <span>Next</span>
+            </button>
+          </div>
+          <div class="wizard-footer padding-20 bg-master-light">
+            <p class="small hint-text pull-left no-margin">
+              The Top Content Is Soley Created using pages UI Elements such as Invoice, Tabs, Form Layouts etc. and are prior for representation Purpose Only.
+            </p>
+            <div class="pull-right">
+              <img src="assets/img/logo.png" alt="logo" pgRetina src1x="assets/img/logo.png" src2x="assets/img/logo_2x.png" width="78" height="22">
+            </div>
+            <div class="clearfix"></div>
+          </div>
+      </mat-tab>
+      <mat-tab [disabled]="disabledTabs.FinalTab">
+        <ng-template #TabHeading><i class="fa fa-check tab-icon"></i> <span>Summary</span></ng-template>
+        <h1>Thank you.</h1>
+        <div class="d-flex justify-content-end p-t-20 p-b-20">
+            <button class="btn btn-white btn-cons pull-right" type="button" (click)="prevTab()">
+            <span>Previous</span>
+            </button>
+            <button class="btn btn-primary btn-cons pull-right" type="button" >
+            <span>Finish</span>
+            </button>
+          </div>
+          <div class="wizard-footer padding-20 bg-master-light">
+              <p class="small hint-text pull-left no-margin">
+                The Top Content Is Soley Created using pages UI Elements such as Invoice, Tabs, Form Layouts etc. and are prior for representation Purpose Only.
+              </p>
+              <div class="pull-right">
+                <img src="assets/img/logo.png" alt="logo" pgRetina src1x="assets/img/logo.png" src2x="assets/img/logo_2x.png" width="78" height="22">
+              </div>
+              <div class="clearfix"></div>
+            </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</pg-container>

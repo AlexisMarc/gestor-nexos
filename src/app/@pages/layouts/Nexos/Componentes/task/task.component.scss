@@ -1,0 +1,86 @@
+.btn-orange {
+    background-color: #E56E22;
+    color: #FFF;
+    width: 100%;
+}
+.btn-orange:hover {
+    background-color: #d86117;
+    color: #FFF;
+}
+
+input, select {
+    border: 1px solid #777;
+}
+
+@media (max-width: 768px) {
+    hr {
+        margin: 20px 0px;
+    }
+}
+
+@media (min-width: 768px) {
+    hr {
+        margin: 40px 0px;
+    }
+}
+
+.table-task {
+    width: 100%;
+    min-width: 100%;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.dark {
+    background-color: #262626;
+    color: #FFF;
+}
+
+.orange {
+    background-color: #E56E22;
+    color: #FFF;
+}
+
+.dark:hover {
+    background-color: #2e2e2e;
+    color: #FFF;
+}
+
+.orange:hover {
+    background-color: #e56e22;
+    color: #FFF;
+}
+
+.pointActiveTask {
+    width: 20px;
+    vertical-align: top;
+}
+
+.pointActiveTask2 {
+    width: 20px;
+    vertical-align: baseline;
+}
+
+.scroll {
+    height: 360px;
+    overflow-y: scroll;
+}
+
+.containerActiveTask {
+    background-color: #f2f2f2;
+    padding: 25px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 1px #000;
+}
+
+.timer {
+    font-weight: 400;
+    font-size: 1.4rem;
+    color: #444;
+    background-color: #FFF;
+    border: 1px solid #777;
+    padding: 6px;
+    border-radius: 2px;
+}

@@ -1,0 +1,44 @@
+<div class="container">
+  <p (click)="show()" class="h2 text-center mt-5">CREAR CAMPAÑA DE WHASTAPP</p>
+  <form action="" class="d-flex justify-content-center backgroud mt-5">
+    <div class="d-flex justify-content-center backgroud mt-5">
+      <div class="row col-lg-6 col-md-6">
+        <label class="text-center mt-3 h6" for="name">NOMBRE DE CAMPAÑA</label>
+        <input type="text form-control" name="name" id="name" [(ngModel)]="form_params.name">
+        <label class="text-center mt-3 h6" for="template_name">NOMBRE DE LA PLANTILLA DE FACEBOOK</label>
+        <input type="text form-control" name="template_name" id="template_name" [(ngModel)]="form_params.template_name">
+        <label class="text-center mt-4 h6" for="content"> MENSAJE</label>
+        
+        <textarea name="content form-control" id="content" cols="5" rows="5"
+          [(ngModel)]="form_params.content" (ngModelChange)="quitarEspaciosYEnter($event)"></textarea>
+          <span class="input-group-text spanLimitCharacter" id="basic-addon2">{{form_params.content.length}} de 1024</span>
+        <div class="d-flex justify-content-center mt-2">
+          <div class="col-12 col-md-6" style="text-align: center;">
+            <span style="font-size: 20px;">Estado</span>
+            <div class="radio radio-success" style="text-align: center;">
+              <input type="radio" value='1' name="option" id="yes" [(ngModel)]="form_params.status">
+              <label for="yes">Activo</label>
+              <input type="radio" value='0' name="option" id="no" [(ngModel)]="form_params.status">
+              <label for="no">Inactivo</label>
+            </div>
+          </div>
+        </div>
+
+        <!--Aqui el droopzone-->
+        <p class="text-center h4">Arrastra los archivos a anexar</p>
+        <ngx-dropzone (change)="onSelect($event)">
+          <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+          <ngx-dropzone-preview *ngFor="let f of form_params.photo; let i = index" [removable]="true" (removed)="onRemove(f,i,f.id)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+
+        <!--fin del droopzone-->
+
+        <div class="text-center mt-5">
+          <button class="orange" (click)="push()" type="submit"> Enviar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

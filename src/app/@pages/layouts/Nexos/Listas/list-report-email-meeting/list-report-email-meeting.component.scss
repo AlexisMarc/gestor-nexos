@@ -1,0 +1,85 @@
+.tabla_actividades{
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th{
+    background-color: #e56e22;
+}
+
+.text-th {
+    color: #FFF;
+    font-weight: 600;
+}
+
+.encabezado{
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.button {
+    border: none;
+    border-radius: 3px;
+    width: 130px;
+    max-width: 130px;
+    padding: auto;
+    height: 38px;
+    font-size: 1.1rem;
+    margin: auto;
+}
+
+.orange {
+    background-color: #e56e22;
+    color: #FFF;
+}
+
+.orange:hover {
+    opacity: 0.9;
+}
+
+.dark {
+    background-color: #262626;
+    color: #FFF;
+}
+
+.dark:hover {
+    opacity: 0.9;
+}
+
+.boton_editar{
+    width: 16px;
+    cursor: pointer;
+}
+
+.boton_borrar{
+    font-size: 20px;
+    cursor: pointer;
+    color: red
+}
+
+.nombre_trabajador {
+    font-size: 1.4rem;
+}
+
+.pointActiveTask {
+    width: 20px;
+    vertical-align: top;
+}
+
+.downloadReport {
+    width: 30px;
+    cursor: pointer;
+}
+
+.button-reset {
+    color: red;
+    cursor: pointer;
+}
+
+.global {
+	height: 600px;
+	width: 100%;
+	border: 1px solid #ddd;
+	background: #f1f1f1;
+	overflow-y: scroll;
+  }

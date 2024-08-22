@@ -1,0 +1,28 @@
+<div class="container">
+  <p class="h1 text-center mt-5" >FORMULARIO CONFIGURACIÓN TELEFONOS </p>
+  <hr>
+  <form action="" class="d-flex justify-content-center backgroud mt-5" (submit)="push()">
+    <div class="row col-lg-6 col-md-6 ">
+      <label class="text-center" for="telefone">Telefono a Agregar</label>
+      <input class="form-control" [(ngModel)]="form_params.phone" type="number" name="telefone" value="">
+      <label class="text-center" for="facebook_phone_id">ID de Facebook</label>
+      <input class="form-control" [(ngModel)]="form_params.facebook_phone_id" type="text" name="facebook_phone_id" value="">
+      <label class="text-center" for="country_code">Codigo de ciudad</label>
+      <input class="form-control" [(ngModel)]="form_params.country_code" type="number" name="country_code" value="">
+      <div class="d-flex justify-content-center">
+        <div class="col-12 col-md-6" style="text-align: center;">
+          <span style="font-size: 20px;">Estado</span>
+          <div class="radio radio-success" style="text-align: center;">
+            <input type="radio" value="1" name="option" id="yes" [(ngModel)]="form_params.status">
+            <label for="yes">Activo</label>
+            <input type="radio" value="0" name="option" id="no" [(ngModel)]="form_params.status">
+            <label for="no">Inactivo</label>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="orange" type="submit" > Enviar</button>
+      </div>
+    </div>
+  </form>
+</div>

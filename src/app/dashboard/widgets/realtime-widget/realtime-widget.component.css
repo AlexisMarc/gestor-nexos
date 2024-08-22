@@ -1,0 +1,12 @@
+.widget-14 .nvd3-svg {
+  height: 330px !important;
+}
+.widget-14 .nvd3 .nv-axis {
+  transform: translateX(13px);
+}
+.widget-14 .nvd3 .nv-axis path {
+  stroke: transparent;
+}
+.widget-14 .nv-axisMaxMin {
+  display: none;
+}/*# sourceMappingURL=realtime-widget.component.css.map */

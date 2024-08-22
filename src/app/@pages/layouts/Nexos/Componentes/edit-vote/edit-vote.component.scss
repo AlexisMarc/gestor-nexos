@@ -1,0 +1,146 @@
+.spanLimitCharacter {
+    background-color: #262626;
+    color: #FFF;
+}
+
+.without-padding {
+    padding: 0 !important;
+}
+
+.without-margin {
+    margin: 0;
+}
+
+.card-chart {
+    padding: 2%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border: 1px solid #999;
+}
+
+.btn-vote {
+    background-color: #262626;
+    border-color: #000;
+    color: #FFF;
+    width: 100%;
+}
+
+.btn-dark-vote {
+    width: 100%;
+    border-color: #000;
+}
+
+.padding-list {
+    padding: 2px 7px;
+}
+
+.scroll-options {
+    height: 210px;
+    overflow-y: scroll;
+    max-height: 210px;
+}
+
+#scroll-1::-webkit-scrollbar-track
+{
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+    
+#scroll-1::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: rgb(220, 220, 220);
+}
+      
+#scroll-1::-webkit-scrollbar-thumb
+{
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+    border-radius: 10px;
+}
+
+.modal-profiles {
+    box-shadow: 1px 1px 3px 1px #262626 !important;
+}
+
+.modal-header-profiles {
+    padding: 4px 4px 0 0 !important;
+}
+
+.li-profile {
+    cursor: pointer;
+    padding: 5px !important;
+}
+
+.button-gray-orange {
+    cursor: pointer;
+    width: 99%;
+    border-radius: 22px;
+    padding: 5px 0px;
+    text-transform: uppercase;
+    transition: all 0.5s ease-out;
+    border: 2px solid #e56e22;
+    background-color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e56e22;
+    letter-spacing: 2.5px;
+}
+
+.button-gray-orange:hover {
+    background-color: #e56e22;
+    color: #FFF;
+    box-shadow: 0px 0px 8px 2px rgba(233, 111, 35, 0.63);
+}
+
+.notification-profiles {
+    background-color: #FFF;
+    color: #000 !important;
+}
+
+.without-padding-2 {
+    padding: 4px 18px 4px 18px;
+}
+
+.check-profile {
+    margin: 6.8px 0 0 -21px !important;
+    background-color: #FFF;
+    border: 1px solid #262626;
+}
+
+.check-profile:checked {
+    background-color: #e56e22;
+}
+
+.bg-orange {
+    background-color: #e56e22 !important;
+    border: none;
+    font-size: 1rem;
+}
+
+.icon-close {
+    color: #FFF;
+    font-size: 1.3rem;
+}
+
+.button-gray-dark {
+    cursor: pointer;
+    width: 99%;
+    border-radius: 22px;
+    padding: 5px 0px;
+    text-transform: uppercase;
+    transition: all 0.5s ease-out;
+    border: 2px solid #444444;
+    background-color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444444;
+    letter-spacing: 2.5px;
+}
+
+.button-gray-dark:hover {
+    background-color: #444444;
+    color: #FFF;
+    box-shadow: 0px 0px 8px 2px rgba(68, 68, 68, 0.63);
+}

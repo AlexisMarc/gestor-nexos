@@ -1,0 +1,249 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchActiveSets()">Bucar Activos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear
+      Reunion</a>
+  </li>
+</ul>
+<div class="container animated slideInUp">
+  <div class="row" style="margin: 0; padding: 0;">
+    <div class="col-12" style="margin: 0; padding: 0;">
+      <h5   style="text-align: center;">{{name}}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto" style="margin: 0; padding: 0;">
+      <div class="card card-signin my-4">
+        <div class="card-body">
+          <form class="form" role="form" name="form" (ngSubmit)="f.form.valid && saveMeeting()" #f="ngForm" novalidate>
+            <div class="row">
+              <div class="col-12 col-md-8">
+                <label for="formGroupExampleInput">Nombre de la reunión</label>
+                <input class="form-control form-control-sm" type="text" placeholder="ASAMBLEA NO PRESENCIAL"
+                  name="Nombre Reunion" [(ngModel)]="loadDatabase.name" autocomplete="off"
+                  onkeyup="this.value = this.value.toUpperCase();">
+              </div>
+              <div class="col-12 col-md-2">
+                <label for="formGroupExampleInput">Fecha de la reunión </label>
+                <input class="form-control form-control-sm" type="date" name="date" [(ngModel)]="loadDatabase.date"
+                  autocomplete="off">
+              </div>
+              <div class="col-12 col-md-2">
+                <label for="formGroupExampleInput">A distancia </label>
+                <select class="form-control form-control-sm" [(ngModel)]="loadDatabase.is_online" name="is_online">
+                  <option value="0">No</option>
+                  <option value="1" selected>Si</option>
+                </select>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="formGroupExampleInput">Url de la plataforma</label>
+                      <select class="custom-select custom-select-sm" [(ngModel)]="loadDatabase.youtube_link"
+                        name="urlVoting">
+                        <option *ngFor="let item of OptionsURL" [value]="item">{{item}}</option>
+                      </select>
+                      <br>Seleccione para copiar la URL
+                      <p class="selected">{{loadDatabase.youtube_link}}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="formGroupExampleInput">URL de redirección</label>
+                      <input class="form-control form-control-sm" type="text" placeholder="Url de redireccion"
+                        name="support" [(ngModel)]="redireccion" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-3" style="text-align: center;">
+                <strong>
+                  <label for="exampleFormControlInput1" style="text-align: center; font-weight: 600;">Cargar base de
+                    datos <img src="./assets/img/reload.png" (click)="reloadDb()" alt=""
+                      style="width: 15px; cursor: pointer;"></label>
+                </strong>
+                <div class="avatar2 d-flex justify-content-center">
+                  <input #file type="file" id="file" name="image" (change)="fileProgress($event)">
+                  <label for="file" class="img-content null-img"
+                    style="background: url(./assets/img/database.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                    <img [src]="previewUrl" style="object-fit: cover;" *ngIf="previewUrl" class="img-content null-img">
+                  </label>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <label for="formGroupExampleInput">Números de soporte telefónico</label>
+                    <input class="form-control form-control-sm" type="text" placeholder="Pbx:4325200, tel:31293672352"
+                      name="support" [(ngModel)]="loadDatabase.support" autocomplete="off">
+                  </div>
+                </div>
+                
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="formGroupExampleInput">Hora de inicio y fecha de la reunión</label>
+                <input class="form-control form-control-sm" type="text" placeholder="8:00 a.m. del 01 de febrero del 2024."
+                  name="meeting_time" [(ngModel)]="loadDatabase.meeting_time" autocomplete="off">
+                <label for="formGroupExampleInput">Hora de inicio del registro de la reunión </label>
+                <input class="form-control form-control-sm" type="text" placeholder="7:00 a.m. del 01 de febrero del 2024."
+                  name="meeting_time" [(ngModel)]="loadDatabase.meeting_time_start" autocomplete="off">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      Quórum de la reunión en tiempo real
+                      <br>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                          value="1" [(ngModel)]="quorum_on_real_time">
+                        <label class="form-check-label" for="inlineRadio1">Sí</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                          value="0" [(ngModel)]="quorum_on_real_time">
+                        <label class="form-check-label" for="inlineRadio2">No</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      Resultados de la votación al final
+                      <br>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="results1" id="results1" value="1"
+                          [(ngModel)]="show_results">
+                        <label class="form-check-label" for="results1">Sí</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="results2" id="results2" value="0"
+                          [(ngModel)]="show_results">
+                        <label class="form-check-label" for="results2">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12 col-md-3" style="text-align: center;">
+                Límite en porcentaje de aportes
+                <br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="limit_aporte" id="inlineRadio13-limit" value="1"
+                    [(ngModel)]="limit_aporte">
+                  <label class="form-check-label" for="inlineRadio13-limit">Sí</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="limit_aporte" id="inlineRadio23" value="0"
+                    [(ngModel)]="limit_aporte">
+                  <label class="form-check-label" for="inlineRadio23">No</label>
+                </div>
+              </div>
+              <div class="col-12 col-md-3" style="text-align: center;">
+                <label for="formGroupExampleInput">Porcentaje máximo</label>
+                <input class="form-control form-control-sm" type="number" placeholder="..." name="limitamount-percent"
+                  [(ngModel)]="limit_amount" autocomplete="off">
+              </div>
+              <div class="col-12 col-md-3" style="text-align: center;">
+                Código OTP
+                <br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="request_signin_code" id="inlineRadio14" value="1"
+                    [(ngModel)]="loadDatabase.request_signin_code">
+                  <label class="form-check-label" for="inlineRadio14">Sí</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="request_signin_code" id="inlineRadio24" value="0"
+                    [(ngModel)]="loadDatabase.request_signin_code">
+                  <label class="form-check-label" for="inlineRadio24">No</label>
+                </div>
+              </div>
+              <div class="col-12 col-md-3" style="text-align: center;">
+                Correo de voto recibido
+                <br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="voted_email" id="inlineRadio15" value="1"
+                    [(ngModel)]="voted_email">
+                  <label class="form-check-label" for="inlineRadio15">Sí</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="voted_email" id="inlineRadio25" value="0"
+                    [(ngModel)]="voted_email">
+                  <label class="form-check-label" for="inlineRadio25">No</label>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-5">
+                <label for="formGroupExampleInput">Tipo de correo a enviar</label>
+                <select class="form-select" aria-label="Default select example" name="Email_id"
+                  [(ngModel)]="email_request_password_id">
+                  <option value="">Seleccione el tipo de correo que se enviará</option>
+                  <option [value]="item.id" *ngFor="let item of listTypeEmail">{{item.name_email}}</option>
+                </select>
+              </div>
+              <div class="col-4">
+                <label for="formGroupExampleInput">Cantidad de peticiones de unión por usuario</label>
+                <input class="form-control form-control-sm" type="number" placeholder="..." name="limitamount"
+                  [(ngModel)]="limit_request_by_user" autocomplete="off">
+              </div>
+              <div class="col-3">
+                <label for="formGroupExampleInput">Tiempo de verificación de Quórum</label>
+                <input class="form-control form-control-sm" type="number" placeholder="..."
+                  name="timeToAlertQuorumVerify" [(ngModel)]="end_session_time" autocomplete="off">
+              </div>
+              <div class="col-3">
+                <label for="formGroupExampleInput">Ciclo de verificación automática de asistencia en segundos</label>
+                <input class="form-control form-control-sm" type="number" placeholder="..."
+                  name="timeToAlertQuorumVerify" [(ngModel)]="session_check_time" autocomplete="off">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Límite de intervenciones por usuario</label>
+                <input class="form-control form-control-sm" type="number" placeholder="..." name="limitUserIntervention"
+                  [(ngModel)]="limitUserIntervention" autocomplete="off">
+              </div>
+              <div class="col-12 col-md-6" style="text-align: center;">
+                Base de datos extensa
+                <br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="data-base-large" id="inlineRadio13-db" value="1"
+                    [(ngModel)]="base_large">
+                  <label class="form-check-label" for="inlineRadio13-db">Sí</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="data-base-large" id="inlineRadio23-db" value="0"
+                    [(ngModel)]="base_large">
+                  <label class="form-check-label" for="inlineRadio23-db">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4"></div>
+              <div class="col-12 col-md-4">
+                <label for=""><br></label>
+                <button style="text-align: right" class="form-control form-control-sm" type="submit"
+                  style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+                  <span class="bold">Guardar</span>
+                </button>
+              </div>
+              <div class="col-4"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

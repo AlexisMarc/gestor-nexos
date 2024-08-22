@@ -1,0 +1,223 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goQuote()">Cotizacion</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear
+      cotizacion</a>
+  </li>
+</ul>
+<div class="container" style="width: 100%;">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Nombre conjunto</label>
+      <input class="form-control form-control-sm" type="text" placeholder="Cr Ejemplo" name="nombreConjunto"
+        [(ngModel)]="dataResidential['name']" autocomplete="off">
+    </div>
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Encargado</label>
+      <input class="form-control form-control-sm" type="text" placeholder="Pedro Perez" name="encargado"
+        [(ngModel)]="dataAdministrator['name']" autocomplete="off">
+    </div>
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Nit</label>
+      <input class="form-control form-control-sm" type="text" placeholder="1231231-1" name="nit"
+        [(ngModel)]="dataResidential['nit']" autocomplete="off">
+    </div>
+    <div class="col-12 col-md-1">
+      <label for="formGroupExampleInput">Unidades</label>
+      <input class="form-control form-control-sm" name="units" type="number" placeholder="314" min="0"
+        [(ngModel)]="totalproperties" (change)="Changepercent()" autocomplete="off">
+    </div>
+    <div class="col-12 col-md-2">
+      <label for="formGroupExampleInput">Tel. Conjunto</label>
+      <input class="form-control form-control-sm" type="text" placeholder="6381925" name="celular"
+        [(ngModel)]="dataResidential['phone']" autocomplete="off">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Tel. Administrador</label>
+      <input class="form-control form-control-sm" type="text" placeholder="3238264094" name="fijo"
+        [(ngModel)]="dataAdministrator['phone']" autocomplete="off">
+    </div>
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Correo electronico</label>
+      <input class="form-control form-control-sm" type="text" placeholder="ejemplo@gmail.com" name="email"
+        [(ngModel)]="dataResidential['email']" autocomplete="off">
+    </div>
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Direccion</label>
+      <input class="form-control form-control-sm" type="text" placeholder="Cll 1 # 1 - 1" name="direccion"
+        [(ngModel)]="dataResidential['address']" autocomplete="off" onkeyup="this.value = this.value.toUpperCase();">
+    </div>
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Ciudad</label>
+      <select class="form-control form-control-sm" name="ciudad" [(ngModel)]="dataResidential['city_id']">
+        <!--<option value="0">Seleccione la ciudad</option>-->
+        <option *ngFor="let item of activeCity" value="{{item.id}}">{{item.name}}</option>
+      </select>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Fecha del evento {{dateQuote}}</label>
+      <input class="form-control form-control-sm" type="date" name="date" [(ngModel)]="dateQuote">
+      <br>
+      <label for="formGroupExampleInput">Porcentaje dispositivos</label>
+      <div class="container" style="width: 100%;">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">%</div>
+              </div>
+              <input type="number" class="form-control" id="inlineFormInputGroupUsername" placeholder="10"
+                name="promotionPorcentage" [(ngModel)]="DevicePercent" min="0" max="100" (change)="Changepercent()">
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">#</div>
+              </div>
+              <input type="text" class="form-control" placeholder="0" [(ngModel)]="DeviceCant" disabled="true"
+                style="background-color: #FFF; color: #000;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <label for="formGroupExampleInput">Observaciones</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="observaciones2"
+        [(ngModel)]="observationsQuote"></textarea>
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="container" style="width: 100%;">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <button class="btn btn-primary" type="button" (click)="goAddItems()"
+              style="background-color: rgba(255, 115, 0); color: #FFF; width: 180px;">
+              Agregar Items
+            </button>
+          </div>
+          <div class="col-12 col-md-3">
+            <button class="btn btn-primary" type="button" (click)="FormatoMadre()"
+              style="background-color: rgba(52, 58, 64); color: #FFF; width: 180px;">
+              Formato madre
+            </button>
+          </div>
+          <div class="col-12 col-md-3">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+              aria-expanded="true" aria-controls="collapseExample"
+              style="background-color: rgba(52, 58, 64); color: #FFF; width: 180px;" (click)="changeText()">
+              {{text}} items
+            </button>
+          </div>
+          <div class="col-12 col-md-3">
+          </div>
+        </div>
+      </div>
+      <div class="collapse show" *ngIf="text=='Ocultar'">
+        <div class="table-responsive-lg">
+          <table class="table table-sm " style="width: 100%;">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Nombre item</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Quitar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listItems; index as i">
+                <td>{{item.name}}</td>
+                <td *ngIf="item.item_price_id=='4'; else Nodispositivo">{{DeviceCant}}</td>
+                <ng-template #Nodispositivo>
+                  <td>{{item.quantity}}</td>
+                </ng-template>
+                <td *ngIf="item.item_price_id=='4'; else Nodispositivo2">
+                  {{item.price*DeviceCant | currency: 'COP': '$': '1.0'}}
+                </td>
+                <ng-template #Nodispositivo2>
+                  <td>{{item.total | currency: 'COP': '$': '1.0'}}</td>
+                </ng-template>
+                <td>
+                  <div style="cursor: pointer;" (click)="quitarItem(i)"><img
+                      src="./assets/img/delete.png" style="width: 20px;">
+                    Quitar</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row" *ngIf="listItems.length>0">
+    <div class="col-12 col-md-5">
+      <label for="formGroupExampleInput">Promociones {{discountSelect}}</label>
+      <select class="form-control form-control-sm" name="ciudad" [(ngModel)]="discountSelect"
+        (change)="changePromotion()">
+        <option value="value">Seleccione la Promocion</option>
+        <option *ngFor="let item2 of activeDiscount; index as i" value="{{i}}">{{item2['name']}} -% {{item2['price']}}
+        </option>
+      </select>
+    </div>
+    <div class="col-12 col-md-2">
+      <label for="formGroupExampleInput">Porcentaje</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">%</div>
+        </div>
+        <input type="number" class="form-control" id="inlineFormInputGroupUsername" placeholder="10"
+          name="promotionPorcentage" disabled="true" style="background-color: #FFF; color: #000;"
+          [(ngModel)]="promotion2Percent" min="0" autocomplete="off">
+      </div>
+    </div>
+    <div class="col-12 col-md-3">
+      <label for="formGroupExampleInput">Porcentaje total de descuentos</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">%</div>
+        </div>
+        <input type="number" class="form-control" id="inlineFormInputGroupUsername" placeholder="0"
+          name="promotionPorcentage" disabled="true" style="background-color: #FFF; color: #000;"
+          [value]="(promotionPercent*1)+(promotion2Percent*1)" min="0" autocomplete="off">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-5" *ngIf="listItems.length>0">
+      <label for="formGroupExampleInput">Texto descuento</label>
+      <input class="form-control form-control-sm" type="text" placeholder="Por cliente antiguo" name=""
+        [(ngModel)]="promotionText" autocomplete="off">
+    </div>
+    <div class="col-12 col-md-2" *ngIf="listItems.length>0">
+      <label for="formGroupExampleInput">Porcentaje</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">%</div>
+        </div>
+        <input type="number" class="form-control" id="inlineFormInputGroupUsername" placeholder="10"
+          name="promotionPorcentage" [(ngModel)]="promotionPercent" min="0" autocomplete="off">
+      </div>
+    </div>
+    <div class="col-12 col-md-7" *ngIf="listItems.length==0">
+    </div>
+    <div class="col-12 col-md-5">
+      <label for="formGroupExampleInput">&nbsp;</label>
+      <br>
+      <button class="btn btn-primary" type="button" (click)="createQuote()"
+        style="background-color: rgba(255, 115, 0); color: #FFF; width: 100%;">
+        Guardar
+      </button>
+    </div>
+  </div>
+  <hr>
+</div>

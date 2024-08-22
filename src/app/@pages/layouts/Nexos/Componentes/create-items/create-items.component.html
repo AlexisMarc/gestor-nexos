@@ -1,0 +1,143 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSetting()">Configuracion</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goListItems()">Listado Items</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear Items
+    </a>
+  </li>
+</ul>
+<div class="container animated flipInX">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <strong><span>
+              <h3 class="card-title" style="text-align: center; font-weight: 700; ">Crear Items</h3>
+            </span></strong>
+          <form class="form" role="form" name="form" (ngSubmit)="f.form.valid && goCreateItems()" #f="ngForm" novalidate
+            style="width: 100%;">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Nombre Items</label>
+                <input class="form-control form-control-sm" type="text" placeholder="Sonido" name="nombreItems"
+                  [(ngModel)]="ItemsParameters.name">
+              </div>
+              <div class="col-12 col-md-3">
+                <label for="formGroupExampleInput">Tipo cotizacion</label>
+                <select class="form-control form-control-sm select" name="typeQuote"
+                  [(ngModel)]="ItemsParameters.quote_type_id">
+                  <option value="0" selected>Seleccione su Tipo cotizacion ▼ </option>
+                  <option *ngFor="let index of typeQuote" value="{{index.id}}">{{index.name}}</option>
+
+                </select>
+              </div>
+              <div class="col-12 col-md-3">
+                <label for="formGroupExampleInput">Tipo Items</label>
+                <select class="form-control form-control-sm select" id="typeQuote" name="typeItems"
+                  [(ngModel)]="ItemsParameters.item_type">
+                  <option value="0" selected>Seleccione su Tipo de item ▼ </option>
+                  <option value="1">Item Regular</option>
+                  <option value="2">Item Principal</option>
+                  <option value="3">Servicio Tecnológico Adicional</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="formGroupExampleInput">Nota</label>
+                <input class="form-control form-control-sm" type="text" placeholder="no incluye grabacion de audio"
+                  name="notaItems" [(ngModel)]="ItemsParameters.note">
+              </div>
+              <div class="col-12 col-md-6" *ngIf="ItemsParameters.item_type=='2'">
+                <label class="formGroupExampleInput"> Detalle Opcional para votaciones</label>
+                <editor apiKey="test" [init]="{}" name="details" [(ngModel)]="ItemsParameters.voting_details">
+                </editor>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-3">
+                <label for="formGroupExampleInput">Valor 3 horas </label>
+                <input class="form-control form-control-sm" type="text" placeholder="$200.000" name="valorItems"
+                  [(ngModel)]="ItemsParameters.price">
+                <label class="formGroupExampleInput"> Detalle del Servicio</label>
+                <editor apiKey="test" [init]="{}" name="details" [(ngModel)]="ItemsParameters.details">
+                </editor>
+                <span class="label">Detalle del Servicio</span>
+              </div>
+              <div class="col-12 col-md-3">
+                <label for="formGroupExampleInput">Valor 1 adicional </label>
+                <input class="form-control form-control-sm" type="text" placeholder="$30.000" name="valorFraccionItems"
+                  [(ngModel)]="ItemsParameters.price_fraction">
+                <label class="formGroupExampleInput"> Condiciones del Servicio</label>
+                <input class="form-control form-control-sm" type="text" placeholder="no incluye grabacion de audio"
+                  name="notaItems" [(ngModel)]="ItemsParameters.service_condition">
+                <span class="label">Condiciones del Servicio</span>
+              </div>
+              <div class="col-12 col-md-6" style="text-align: center;">
+                <span style="font-size: 20px; ">Suba aqui la foto del usuario</span>
+                <div class="avatar d-flex justify-content-center m-b- 20">
+                  <input #file type="file" id="file" name="image" (change)="fileProgress($event)">
+                  <label for="file" class="img-content null-img"
+                    style="background: url(./assets/img/upload.png);background-size: cover;background-position: center;background-repeat: no-repeat;cursor: pointer;">
+                    <img [src]="previewUrl" style="object-fit: cover;" *ngIf="previewUrl" class="img-content null-img">
+                  </label>
+                </div>
+                <div class="container" style="width: 100%;">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <span style="font-size: 18px;">Contable</span>
+                      <div class="radio radio-success" style="text-align: center;">
+                        <input type="radio" value="1" name="option2" id="yes2" [(ngModel)]="ItemsParameters.contable">
+                        <label for="yes2">Contable</label>
+                        <input type="radio" value="0" name="option2" id="no2" [(ngModel)]="ItemsParameters.contable">
+                        <label for="no2">No contable</label>
+                      </div>
+                      <span style="font-size: 18px;">Estado</span>
+                      <div class="radio radio-success" style="text-align: center;">
+                        <input type="radio" value="1" name="option" id="yes" [(ngModel)]="ItemsParameters.status_id">
+                        <label for="yes">Activo</label>
+                        <input type="radio" checked="checked" value="0" name="option" id="no"
+                          [(ngModel)]="ItemsParameters.status_id">
+                        <label for="no">Inactivo</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <span style="font-size: 18px;">Muestra cantidad</span>
+                      <div class="radio radio-success" style="text-align: center;">
+                        <input type="radio" value="1" name="show_cant" id="yes3"
+                          [(ngModel)]="ItemsParameters.show_quantity">
+                        <label for="yes3">Activo</label>
+                        <input type="radio" checked="checked" value="0" name="show_cant" id="no3"
+                          [(ngModel)]="ItemsParameters.show_quantity">
+                        <label for="no3">Inactivo</label>
+                      </div>
+                      <span style="font-size: 18px;">Orden</span>
+                      <input class="form-control form-control-sm" type="number" placeholder="digite el numero"
+                        name="valorFraccionItems" [(ngModel)]="ItemsParameters.order" min="0">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12 col-md-4" style="text-align: center;">
+              </div>
+              <div class="col-12 col-md-4" style="text-align: center;">
+                <button type="submit" class="btn btn-primary block full-width m-b" style="border-color: #AAA;">Crear
+                  Items</button>
+              </div>
+              <div class="col-12 col-md-4" style="text-align: center;">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

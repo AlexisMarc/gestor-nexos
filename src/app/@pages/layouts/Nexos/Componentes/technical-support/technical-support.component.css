@@ -1,0 +1,18 @@
+.datepicker {
+  cursor: pointer;
+  height: 80%;
+  border-radius: 4px;
+  border: 1px solid #000;
+  padding: 3px;
+  margin: 5px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  filter: invert(1);
+  width: 100%;
+}
+
+.list {
+  cursor: pointer;
+  border: 1px solid #262626;
+}/*# sourceMappingURL=technical-support.component.css.map */

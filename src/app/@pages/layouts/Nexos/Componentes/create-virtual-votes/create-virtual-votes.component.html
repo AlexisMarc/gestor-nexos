@@ -1,0 +1,173 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointControl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Crear
+      preguntas</a>
+  </li>
+</ul>
+<br>
+<div class="container" style="width: 100%;">
+  <div class="row">
+    <div class="col-12" style="text-align: center;">
+      <h4 style="font-weight: 500;">MENU DE CREAR PREGUNTA</h4>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-8">
+      <h5>Escriba la pregunta</h5>
+    </div>
+    <div class="col-4">
+      <button class="btn btn btn-cons m-b-10" type="button" (click)="goListVotes()"
+        style="background-color: #444;border-color: #000; color: #FFF; cursor: auto; width: 250px; cursor: pointer; width: 100%;">
+        <span class="bold">&nbsp;&nbsp;Ver votaciones anteriores</span>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <input class="form-control form-control-sm" type="text" id="name_question"
+        placeholder="APROBACION ESTADOS FINANCIEROS" style="border: 1px solid #444;" [(ngModel)]="nameVote">
+      <small class="form-text text-muted">**Recuerde no poner caracteres especiales y maximo 190 caracteres**</small>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <select class="custom-select" id="inputGroupSelect03" [(ngModel)]="mode_chart"
+        style="border: 1px solid #444;">
+        <option value="0">Seleccione modo de graficar</option>
+        <option value="1">Todas las opciones</option>
+        <option value="2">Con pendientes y sin ausentes</option>
+        <option value="3">Sin pendientes y con ausentes</option>
+        <option value="4">Sin pendientes y sin ausentes</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-6">
+      <select class="custom-select" id="inputGroupSelect04" [(ngModel)]="unit_chart"
+        style="border: 1px solid #444;">
+        <option value="0">Seleccione unidad a graficar</option>
+        <option value="1">Porcentaje</option>
+        <option value="2">Unidades</option>
+        <option value="3">Aportes</option>
+      </select>
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+    <div class="col-12 col-md-5">
+      <ul class="list-group">
+        <li class="list-group-item" style="background-color: #444; color: #FFF; text-align: center; cursor: auto;">
+          <div class="container">
+            <div class="row">
+              <div class="col-10" style="text-align: left;">
+                Repuestas
+              </div>
+              <div class="col-2" style="vertical-align: center;">
+                <img src="./assets/img/delete.png" alt="" style="height: 20px; vertical-align: center; cursor: pointer;"
+                  (click)="resetAnswers()">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item" *ngFor="let item2 of options; index as i">
+          <img src="./assets/img/delete.png" alt="" style="height: 20px; vertical-align: center; cursor: pointer;"
+            (click)="deleteOption(i)">{{item2['name']}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-12 col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item" style="background-color: #444; color: #FFF; text-align: center; cursor: auto;">
+          <div class="container">
+            <div class="row">
+              <div class="col-10" style="text-align: left;">
+                Tipos de votantes
+              </div>
+              <div class="col-2" style="vertical-align: center;">
+                <img src="./assets/img/delete.png" alt="" style="height: 20px; vertical-align: center; cursor: pointer;"
+                  (click)="resetProfilesToQuestion()">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item" *ngFor="let item of voter_profiles; index as i2">
+          <img src="./assets/img/delete.png" alt="" style="height: 20px; vertical-align: center; cursor: pointer;"
+            (click)="deleteProfilesToQuestion(i2)"> {{item['name']}}
+        </li>
+      </ul>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="container" style="width: 100%; padding: 0; margin: 0;">
+        <div class="row">
+          <div class="col-10" style="width: 100%; padding: 0; margin: 0;">
+            <input class="form-control form-control-sm" type="text" id="option_name"
+              placeholder="Escriba la opcion de respuesta" style="border: 1px solid #444;" [(ngModel)]="nameOption">
+          </div>
+          <div class="col-2" style="width: 100%; padding: 4px; margin: 0;">
+            <img src="./assets/img/plus.png" alt="" width="30px" style="cursor: pointer;" (click)="addOptionVote()">
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-12" style="width: 100%; padding: 0; margin: 0;">
+            <h5>Seleccione los votantes</h5>
+          </div>
+        </div> -->
+        <hr>
+        <div class="row">
+          <div class="col-10" style="width: 100%; padding: 0; margin: 0;">
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="ProfileSelected"
+              style="border: 1px solid #444;">
+              <option value="0">Seleccione los votantes</option>
+              <option *ngFor="let item of allProfilesVotation; index as i" value="{{item['id']}},{{item['name']}}">
+                {{item['name']}}</option>
+            </select>
+          </div>
+          <div class="col-2" style="width: 100%; padding: 4px; margin: 0;">
+            <img src="./assets/img/plus.png" alt="" width="30px" style="cursor: pointer;" (click)="addProfileVoter()">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-10" style="width: 100%; padding: 0; margin: 0;">
+            <h5>Cantidad de votos a recibir</h5>
+            <input class="form-control form-control-sm" type="number" id="request_accepted"
+              style="border: 1px solid #444;" [(ngModel)]="request_accepted" name="request_accepted">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-10" style="width: 100%; padding: 0; margin: 0;">
+            <button class="btn btn btn-cons m-b-10" type="button" (click)="createVote()"
+              style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 250px; cursor: pointer; width: 100%;">
+              <i class="fa fa-plus"></i>
+              <span class="bold">&nbsp;&nbsp;Crear pregunta</span>
+            </button>
+            <hr>
+            <h4>Votaciones predeterminadas</h4>
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="nameOptionDefault"
+              style="border: 1px solid #444;" (change)="addDefaultAnswer()">
+              <option value="">
+                Votaciones predeterminadas
+              </option>
+              <option *ngFor="let item2 of defaultOptions; index as i" value="{{item2}}">
+                {{item2}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

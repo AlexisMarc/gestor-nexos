@@ -1,0 +1,88 @@
+.logo-interno{
+    width: 85px;
+    cursor: pointer;
+}
+
+.center-content{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-content-button{
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 50%;
+    background-color: #262626;
+    color: #FFF;
+    margin: 0;
+}
+
+.center-content-button:hover{
+    background-color: #ff7300;
+}
+
+.button-orange {
+    cursor: pointer;
+    width: 99%;
+    border-radius: 22px;
+    padding: 5px 0px;
+    text-transform: uppercase;
+    transition: all 0.5s ease-out;
+    border: 2px solid #e56e22;
+    background-color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e56e22;
+    letter-spacing: 2.5px;
+}
+
+.button-orange:hover {
+    background-color: #e56e22;
+    color: #FFF;
+    box-shadow: 0px 0px 8px 2px rgba(233, 111, 35, 0.63);
+}
+
+.without-margin {
+    margin: 0;
+}
+
+.button-gray-dark {
+    cursor: pointer;
+    width: 99%;
+    border-radius: 22px;
+    padding: 5px 0px;
+    text-transform: uppercase;
+    transition: all 0.5s ease-out;
+    border: 2px solid #444444;
+    background-color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444444;
+    letter-spacing: 2.5px;
+}
+
+.button-gray-dark:hover {
+    background-color: #444444;
+    color: #FFF;
+    box-shadow: 0px 0px 8px 2px rgba(68, 68, 68, 0.63);
+}
+
+.select-unit-to-chart {
+    height: 25px;
+    border: 1px solid #444;
+    padding: 1px !important;
+}
+
+.icon-lateral {
+    font-size: 1.5rem;
+    color: #e56e22;
+    text-shadow: 2px 0 0 #000;
+    cursor: pointer;
+}
+.icon-whatsapp{
+    width: 40px; 
+    height: 40px;
+    cursor: pointer;
+}

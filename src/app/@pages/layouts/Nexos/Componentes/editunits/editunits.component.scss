@@ -1,0 +1,363 @@
+.tabla_actividades{
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th{
+    background-color: #e56e22;
+}
+
+.text-th {
+    color: #FFF;
+    font-weight: 600;
+}
+
+.encabezado{
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.button {
+    border: none;
+    border-radius: 3px;
+    width: 130px;
+    max-width: 130px;
+    padding: auto;
+    height: 38px;
+    font-size: 1.1rem;
+    margin: auto;
+}
+
+.orange {
+    background-color: #e56e22;
+    color: #FFF;
+}
+
+.orange:hover {
+    opacity: 0.9;
+}
+
+.dark {
+    background-color: #262626;
+    color: #FFF;
+}
+
+.dark:hover {
+    opacity: 0.9;
+}
+
+.boton_editar{
+    width: 16px;
+    cursor: pointer;
+}
+
+.nombre_trabajador {
+    font-size: 1.4rem;
+}
+
+.pointActiveTask {
+    width: 20px;
+    vertical-align: top;
+}
+
+.downloadReport {
+    width: 30px;
+    cursor: pointer;
+}
+.hiden-col {
+    display: none;
+}
+
+.input-group-units-add{
+    margin-top: 5%;
+}
+
+.form-check-units-add{
+    margin-top: 2%;
+}
+
+.form-check2{
+    margin-top: 2%;
+}
+
+.lupa{
+    width: 24px;
+}
+
+.estilo{
+    width: 95%;
+    background-color: white;
+}
+
+.scroll
+{
+    height: 279px;
+    overflow-y : scroll;
+    overflow-x: auto;
+    border:  1px solid #444;    
+}
+
+.scroll::-webkit-scrollbar{
+    
+    background-color: lightgray;
+    border-radius: 25px;
+
+}
+
+.scroll::-webkit-scrollbar-thumb{
+    background-color: #e56e22;
+    border-radius: 15px;
+}
+
+.torre{
+    text-align: center;
+}
+
+.Unidad{
+    text-align: center;
+}
+
+.votan{
+    text-align: left;
+}
+
+.espacio{
+    height: 10px;
+    background-color: white;
+}
+
+.espacios{
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .container-units-add {
+      min-height: 500px;
+    }
+  }
+
+  .radioContainer{
+    display: block;
+   position: relative;
+    cursor: pointer;
+    font-family: sans-serif;
+    padding-left: 20px;
+}
+
+.radioContainer input{
+    display: none;
+}
+
+.radioContainer .circle{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: solid 1px transparent;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px black;
+    
+}
+
+.radioContainer:hover .circle{
+    content: "";
+    background-color: #e56e22;
+    border: solid 1px transparent;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px black;
+}
+
+.radioContainer input:checked + .circle{
+    background-color: #e56e26;
+    border: solid 1px transparent;
+    box-shadow: 1px 3px 3px black;
+}
+
+.radioContainer input:checked + .circle::after{
+    content: "✓";  
+    margin-left: 2px;
+    color: white;
+}
+
+.hr-units-vote {
+    margin: 5px 0;
+    color: #e56e22;
+}
+
+.without-margin {
+    margin: 0;
+}
+
+.button-orange {
+    border-radius: 22px;
+    padding: 5px 0px;
+    text-transform: uppercase;
+    transition: all 0.5s ease-out;
+    border: 2px solid #e56e22;
+    background-color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e56e22;
+    letter-spacing: 2.5px;
+}
+
+.button-orange:hover {
+    background-color: #e56e22;
+    color: #FFF;
+    box-shadow: 0px 0px 8px 2px rgba(229, 110, 34, 0.63);
+}
+
+.button-white{
+    border-radius: 22px;
+    padding: 5px 0px;
+    text-transform: uppercase;
+    transition: all 0.5s ease-out;
+    border: 2px solid #FFF ;
+    background-color: #e56e22;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFF;
+    letter-spacing: 2.5px;
+}
+
+.button-white:hover {
+    background-color:#FFF  ;
+    color: #e56e22;
+    box-shadow: 0px 0px 8px 2px rgba(229, 110, 34, 0.63);
+}
+
+
+
+.table-units td {
+    padding: 0;
+    text-align: center;
+}
+
+.table-units th {
+    text-align: center;
+    padding: 8px 0;
+    color: #FFF;
+    background-color: #e56e22;
+}
+
+.table-units {
+    margin: 0;
+}
+
+.form-check-input-units {
+    display: inline-block !important;
+}
+
+.hiden-col {
+    display: none;
+}
+
+.succes-event {
+    border: 2px solid #42e522;
+    color: #42e522;
+}
+
+.succes-event:hover {
+    border: 2px solid #42e522;
+    color: #42e522;
+    background-color: #FFF;
+    box-shadow: 0px 0px 8px 2px #42e522;
+}
+
+.succes-not-event {
+    border: 2px solid #e52222;
+    color: #e52222;
+}
+
+.succes-not-event:hover {
+    background-color: #FFF;
+    border: 2px solid #e52222;
+    color: #e52222;
+    box-shadow: 0px 0px 8px 2px #e52222;
+}
+
+.icon-event {
+    font-size: 1.2rem;
+}
+
+.text-button-event {
+    padding: 0;
+    text-align: right;
+}
+
+.checkbox-round {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-round:checked {
+    background-color: gray;
+}
+
+.background-forum{ 
+    padding:10px;
+    border:0;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    padding: 40px;
+}
+
+.input2:focus{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    -webkit-transition: 0.5s;
+    transition: 1s;
+    outline: none;
+}
+
+
+// Css del backgruond para el modal 
+
+.modal-container2 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: black;
+    display: flex;
+   opacity: 0;
+ }
+
+ .modal-container2:target {
+    opacity: 1;
+  }
+
+  .puntero{
+    cursor: pointer;
+  }
+
+  .global {
+	height: 600px;
+	width: 100%;
+	border: 1px solid #ddd;
+	background: #f1f1f1;
+	overflow-y: scroll;
+  }
+
+  .texto_clave{
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+// Final Css del backgruond  para el modal

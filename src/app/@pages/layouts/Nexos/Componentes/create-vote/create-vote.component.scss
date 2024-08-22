@@ -1,0 +1,77 @@
+.form-select-vote {
+    width: 100%;
+    display: flex;
+    place-content: center;
+}
+
+.icons {
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 190%;
+}
+
+.textTitle {
+   text-align: center;
+}
+
+.announcement {
+    text-align: center;
+    color: grey;
+    font-size: 15px;
+}
+
+.x {
+    width: 100%;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.titleDeleteAnswer {
+    background-color: #CCCCCC;
+    display: flex;
+    text-align: center;
+}
+
+.iconDeleteAnswer{
+    text-align: center;
+}
+
+.answer {
+    text-align: center;
+    background-color: #CCCCCC;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.barra{
+    height: 100px;
+    overflow-y: scroll;
+    text-align: center;
+}
+
+.barra::-webkit-scrollbar{
+    width: 10px;
+    background-color: #FFFF;
+}
+
+.barra::-webkit-scrollbar-thumb{
+    background-color: #e56e22;
+    border-radius: 10px;
+}
+
+.voteConfig {
+    text-align: center;
+}
+
+.create {
+    text-align: center;
+}
+
+.form-check-label{
+    cursor: pointer;
+}
+
+.profile {
+    cursor: pointer;
+}

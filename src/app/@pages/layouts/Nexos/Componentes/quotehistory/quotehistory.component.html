@@ -1,0 +1,118 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goQuote()">Cotizaciones</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goConfirmQuote()">Confirmar Cotizaciones</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">
+      Observaciones</a>
+  </li>
+</ul>
+<div class="container" style="width: 100%;">
+  <br>
+  <div class="row">
+    <div class="container" style="width: 100%;">
+      <div class="row">
+        <div class="col-12 col-md-3">
+          <label for="formGroupExampleInput">Nombre conjunto</label>
+          <input class="form-control form-control-sm" type="text" placeholder="Cr Ejemplo"
+            [(ngModel)]="dataQuote.residentialName">
+        </div>
+        <div class="col-12 col-md-3">
+          <label for="formGroupExampleInput">Encargado</label>
+          <input class="form-control form-control-sm" type="text" placeholder="Pedro Perez"
+            [(ngModel)]="dataQuote['administrator']">
+        </div>
+        <div class="col-12 col-md-3">
+          <label for="formGroupExampleInput">Nit</label>
+          <input class="form-control form-control-sm" type="text" placeholder="1231231-1"
+            [(ngModel)]="dataQuote['nit']">
+        </div>
+        <div class="col-12 col-md-3">
+          <label for="formGroupExampleInput">Unidades</label>
+          <input class="form-control form-control-sm" type="text" placeholder="314" [(ngModel)]="dataQuote['units']">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-3">
+          <label for="formGroupExampleInput">Tel. conjunto</label>
+          <input class="form-control form-control-sm" type="text" placeholder="3238264094"
+            [(ngModel)]="dataQuote['phone']">
+        </div>
+        <div class="col-12 col-md-3">
+          <label for="formGroupExampleInput">Tel. administrador</label>
+          <input class="form-control form-control-sm" type="text" placeholder="6381925"
+            [(ngModel)]="dataQuote['phone2']">
+        </div>
+        <div class="col-12 col-md-6">
+          <label for="formGroupExampleInput">Correo electronico</label>
+          <input class="form-control form-control-sm" type="text" placeholder="ejemplo@gmail.com"
+            [(ngModel)]="dataQuote['email']">
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <div class="container" style="width: 100%;">
+          </div>
+          <div class="row">
+            <div class="col-12" id="collapseExample">
+              <div class="scrolltap">
+                <div class="table-responsive-lg" style="text-align: center;">
+                  <table class="table table-fixed" class="table table-sm ">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Observacion</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Usuario</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let iteme of dataQuote['messages']">
+                        <td>{{iteme.message}}</td>
+                        <td>{{iteme.created_at}}</td>
+                        <td>{{iteme.user}}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <textarea cols="70" rows="4" [(ngModel)]="text">
+                            </textarea>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="radio radio-success" style="text-align: center;">
+                <input type="radio" value="1" name="option" id="yes" [(ngModel)]="status_text">
+                <label for="yes">Recibida</label>
+                <input type="radio" value="0" name="option" id="no" [(ngModel)]="status_text">
+                <label for="no">No Recibida</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6" style="text-align: center;">
+              <button (click)="Save()" class="btn btn-primary" type="button"
+                style="background-color: rgba(255, 115, 0); color: #FFF; width: 180px;">
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

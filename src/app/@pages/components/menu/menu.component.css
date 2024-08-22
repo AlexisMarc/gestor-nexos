@@ -1,0 +1,10 @@
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu {
+  margin: 0;
+  padding: 0;
+}
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > :first-child {
+  margin-top: 19px;
+}
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu > :last-child {
+  margin-bottom: 10px;
+}/*# sourceMappingURL=menu.component.css.map */

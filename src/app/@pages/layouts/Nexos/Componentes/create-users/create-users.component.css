@@ -1,0 +1,90 @@
+@charset "UTF-8";
+.avatar-img {
+  max-width: 100%;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+}
+
+.file i {
+  cursor: pointer;
+}
+
+.file input[type=file] {
+  height: 190px;
+  width: 190px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file:hover {
+  cursor: pointer;
+  background-position: 0 -100%;
+  color: #2590EB;
+  border: 1px solid;
+}
+
+.avatar input[type=file] {
+  display: none;
+}
+
+.avatar-select {
+  background: #4caf50;
+  color: white;
+  border-radius: 50%;
+  padding: 0.8em;
+  font-size: 1.2em;
+  cursor: pointer;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  box-shadow: 2px 2px 20px 0px rgba(0, 0, 0, 0.1);
+  transition: 0.3s all ease;
+}
+
+.avatar .img-content {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  margin: 1 auto;
+  transition: 0.3s all ease;
+  position: relative;
+}
+
+.avatar .img-content:hover {
+  transform: scale(1.1, 1.1);
+  box-shadow: 2px 2px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+#message {
+  display: none;
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -5px;
+  content: "✔";
+}
+
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -5px;
+  content: "✖";
+}
+
+.whitoutPadding {
+  padding: 0px 10px !important;
+  margin: 0 !important;
+}/*# sourceMappingURL=create-users.component.css.map */

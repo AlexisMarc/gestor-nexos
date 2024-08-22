@@ -1,0 +1,96 @@
+.votaciones{
+    border: solid 1px black;
+    margin-top: 10px;
+    padding: 20px;
+}
+
+.options-to-chart{
+    border: 1px solid #262626;
+}
+
+.options-to-chart:hover{
+    border: 1px solid rgb(229, 99, 34) !important;
+    box-shadow: none !important;
+}
+
+.options-to-chart:focus {
+    background-color: #262626 !important;
+    color: #FFF;
+}
+
+.titletable{
+    color: #262626;
+}
+
+.scroll{
+    background-color: transparent;
+    width: 100%;
+    height: 450px;
+    overflow-y : scroll;
+    overflow-x: auto;
+}
+
+.scroll::-webkit-scrollbar{
+    background-color: lightgray;
+    border-radius: 25px;
+    width: auto;
+    width: 13px !important;
+}
+
+.scroll::-webkit-scrollbar-thumb{
+    background-color: #e56e22;
+    border-radius: 13px;
+}
+
+.li-vote-element{
+    background-color: #262626;
+    color: #FFF;
+}
+
+.table-units-vote tr th, .table-units-vote tr td {
+    padding: 2px;
+}
+
+.without-padding-list-vote {
+    padding: 0 4px;
+}
+
+.list-title-vote {
+    background-color: #262626;
+    color: #FFF;
+}
+
+.list-vote-e {
+    border: 1px solid #262626 !important;
+}
+
+.button-gray-dark {
+    cursor: pointer;
+    width: 99%;
+    border-radius: 22px;
+    padding: 5px 0px;
+    text-transform: uppercase;
+    transition: all 0.5s ease-out;
+    border: 2px solid #444444;
+    background-color: #FFF;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444444;
+    letter-spacing: 2.5px;
+}
+
+.button-gray-dark:hover {
+    background-color: #444444;
+    color: #FFF;
+    box-shadow: 0px 0px 8px 2px rgba(68, 68, 68, 0.63);
+}
+.div-without-padding {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.active-option {
+    background-color: #e56e22;
+    color: #FFF;
+}

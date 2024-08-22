@@ -1,0 +1,31 @@
+.widget-4 {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.widget-4 .row-sm-height:nth-child(1) {
+  height: 30px;
+}
+.widget-4 .row-sm-height:nth-child(2) {
+  height: 30px;
+}
+.widget-4 .widget-4-chart {
+  height: 100%;
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+  right: 0;
+}
+.widget-4 .widget-4-chart.line-chart .tick text,
+.widget-4 .widget-4-chart .line-chart .nvd3 .nv-axis .nv-axisMaxMin text {
+  transform: translate(-10px, -32px);
+}
+.widget-4 .widget-4-chart .nvtooltip .nv-pointer-events-none thead {
+  display: none;
+}
+.widget-4 .widget-4-chart .nvtooltip .nv-pointer-events-none tbody .nv-pointer-events-none .key {
+  display: none;
+}/*# sourceMappingURL=graph-tile-widget.component.css.map */

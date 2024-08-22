@@ -1,0 +1,20 @@
+.orange {
+  border: none;
+  background-color: #e56e22;
+  border-radius: 3px;
+  color: #FFF;
+  width: 250px;
+  padding: auto;
+  font-size: 1.1rem;
+  height: 38px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.backgroud {
+  background: rgb(245, 245, 245);
+}/*# sourceMappingURL=form-to-configure-phones.component.css.map */

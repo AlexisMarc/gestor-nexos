@@ -1,0 +1,19 @@
+.horizontal-app-menu .menu-bar > ul {
+  flex-flow: row;
+}
+.horizontal-app-menu .ghost-nav-dropdown {
+  height: 0;
+}
+.horizontal-app-menu .ghost-ul {
+  visibility: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+.horizontal-app-menu .horizontal-menu-backdrop-dekstop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+}/*# sourceMappingURL=horizontal-menu.component.css.map */

@@ -1,0 +1,134 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointControl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Poderes</a>
+  </li>
+</ul>
+<div class="container" style="margin: 3%;">
+  <div class="col-12" style="text-align: center; padding: 0; margin: 0;">
+    <h5>{{residential_name}}</h5>
+    <hr>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <h5>Seleccione la unidad</h5>
+      <select class="custom-select custom-select-sm" [(ngModel)]="id_sector_search" name="sector" (change)="cambio2()"
+        style="border: 1px solid #444;">
+        <option value="value">Seleccione la {{sector}}</option>
+        <option *ngFor="let item4 of ListadoConjuntosSelect2; index as i4" value="{{i4}}">
+          {{item4.number}}</option>
+      </select>
+      <br><br>
+      <select class="custom-select custom-select-sm" [(ngModel)]="id_unit_search" name="unidades"
+        (change)="selectedUser()" style="border: 1px solid #444;">
+        <option value="value">Seleccione la {{name_unidad}}</option>
+        <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index" value="{{item3.id}}">
+          {{item3.name}} {{item3.number}}
+        </option>
+      </select>
+      <hr>
+      <div class="form-group">
+        <label>Usuario (Documento)</label>
+        <input type="text" [(ngModel)]="document_number" class="form-control" style="border: 1px solid #444;"
+          placeholder="Ejemplo: 12345678">
+      </div>
+      <button (click)="getCustomerDetails2()" class="btn btn-primary"
+        style="border: 1px solid #111; width: 100%; background-color: #444;">Consultar</button>
+      <div *ngIf="show_components==1">
+        <label>Agregar unidades</label>
+        <select class="custom-select custom-select-sm" [(ngModel)]="int2" name="sector" (change)="cambio()">
+          <option value="value">Seleccione la {{sector}}</option>
+          <option *ngFor="let item4 of ListadoConjuntosSelect; index as i4" value="{{i4}}">{{item4.number}}</option>
+        </select>
+        <br><br>
+        <select class="custom-select custom-select-sm" [(ngModel)]="id_unit_add" name="unidades">
+          <option value="value">Seleccione la {{name_unidad}}</option>
+          <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index"
+            value="{{item3.id}} {{item3.number}} {{item3.total_users}}">
+            {{item3.name}} {{item3.number}}
+          </option>
+        </select>
+        <br><br>
+        <button (click)="addUnit()" class="btn btn-primary"
+          style="border: 1px solid #111; width: 100%; background-color: #444; vertical-align: auto;">
+          Agregar Unidad <i class="fa fa-plus-circle fa-2x hover" style="cursor: pointer;"></i>
+        </button>
+        <br><br>
+        <button (click)="sendCustomerEmail()" class="btn btn-primary"
+          style="border: 1px solid #111; width: 100%; background-color: #444; vertical-align: auto;">
+          Enviar correo con usuario
+        </button>
+      </div>
+    </div>
+    <div class="col-12 col-md-8">
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <h5>Nombre registrado al ingresar</h5>
+            <input type="text" [(ngModel)]="nameRegister" class="form-control" style="border: 1px solid #444;"
+              placeholder="No registrado aun">
+          </div>
+          <div class="col-6">
+            <h5>Nombre propietario</h5>
+            <input type="text" [(ngModel)]="name" class="form-control" style="border: 1px solid #444; color: #000;"
+              placeholder="No registrado aun" disabled>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h5>Correo electronico</h5>
+            <input type="text" [(ngModel)]="customer_email" class="form-control" style="border: 1px solid #444;"
+              placeholder="No registrado">
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="show_components==1">
+        <div class="col-md-4 col-12" style="text-align: center;">
+          <h5>Moroso</h5>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"
+              [(ngModel)]="moroso">
+            <label class="form-check-label" for="inlineRadio1">Si</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0"
+              [(ngModel)]="moroso">
+            <label class="form-check-label" for="inlineRadio2">No</label>
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <h5>Token</h5>
+          <label *ngIf="token===''">No registrado aun</label>
+          <label *ngIf="token!==''" style="cursor: text;" class="token">{{token}}</label>
+        </div>
+        <div class="col-md-4 col-12">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <ul class="list-group" style="border: 1px solid #888; padding: 0;" *ngIf="show_components==1">
+            <li class="list-group-item" style="background-color: #444; color: #FFF;">Unidades representadas</li>
+            <li class="list-group-item" *ngFor="let item of listadoUnidad; index as i">
+              <i class="fa fa-trash fa-2x hover" (click)="deleteUnit(i)" style="cursor: pointer;"></i>
+              {{item.name_sector}} {{item.number_sector}} - {{item.name_unidad}} {{item.number_unidad}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <button *ngIf="show_components==1" (click)="saveChanges()" class="btn btn-primary"
+        style="border: 1px solid #111; width: 100%; background-color: #ff7300;">Guardar</button>
+    </div>
+  </div>
+</div>

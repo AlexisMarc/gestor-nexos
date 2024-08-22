@@ -1,0 +1,172 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h4 style="text-align: center;">
+        Buscar por correo electronico
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-12 col-md-8">
+      <form (ngSubmit)="searchByEmail()">
+        <div class="input-group mb-3">
+          <input class="form-control" [(ngModel)]="EmailSearch" id="myInput" type="text" placeholder="nexos@gmail.com..."
+            style="border: 1px solid #262626;" autocomplete="off" name="emailToSearch">
+          <span class="input-group-text" id="basic-addon1"
+            style="background-color: #262626; color: #FFF; cursor: pointer;" (click)="searchByEmail()">
+            Buscar &nbsp;<img src="./assets/img/search.png" alt="" style="width: 20px;">
+          </span>
+        </div>
+      </form>
+    </div>
+    <div class="col-2">
+      <img src="./assets/img/close-button.png" alt="" style="height: 35px; cursor: pointer;" (click)="deleteSearch()">
+    </div>
+  </div>
+  <div class="row" *ngFor="let item of users; index as i" style="margin: 0; padding: 0;">
+    <div class="col-12" *ngIf="item.units.length > 0">
+      <div class="container" style="width: 100%;">
+        <div class="row"
+          style="margin-bottom: 25px; background-color: #DDD; border-radius: 5px; box-shadow: 5px 5px 5px black;">
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <div class="form-group">
+                <label>Usuario (Documento)</label>
+                <input type="text" [(ngModel)]="item.document_number" class="form-control"
+                  style="border: 1px solid #444;" placeholder="Ejemplo: 12345678">
+              </div>
+              <div>
+                <label>Agregar unidades</label>
+                <select class="custom-select custom-select-sm" [(ngModel)]="int2" name="sector" (change)="cambio()">
+                  <option value="value">Seleccione la {{sector}}</option>
+                  <option *ngFor="let item4 of ListadoConjuntosSelect; index as i4" value="{{i4}}">{{item4.number}}
+                  </option>
+                </select>
+                <br><br>
+                <select class="custom-select custom-select-sm" [(ngModel)]="id_unit_add" name="unidades">
+                  <option value="value">Seleccione la {{name_unidad}}</option>
+                  <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index"
+                    value="{{item3.id}} {{item3.number}} {{item3.total_users}}">
+                    {{item3.name}} {{item3.number}}
+                  </option>
+                </select>
+                <br><br>
+                <button (click)="addUnit(i)" class="btn btn-primary"
+                  style="border: 1px solid #111; width: 100%; background-color: #444; vertical-align: auto;">
+                  Agregar Unidad <i class="fa fa-plus-circle fa-2x hover" style="cursor: pointer;"></i>
+                </button>
+                <br><br>
+                <button (click)="sendCustomerEmail(item.id)" class="btn btn-primary"
+                  style="border: 1px solid #111; width: 100%; background-color: #444; vertical-align: auto;">
+                  Enviar correo con usuario
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-8">
+            <div class="container">
+              <div class="row">
+                <div class="col-6">
+                  <h5>Nombre registrado al ingresar</h5>
+                  <input type="text" [(ngModel)]="item.nameRegister" class="form-control"
+                    style="border: 1px solid #444;" placeholder="No registrado aun">
+                </div>
+                <div class="col-6">
+                  <h5>Nombre propietario</h5>
+                  <input type="text" [(ngModel)]="item.name" class="form-control"
+                    style="border: 1px solid #444; color: #000;" placeholder="No registrado aun" disabled>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <h5>Correo electronico 1</h5>
+                  <input type="text" [(ngModel)]="item.email_1" class="form-control" style="border: 1px solid #444;"
+                    placeholder="No registrado">
+                </div>
+                <div class="col-6">
+                  <h5>Correo electronico 2</h5>
+                  <input type="text" [(ngModel)]="item.email_2" class="form-control" style="border: 1px solid #444;"
+                    placeholder="No registrado">
+                </div>
+                <div class="col-6">
+                  <h5>Correo electronico 3</h5>
+                  <input type="text" [(ngModel)]="item.email_3" class="form-control" style="border: 1px solid #444;"
+                    placeholder="No registrado">
+                </div>
+                <div class="col-6">
+                  <h5>Correo electronico 4</h5>
+                  <input type="text" [(ngModel)]="item.email_4" class="form-control" style="border: 1px solid #444;"
+                    placeholder="No registrado">
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="show_components==1">
+              <div class="col-md-4 col-12" style="text-align: center;">
+                <h5>Moroso</h5>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions{{i}}" id="inlineRadio1{{i}}"
+                    value="1" [(ngModel)]="item.moroso">
+                  <label class="form-check-label" for="inlineRadio1{{i}}">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions{{i}}" id="inlineRadio2{{i}}"
+                    value="0" [(ngModel)]="item.moroso">
+                  <label class="form-check-label" for="inlineRadio2{{i}}">No</label>
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <h5>Observador</h5>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptionsObserver{{i}}"
+                    id="inlineRadioObserver1{{i}}" value="1" [(ngModel)]="item.is_observer">
+                  <label class="form-check-label" for="inlineRadioObserver1{{i}}">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptionsObserver{{i}}"
+                    id="inlineRadioObserver2{{i}}" value="0" [(ngModel)]="item.is_observer">
+                  <label class="form-check-label" for="inlineRadioObserver2{{i}}">No</label>
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <h5>Hablante</h5>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptionsSpeaker{{i}}"
+                    id="inlineRadioSpeaker1{{i}}" value="1" [(ngModel)]="item.speaker">
+                  <label class="form-check-label" for="inlineRadioSpeaker1{{i}}">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptionsSpeaker{{i}}"
+                    id="inlineRadioSpeaker2{{i}}" value="0" [(ngModel)]="item.speaker">
+                  <label class="form-check-label" for="inlineRadioSpeaker2{{i}}">No</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <ul class="list-group" style="border: 1px solid #888; padding: 0;" *ngIf="show_components==1">
+                  <li class="list-group-item" style="background-color: #444; color: #FFF;">Unidades representadas</li>
+                  <li class="list-group-item" *ngFor="let item2 of item.units; index as i2">
+                    <i class="fa fa-trash fa-2x hover" (click)="deleteUnit(i2, i)" style="cursor: pointer;"></i>
+                    {{item2.name_sector}} {{item2.number_sector}} - {{item2.name_unidad}} {{item2.number_unidad}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button *ngIf="show_components==1"
+              (click)="saveChanges(i, item.id, item.email_1, item.nameRegister, item.moroso, item.units, item.speaker, item.is_observer, item.email_2, item.email_3, item.email_4, item.name)"
+              class="btn btn-primary"
+              style="border: 1px solid #111; width: 100%; background-color: #ff7300; margin: 5px;">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h4>
+        {{messageIfNotResultsOfSearch}}
+      </h4>
+    </div>
+  </div>
+</div>

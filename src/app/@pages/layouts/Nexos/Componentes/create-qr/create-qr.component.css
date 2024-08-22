@@ -1,0 +1,5 @@
+.selected {
+  -moz-user-select: all;
+  -webkit-user-select: all;
+  user-select: all;
+}/*# sourceMappingURL=create-qr.component.css.map */

@@ -1,0 +1,143 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSearchMeeting()">Buscar asamblea</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">
+      Soporte tecnico
+    </a>
+  </li>
+</ul>
+<div class="middle-box text-center loginscreen animated fadeInDown delay-10s">
+  <div class="container" style="width: 100%; padding: 0; height: 100%;">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-12" style="height: 100%;">
+        <div class="card text-center">
+          <div class="card-body without-padding">
+            <div class="col-12" style="text-align: center; border-block-end-color: rgba(255, 115, 0); padding: 0;">
+              <h5 class="card-title text-center" style="font-weight: 700; margin: 0;">{{residential_name}}</h5>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-7">
+                <div class="container-fluid iframe-container">
+                  <div class="row" style="height: 100%;">
+                    <div class="col-12" style="height: 100%;">
+                      <iframe width="100%" height="100%" id="youtube" frameborder="0" *ngIf="isTwitch == false"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                      <div class="twitch-video" id="twitch" *ngIf="isTwitch == true"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-5">
+                <div class="container" style="width: 100%; background-color: rgb(220, 220, 220);">
+                  <div class="row">
+                    <div class="col-12" style="padding-top: 10px;">
+                      <div class="ex3" id="style-1">
+                        <ul class="ul" style="width: 100%;">
+                          <li class="li" *ngFor="let item of messages">
+                            <img src="./assets/img/user.png" style="height: 15px;">&nbsp;
+                            <label
+                              style="font-weight: 600; font-size: 0.7rem; padding: 0; margin: 0; word-wrap: break-word; color: #777;">
+                              <span *ngIf="item['customer_id']">
+                                {{item['sector_name']}} {{item['sector_number']}}
+                                {{item['name']}} {{item['number']}} {{item['nameRegister']}}
+                              </span>
+                              <span *ngIf="!item['customer_id']">
+                                Soporte técnico
+                              </span>
+                            </label>
+                            <span style="width: 200px; padding: 0; margin: 0; word-wrap: break-word;">
+                              {{item['message']}}
+                            </span>
+                            <br>
+                            <p
+                              style="font-size: 0.5rem; text-align: right; padding: 0; margin: 0; word-wrap: break-word;">
+                              {{item['created_at']}}
+                            </p>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                      <div class="col-12">
+                        <input type="text" id="focus" autocomplete="off" formControlName="message" class="text"
+                          placeholder="Escriba su comentario..." style="cursor: pointer;" required
+                          pattern="[A-Z]{3}[0-9]{4}" maxlength="200">
+                      </div>
+                      <div class="col-7">
+                        <button class="button" type="submit">Enviar</button>
+                        <div id="list-example" class="list-group" style="visibility: hidden; cursor: none;">
+                        </div>
+                      </div>
+                      <div class="col-5">
+                        <div class="col-12">
+                          <i class="fa fa-repeat icons-chat-refresh" (click)="refreshAuto()"
+                            *ngIf="scrollAuto == 0"></i>
+                          <i class="fa fa-close icons-chat-stop" (click)="stopScroll()" *ngIf="scrollAuto == 1"></i>
+                          &nbsp;
+                          <i class="fa fa-caret-down icons-chat-down" (click)="scrollBottom()"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-6 col-md-4">
+                <button (click)='goCustomerControl()' class="btn btn-primary block full-width m-b"
+                  style="background-color: #262626;border-color: #000; color: #FFF; cursor: auto;  cursor: pointer; font-size: 0.7rem; margin: 1%;">Consultar
+                  usuarios</button>
+              </div>
+              <div class="col-6 col-md-4">
+                <button (click)='goVotes()' class="btn btn-primary block full-width m-b"
+                  style="background-color: #262626;border-color: #000; color: #FFF; cursor: auto;  cursor: pointer; font-size: 0.7rem; margin: 1%;">
+                  Resultados votaciones</button>
+              </div>
+              <div class="col-6 col-md-3">
+                <button (click)='goQuorum()' class="btn btn-primary block full-width m-b"
+                  style="background-color: #262626;border-color: #000; color: #FFF; cursor: auto;  cursor: pointer; font-size: 0.7rem; margin: 1%;">
+                  Ver quorum</button>
+              </div>
+              <div class="col-6 col-md-1">
+                <img src="./assets/img/rrow.png" alt="" (click)="goReturn()" style="width: 30px; cursor: pointer;">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <router-outlet></router-outlet>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <h5>Documentos de la asamblea</h5>
+              </div>
+              <div class="col-12 col-md-4" *ngFor="let item of listDocument; index as i">
+                <div class="card mb-12" style="cursor: pointer; height: 100px;" style="max-width: 540px;">
+                  <a (click)="download(item.id, item.name)" style="cursor: pointer;">
+                    <div class="row no-gutters">
+                      <div class="col-md-4" style="padding: 1%; background-color: #262626;">
+                        <img src="./assets/img/download.png" style="width: 50px;" alt="./assets/img/download.png">
+                      </div>
+                      <div class="col-md-8">
+                        <h5 class="card-title">{{item.name}}</h5>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

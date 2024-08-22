@@ -1,0 +1,14 @@
+.pg-select {
+  outline: 0;
+}
+.pg-select > *:focus {
+  outline: 0;
+}
+
+.form-group-default-selectFx .cs-backdrop {
+  border: 0;
+}
+
+.form-control.cs-select:not(.cs-active) {
+  margin-top: 0;
+}/*# sourceMappingURL=index.css.map */

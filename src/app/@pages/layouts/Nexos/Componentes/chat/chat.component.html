@@ -1,0 +1,61 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointContrpl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Extraer chat</a>
+  </li>
+</ul>
+<div class="container animated slideInUp" style=" width: 100%;">
+  <div class="row">
+    <div class="col-12" style="text-align: center; padding: 0; margin: 0;">
+      <h5>{{residential}} CONTROL DE TRANSMISION</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <button (click)="downloadPdf(residential)" class="button-orange">Descargar chat</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div id="content" #content class="chat">
+        <strong><h5>{{residential}}</h5></strong>
+        <div *ngFor="let item3 of chats; index as i">
+          <strong>{{item3['sector_name']}} {{item3['sector_number']}} {{item3['name']}} {{item3['number']}}</strong>
+          {{item3['nameRegister']}}
+          <p>{{item3['message']}}<br>{{item3['created_at']}}</p>
+          <p *ngIf="(i+1)%12==0">__________________________________________________________________________________pag {{(i+1)/12}}</p>
+          <h5 class="page" *ngIf="(i+1)%12==0">{{residential}}</h5>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

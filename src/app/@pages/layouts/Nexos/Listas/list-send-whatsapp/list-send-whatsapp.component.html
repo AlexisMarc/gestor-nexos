@@ -1,0 +1,60 @@
+<!-- <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goConfigEmails()">Configuracion Emails y Whatsapp</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Listado mensajes whatsapp</a>
+  </li>
+</ul>
+
+<div class="container animated slideInUp">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-5">
+        <div></div>
+        <div class="card-body">
+          <div></div>
+          <div class="col" style="text-align: right">
+            <button class="btn btn btn-cons m-b-10" type="button" (click)="goCreateCampaignWhatsapp()"
+              style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 250px; cursor: pointer;">
+              <i class="fa fa-plus"></i>
+              <span class="bold">Agregar mensajes de Whatsapp</span>
+            </button>
+          </div>
+          <div class="collapse show" id="collapseExample">
+            <div class="table-responsive-lg">
+              <table class="table table-sm " style="width: 100%;">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Editar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of allEmail; index as i">
+                    <td>{{i + 1}}</td>
+                    <td>{{item['name_email']}}</td>
+                    <td>{{item['service_name']}}</td>
+                    <td>{{item['status']}}</td>
+                    <td>
+                      <div style="cursor: pointer;" (click)="goEditEmailsIcloud(item['id'])">
+                        <img src="./assets/img/edit.png" style="width: 20px;">
+                        Editar
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

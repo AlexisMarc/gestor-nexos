@@ -1,0 +1,77 @@
+.widget-1 {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.widget-1 .pull-bottom {
+  padding: 0 49px 56px 42px;
+}
+.widget-1:after {
+  background-image: url("/assets/img/dashboard/pages_hero.jpg");
+  background-size: cover;
+  content: " ";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  z-index: 0;
+  opacity: 0.69;
+}
+.widget-1:before {
+  background-image: url("/assets/img/dashboard/linear_gradient.png");
+  background-repeat: repeat-x;
+  content: " ";
+  left: 0;
+  right: 0;
+  height: 325px;
+  bottom: 0;
+  position: absolute;
+  z-index: 1;
+}
+.widget-1 > .card-body .company:nth-child(2) > div {
+  display: table;
+  margin: 0 auto;
+  width: 127px;
+}
+.widget-1 > .card-body > * {
+  z-index: 1;
+}
+.widget-1 > .card-body > *:not(.pull-bottom) {
+  position: relative;
+}
+.widget-1 > .card-body .pull-bottom {
+  padding: 0 49px 56px 42px;
+}
+.widget-1 span.label {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.widget {
+  position: relative;
+}
+.widget > * {
+  position: relative;
+  z-index: 1;
+}
+.widget:after {
+  background-size: cover;
+  content: " ";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  z-index: 0;
+  opacity: 0.69;
+}
+
+@media (max-width: 480px) {
+  .widget-1-wrapper {
+    height: 340px;
+  }
+}/*# sourceMappingURL=image-widget.component.css.map */

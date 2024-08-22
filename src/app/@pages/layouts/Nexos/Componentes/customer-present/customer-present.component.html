@@ -1,0 +1,41 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointContrpl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Ausentes</a>
+  </li>
+</ul>
+<br>
+<div class="container" style="margin: 0; border: 0;">
+  <div class="row">
+    <div class="col-md-8 col-12">
+      <h3>Listado de unidades que se han retirado</h3>
+    </div>
+    <div class="col-md-4 col-12">
+      <button class="button-orange" (click)="ChargeAusents()">
+        Recargar listado
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <ul class="list-group">
+        <div *ngFor="let item of ListCustomer; index as i">
+          <li class="list-group-item" *ngFor="let item2 of ListCustomer[i]['units']">
+            {{item2.building_name}} {{item2.building_number}} {{item2.unit_name}} {{item2.unit_number}} - {{item.nameRegister}} - Documento(usuario): <strong class="select">{{item.document_number}}</strong>
+          </li>
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>

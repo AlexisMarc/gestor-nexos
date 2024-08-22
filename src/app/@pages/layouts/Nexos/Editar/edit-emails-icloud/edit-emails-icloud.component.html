@@ -1,0 +1,89 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goConfigEmails()">Configuracion Emails</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goListEmailsIcloud()">Lista Emails</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Editar
+      Texto Email</a>
+  </li>
+</ul>
+<div class="container animated flipInX">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <strong>
+            <span>
+              <h3 class="card-title" style="text-align: center; font-weight: 700; ">Editar Texto Email </h3>
+            </span>
+          </strong>
+          <form class="form" role="form" name="form" (ngSubmit)="f.form.valid && editEmailIcloud()" #f="ngForm"
+            novalidate style="width: 100%;">
+            <div class="row">
+              <div class="col-12 col-md-8">
+                <label for="formGroupExampleInput">Nombre del email</label>
+                <input class="form-control form-control-sm" type="text"  [(ngModel)]="editParamTextEmailContent.name_email"
+                  placeholder="Asamblea no presencial votacionz" name="name_email">
+              </div>
+              <div class="col-12 col-md-4">
+                <label for="formGroupExampleInput">Servicios </label>
+                <select class="form-control form-control-sm" [(ngModel)]="editParamTextEmailContent.service_id" name="serviciosActivos">
+                  <option value="0">Seleccione el servicio a filtrar</option>
+                  <option *ngFor="let item of ListServiceActive" value="{{item.id}}">{{item.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-8">
+                <label for="formGroupExampleInput">Asunto</label>
+                <input class="form-control form-control-sm" type="text"  [(ngModel)]="editParamTextEmailContent.subject"
+                  placeholder="Servicios logísticos y tecnológicos para asamblea" name="name">
+              </div> 
+              <div class="col-12 col-md-4">
+                <label for="formGroupExampleInput">Asunto</label>
+                <!-- <span style="font-size: 20px; padding: 35px 0px 0px 0px;">Estado</span> -->
+                <div class="radio radio-success" style="text-align: center;">
+                  <input type="radio" value="1" name="option" id="yes" [(ngModel)]="editParamTextEmailContent.status_id">
+                  <label for="yes">Activo</label>
+                  <input type="radio" checked="checked" value="0" name="option" id="no"
+                    [(ngModel)]="editParamTextEmailContent.status_id">
+                  <label for="no">Inactivo</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-12">
+
+                <label for="formGroupExampleInput">Mensaje</label>
+                <editor apiKey="test" [init]="{}" name="details" [(ngModel)]="editParamTextEmailContent.message">
+                </editor>
+                <span class="label">Mensaje</span>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-4"></div>
+              <div class="col-12 col-md-4">
+                <label for=""><br></label>
+                <button style="text-align: right" class="form-control form-control-sm" type="submit" 
+                style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+                <span class="bold">&nbsp;Crear Emails</span>
+              </button>
+              </div>
+              <div class="col-12 col-md-4"></div>
+            </div>
+           
+            <hr>
+           
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

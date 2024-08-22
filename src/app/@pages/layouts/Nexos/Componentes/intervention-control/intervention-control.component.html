@@ -1,0 +1,504 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointContrpl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Intervention
+      Control</a>
+  </li>
+</ul>
+<div class="container" style=" width: 100%;">
+  <div class="row">
+    <div class="col-12" style="text-align: center; padding: 0; margin: 0;">
+      <h6 style="font-size: 0.8rem;">{{residential}} CONTROL DE TRANSMISION</h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <div id="meet"></div>
+      <button onclick="jitsi2()" id="jitsi_button" style="display: none;">
+        Jitsi
+      </button>
+      <input type="text" [(ngModel)]="jitsi_link" id="meeting_number" style="visibility: hidden; display: none;">
+      <input type="text" [(ngModel)]="newTokenJWT" id="jwtUser" style="visibility: hidden; display: none;">
+      <input type="text" [(ngModel)]="userName" id="userName" style="visibility: hidden; display: none;">
+      <input type="text" [(ngModel)]="password_meeting" id="password_meeting"
+        style="visibility: hidden; display: none;">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-9 without-padding-left">
+      <div class="container-fluid">
+        <div class="row mb-3">
+          <div class="col-4 col-md-2 without-padding text-center">
+            <label for="hoursTimer" class="form-label">Hora</label>
+            <input type="number" class="form-control form-control-sm input-timer" id="hoursTimer"
+              aria-describedby="hoursTimer" [(ngModel)]="hoursTimer">
+          </div>
+          <div class="col-4 col-md-2 without-padding text-center">
+            <label for="minutesTimer" class="form-label">Min</label>
+            <input type="number" class="form-control form-control-sm input-timer" id="minutesTimer"
+              aria-describedby="minutesTimer" [(ngModel)]="minutesTimer">
+          </div>
+          <div class="col-4 col-md-2 without-padding text-center">
+            <label for="secondsTimer" class="form-label">Seg</label>
+            <input type="number" class="form-control form-control-sm input-timer" id="secondsTimer"
+              aria-describedby="secondsTimer" [(ngModel)]="secondsTimer">
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="container-timer-buttons mt-2 mt-md-4">
+              <i class="fa fa-play icon-lateral-2" (click)="startTimer()"
+                *ngIf="playTimer == 0"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-repeat icon-lateral-2" (click)="startTimer()"
+                *ngIf="playTimer != 0"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-play icon-lateral-2" (click)="pauseTimer()" *ngIf="playTimer == 2"></i>
+              <i class="fa fa-pause icon-lateral-2" (click)="pauseTimer()"
+                *ngIf="playTimer == 1"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-stop icon-lateral-2" (click)="stopTimer()" *ngIf="playTimer != 0"></i>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="container-fluid container-timer mt-2 mt-md-4">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="margin-timer-button">{{ht}} : {{mt}} : {{st}}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2 padding-buttons">
+            <button (click)='goCustomerControl()' class="btn btn-primary block full-width m-b button-menu">
+              Poderes
+            </button>
+          </div>
+          <div class="col-2 padding-buttons">
+            <button (click)='goChat()' class="btn btn-primary block full-width m-b button-menu">
+              Chat
+            </button>
+          </div>
+          <div class="col-2 padding-buttons">
+            <button (click)='goQuorum()' class="btn btn-primary block full-width m-b button-menu">
+              Quorum
+            </button>
+          </div>
+          <div class="col-2 padding-buttons">
+            <button (click)='goVotes()' class="btn btn-primary block full-width m-b button-menu">
+              Votaciones
+            </button>
+          </div>
+          <div class="col-3 padding-buttons">
+            <button (click)='goDocument()' class="btn btn-primary block full-width m-b button-menu">
+              Documentos
+            </button>
+          </div>
+          <div class="col-1 padding-buttons">
+            <img src="./assets/img/rrow.png" alt="" (click)="goReturn()" style="width: 30px; cursor: pointer;">
+          </div>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-3 without-padding" style="text-align: right;">
+            <i class="fa fa-repeat icon-reload" (click)="reloadTransmision()" *ngIf="!isTwitch"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-3 without-padding-right">
+      <iframe width="100%" height="150" id="youtube_id" frameborder="0" *ngIf="isTwitch == false"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+      <div class="twitch-video" id="twitch" *ngIf="isTwitch == true"></div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-12" style="background-color: #FFF; padding: 0; margin: 0;">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-12 col-md-2">
+      <button class="btn btn-primary block full-width m-b" (click)="status1()"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; cursor: pointer; margin: 0; font-size: 0.7rem;">
+        Iniciar Asamblea
+      </button>
+    </div>
+    <div class="col-12 col-md-2">
+      <button class="btn btn-primary block full-width m-b" (click)="closeMeeting()"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto;  cursor: pointer; margin: 0; font-size: 0.7rem;">
+        Cerrar Asamblea
+      </button>
+    </div>
+    <div class="col-12 col-md-2">
+      <button class="btn btn-primary block full-width m-b" (click)="closeRegister()"
+        style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto;  cursor: pointer; margin: 0; font-size: 0.7rem;">
+        Cerrar registro
+      </button>
+    </div>
+  </div>
+</div>
+<div class="container container-float">
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4 without-padding">
+      <div class="btn-group dropup">
+        <button class="btn btn-primary block m-b button-float" data-bs-toggle="modal" data-bs-target="#voteModal"
+          (click)="voteModal()">
+          Crear votación
+        </button>
+      </div>
+    </div>
+    <div class="col-2 without-padding">
+      <div class="popover__wrapper">
+        <div class="btn-group dropup">
+          <button type="button" class="btn btn-primary button-float-2" data-bs-toggle="dropdown" aria-expanded="false"
+            (click)="getlistParticipants()" id="dropdownMenuClickableInside" data-bs-auto-close="outside">
+            <i class="fa fa-users icon-lateral"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-orange"
+              *ngIf="cant_notification_participants > 0">
+              {{cant_notification_participants}}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuClickableInside"
+            style="width: 480px;">
+            <div class="container-fluid container-participants without-padding">
+              <div class="row" style="height: 100%;">
+                <div class="col without-padding" style="height: 100%;">
+                  <div class="container-fluid participants-container">
+                    <div class="row">
+                      <div class="col-6">
+                        <p *ngIf="intervention_active">Estado de intervencion: <strong
+                            style="color: rgb(110, 242, 2)">Activa</strong> </p>
+                        <p *ngIf="!intervention_active">Estado de intervencion: <strong
+                            style="color: red">Inactiva</strong> </p>
+                      </div>
+                      <div class="col-5">
+                        <p (click)="click()">Manos levantadas: <strong>{{cant_notification_participants}}</strong> </p>
+                      </div>
+                      <div class="col-1">
+                        <i class="fa fa-close closed-button"
+                          (click)="closedDropDown('dropdownMenuClickableInside')"></i>
+                      </div>
+                    </div>
+                    <div class="row" style="height: 40px;">
+                      <div class="col-12 without-padding">
+                        <div class="input-group input-group-units-add mb-3">
+                          <span class="input-group-text" id="Lupa"><i class="fa fa-search"></i></span>
+                          <input type="text" class="form-control" id="myInput-2"
+                            (input)="getUnitByFilter2(0, 'myInput-2')" placeholder="Buscar unidad" aria-label="Username"
+                            aria-describedby="basic-addon1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-md-12 scroll-intervention">
+                        <div class="table-responsive">
+                          <table class="table table-striped" id="myTable2">
+                            <tbody>
+                              <ng-container *ngFor="let participant of participants; index as i">
+                                <tr *ngIf="participant.nameRegister">
+                                  <td class="without-padding">
+                                    {{participant.sector_name}} {{participant.sector_number}}
+                                    {{participant.unit_name}} {{participant.unit_number}} {{participant.nameRegister}}
+                                  </td>
+                                  <td class="without-padding">
+                                    <div class="dropdown-container">
+                                      <button class="Desplegable" data-bs-toggle="dropdown" aria-expanded="false" id="">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                      </button>
+                                      <div class="dropdown-menu without-padding" aria-labelledby="hola">
+                                        <ul class="list-group">
+                                          <li class="list-group-item list-group-item-action item-menu"
+                                            (click)="raised_hand_from_gestor(participant.customer_id)">
+                                            Dar palabra
+                                          </li>
+                                          <li class="list-group-item list-group-item-action item-menu"
+                                            *ngIf="participant.can_chat == 1"
+                                            (click)="blockChat(participant.customer_id, 0, i)">
+                                            Bloquear Chat
+                                          </li>
+                                          <li class="list-group-item list-group-item-action item-menu"
+                                            *ngIf="participant.can_chat == 0"
+                                            (click)="blockChat(participant.customer_id, 1, i)">
+                                            Desbloquear Chat
+                                          </li>
+                                          <li class="list-group-item list-group-item-action item-menu"
+                                            (click)="refuse_intervention(participant.customer_id, participant.raising_hand_id,participant.raising_hand_record_id)">
+                                            Bajar mano
+                                          </li>
+                                          <li class="list-group-item list-group-item-action item-menu"
+                                            data-bs-toggle="modal" data-bs-target="#staticBackdropRenombrar1"
+                                            (click)="selectUser(participant.customer_id, participant.nameRegister)">
+                                            Renombrar
+                                          </li>
+                                          <li class="list-group-item list-group-item-action item-menu"
+                                            (click)="kickoutParticipant(participant.customer_id)">
+                                            Expulsar
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td class="without-padding" scope="col">
+                                    <img src="assets/img/mano.png" *ngIf="participant.raised_hand">
+                                  </td>
+                                  <td class="without-padding" scope="col">
+                                    <button type="button" class="iconos">
+                                      <img src="assets/img/chulo.png" *ngIf="participant.raised_hand"
+                                        (click)="accepted_intervention(participant.customer_id, participant.raising_hand_id,participant.raising_hand_record_id)">
+                                    </button>
+                                  </td>
+                                  <td class="without-padding" scope="col">
+                                    <button type="button" class="iconos">
+                                      <img src="assets/img/cerrar.png" *ngIf="participant.raised_hand"
+                                        (click)="refuse_intervention(participant.customer_id, participant.raising_hand_id,participant.raising_hand_record_id)">
+                                    </button>
+                                  </td>
+                                </tr>
+                              </ng-container>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="container-fluid container-intervention">
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="container-fluid container-intervention">
+                              <div class="row">
+                                <div class="col-12 mb-2 text-center">
+                                  Cantidad de intervenciones:
+                                  <input type="number" class="Nintervencion" placeholder="5"
+                                    [(ngModel)]="intervention_cant">
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-6">
+                                  <button *ngIf="intervention_active === false" type="button" class="button-gray-dark mt-3" id="button-event"
+                                    (click)="iniciar()">
+                                    <div class="container-fluid">
+                                      <div class="row">
+                                        <div class="col-9 text-button-event">
+                                          iniciar
+                                        </div>
+                                        <div class="col-3">
+                                          <i id="loading-badge" class="icon-event spin-badge fa fa-spinner-third"
+                                            *ngIf="status==1"></i>
+                                          <i id="success-badge" class="icon-event fa fa-check" *ngIf="status==2"></i>
+                                          <i id="failure-badge" class="icon-event fa fa-times" *ngIf="status==3"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </button>
+                                </div>
+                                <div class="col-6">
+                                  <button *ngIf="intervention_active === true" type="button" class="button-orange mt-3" id="button-event-2"
+                                    (click)="cerrar()">
+                                    <div class="container-fluid">
+                                      <div class="row">
+                                        <div class="col-9 text-button-event">
+                                          Cerrar
+                                        </div>
+                                        <div class="col-3">
+                                          <i id="loading-badge" class="icon-event spin-badge fa fa-spinner-third"
+                                            *ngIf="status2==1"></i>
+                                          <i id="success-badge" class="icon-event fa fa-check" *ngIf="status2==2"></i>
+                                          <i id="failure-badge" class="icon-event fa fa-times" *ngIf="status2==3"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="popover__content">
+          <p class="popover__message">Participantes</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 without-padding">
+      <div class="popover__wrapper">
+        <div class="btn-group dropup">
+          <button type="button" class="btn btn-primary button-float-2" data-bs-toggle="dropdown" aria-expanded="false"
+            (click)="getListRequestByUser()" id="btn-closed-drop-down">
+            <i class="fa fa-bell icon-lateral"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-orange"
+              *ngIf="cant_notification > 0">
+              {{cant_notification}}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end menu-not-closed">
+            <div class="container-fluid container-participants">
+              <div class="row">
+                <div class="col text-right">
+                  <i class="fa fa-close closed-button" (click)="closedDropDown('btn-closed-drop-down')"></i>
+                </div>
+              </div>
+              <div class="row" style="height: 100%;">
+                <div class="col" style="height: 100%;">
+                  <div class="scroll-participants">
+                    <span *ngIf="cant_notification == 0">No hay ninguna solicitud en el momento</span>
+                    <div class="texto" *ngFor="let unit of units; index as index">
+                      <p class="info">
+                        {{unit['nameRegister']}} de {{unit['building_name_of_user']}}
+                        {{unit['building_number_of_user']}}
+                        {{unit['unit_name_of_user']}} {{unit['unit_number_of_user']}}
+                        ha solicitado la adición de la unidad {{unit['building_name']}} {{unit['building_number']}}
+                        {{unit['unit_name']}} {{unit['unit_number']}}
+                      </p>
+                      <div class="botones mb-1">
+                        <button type="button" class="boton1"
+                          (click)="Save(unit['id'], index, unit['customer_id'], unit['unit_id'])">
+                          Permitir adición
+                        </button>
+                        <button type="button" class="boton2" (click)="Delete(unit['id'], index, unit['customer_id'], unit['unit_id'])">
+                          Negar adición
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="popover__content">
+          <p class="popover__message">Poderes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Menu flotante -->
+<div class="modal fade menu-not-closed" id="staticBackdropRenombrar1" data-bs-backdrop="static" data-bs-keyboard="false"
+  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="globalTitle"> Editar nombre de usuario </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="">Nombre de propietario: &nbsp; </label>
+        <input type="text" class="form-control" [(ngModel)]="nameUserToEdit">
+      </div>
+      <div class="footer-modal footer-modal-intervention">
+        <button type="button" class="button-gray-dark-modal" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="button-orange-modal" data-bs-dismiss="modal" (click)="changeNameOfUser()">Guardar
+          cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid container-float-2">
+  <div class="row justify-center">
+    <div class="col mb-2 text-center mb-3">
+      <i class="fa fa-microphone icon-lateral" onclick="activeMic()" (click)="changeIconMic()"
+        *ngIf="statusMic == 'false'"></i>
+      <i class="fa fa-microphone-slash icon-lateral" onclick="activeMic()" (click)="changeIconMic()"
+        *ngIf="statusMic == 'true'"></i>
+      <button onclick="getMicStatus()" id="buttonStatusMic" (click)="changeIconMicButton()"
+        style="display: none;">getMicStatus</button>
+      <input type="text" id="statusMic" style="display: none;" [(ngModel)]="statusMic">
+    </div>
+  </div>
+  <div class="row justify-center mt-3">
+    <div class="col text-center">
+      <i class="fa fa-video-camera icon-lateral" onclick="activeCamera()" (click)="changeIconCam()"
+        *ngIf="statusCam == 'false'"></i>
+      <img src="./assets/img/video-slash.png" style="width: 24px; cursor: pointer;" onclick="activeCamera()"
+        (click)="changeIconCam()" *ngIf="statusCam == 'true'">
+      <button onclick="getCamStatus()" id="buttonStatusCam" (click)="changeIconCamButton()"
+        style="display: none;">getMicStatus</button>
+      <input type="text" id="statusCam" style="display: none;" [(ngModel)]="statusCam">
+    </div>
+  </div>
+</div>
+<!-- Modal de crear votacion -->
+<div class="modal fade fullscreen-modal-ds" id="voteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="false">
+  <div class="modal-dialog modal-xl modal-fullscreen-lg-down" style="margin: 0;">
+    <div class="modal-content">
+      <div class="modal-header padding-header-modal">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          id="modal-vote-close"></button>
+      </div>
+      <div class="modal-body modal-body-vote">
+        <app-createquestioncontrol #viewVote [residential_id]="residential_id" [meeting_id]="meeting_id"
+          *ngIf="viewVote == 0"></app-createquestioncontrol>
+        <app-units-not-voted [residential_id]="residential_id" [meeting_id]="meeting_id" *ngIf="viewVote == 1">
+        </app-units-not-voted>
+        <app-verify-quorum [residential_id]="residential_id" [meeting_id]="meeting_id" *ngIf="viewVote == 2">
+        </app-verify-quorum>
+      </div>
+      <div class="modal-footer modal-footer-vote">
+        <div class="container-fluid container-intervention" style="height: 100%;">
+          <div class="row">
+            <!-- <div class="col-4">
+              <button type="button" class="button-gray-dark" (click)="verifyQuorum()" *ngIf="viewVote != 2">
+                Verificar Quorum
+              </button>
+            </div> -->
+            <!-- <div class="col-4">
+            </div> -->
+            <div class="col-8"></div>
+            <div class="col-4">
+              <button type="button" class="button-gray-dark" (click)="showUnitsVote()" *ngIf="viewVote != 1">
+                Unidades Votantes
+              </button>
+              <button type="button" class="button-gray-dark" (click)="showUnitToVote()" *ngIf="viewVote != 0">
+                Regresar a votacion
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Toast aprobación o no de unión -->
+<div class="position-fixed bottom-0 start-50 p-3" style="z-index: 11">
+  <div id="alert-union" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="./assets/img/logo.png" class="rounded me-2" alt="logo" width="25px">
+      <strong class="me-auto">Mensaje</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      La solicitud ha sido aprobada exitosamente.
+    </div>
+  </div>
+</div>
+<div class="position-fixed bottom-0 start-50 p-3" style="z-index: 11">
+  <div id="alert-union-2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="./assets/img/logo.png" class="rounded me-2" alt="logo" width="25px">
+      <strong class="me-auto">Mensaje</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      La solicitud ha sido negada exitosamente.
+    </div>
+  </div>
+</div>

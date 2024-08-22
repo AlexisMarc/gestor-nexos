@@ -1,0 +1,129 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Configuracion</a>
+  </li>
+</ul>
+<div class="container" style="width: 100%; margin: 2%; padding: 0;">
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="card mb-3" style="max-width: 540px; box-shadow: 4px 4px 7px 1px rgba(0,0,0,0.95); cursor: pointer;"
+        (click)="goListItems()">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img src="./assets/img/item.jpg" class="card-img" alt="..." style="height: 100%;">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body" style="padding-right: 0;">
+              <h5 class="card-title" style="font-weight: 900;">Items</h5>
+              <p class="card-text">Crear y editar items para la cotizacion.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card mb-3" style="max-width: 540px; box-shadow: 4px 4px 7px 1px rgba(0,0,0,0.95); cursor: pointer;"
+        (click)="goListPromotion()">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img src="./assets/img/promos.jpg" class="card-img" alt="..." style="height: 100%;">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body" style="padding-right: 0;">
+              <h5 class="card-title" style="font-weight: 900;">Promociones</h5>
+              <p class="card-text">Crear, editar promociones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card mb-3" style="max-width: 540px; box-shadow: 4px 4px 7px 1px rgba(0,0,0,0.95); cursor: pointer;"
+        (click)="goQutationRate()">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img src="./assets/img/tipos.jpg" class="card-img" alt="..." style="height: 100%;">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body" style="padding-right: 0;">
+              <h5 class="card-title" style="font-weight: 900;">Tipos Cotizacion</h5>
+              <p class="card-text">Crear y editar los tipos de cotizacion.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="card mb-3" style="max-width: 540px; box-shadow: 4px 4px 7px 1px rgba(0,0,0,0.95); cursor: pointer;"
+        (click)="goListUser()">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img src="./assets/img/usu.jpg" class="card-img" alt="..." style="height: 100%;">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body" style="padding-right: 0;">
+              <h5 class="card-title" style="font-weight: 900;">Usuarios</h5>
+              <p class="card-text">Crear, editar<br>usuarios.</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card mb-3" style="max-width: 540px; box-shadow: 4px 4px 7px 1px rgba(0,0,0,0.95); cursor: pointer;"
+        (click)="goListProfile()">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img src="./assets/img/perfiles.jpg" class="card-img" alt="..." style="height: 100%;">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body" style="padding-right: 0;">
+              <h5 class="card-title" style="font-weight: 900;">Perfiles</h5>
+              <p class="card-text">Crear y editar<br>perfiles.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card mb-3" style="max-width: 540px; box-shadow: 4px 4px 7px 1px rgba(0,0,0,0.95); cursor: pointer;"
+        (click)="goListTextEmail()">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img src="./assets/img/email.png" class="card-img" alt="..." style="height: 100%;">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body" style="padding-right: 0;">
+              <h5 class="card-title" style="font-weight: 900;">Texto Email</h5>
+              <p class="card-text">Crear y editar<br>Texto Email.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="card mb-3" style="max-width: 540px; box-shadow: 4px 4px 7px 1px rgba(0,0,0,0.95); cursor: pointer;"
+        (click)="goListCity()">
+        <div class="row no-gutters">
+          <div class="col-md-6">
+            <img src="./assets/img/city.jpg" class="card-img" alt="..." style="height: 100%;">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body" style="padding-right: 0;">
+              <h5 class="card-title" style="font-weight: 900;">Ciudades</h5>
+              <p class="card-text">Crear y editar<br>Ciudades.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

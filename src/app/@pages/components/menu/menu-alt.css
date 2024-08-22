@@ -1,0 +1,31 @@
+.icon-thumbnail {
+  display: inline-block;
+  background: #21252d;
+  height: 40px;
+  width: 40px;
+  line-height: 25px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  left: 0;
+  float: right;
+  margin-right: 14px;
+  color: #788195;
+  font-size: 12px;
+  font-weight: bold;
+  transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.27, 0.99);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  font-family: segoe ui, helvetica neue, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-weight: 700;
+}
+.icon-thumbnail > svg {
+  align-self: center;
+}
+.icon-thumbnail > svg.feather {
+  width: 16px;
+  height: 16px;
+}/*# sourceMappingURL=menu-alt.css.map */

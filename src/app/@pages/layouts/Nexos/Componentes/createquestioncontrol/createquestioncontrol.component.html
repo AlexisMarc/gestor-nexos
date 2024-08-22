@@ -1,0 +1,212 @@
+<div class="container" style="width: 100%;">
+  <div class="row">
+    <div class="col-12">
+      <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="nameOptionDefault"
+        style="border: 1px solid #444; margin-top: 0;" (change)="addDefaultAnswer()">
+        <option value="">
+          Votaciones predeterminadas
+        </option>
+        <option *ngFor="let item2 of defaultOptions; index as i" value="{{item2}}">
+          {{item2}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <hr style="margin: 11.5px 0;">
+  <div class="row">
+    <div class="col-12">
+      <label for="questionName" class="form-label">Escriba la pregunta</label>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" id="questionName" [(ngModel)]="nameVote"
+          aria-label="Recipient's username" aria-describedby="basic-addon2" placeholder="APROBACION ESTADOS FINANCIEROS"
+          style="border: 1px solid #444;" maxlength="300">
+        <span class="input-group-text spanLimitCharacter" id="basic-addon2">{{nameVote.length}} de 300</span>
+      </div>
+      <small class="form-text text-muted">*El enunciado de la pregunta, debe tener máximo 190 caracteres*</small>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5">
+      <div class="container-fluid without-padding">
+        <div class="row">
+          <form (ngSubmit)="addOptionVote()">
+            <div class="container-fluid" style="padding: 0;">
+              <div class="row ">
+                <div class="col-10 input-group mb-3" style="padding: 0; margin: 0;">
+                  <input class="form-control " type="text" id="option_name" name="nameOption"
+                    placeholder="Escriba la opción de respuesta" style="border: 1px solid #444;"
+                    [(ngModel)]="nameOption.name" maxlength="24">
+                    <span class="input-group-text spanLimitCharacter" id="option_name">{{nameOption.name.length}} de 24</span>
+                </div>
+                <div class="col-2" style="width: 100%; padding: 4px; margin: 0;">
+                  <img src="./assets/img/plus.png" alt="" width="30px" style="cursor: pointer;"
+                    (click)="addOptionVote()">
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-12 without-padding">
+              <div class="scroll-options" id="scroll-1">
+                <ul class="list-group">
+                  <li class="list-group-item padding-list"
+                    style="background-color: #444; color: #FFF; text-align: center; cursor: auto;">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-10" style="text-align: left;">
+                          Opciones de respuesta:
+                        </div>
+                        <div class="col-2" style="vertical-align: center;">
+                          <img src="./assets/img/delete.png" alt=""
+                            style="height: 20px; vertical-align: center; cursor: pointer;" (click)="resetAnswers()">
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item padding-list" *ngFor="let item2 of options; index as i">
+                    <img src="./assets/img/delete.png" alt=""
+                      style="height: 20px; vertical-align: center; cursor: pointer; display: inline;"
+                      (click)="deleteOption(i)">
+                    <input class="form-control form-control-sm" style="display: inline; width: 85%;" type="text"
+                      [(ngModel)]="item2['name']" placeholder=".form-control-sm" aria-label=".form-control-sm example">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="container-fluid without-padding">
+        <div class="row">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="inputPassword6" class="col-form-label">Cantidad de votos a recibir por unidad</label>
+            </div>
+            <div class="col-auto">
+              <input type="number" id="request_accepted" style="border: 1px solid #444;" [(ngModel)]="request_accepted"
+                name="request_accepted" min="0" max="100">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="container-fluid card-chart mt-2">
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="without-margin">Modo de gráfico: Seleccione la manera en la que se mostrará la votación</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-check" style="margin-top: 10px;">
+                    <input class="form-check-input" type="checkbox" value="" [(ngModel)]="pendientes"
+                      id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault" style="cursor: pointer;">
+                      Con pendientes
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-check" style="margin-top: 10px;">
+                    <input class="form-check-input" type="checkbox" value="" [(ngModel)]="ausentes"
+                      id="flexCheckDefault2">
+                    <label class="form-check-label" for="flexCheckDefault2" style="cursor: pointer;">
+                      Con ausentes
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <select class="custom-select" id="inputGroupSelect04" [(ngModel)]="unit_chart"
+                    style="border: 1px solid #444;">
+                    <option value="0">Seleccione el dato que se mostrará en la gráfica</option>
+                    <option value="1">Coeficiente</option>
+                    <option value="2">Unidades</option>
+                    <option value="3">Aportes</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn btn-primary btn-vote mt-4" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+              Configure los perfiles votantes <span class="badge notification-profiles">{{ProfilesToSend.length}}</span>
+            </button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body without-padding">
+                    <ul class="list-group modal-profiles">
+                      <li class="list-group-item active bg-orange" aria-current="true">
+                        <div class="container-fluid without-padding">
+                          <div class="row">
+                            <div class="col-11">
+                              Perfiles votantes: Solo las unidades con los perfiles seleccionados, podrán participar de la votación.
+                            </div>
+                            <div class="col-1">
+                              <i class="fa fa-close icon-close" data-bs-dismiss="modal" aria-label="Close"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item without-padding-2">
+                        <div class="container-fluid without-padding">
+                          <div class="row">
+                            <div class="col-6">
+                              <div class="form-check">
+                                <input class="form-check-input check-profile" type="checkbox"
+                                  [(ngModel)]="selectAllProfiles" id="selectAllProfiles"
+                                  (change)="selectedProfilesToQuestion()">
+                                <label class="form-check-label li-profile" for="selectAllProfiles">
+                                  Seleccionar todos
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="button-gray-orange" data-bs-dismiss="modal">Guardar</button>
+                            </div>
+                          </div>
+                        </div>
+                        <hr style="margin: 5px 0">
+                      </li>
+                      <li class="list-group-item without-padding-2"
+                        *ngFor="let item of allProfilesVotation; index as i">
+                        <div class="form-check">
+                          <input class="form-check-input check-profile" type="checkbox"
+                            [(ngModel)]="allProfilesVotation[i]['selected']" id="check{{item['id']}}"
+                            (change)="changeProfileById(item['id'], allProfilesVotation[i]['selected'])">
+                          <label class="form-check-label li-profile" for="check{{item['id']}}" style="width: 100%;">
+                            {{item['name']}}
+                          </label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-4">
+    </div>
+    <div class="col-4">
+      <button type="button" class="button-gray-orange" (click)="createVote()">
+        Crear pregunta
+      </button>
+    </div>
+    <div class="col-4">
+    </div>
+  </div>
+</div>

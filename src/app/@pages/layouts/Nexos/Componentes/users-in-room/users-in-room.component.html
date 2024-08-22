@@ -1,0 +1,38 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goSearchPointControl()">Buscar punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goPointContrpl(residential_id)">Punto de control</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Usuarios en sala</a>
+  </li>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-12" style="text-align: center;">
+      <h4>Menu Usuarios en sala</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <ul class="list-group">
+        <li class="list-group-item" style="background-color: #ff7300; color: #FFF;">Usuarios en sala ( Total: {{total}} )</li>
+        <li class="list-group-item" *ngFor="let item of listUserInRoom; index as i">{{i + 1}}. {{item['nameRegister']}}</li>
+      </ul>
+    </div>
+    <div class="col-12 col-md-6">
+      <ul class="list-group">
+        <li class="list-group-item" style="background-color: #ff7300; color: #FFF;">Usuarios que ha salido de la sala ( Total: {{totalOut}} )</li>
+        <li class="list-group-item" *ngFor="let item2 of listUserOutRoom; index as i2">{{i2 + 1}}. {{item2['nameRegister']}}</li>
+      </ul>
+    </div>
+  </div>
+</div>

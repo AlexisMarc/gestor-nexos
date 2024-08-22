@@ -1,0 +1,70 @@
+.buscar_trabajador {
+  width: calc(100% - 36px);
+  border-radius: 5px;
+  border: 1px solid #262626;
+}
+
+.buscar_trabajador:focus {
+  width: calc(100% - 36px);
+  border-radius: 5px;
+  border: 1px solid #262626;
+}
+
+.nombre_trabajador {
+  font-size: 170%;
+}
+
+.boton_buscar {
+  border-radius: 5px;
+  height: 100%;
+}
+
+.boton_calendario {
+  border-radius: 5px;
+}
+
+.tabla_1 {
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.boton_editar {
+  border-radius: 5px;
+}
+
+th {
+  background-color: #e56e22;
+}
+
+.dark {
+  padding: 2px;
+  background-color: #262626;
+  width: 36px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.date {
+  border: 1px solid #262626;
+}
+
+.date:focus {
+  border: 1px solid #262626;
+}
+
+.orange, .orange:hover {
+  background-color: #e56e22;
+  color: #FFF;
+}
+
+.text-th {
+  color: #FFF;
+  font-weight: 600;
+}/*# sourceMappingURL=user-work.component.css.map */

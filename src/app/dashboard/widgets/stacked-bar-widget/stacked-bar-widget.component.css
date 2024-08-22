@@ -1,0 +1,10 @@
+.widget-15 .widget-15-chart {
+  height: 180px !important;
+}
+.widget-15 .card-body.no-padding .row {
+  margin-left: -5px !important;
+  margin-right: -5px !important;
+}
+.widget-15 .tab-content-wrapper {
+  padding-top: 10px;
+}/*# sourceMappingURL=stacked-bar-widget.component.css.map */

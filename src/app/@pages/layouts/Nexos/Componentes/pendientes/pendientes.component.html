@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+      <h5> Detalle votación: <strong>{{nameVote}}</strong></h5>
+    </div>
+    <div class="col-3">
+      <button class="button-gray-dark" (click)="goBack()">
+        Volver
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-3 without-padding-list-vote">
+      <div class="scroll">
+        <ul class="list-group">
+          <li class="list-group-item list-vote-e list-title-vote">Opciones a mostrar</li>
+          <li class="list-group-item list-vote-e" (click)="showAll()"
+            [ngClass]="optionSelected == 'all' ? 'active-option' : ''">Todos</li>
+          <li class="list-group-item list-vote-e" (click)="showNotVote()"
+            [ngClass]="optionSelected == 'not_voted' ? 'active-option' : ''">Pendientes por votar</li>
+          <li class="list-group-item list-vote-e" (click)="showAbsent()"
+            [ngClass]="optionSelected == 'absent' ? 'active-option' : ''">Ausentes</li>
+          <li class="list-group-item list-vote-e" (click)="showVoters()"
+            [ngClass]="optionSelected == 'voters' ? 'active-option' : ''">Votantes</li>
+          <ng-container *ngFor="let option of optionsByVote">
+            <li class="list-group-item list-vote-e" (click)="showVoterByOption(option['name'])"
+              [ngClass]="optionSelected == option['name'] ? 'active-option' : ''">
+              {{option['name']}}
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+    <div class="col-12 col-md-9 without-padding-list-vote">
+      <div class="scroll">
+        <div class="table-responsive">
+          <table class="table align-middle text-center table-units-vote">
+            <thead>
+              <tr>
+                <th scope="col" class="titletable">Unidad</th>
+                <th scope="col" class="titletable">Coeficiente</th>
+                <th scope="col" class="titletable">Participación</th>
+                <th scope="col" class="titletable">Nombre registrado</th>
+                <th scope="col" class="titletable">Asistencia</th>
+                <th scope="col" class="titletable">Voto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let voter of list_units_show">
+                <td>
+                  {{voter['unit_details']}}
+                </td>
+                <td>
+                  {{voter['coefficient'] | number:'1.1-3'}}%
+                </td>
+                <td>
+                  <span *ngIf="voter['present'] == 'Sí'">
+                    {{(voter['coefficient'] * 100 / attendancePercent) | number:'1.1-3'}}%
+                  </span>
+                </td>
+                <td>
+                  {{voter['nameRegister']}}
+                </td>
+                <td>
+                  {{voter['present']}}
+                </td>
+                <td>
+                  {{voter['option_name']}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-md-4">
+        Porcentaje de asistencia: {{attendancePercent | number:'1.1-3'}}%
+      </div>
+      <div class="col-12 col-md-4">
+        Porcentaje que voto sobre la asistencia: {{(voterPercent * 100 / attendancePercent) | number:'1.1-3'}}%
+        <br>
+        Total de coeficiente que voto: {{voterPercent | number:'1.1-3'}}%
+      </div>
+      <div class="col-12 col-md-4" *ngIf="voting_option_name != ''">
+        Total de votantes{{voting_option_name}} {{(voterByOption * 100 / attendancePercent) | number:'1.1-3'}}%
+      </div>
+    </div>
+  </div>
+</div>

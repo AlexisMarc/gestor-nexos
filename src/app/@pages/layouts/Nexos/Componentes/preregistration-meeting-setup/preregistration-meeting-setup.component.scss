@@ -1,0 +1,132 @@
+.avatar-img{
+    max-width: 100%;
+    border-radius: 50%;
+    width:75px;
+    height: 75px;
+  }
+  .file i {
+    cursor: pointer
+  }
+  input[type='file1'] {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer
+  }
+  .file input[type='file'] {
+    height: 75px;
+    width: 75px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer
+  }
+  
+  .file:hover {
+    cursor: pointer;
+    background-position: 0 -100%;
+    color: #2590EB;
+    border: 1px solid
+  }
+  
+  .avatar input[type="file"]{
+    display: none;
+  }
+  .avatar-select{
+    background: #4caf50;
+    color: white;
+    border-radius: 50%;
+    padding: 0.8em;
+    font-size: 1.2em;
+    cursor: pointer;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    box-shadow: 2px 2px 20px 0px rgba(0,0,0,0.1);
+    transition: .3s all ease;
+  }
+  //tamaño bolita 
+  .avatar .img-content{
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    border: 1.5px solid rgba(0,0,0,0.1);
+    margin: 0 auto;
+    transition: .3s all ease;
+    position: relative;
+  }
+  .avatar .img-content:hover{
+    transform: scale(1.1,1.1);
+    box-shadow: 2px 2px 20px 0px rgba(0,0,0,0.2)
+  }
+
+  // Avatar2
+  .avatar2-img{
+    max-width: 100%;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+  }
+  .file i {
+    cursor: pointer
+  }
+  input[type='file1'] {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer
+  }
+  .file input[type='file'] {
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer
+  }
+  
+  .file:hover {
+    cursor: pointer;
+    background-position: 0 -100%;
+    color: #2590EB;
+    border: 1px solid
+  }
+  
+  .avatar2 input[type="file"]{
+    display: none;
+  }
+  .avatar2-select{
+    background: #4caf50;
+    color: white;
+    border-radius: 50%;
+    padding: 0.8em;
+    font-size: 1.2em;
+    cursor: pointer;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    box-shadow: 2px 2px 20px 0px rgba(0,0,0,0.1);
+    transition: .3s all ease;
+  }
+  //tamaño bolita 
+  .avatar2 .img-content{
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
+    border: 1.5px solid rgba(0,0,0,0.1);
+    margin: 0 auto;
+    transition: .3s all ease;
+    position: relative;
+  }
+  .avatar2 .img-content:hover{
+    transform: scale(1.1,1.1);
+    box-shadow: 2px 2px 20px 0px rgba(0,0,0,0.2)
+  }

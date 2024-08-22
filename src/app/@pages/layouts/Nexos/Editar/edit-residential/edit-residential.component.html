@@ -1,0 +1,78 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSettingVoting()">Configuracion Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" (click)="goMenuSetListEnable()">Habilitar Servicios Icloud</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Editar
+      Conjunto</a>
+  </li>
+</ul>
+<div class="container animated slideInUp">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <form class="form" role="form" name="form" (ngSubmit)="f.form.valid && saveService()" #f="ngForm" novalidate
+            style="width: 100%;">
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <label for="formGroupExampleInput">Nombre conjunto</label>
+                <input class="form-control form-control-sm" type="text" placeholder="Cr Ejemplo" name="nombreConjunto"
+                  [(ngModel)]="infoResidential['name']" autocomplete="off"
+                  onkeyup="this.value = this.value.toUpperCase();">
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="formGroupExampleInput">Correo electronico</label>
+                <input class="form-control form-control-sm" type="text" placeholder="ejemplo@gmail.com" name="email"
+                  [(ngModel)]="infoResidential['email']" autocomplete="off">
+              </div>
+              <div class="col-12 col-md-3">
+                <label for="formGroupExampleInput">Servicios </label>
+                <select class="form-control form-control-sm" [(ngModel)]="serviceActive" name="serviciosActivos[]"
+                  multiple="multiple">
+                  <option *ngFor="let item of ListServiceActive" value="{{item.id}}">{{item.name}}</option>
+                </select>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12 col-md-6" style="text-align: center">
+                <strong>
+                  <span style="font-size: 30px;">Estado</span>
+                </strong>
+                <div class="radio radio-success" style="text-align: center">
+                  <input type="radio" value="1" name="optionyes" id="yes" [(ngModel)]="infoResidential['status_id']">
+                  <label for="yes">Activo</label>
+                  <input type="radio" checked="checked" value="0" name="optionno" id="no"
+                    [(ngModel)]="infoResidential['status_id']">
+                  <label for="no">Inactivo</label>
+                </div>
+              </div>
+              <div class="col-12 col-md-2">
+               <!-- <ng-multiselect-dropdown [placeholder]="'Seleccione el servicio'" [data]="dropdownList" name="select2"
+                  [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>-->
+              </div>
+              <div class="col-12 col-md-4">
+                <label for=""><br></label>
+                <button style="text-align: right" class="form-control form-control-sm" type="submit"
+                  style="background-color: rgba(255, 115, 0);border-color: #000; color: #FFF; cursor: auto; width: 100%; cursor: pointer;">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  <span class="bold">Agregar servicio Icloud</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

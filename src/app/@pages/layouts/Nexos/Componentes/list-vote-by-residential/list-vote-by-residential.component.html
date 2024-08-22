@@ -1,0 +1,149 @@
+<div class="container-fluid scroll-list-vote" id="scroll-2">
+  <div class="row">
+    <div class="col-3 text-center">
+      <button type="button" class="button-gray-dark" (click)="goBack()">
+        Volver
+      </button>
+    </div>
+    <div class="col-6">
+      <div class="dropdown">
+        <button class="btn dropdown-toggle button-informs" type="button" id="dropdownMenuButton2"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Informes asamblea
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2" style="padding: 0; width: 100%;">
+          <li>
+            <p class="inform-p" (click)="InformAttendance()">
+              Informe Asistencia
+              <img src="./assets/img/excel_i.png" alt="" style="width: 25px; cursor: pointer; display: inline-block;">
+            </p>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <p class="inform-p" (click)="InformAttendanceRealTime()">
+              Informe verificación quorum
+              <img src="./assets/img/excel_i.png" alt="" style="width: 25px; cursor: pointer; display: inline-block;">
+            </p>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <p class="inform-p" (click)="InformChat()">
+              Informe chat
+              <img src="./assets/img/word_i.png" alt="" style="width: 25px; cursor: pointer; display: inline-block;">
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- <div class="col-3" style="padding: 0;">
+      <p>
+        Informe Asistencia
+        <img src="./assets/img/excel_i.png" alt="" style="width: 29px; cursor: pointer; display: inline-block;" (click)="InformAttendance()">
+      </p>
+    </div>
+    <div class="col-3" style="padding: 0;">
+      <p>
+        Informe verificación quorum
+        <img src="./assets/img/excel_i.png" alt="" style="width: 29px; cursor: pointer; display: inline-block;" (click)="InformAttendanceRealTime()">
+      </p>
+    </div> -->
+    <div class="col-3 text-center">
+      Informe con nombre usuario
+      <br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="limit_aporte" id="report-d" value="true"
+          [(ngModel)]="with_cutomer_name">
+        <label class="form-check-label" for="report-d">Si</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="limit_aporte" id="report-d2" value="false"
+          [(ngModel)]="with_cutomer_name">
+        <label class="form-check-label" for="report-d2">No</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button style="display: none; visibility: hidden;" (click)="reload()" id="reload"></button>
+      <div class="card card-signin">
+        <div class="card-body without-padding">
+          <div class="collapse show" id="collapseExample">
+            <div class="table-responsive">
+              <table class="table table-sm without-margin table-list-votes-report" style="width: 100%;">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col" style="text-align: center;">Pregunta</th>
+                    <th scope="col" style="text-align: center;">Editar</th>
+                    <th scope="col" style="text-align: center;">Estado</th>
+                    <th scope="col" style="text-align: center;">Detalle</th>
+                    <th scope="col" style="text-align: center;">Informe</th>
+                    <th scope="col" style="text-align: center;">En sala</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of Votes; index as i">
+                    <td>{{(i - cant_votes) * -1}}. {{item['name']}}</td>
+                    <td>
+                      <div style="cursor: pointer;" (click)="goEditVotation(item['id'])">
+                        <img src="./assets/img/edit.png" style="width: 20px;">
+                      </div>
+                    </td>
+                    <td>
+                      <button class="button-orange" type="button"
+                        (click)="statusVote(item['id'], item['name'], item['request_accepted'], '0')"
+                        *ngIf="item['status_id']==1">
+                        <i class="fa fa-power-off"></i>
+                        <span class="bold">Cerrar</span>
+                      </button>
+                      <button class="button-gray-dark" type="button"
+                        (click)="statusVote(item['id'], item['name'], item['request_accepted'], '1')"
+                        *ngIf="item['status_id']==0">
+                        <i class="fa fa-power-off"></i>
+                        <span class="bold">Abrir</span>
+                      </button>
+                    </td>
+                    <td>
+                      <button class="button-gray-dark" type="button" (click)="goPendientes(item['id'])">
+                        <span class="bold">Ver</span>
+                      </button>
+                    </td>
+                    <td>
+                      <img src="./assets/img/excel_i.png" alt="" style="width: 29px; cursor: pointer;"
+                        (click)="Inform(item['id'], item['name'])">
+                    </td>
+                    <td>
+                      <img src="./assets/img/chair.png" alt="" style="width: 29px; cursor: pointer;"
+                        (click)="goUsersInRoom(item['id'])">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="content" #content class="chat-2">
+  <strong>
+    <h5 style="color: #000;">{{residential_name}}</h5>
+  </strong>
+  <br>
+  <ng-container *ngFor="let item3 of chats; index as i">
+    <p style="font-weight: 900; color: #000;">
+      <strong>{{item3['sector_name']}} {{item3['sector_number']}} {{item3['name']}} {{item3['number']}}
+        {{item3['nameRegister']}}</strong>
+    </p>
+    <p style="color: #000;">{{item3['message']}}<br>{{item3['created_at']}}</p>
+    <label *ngIf="(i+1)%11==0"
+      style="position: absolute; bottom: 0;">__________________________________________________________________________________pag
+      {{(i+1)/11}}</label>
+    <h5 class="page" style='break-after:always; page-break-before: always;' *ngIf="(i+1)%11==0">{{residential_name}}
+    </h5>
+  </ng-container>
+</div>

@@ -1,0 +1,18 @@
+<div class="container-fluid" style="padding: 0; margin: 0 10px; width: calc(100% - 20px);">
+  <div class="row" style="padding: 0; margin: 0; width: 100%;">
+    <div class="col-12">
+      <div id="meet"></div>
+      <button onclick="jitsi()" id="jitsi_button" style="display: none;">
+        Jitsi
+      </button>
+      <input type="text" [(ngModel)]="jitsi_link" id="meeting_number" style="visibility: hidden; display: none;">
+      <input type="text" [(ngModel)]="userName" id="userName" style="visibility: hidden; display: none;">
+      <input type="text" [(ngModel)]="password_meeting" id="password_meeting" style="visibility: hidden; display: none;">
+    </div>
+  </div>
+  <div class="row" style="padding: 0; margin: 0; width: 100%;">
+    <div class="col-12" style="text-align: right; padding: 0; margin: 0;">
+      <button class="button-orange" (click)="return()">volver</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" (click)="goHome()">Inicio</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" style="background-color: rgba(255, 115, 0); color: #FFF; cursor: auto;">Buscar
+      Asamblea</a>
+  </li>
+</ul>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8">
+      <h4>Seleccione el conjunto de la lista para soporte</h4>
+    </div>
+    <div class="col-12 col-md-4">
+      <input type="date" class="datepicker" id="start" name="trip-start" [(ngModel)]="date" min="2020-01-01" max="2025-12-31" (change)="reLoadList()">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1" style="background-color: #262626;"><img src="./assets/img/search.png" alt="" style="width: 20px;"></span>
+        <input class="form-control" [(ngModel)]="filter" id="myInput" type="text" placeholder="Buscar..." style="border: 1px solid #262626;" autocomplete="off">
+      </div>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th style="background-color: #FF7300; border: 1px solid #262626; color: #FFF; font-family: 900;">Asambleas del día</th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+          <tr *ngFor="let item of listResidentials | Search:filter" (click)="goSupportTechnical(item['residential_id'])" class="list">
+            <td class="list">
+              {{item['residential_name']}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <ul class="list-group">
+        <li class="list-group-item active" aria-current="true" style="background-color: #262626;">Asambleas del día</li>
+        <li class="list-group-item" *ngFor="let item of listResidentials"
+          (click)="goSupportTechnical(item['residential_id'])">{{item['residential_name']}}</li>
+      </ul> -->
+    </div>
+  </div>
+</div>
