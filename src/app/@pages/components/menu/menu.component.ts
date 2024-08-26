@@ -7,8 +7,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { PerfectScrollbarConfigInterface,
-  PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'pg-menu-items',
@@ -37,7 +36,7 @@ import { PerfectScrollbarConfigInterface,
 })
 export class MenuComponent implements OnInit {
   menuItems = [];
-  currentItem = null;
+  currentItem:any = null;
   isPerfectScrollbarDisabled = false
   public config: PerfectScrollbarConfigInterface = {};
   constructor() { }
@@ -61,11 +60,11 @@ export class MenuComponent implements OnInit {
   }
 
   @Input()
-  set Items(value) {
+  set Items(value:any) {
     this.menuItems = value
   }
   
-  toggleNavigationSub(event,item) {
+  toggleNavigationSub(event:any,item:any) {
       event.preventDefault();
       if(this.currentItem && this.currentItem != item){
         this.currentItem["toggle"] = 'close';

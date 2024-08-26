@@ -40,7 +40,7 @@ export class GeneralSettingWhatsappComponent implements OnInit {
       if(resp.success){
         Swal.fire({
         title: '<strong>Guardado Exitoso</strong>',
-        type: 'success',
+        icon: 'success',
         html:'El proceso de guardado se llevo correctamente',
       })
       }else{

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,12 @@ export class CreateEmailContentService {
     private config: ConfigurationRestService,
     private router: Router) { }
 
-  CreateTextEmail(createEmail) {
+  CreateTextEmail(createEmail:any) {
     this.httpClient.post(this.config.endpoint + 'QuoteServices/storeQuoteEmailContent', createEmail)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        let iconStatus: SweetAlertType = 'success';
-        let iconStatus2: SweetAlertType = 'warning';
+        let iconStatus: SweetAlertIcon = 'success';
+        let iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] === true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/textEmailList']);
@@ -35,12 +35,12 @@ export class CreateEmailContentService {
 
       });
   }
-  UpdateTextEmail(editEmail) {
+  UpdateTextEmail(editEmail:any) {
     this.httpClient.post(this.config.endpoint + 'QuoteServices/storeQuoteEmailContent', editEmail)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        let iconStatus: SweetAlertType = 'success';
-        let iconStatus2: SweetAlertType = 'warning';
+        let iconStatus: SweetAlertIcon = 'success';
+        let iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] === true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/textEmailList']);
@@ -57,12 +57,12 @@ export class CreateEmailContentService {
       });
   }
 
-  createEmailContent(createEmailContent) {
+  createEmailContent(createEmailContent:any) {
     this.httpClient.post(this.config.endpoint3 + 'ApiEmailContent/createEmailContent', createEmailContent)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        let iconStatus: SweetAlertType = 'success';
-        let iconStatus2: SweetAlertType = 'warning';
+        let iconStatus: SweetAlertIcon = 'success';
+        let iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] === true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/emailIcloud']);
@@ -79,12 +79,12 @@ export class CreateEmailContentService {
       });
   }
 
-  editEmailContent(editEmailContent) {
+  editEmailContent(editEmailContent:any) {
     this.httpClient.post(this.config.endpoint3 + 'ApiEmailContent/createEmailContent', editEmailContent)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        let iconStatus: SweetAlertType = 'success';
-        let iconStatus2: SweetAlertType = 'warning';
+        let iconStatus: SweetAlertIcon = 'success';
+        let iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] === true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/emailIcloud']);

@@ -24,7 +24,7 @@ export class ListProfileVotationComponent implements OnInit {
       this.user_id = userStorage['content']['id'];
 
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
-    .subscribe(resp => {
+    .subscribe((resp:any)=> {
       this.allProfilesVotation = resp['content'];
     });
 
@@ -41,7 +41,7 @@ export class ListProfileVotationComponent implements OnInit {
   goCreateProfileVotation() {
     this.router.navigate(['home/crearPerfilesVotacion']);
   }
-  goEditProfilesVotation(idProfileVotation) {
+  goEditProfilesVotation(idProfileVotation:any) {
     this.router.navigate(['home/editProfilesVotation/' + idProfileVotation]);
   }
 }

@@ -51,7 +51,7 @@ export class EditTextEmailComponent implements OnInit {
 
     // Get text email by id
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteEmailContentById?key=' + this.config.key + '&id=' + this.idTextEmail)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.editParamTextEmail['id'] = resp['content']['id'];
         this.editParamTextEmail['subject'] = resp['content']['subject'];
         this.editParamTextEmail['message'] = resp['content']['message'];
@@ -60,7 +60,7 @@ export class EditTextEmailComponent implements OnInit {
       });
     // service type quote
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.typeQuote = resp1['content'];
 
       });

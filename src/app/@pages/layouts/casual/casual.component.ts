@@ -250,7 +250,7 @@ export class CasualLayout extends RootLayout implements OnInit {
       iconName:"Cl"
     },
   ]
-  ngOnInit() {
+  override ngOnInit() {
     pg.isHorizontalLayout = true;
     this.changeLayout("horizontal-menu");
     this.changeLayout("horizontal-app-menu");

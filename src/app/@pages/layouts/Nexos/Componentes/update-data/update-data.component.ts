@@ -45,13 +45,13 @@ export class UpdateDataComponent implements OnInit {
   ngOnInit() {
   }
 
-  goPointControlMeeting(idResidential) {
+  goPointControlMeeting(idResidential:any) {
     this.router.navigate(['home/pointControlMeeting/' + idResidential]);
   }
 
   Search2() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });
   }
@@ -64,7 +64,7 @@ export class UpdateDataComponent implements OnInit {
     this.router.navigate(['home/menusettingVoting']);
   }
 
-  doSendEmail(idResidential) {
+  doSendEmail(idResidential:any) {
     this.router.navigate(['home/editar_base/' + idResidential]);
   }
 

@@ -14,3 +14,15 @@ export class Chats{
  
    ){}
 }
+
+export interface ChatsInterface {
+    id: string;
+    message: string;
+    created_at: string;
+    name: string;
+    number: string;
+    building_id: string;
+    sector_name: string;
+    nameRegister: string;
+    sector_number: string;
+}

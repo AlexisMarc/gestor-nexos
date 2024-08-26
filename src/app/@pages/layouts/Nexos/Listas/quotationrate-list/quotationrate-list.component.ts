@@ -36,7 +36,7 @@ export class QuotationrateListComponent implements OnInit {
     }
 
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllTypeQuotes?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any) => {
         this.ListTypeQuotes = resp['content'];
       });
   }
@@ -52,7 +52,7 @@ export class QuotationrateListComponent implements OnInit {
   goCreateQuotationRate() {
     this.router.navigate(['home/createRate'])
   }
-  goEditQuotationRate(id_TypeQuote) {
+  goEditQuotationRate(id_TypeQuote:any) {
     this.router.navigate(['home/editQuotationRate/' + id_TypeQuote])
   }
 }

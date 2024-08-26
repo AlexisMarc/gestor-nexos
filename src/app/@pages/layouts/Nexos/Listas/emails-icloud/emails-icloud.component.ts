@@ -41,7 +41,7 @@ user_id: any;
     // Obtener all Emails
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getAllEmailContent?key=' + this.config.key + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.allEmail = resp['content'];
       });
   }
@@ -59,7 +59,7 @@ user_id: any;
     this.router.navigate(['home/menusettingEmail']);
   }
 
-  goEditEmailsIcloud(idEmail) {
+  goEditEmailsIcloud(idEmail:any) {
     this.router.navigate(['home/editEmailsIcloud/' + idEmail]);
   }
 

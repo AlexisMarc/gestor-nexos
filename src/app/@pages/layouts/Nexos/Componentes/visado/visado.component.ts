@@ -11,8 +11,8 @@ import swal from 'sweetalert2';
 })
 export class VisadoComponent implements OnInit {
 
-  residential_id: string;
-  user_id: string;
+  residential_id!: string;
+  user_id!: string;
   listado_visado = [];
   texto = '';
 
@@ -37,11 +37,11 @@ export class VisadoComponent implements OnInit {
     } else {
       this.user_id = userStorage['content']['id'];
     }
-    this.residential_id = this.route.snapshot.paramMap.get('id');
+    this.residential_id = this.route.snapshot.paramMap.get('id')!;
     // this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getPreregisterLogByResidential?key=' + this.config.key + '&user_id=' + this.user_id + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         // tslint:disable-next-line: max-line-length
         this.listado_visado = resp['content'];
         for (let index = 0; index < this.listado_visado.length; index++) {
@@ -70,7 +70,7 @@ export class VisadoComponent implements OnInit {
   goMenuSettingVoting() {
     this.router.navigate(['home/menusettingVoting']);
   }
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id])
   }
   goSearchPointContrpl() {

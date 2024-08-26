@@ -36,7 +36,7 @@ export class ListProfileComponent implements OnInit {
 
     // Obtener all profiles
     this.httpClient.get(this.config.endpoint + 'UserServices/getAllUserProfiles?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.allProfiles = resp['content'];
       });
   }
@@ -49,7 +49,7 @@ export class ListProfileComponent implements OnInit {
   goHome() {
     this.router.navigate(['/home']);
   }
-  irEditProfiles(idProfile) {
+  irEditProfiles(idProfile:any) {
     this.router.navigate(['home/editProfiles/' + idProfile]);
   }
   goMenuSetting() {

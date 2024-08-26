@@ -21,7 +21,7 @@ export class EditPromotionComponent implements OnInit {
 
   }
 
-  idDiscounts: string;
+  idDiscounts!: string;
 
   constructor(
 
@@ -47,11 +47,11 @@ export class EditPromotionComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.idDiscounts = this.route.snapshot.paramMap.get('idDiscount')
+    this.idDiscounts = this.route.snapshot.paramMap.get('idDiscount')!
 
     //get type quote id 
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getMonthlyDiscountById?key=' + this.config.key + '&id=' + this.idDiscounts)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.createDiscounts['name'] = resp['content']['name'];
         this.createDiscounts['id'] = resp['content']['id'];
         this.createDiscounts['status_id'] = resp['content']['status_id'];

@@ -36,7 +36,7 @@ export class TextEmailListComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllQuoteEmailContent?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any) => {
         this.listTextEmail = resp['content']
       });
   }
@@ -46,7 +46,7 @@ export class TextEmailListComponent implements OnInit {
   goHome() {
     this.router.navigate(['/home']);
   }
-  irEditTextEmail(idTextEmail) {
+  irEditTextEmail(idTextEmail:any) {
     this.router.navigate(['home/editTextEmail/' + idTextEmail])
   }
   goMenuSetting() {

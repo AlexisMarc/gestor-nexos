@@ -8,10 +8,10 @@ export class ParallaxDirective {
 
 	scrollElement:any = "window";
 	scrollPos = 0;
-	nativeElement;
+	nativeElement:any;
 	coverPhotoSpeend = 0.3;
 	contentSpeed = 0.17
-	windowSize;
+	windowSize:any;
 	constructor(private parallaxEl: ElementRef,private renderer: Renderer2) { 
 		this.windowSize = window.innerWidth;
 	}

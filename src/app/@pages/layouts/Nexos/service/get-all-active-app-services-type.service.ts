@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from './configuration.rest.service';
@@ -16,9 +16,10 @@ export class GetAllActiveAppServicesTypeService {
       private router: Router) {
      // servicio consulta servicios Activos
      this.httpClient.get(this.config.endpoint2 + 'getAllActiveAppServicesType?key=' + this.config.key)
-     .subscribe(resp => {
+     .subscribe((resp:any) => {
         // tslint:disable-next-line: forin
         for (const index in resp['content']) {
+          //@ts-ignore
          this.ListServiceActive[index] = resp['content'][index];
        }} ); }
       }

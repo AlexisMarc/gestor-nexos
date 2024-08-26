@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { Globals } from '../../interface/globals.model';
@@ -19,23 +19,23 @@ export class PointControlMeetingActiveComponent implements OnInit {
   meeting_status: any;
   residential_id: any;
   meeting_id: any;
-  name: string;
+  name!: string;
   date: any;
   meeting_time: any;
-  meeting_time_start: '';
+  meeting_time_start!: '';
   is_online: any;
-  youtube_link: string;
-  youtube_share: string ;
+  youtube_link!: string;
+  youtube_share!: string ;
   max_agents = '3';
   max_units = '3';
   
   user_id = '9913';
   residential: any;
-  zoom_link: string;
+  zoom_link!: string;
   userStorage: any;
-  password_meeting: string;
-  quorum_real_time: string;
-  keysession: string;
+  password_meeting!: string;
+  quorum_real_time!: string;
+  keysession!: string;
   withRegister = false;
 
   constructor(
@@ -61,7 +61,7 @@ export class PointControlMeetingActiveComponent implements OnInit {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.keysession = this.userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         // console.log(resp)
         this.meeting_status = resp['content']['meeting_status'];
         this.meeting_id = resp['content']['id'];
@@ -88,7 +88,7 @@ export class PointControlMeetingActiveComponent implements OnInit {
   ngOnInit() {
   }
 
-  gointerventioncontrol(residential_id) {
+  gointerventioncontrol(residential_id:any) {
     this.router.navigate(['home/interventioncontrol/' + residential_id]);
   }
 
@@ -111,10 +111,10 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
     formData2.append('id', this.meeting_id);
     formData2.append('meeting_status', '1');
     this.meeting_status = '1';
-    this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe(data => {
+    this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
       this.data = data;
-      let iconStatus: SweetAlertType = 'success';
-      let iconStatus2: SweetAlertType = 'warning';
+      let iconStatus: SweetAlertIcon = 'success';
+      let iconStatus2: SweetAlertIcon = 'warning';
       if (data['success'] === true) {
         if (data['success']) {
           iconStatus = 'success';
@@ -143,10 +143,10 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe(data => {
+        this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
           this.data2 = data;
-          let iconStatus: SweetAlertType = 'success';
-          let iconStatus2: SweetAlertType = 'warning';
+          let iconStatus: SweetAlertIcon = 'success';
+          let iconStatus2: SweetAlertIcon = 'warning';
           if (data['success'] === true) {
             if (data['success']) {
               iconStatus = 'success';
@@ -208,7 +208,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       withRegister = '0'
     }
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getUnitsInAMeetingExcel/' + this.keysession + '/' + this.meeting_id + '/' + withRegister)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -221,7 +221,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
   extractAssistantRepport() {
     // console.log(this.meeting_id)
     // this.httpClient.get(this.config.endpoint6 + 'api/reports/getUnitsByMeetingForWeb/' + this.keysession + '/' + this.meeting_id)
-    //   .subscribe(resp => {
+    //   .subscribe((resp:any)=> {
     //     var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
     //       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     //     }).join(''));
@@ -245,10 +245,10 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe(data => {
+        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
           this.data2 = data;
-          let iconStatus: SweetAlertType = 'success';
-          let iconStatus2: SweetAlertType = 'warning';
+          let iconStatus: SweetAlertIcon = 'success';
+          let iconStatus2: SweetAlertIcon = 'warning';
           if (data['success'] === true) {
             if (data['success']) {
               iconStatus = 'success';
@@ -279,10 +279,10 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe(data => {
+        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
           this.data2 = data;
-          let iconStatus: SweetAlertType = 'success';
-          let iconStatus2: SweetAlertType = 'warning';
+          let iconStatus: SweetAlertIcon = 'success';
+          let iconStatus2: SweetAlertIcon = 'warning';
           if (data['success'] === true) {
             if (data['success']) {
               iconStatus = 'success';
@@ -322,10 +322,10 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe(data => {
+        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
           this.data2 = data;
-          let iconStatus: SweetAlertType = 'success';
-          let iconStatus2: SweetAlertType = 'warning';
+          let iconStatus: SweetAlertIcon = 'success';
+          let iconStatus2: SweetAlertIcon = 'warning';
           if (data['success'] === true) {
             if (data['success']) {
               iconStatus = 'success';

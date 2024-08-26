@@ -60,7 +60,7 @@ export class EditEmailsIcloudComponent implements OnInit {
     // Obtener all Emails
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getEmailContentById?key=' + this.config.key + '&user_id=' + this.user_id + '&id=' + this.idEmail)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.editParamTextEmailContent.id = resp['content']['id'];
         this.editParamTextEmailContent.subject = resp['content']['subject'];
         this.editParamTextEmailContent.message = resp['content']['message'];

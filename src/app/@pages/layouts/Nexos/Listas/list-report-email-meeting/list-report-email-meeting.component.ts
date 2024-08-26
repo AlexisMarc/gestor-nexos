@@ -12,11 +12,11 @@ declare var moment: any;
   styleUrls: ['./list-report-email-meeting.component.scss']
 })
 export class ListReportEmailMeetingComponent implements OnInit {
-  id_residential
-  meeting_id
+  id_residential:any
+  meeting_id:any
   dateTo=''
   dateFrom=''
-  data=[]
+  data:any[]=[]
   data2=[]
   report=''
   constructor(
@@ -41,7 +41,7 @@ export class ListReportEmailMeetingComponent implements OnInit {
     let navigation = this.router.getCurrentNavigation();
     if (navigation === null || navigation.extras.skipLocationChange === false) {
     } else {
-      let object = navigation.extras.state.example
+      let object = navigation!.extras!.state!['example']
       this.id_residential = object
     }
   }
@@ -55,10 +55,10 @@ export class ListReportEmailMeetingComponent implements OnInit {
           swal.fire({
             title: "Sin Coincidencias!",
             text: "No se encontraron registros entre las fechas propuestas",
-            type: "info"
+            icon: "info"
           });
         }else{
-          this.data2.forEach(element=>{
+          this.data2.forEach((element:any)=>{
           const date = moment(element.created_at);
           const formattedDate = date.format('YYYY-MM-DD-hh:mm:ss');
           element.created_at = formattedDate
@@ -70,7 +70,7 @@ export class ListReportEmailMeetingComponent implements OnInit {
     }else{ 
       swal.fire({
             title: '<strong></strong>',
-            type: 'error',
+            icon: 'error',
             text:'Falta alguna fecha para el reporte',
             showCloseButton: true,
             

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WhatsappService } from '../whatsaap_services';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertOptions } from 'sweetalert2';
 
 
 
@@ -13,9 +13,9 @@ import Swal from 'sweetalert2';
 })
 export class SendCampaignWhatsappComponent implements OnInit {
 
-  id_residential:''
-  campaigns:  any []
-  numbers:  any []
+  id_residential:string = ''
+  campaigns:  any [] = []
+  numbers:  any [] = []
   campaign=''
   text_campaign = ""
   number=""
@@ -50,7 +50,7 @@ export class SendCampaignWhatsappComponent implements OnInit {
     let navigation = this.router.getCurrentNavigation();
     if (navigation === null || navigation.extras.skipLocationChange === false) {
     } else {
-      let object = navigation.extras.state.example
+      let object = navigation!.extras!.state!['example']
       this.id_residential = object
     }
   }
@@ -59,16 +59,18 @@ export class SendCampaignWhatsappComponent implements OnInit {
   }
 
   onChange(event:any){
-    this.campaigns.forEach(element=>{
-      if(element.id == event){
+    const value = event.target.value
+    this.campaigns.forEach((element:any)=>{
+      if(element.id == value){
        this.text_campaign = element.content
       }
     })
   }
 
   onChangeNumber(event:any){
-    this.numbers.forEach(element=>{
-      if(element.id == event){
+    const value = event.target.value
+    this.numbers.forEach((element:any)=>{
+      if(element.id == value){
        this.number = element.facebook_phone_id
       }
     })
@@ -87,13 +89,13 @@ export class SendCampaignWhatsappComponent implements OnInit {
           Swal.fire({
             title: "Envio Exitoso",
             text: "Los mensajes se enviaron correctamente",
-            type: "success"
+            icon: "success"
           });
         }else{
           Swal.fire({
             title: "ups",
             text: "El envio fallo",
-            type: "error"
+            icon: "error"
           });
         }
        })

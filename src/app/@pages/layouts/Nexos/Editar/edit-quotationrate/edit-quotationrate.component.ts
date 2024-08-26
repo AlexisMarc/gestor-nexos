@@ -19,7 +19,7 @@ export class EditQuotationrateComponent implements OnInit {
     status_id: '',
   };
 
-  idTypeQuote: string;
+  idTypeQuote!: string;
 
   constructor(
     private router: Router,
@@ -44,11 +44,11 @@ export class EditQuotationrateComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
-    this.idTypeQuote = this.route.snapshot.paramMap.get('id_TypeQuote')
+    this.idTypeQuote = this.route.snapshot.paramMap.get('id_TypeQuote')!
 
     //get type quote id 
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getTypeQuoteById?key=' + this.config.key + '&id=' + this.idTypeQuote)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.editParamsTypeQuote['name'] = resp['content']['name'];
         this.editParamsTypeQuote['id'] = resp['content']['id'];
         this.editParamsTypeQuote['status_id'] = resp['content']['status_id'];

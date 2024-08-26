@@ -17,11 +17,11 @@ export class CreateAnswerService {
   }
 
   //Método que crea la votación.
-  createAnswer(dataQuestion, residential_id, iniciada, meeting_id, keysession) {
-    dataQuestion.forEach((value,key) => {
+  createAnswer(dataQuestion:any, residential_id:any, iniciada:any, meeting_id:any, keysession:any) {
+    dataQuestion.forEach((value:any,key:any) => {
        });
     this.httpClient.post(this.config.endpoint6 + 'api/voting/createVoteOption/' + keysession, dataQuestion)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         let iconStatus = 'success';
         let iconStatus2 = 'warning';
         if (data['success'] == true) {
@@ -47,9 +47,9 @@ export class CreateAnswerService {
   }
 
   // Servicio que se usa para editar y para cerrar la votación. 
-  editAnswer(dataQuestion, residential_id, status, message, meeting_id, keysession) {
+  editAnswer(dataQuestion:any, residential_id:any, status:any, message:any, meeting_id:any, keysession:any) {
     this.httpClient.post(this.config.endpoint6 + 'api/voting/editVoteOption/' + keysession, dataQuestion)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         let iconStatus = 'success';
         let iconStatus2 = 'warning';
         if (data['success'] == true) {

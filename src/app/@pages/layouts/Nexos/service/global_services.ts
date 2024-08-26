@@ -17,11 +17,11 @@ import { Observable } from 'rxjs';
       private config: ConfigurationRestService
     ) 
       {
-          this.token = JSON.parse((sessionStorage.getItem('user'))).content.token
+          this.token = JSON.parse((sessionStorage.getItem('user')!)).content.token
           this.header  = new HttpHeaders().set('authorization', `${this.token}`);
       }
   
-       getMeetingDetails(residential):Observable<any>{
+       getMeetingDetails(residential: any):Observable<any>{
         return this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + residential)
         
        }
@@ -30,7 +30,7 @@ import { Observable } from 'rxjs';
         return this.httpClient.get(this.config.endpoint7 + 'management/api/messages/campaigns',{headers:this.header })
       }
 
-      getReportDBUploaded(meeting_id){
+      getReportDBUploaded(meeting_id: any){
         return this.httpClient.get(this.config.endpoint7 +'management/api/meeting/main/document/'+meeting_id,{headers:this.header })
       }
       

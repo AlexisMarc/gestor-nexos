@@ -11,7 +11,7 @@ import { SaveQuotationHistoryService } from '../../service/save-quotation-histor
   styleUrls: ['./quotehistory.component.scss']
 })
 export class QuotehistoryComponent implements OnInit {
-  @Input() dataQuote = {
+  @Input() dataQuote: any = {
     id: '',
     number: '',
     observations: '',
@@ -29,7 +29,7 @@ export class QuotehistoryComponent implements OnInit {
 
   id: string;
   idQuote: any;
-  text: string;
+  text!: string;
   status_text = '0';
   idj = '0';
 
@@ -47,7 +47,7 @@ export class QuotehistoryComponent implements OnInit {
     this.id = userStorage['content']['id'];
 
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteConfirmationHistoryByQuote?key=' + this.config.key + '&user_id=' + this.id + '&quote_id=' + this.idQuote)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.dataQuote = resp['content'];
       });
   }

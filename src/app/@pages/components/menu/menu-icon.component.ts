@@ -10,8 +10,8 @@ import { Component, OnInit,Input,HostBinding } from '@angular/core';
 })
 export class MenuIconComponent implements OnInit {
   _classMap:string;
-  @Input() IconType: string;
-  @Input() IconName: string;
+  @Input() IconType!: string;
+  @Input() IconName!: string;
 
   @Input() 
   set ExtraClass(value:string){

@@ -4,7 +4,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
 import { StoreMeetingService } from '../../service/store-meeting.service';
 import { HttpClient } from '@angular/common/http';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 declare var Swal: any;
 
@@ -16,7 +16,7 @@ declare var Swal: any;
 export class EditMeetingComponent implements OnInit {
   residential_id: any;
   meeting_id: any;
-  residential_name: string;
+  residential_name!: string;
   @Input() loadDatabase = {
     document1: '',
     document2: '',
@@ -33,57 +33,57 @@ export class EditMeetingComponent implements OnInit {
   meeting_status: any;
 
   imgURL: any;
-  fileData: File = null;
+  fileData: File|null = null;
   previewUrl: any;
 
   imgURL1: any;
-  fileData1: File = null;
+  fileData1: File|null = null;
   previewUrl1: any;
 
   imgURL2: any;
-  fileData2: File = null;
+  fileData2: File|null = null;
   previewUrl2: any;
 
   imgURL3: any;
-  fileData3: File = null;
+  fileData3: File|null = null;
   previewUrl3: any;
 
   imgURL4: any;
-  fileData4: File = null;
+  fileData4: File|null = null;
   previewUrl4: any;
 
   imgURL5: any;
-  fileData5: File = null;
+  fileData5: File|null = null;
   previewUrl5: any;
 
   imgURL6: any;
-  fileData6: File = null;
+  fileData6: File|null = null;
   previewUrl6: any;
 
   imgURL7: any;
-  fileData7: File = null;
+  fileData7: File|null = null;
   previewUrl7: any;
 
   imgURL8: any;
-  fileData8: File = null;
+  fileData8: File|null = null;
   previewUrl8: any;
 
   imgURL9: any;
-  fileData9: File = null;
+  fileData9: File|null = null;
   previewUrl9: any;
 
   imgURL10: any;
-  fileData10: File = null;
+  fileData10: File|null = null;
   previewUrl10: any;
 
   imgURL11: any;
-  fileData11: File = null;
+  fileData11: File|null = null;
   previewUrl11: any;
 
   listDocument: [] = [];
   id_conjunto: any;
-  user_id: string;
-  keysession: string;
+  user_id!: string;
+  keysession!: string;
 
   constructor(
     private router: Router,
@@ -117,12 +117,12 @@ export class EditMeetingComponent implements OnInit {
     this.keysession = userStorage['content']['token']
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.residential_name = resp['content']['name'];
       });
 
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         this.listDocument = resp2['content']
       });
   }
@@ -145,19 +145,19 @@ export class EditMeetingComponent implements OnInit {
     formData.append('document9', this.loadDatabase['document9']);
     formData.append('document10', this.loadDatabase['document10']);
     formData.append('document11', this.loadDatabase['document11']);
-    formData.append('file1', this.fileData1);
-    formData.append('file2', this.fileData2);
-    formData.append('file3', this.fileData3);
-    formData.append('file4', this.fileData4);
-    formData.append('file5', this.fileData5);
-    formData.append('file6', this.fileData6);
-    formData.append('file7', this.fileData7);
-    formData.append('file8', this.fileData8);
-    formData.append('file9', this.fileData9);
-    formData.append('file10', this.fileData10);
-    formData.append('file11', this.fileData11);
-    this.httpClient.post(this.config.endpoint6 + 'api/meetings/uploadDocumentsForMeeting/' + this.keysession + '/' + this.meeting_id, formData).subscribe(data => {
-      let iconStatus: SweetAlertType = 'error';
+    formData.append('file1', this.fileData1!);
+    formData.append('file2', this.fileData2!);
+    formData.append('file3', this.fileData3!);
+    formData.append('file4', this.fileData4!);
+    formData.append('file5', this.fileData5!);
+    formData.append('file6', this.fileData6!);
+    formData.append('file7', this.fileData7!);
+    formData.append('file8', this.fileData8!);
+    formData.append('file9', this.fileData9!);
+    formData.append('file10', this.fileData10!);
+    formData.append('file11', this.fileData11!);
+    this.httpClient.post(this.config.endpoint6 + 'api/meetings/uploadDocumentsForMeeting/' + this.keysession + '/' + this.meeting_id, formData).subscribe((data:any) => {
+      let iconStatus: SweetAlertIcon = 'error';
       if (data['success']) {
         iconStatus = 'success';
         this.reLoadFiles();
@@ -222,7 +222,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview() {
     // Show preview 
-    var mimeType = this.fileData.type;
+    var mimeType = this.fileData!.type;
     this.previewUrl = './assets/img/excel.png';
     if (mimeType.match(/csv\/*/) == null) {
       return;
@@ -231,7 +231,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl = './assets/img/excel.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.fileData!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -243,7 +243,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview1() {
     // Show preview 
-    var mimeType = this.fileData1.type;
+    var mimeType = this.fileData1!.type;
     this.previewUrl1 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -252,7 +252,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl1 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData1);
+    reader.readAsDataURL(this.fileData1!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -264,7 +264,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview2() {
     // Show preview 
-    var mimeType = this.fileData2.type;
+    var mimeType = this.fileData2!.type;
     this.previewUrl2 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -273,7 +273,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl2 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData2);
+    reader.readAsDataURL(this.fileData2!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -285,7 +285,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview3() {
     // Show preview 
-    var mimeType = this.fileData3.type;
+    var mimeType = this.fileData3!.type;
     this.previewUrl3 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -294,7 +294,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl3 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData3);
+    reader.readAsDataURL(this.fileData3!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -306,7 +306,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview4() {
     // Show preview 
-    var mimeType = this.fileData4.type;
+    var mimeType = this.fileData4!.type;
     this.previewUrl4 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -315,7 +315,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl4 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData4);
+    reader.readAsDataURL(this.fileData4!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -327,7 +327,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview5() {
     // Show preview 
-    var mimeType = this.fileData5.type;
+    var mimeType = this.fileData5!.type;
     this.previewUrl5 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -336,7 +336,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl5 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData5);
+    reader.readAsDataURL(this.fileData5!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -348,7 +348,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview6() {
     // Show preview 
-    var mimeType = this.fileData6.type;
+    var mimeType = this.fileData6!.type;
     this.previewUrl6 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -357,7 +357,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl6 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData6);
+    reader.readAsDataURL(this.fileData6!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -369,7 +369,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview7() {
     // Show preview 
-    var mimeType = this.fileData7.type;
+    var mimeType = this.fileData7!.type;
     this.previewUrl7 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -378,7 +378,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl7 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData7);
+    reader.readAsDataURL(this.fileData7!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -390,7 +390,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview8() {
     // Show preview 
-    var mimeType = this.fileData8.type;
+    var mimeType = this.fileData8!.type;
     this.previewUrl8 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -399,7 +399,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl8 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData8);
+    reader.readAsDataURL(this.fileData8!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -411,7 +411,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview9() {
     // Show preview 
-    var mimeType = this.fileData9.type;
+    var mimeType = this.fileData9!.type;
     this.previewUrl9 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -420,7 +420,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl9 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData9);
+    reader.readAsDataURL(this.fileData9!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -433,7 +433,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview10() {
     // Show preview 
-    var mimeType = this.fileData10.type;
+    var mimeType = this.fileData10!.type;
     this.previewUrl10 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -442,7 +442,7 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl10 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData10);
+    reader.readAsDataURL(this.fileData10!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
@@ -455,7 +455,7 @@ export class EditMeetingComponent implements OnInit {
   }
   preview11() {
     // Show preview 
-    var mimeType = this.fileData11.type;
+    var mimeType = this.fileData11!.type;
     this.previewUrl11 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -464,13 +464,13 @@ export class EditMeetingComponent implements OnInit {
       this.previewUrl11 = './assets/img/pdf1.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData11);
+    reader.readAsDataURL(this.fileData11!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }
   }
 
-  deleteDocument(id_document, nameFile) {
+  deleteDocument(id_document:any, nameFile:any) {
     Swal.fire({
       showCancelButton: true,
       text: '¿Esta seguro que desea borrar el documento ' + nameFile + ' ?',
@@ -478,7 +478,7 @@ export class EditMeetingComponent implements OnInit {
       confirmButtonText: 'Si',
       cancelButtonText: 'No',
       icon: 'question',
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value) {
         const formData = new FormData();
         formData.append('key', this.config.key);
@@ -495,14 +495,14 @@ export class EditMeetingComponent implements OnInit {
   reLoadFiles() {
     this.listDocument = [];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         this.listDocument = resp2['content'];
       });
   }
 
-  downloadDocument(documentId, nameFile) {
+  downloadDocument(documentId:any, nameFile:any) {
     this.httpClient.get(this.config.endpoint6 + 'ApiMeetings/getMeetingFileById/' + this.keysession + '/' + documentId + '/' + this.meeting_id)
-      .subscribe(response => {
+      .subscribe((response :any)=> {
         var file = new Blob([this._base64ToArrayBuffer(response['file_content'])], { type: 'application/pdf' });
         var fileURL = URL.createObjectURL(file);
         var fileLink = document.createElement('a');
@@ -515,7 +515,7 @@ export class EditMeetingComponent implements OnInit {
       });
   }
 
-  _base64ToArrayBuffer(base64) {
+  _base64ToArrayBuffer(base64:any) {
     const binary_string = window.atob(base64);
     const len = binary_string.length;
     const bytes = new Uint8Array(len);

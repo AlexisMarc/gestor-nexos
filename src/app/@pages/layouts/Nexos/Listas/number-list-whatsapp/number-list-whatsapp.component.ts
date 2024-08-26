@@ -32,9 +32,9 @@ export class NumberListWhatsappComponent implements OnInit {
   })
   }
 
-  goToEditNumber(id){
+  goToEditNumber(id:any){
     let ObjectToSend = ''
-    this.list.forEach(element => {
+    this.list.forEach((element:any) => {
       if(element.id === id){
         ObjectToSend = element
       }

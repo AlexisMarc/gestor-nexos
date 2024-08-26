@@ -48,7 +48,7 @@ ListQuote: [] = [];
 
        // servicio consulta Residenciales
     // this.httpClient.get(this.config.endpoint2 + 'getAllResidentials?key=' + this.config.key)
-    // .subscribe(resp2 => {
+    // .subscribe((resp2 :any)=> {
      // for (let index in resp2['content']) {
      //   this.ListadoConjuntos[index] = resp2['content'][index];
      // }
@@ -56,7 +56,7 @@ ListQuote: [] = [];
 
     if (this.param != '') {
       this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
-        .subscribe(resp => {
+        .subscribe((resp:any) => {
           this.ListQuote = resp['content'];
           
         });
@@ -70,7 +70,7 @@ ListQuote: [] = [];
   goMenuSettingVoting(){
     this.router.navigate(['home/menusettingVoting']);
   }
-  goEditResidential(uuid_code) {
+  goEditResidential(uuid_code:any) {
     this.router.navigate(['home/editResidential/'+uuid_code])
   }
  // consulta buscardor
@@ -78,10 +78,11 @@ ListQuote: [] = [];
     this.globals.search_data = this.param;
     if (this.param === '') {
       this.ListQuote = [];
+      return;
     } else {
       // tslint:disable-next-line: max-line-length
       return this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
-        .subscribe(resp1 => {
+        .subscribe((resp1:any) => {
           this.ListQuote = resp1['content'];
         });
     }

@@ -12,15 +12,15 @@ declare var swal: any;
 })
 export class EditTaskComponent implements OnInit {
 
-  idTask: string;
+  idTask!: string;
   description = '';
   start_task = '';
   end_task = '';
   duration = '';
-  profile: string;
-  keysession: string;
-  userId: string;
-  user_name: string;
+  profile!: string;
+  keysession!: string;
+  userId!: string;
+  user_name!: string;
 
   constructor(
     private router: Router,
@@ -43,11 +43,11 @@ export class EditTaskComponent implements OnInit {
     this.profile = userStorage['content']['profile'];
     this.keysession = userStorage['content']['token'];
     this.userId = userStorage['content']['id'];
-    this.idTask = this.route.snapshot.paramMap.get('id');
+    this.idTask = this.route.snapshot.paramMap.get('id')!;
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint6 + 'ApiTasks/getTaskById/' + this.keysession + '/' + this.idTask).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint6 + 'ApiTasks/getTaskById/' + this.keysession + '/' + this.idTask).subscribe((response:any) => {
       if (response['success']) {
         this.user_name = response['content']['user_name']
         this.description = response['content']['description'];
@@ -69,7 +69,7 @@ export class EditTaskComponent implements OnInit {
     }
     var dataTaskToSend = JSON.stringify(arrayDataTask2);
     formData.append("task", dataTaskToSend);
-    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp) => {
+    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
       if (resp['success']) {
         swal.fire('Mensaje', 'Se ha editado la información de manera exitosa', 'success');
         this.return();

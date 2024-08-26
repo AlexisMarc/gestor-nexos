@@ -8,7 +8,7 @@ import { Component, OnInit, OnDestroy, ViewChild, HostListener, AfterViewInit,Vi
 })
 export class BlankComponent implements OnInit {
 
-  @ViewChild('root', { read: true, static: false }) root;
+  @ViewChild('root', { read: true, static: false }) root:any;
   constructor() { }
 
   ngOnInit() {

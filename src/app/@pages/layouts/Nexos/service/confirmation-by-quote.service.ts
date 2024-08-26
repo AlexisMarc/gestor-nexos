@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,12 @@ export class ConfirmationByQuoteService {
     private config: ConfigurationRestService,
     private router: Router) { }
 
-  createConfirmationByQuote(createConfirmation) {
+  createConfirmationByQuote(createConfirmation:any) {
     this.httpClient.post(this.config.endpoint + 'QuoteServices/storeQuoteConfirmationByQuote', createConfirmation)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        var iconStatus: SweetAlertType = 'success'
-        var iconStatus2: SweetAlertType = 'warning'
+        var iconStatus: SweetAlertIcon = 'success'
+        var iconStatus2: SweetAlertIcon = 'warning'
         if (data['success'] == true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/tracing'])

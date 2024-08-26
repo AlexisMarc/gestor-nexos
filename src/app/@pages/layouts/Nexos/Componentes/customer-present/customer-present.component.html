@@ -32,7 +32,7 @@
       <ul class="list-group">
         <div *ngFor="let item of ListCustomer; index as i">
           <li class="list-group-item" *ngFor="let item2 of ListCustomer[i]['units']">
-            {{item2.building_name}} {{item2.building_number}} {{item2.unit_name}} {{item2.unit_number}} - {{item.nameRegister}} - Documento(usuario): <strong class="select">{{item.document_number}}</strong>
+            {{item2['building_name']}} {{item2['building_number']}} {{item2['unit_name']}} {{item2['unit_number']}} - {{item['nameRegister']}} - Documento(usuario): <strong class="select">{{item['document_number']}}</strong>
           </li>
         </div>
       </ul>

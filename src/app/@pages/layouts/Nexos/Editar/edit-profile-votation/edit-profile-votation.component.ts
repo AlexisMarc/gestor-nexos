@@ -32,7 +32,7 @@ export class EditProfileVotationComponent implements OnInit {
     this.idProfileVotation = this.route.snapshot.paramMap.get('idProfileVotes');
   // get Profile votation for id
   this.httpClient.get(this.config.endpoint + 'ApiVoting/getVoterProfileById?key=' + this.config.key + '&user_id=' + this.user_id + '&id=' + this.idProfileVotation)
-  .subscribe(resp => {
+  .subscribe((resp:any)=> {
     this.editParametersProfilevotation['name'] = resp['content']['name'];
     this.editParametersProfilevotation['id'] = resp['content']['id'];
     this.editParametersProfilevotation['status_id'] = resp['content']['status_id'];

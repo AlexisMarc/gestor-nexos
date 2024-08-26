@@ -8,10 +8,10 @@ import { pgCardModule} from '../@pages/components/card/card.module';
 import { pgSwitchModule } from '../@pages/components/switch/switch.module';
 import { pgTabsModule } from '../@pages/components/tabs/tabs.module';
 
-import { NvD3Module } from 'ngx-nvd3';
+// import { NvD3Module } from 'ngx-nvd3';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { SwiperModule, SWIPER_CONFIG, SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { SwiperModule, SWIPER_CONFIG, SwiperConfigInterface } from '@sonrisa-dev/ngx-swiper-wrapper-sonfork';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -78,7 +78,7 @@ const components = [
   imports: [
     pgCardModule,
     pgTabsModule,
-    NvD3Module,
+    //NvD3Module,
     NgxEchartsModule,
     SwiperModule,
     pgSwitchModule

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -17,15 +17,15 @@ export class SendmailService {
     private config: ConfigurationRestService,
     private router: Router
   ) {
-    this.token = JSON.parse((sessionStorage.getItem('user'))).content.token
+    this.token = JSON.parse((sessionStorage.getItem('user')!)).content.token
     this.header  = new HttpHeaders().set('authorization', `${this.token}`);
    }
 
-  SendMailService(keysession, email_id, meeting_id) {
+  SendMailService(keysession:any, email_id:any, meeting_id:any) {
     this.httpClient.get(this.config.endpoint6 + 'api/emailcontent/send/' + keysession + '/' + email_id + '/' + meeting_id)
-      .subscribe(data => {
-        var iconStatus: SweetAlertType = 'success';
-        var iconStatus2: SweetAlertType = 'warning';
+      .subscribe((data:any) => {
+        var iconStatus: SweetAlertIcon = 'success';
+        var iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] == true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/listResidentialBySenMail'])
@@ -42,11 +42,11 @@ export class SendmailService {
   }
 
   //Envio de emails uno a uno
-  SendMailServiceByUnit(keysession, customer_id, meeting_id) {
+  SendMailServiceByUnit(keysession:any, customer_id:any, meeting_id:any) {
     this.httpClient.get(this.config.endpoint6 + 'api/emailcontent/sendEmailToCustomer/' + keysession + '/' + customer_id + '/' + meeting_id)
-      .subscribe(data => {
-        var iconStatus: SweetAlertType = 'success';
-        var iconStatus2: SweetAlertType = 'warning';
+      .subscribe((data:any) => {
+        var iconStatus: SweetAlertIcon = 'success';
+        var iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] == true) {
           if (data['success']) {
             iconStatus = 'success'
@@ -62,7 +62,7 @@ export class SendmailService {
       });
   }
 
-  getReportEmailMailgun(meeting):Observable<any>{
+  getReportEmailMailgun(meeting:any):Observable<any>{
       return this.httpClient.get(this.config.endpoint7 + 'management/api/emails/mailgun/list/file/meeting/'+meeting,{headers:this.header })
   }
 }

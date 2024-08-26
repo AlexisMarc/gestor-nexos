@@ -17,7 +17,7 @@ export class UnionMasiveListComponent implements OnInit {
   ListServiceActive: any;
   searchPost = '';
   meeting_id: any;
-  keysession: string;
+  keysession!: string;
 
   constructor(
     private router: Router,
@@ -55,17 +55,17 @@ export class UnionMasiveListComponent implements OnInit {
     this.router.navigate(['home/menusettingVoting']);
   }
 
-  goPreRegistration(idResidential) {
+  goPreRegistration(idResidential:any) {
     this.router.navigate(['home/preregistration/' + idResidential]);
   }
 
-  goUnion(idResidential, name) {
+  goUnion(idResidential:any, name:any) {
     this.router.navigate(['home/unionMasive/' + idResidential + '/' + name]);
   }
 
   Search2() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });
   }

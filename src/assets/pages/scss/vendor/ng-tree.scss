@@ -1,10 +1,10 @@
 @import "core.scss";
-@import '~angular-tree-component/dist/angular-tree-component.css';
-$base-img-url :"../../../assets/";
+// @import '~angular-tree-component/dist/angular-tree-component.css';
+
   
 .toggle-children {
     z-index: 1;
-    background-image: url("#{$base-img-url}/vendor/tree-icons.gif");
+    background-image: url("./assets/vendor/tree-icons.gif");
     background-position: 0px -99px;
     width: 12px;
     height: 10px;
@@ -28,7 +28,7 @@ tree-node-expander {
         position: relative;
         &:before{
             position: absolute;
-            background-image: url("#{$base-img-url}/vendor/tree-icons.gif");
+            background-image: url("./assets/vendor/tree-icons.gif");
             background-position: 0px -17px;
             width: 15px;
             height: 14px;
@@ -43,7 +43,7 @@ tree-node-expander {
             position: relative;
         &:before{
             position: absolute;
-            background-image: url("#{$base-img-url}/vendor/tree-icons.gif");
+            background-image: url("./assets/vendor/tree-icons.gif");
             background-position: 0px 0px;
             width: 14px;
             height: 14px;

@@ -70,27 +70,27 @@
           </tr>
           <tr *ngFor="let item of showListTaksByUser">
             <td>
-              <input type="text" class="form-control" [(ngModel)]="item.description">
+              <input type="text" class="form-control" [(ngModel)]="item['description']">
             </td>
             <td>
-              <input type="text" class="form-control" [(ngModel)]="item.start_task">
+              <input type="text" class="form-control" [(ngModel)]="item['start_task']">
             </td>
-            <td *ngIf="item.end_task == null; else durationTd">Activa <img src="./assets/img/point.png"
+            <td *ngIf="item['end_task'] == null; else durationTd">Activa <img src="./assets/img/point.png"
                 alt="Punto verde" class="pointActiveTask"></td>
             <ng-template #durationTd>
               <td>
-                <input type="text" class="form-control" [(ngModel)]="item.end_task">
+                <input type="text" class="form-control" [(ngModel)]="item['end_task']">
                 <!-- {{item.end_task}} -->
               </td>
             </ng-template>
             <td>
-              <input type="text" class="form-control" [(ngModel)]="item.duration">
+              <input type="text" class="form-control" [(ngModel)]="item['duration']">
             </td>
             <td>
-              <img src="assets/img/edit.png" class="boton_editar" (click)="editTask(item.id, item.description, item.start_task, item.end_task, item.duration, item.status_task)">
+              <img src="assets/img/edit.png" class="boton_editar" (click)="editTask(item['id'], item['description'], item['start_task'], item['end_task'], item['duration'], item['status_task'])">
             </td>
             <td>
-              <i *ngIf="item.end_task == null" class="fa fa-close boton_borrar" (click)="editTask(item.id, item.description, item.start_task, item.end_task, item.duration, 0)"></i>
+              <i *ngIf="item['end_task'] == null" class="fa fa-close boton_borrar" (click)="editTask(item['id'], item['description'], item['start_task'], item['end_task'], item['duration'], 0)"></i>
             </td>
           </tr>
         </thead>

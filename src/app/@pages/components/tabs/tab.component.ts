@@ -43,8 +43,8 @@ export class pgTabComponent implements OnDestroy, OnInit {
   @Output() pgSelect = new EventEmitter();
   @Output() pgClick = new EventEmitter();
   @Output() pgDeselect = new EventEmitter();
-  @ContentChild('TabHeading', { read: true, static: false }) _tabHeading: TemplateRef<void>;
-  @ViewChild(TemplateRef, { read: true, static: false }) _content: TemplateRef<void>;
+  @ContentChild('TabHeading', { read: true, static: false }) _tabHeading!: TemplateRef<void>;
+  @ViewChild(TemplateRef, { read: true, static: false }) _content!: TemplateRef<void>;
 
   get content(): TemplateRef<void> | null {
     return this._content;

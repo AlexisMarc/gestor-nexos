@@ -24,8 +24,8 @@
         <div class="row">
           <div class="col-3 align-self-center mt-2">
             <select class="form-select" [(ngModel)]="data.phone_code">
-              <option *ngFor="let contry of contrys" [value]="contry.phonecode">
-                {{ contry.nicename }} +({{ contry.phonecode }})
+              <option *ngFor="let contry of contrys" [value]="contry['phonecode']">
+                {{ contry['nicename'] }} +({{ contry['phonecode'] }})
               </option>
             </select>
           </div>
@@ -114,14 +114,14 @@
               <h5>Seleccione la unidad</h5>
               <select class="custom-select custom-select-sm" [(ngModel)]="id_sector_search" name="sector" (change)="selectedSector()" 
                 style="border: 1px solid #444;" [disabled]="buildByUser === undefined">
-                <option value="00">Seleccione la {{sector}}</option>
+                <option value="00">Seleccione la {{'sector'}}</option>
                 <option *ngFor="let item4 of buildings; index as i4" value="{{i4}}">
                   {{item4.number}}</option>
               </select>
               <br><br>
               <select class="custom-select custom-select-sm" [(ngModel)]="id_unit_search" name="unidades" (change)="selectedUser()"
                 style="border: 1px solid #444;" [disabled]="buildByUser === undefined">
-                <option value="00">Seleccione la {{name_unidad}}</option>
+                <option value="00">Seleccione la {{'name_unidad'}}</option>
                 <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index" value="{{i3}}">
                   {{item3.name}} {{item3.number}}
                 </option>

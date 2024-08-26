@@ -10,7 +10,7 @@
       <div class="row mt-3">
         <div class="col-12">
           <div class="mb-3">
-            <select (change)="onChange($event.target.value)"  name="campaña" class="form-select" aria-label="Default select example" [(ngModel)]="campaign">
+            <select (change)="onChange($event)"  name="campaña" class="form-select" aria-label="Default select example" [(ngModel)]="campaign">
               <option value="" selected >Seleccione la Campaña</option>
               <option *ngFor="let item of campaigns" [value]="item.id">{{item.name}}</option>
             </select>
@@ -20,7 +20,7 @@
       <div class="row mt-3">
         <div class="col-12">
           <div class="mb-3">
-            <select (change)="onChangeNumber($event.target.value)"  name="numero" class="form-select" aria-label="Default select example" >
+            <select (change)="onChangeNumber($event)"  name="numero" class="form-select" aria-label="Default select example" >
               <option value="" selected >Seleccione la linea a utilizar</option>
               <option *ngFor="let item1 of numbers"  [value]="item1.id">{{item1.country_code}}+{{item1.phone}}</option>
             </select>

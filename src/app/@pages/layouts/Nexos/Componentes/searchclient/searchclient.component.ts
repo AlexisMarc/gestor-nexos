@@ -18,7 +18,7 @@ export class SearchClientComponent implements OnInit {
   param3 = '2';
   ListQuote: [] = [];
   ListServiceActive: any;
-  Meeting_id:''
+  Meeting_id!:''
 
 
   constructor(
@@ -56,24 +56,24 @@ export class SearchClientComponent implements OnInit {
   goHome() {
     this.router.navigate(['home/']);
   }
-  goEditUnits(idResidential) {
+  goEditUnits(idResidential:any) {
     this.router.navigate(['home/editUnits/' + idResidential]);
   }
 
   Search3() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });
   }
 
-  getClientDataBase(id){
-    this.global.getMeetingDetails(id).subscribe(resp=>{
+  getClientDataBase(id:any){
+    this.global.getMeetingDetails(id).subscribe((resp:any)=>{
       if(resp.success == false){
       }else{
         this.Meeting_id = resp.content.id
         if(this.Meeting_id){
-          this.global.getReportDBUploaded(this.Meeting_id).subscribe(resp=>{
+          this.global.getReportDBUploaded(this.Meeting_id).subscribe((resp:any)=>{
             
             window.open(resp['url'])
           })

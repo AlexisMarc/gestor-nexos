@@ -73,7 +73,7 @@
            <div class="card-body">
              <div class="row">
                <div class="col-lg-4">
-                <pgcard Maximize="false" ProgressType="bar" TimeOut="2500">
+                <pgcard [Maximize]="false" ProgressType="bar" [TimeOut]="2500">
                   <ng-template #CardTitle>Portlet Title</ng-template>
                   <h3>
                   <span class="semi-bold">Basic</span> Tools</h3>
@@ -82,7 +82,7 @@
                 </pgcard>
                </div>
                <div class="col-lg-4">
-                <pgcard Maximize="false" Refresh="false" Toggle="false">
+                <pgcard [Maximize]="false" [Refresh]="false" [Toggle]="false">
                   <ng-template #CardTitle>Portlet One</ng-template>
                   <h3>
                   <span class="semi-bold">Without</span> Scroll</h3>
@@ -90,7 +90,7 @@
                 </pgcard>
                </div>
                <div class="col-lg-4">
-                <pgcard Maximize="false" Refresh="false" Toggle="false">
+                <pgcard [Maximize]="false" [Refresh]="false" [Toggle]="false">
                   <ng-template #CardTitle>Portlet One</ng-template>
                     <div class="scrollable demo-card-scrollable" perfectScrollbar>
 
@@ -118,7 +118,7 @@
        <div class="card-body">
          <div class="row">
            <div class="col-lg-4">
-            <pgcard Maximize="false" Refresh="false" Toggle="false" HeaderClass="separator">
+            <pgcard [Maximize]="false" [Refresh]="false" [Toggle]="false" HeaderClass="separator">
               <ng-template #CardTitle>Portlet Three</ng-template>
               <h3>
                 <span class="semi-bold">With</span> Separator</h3>
@@ -126,7 +126,7 @@
             </pgcard>
            </div>
            <div class="col-lg-4">
-              <pgcard Controls="false" Type="transparent">
+              <pgcard [Controls]="false">
                 <ng-template #CardTitle>Portlet Four</ng-template>
                 <h3>
                     <span class="semi-bold">Transparent</span>
@@ -135,7 +135,7 @@
                 </pgcard>
            </div>
            <div class="col-lg-4">
-              <pgcard Maximize="false" Refresh="false" Toggle="false" HeaderClass="separator" Type="default bg-success">
+              <pgcard [Maximize]="false" [Refresh]="false" [Toggle]="false" HeaderClass="separator">
                   <ng-template #CardTitle>Portlet Three</ng-template>
                   <h3>
                     <span class="semi-bold">With</span> Separator</h3>
@@ -167,7 +167,7 @@
              </div>
            </div>
            <div class="col-lg-8">
-              <pgcard MinimalHeader="true" TimeOut="2500">
+              <pgcard [MinimalHeader]="true" [TimeOut]="2500">
                 <ng-template #CardTitle>Portlet Four</ng-template>
                 <h3>
                 <span class="semi-bold">Minimal</span> Portlet</h3>
@@ -191,7 +191,7 @@
        <div class="card-body">
          <div class="row">
            <div class="col-lg-6">
-              <pgcard Maximize="false" ProgressType="bar" TimeOut="2500">
+              <pgcard [Maximize]="false" ProgressType="bar" [TimeOut]="2500">
                 <ng-template #CardTitle>Portlet Title</ng-template>
                 <h3>
                 <span class="semi-bold">Linear</span> Progress</h3>
@@ -200,7 +200,7 @@
               </pgcard>
            </div>
            <div class="col-lg-6">
-              <pgcard Maximize="false" ProgressType="circle" TimeOut="2500">
+              <pgcard [Maximize]="false" ProgressType="circle" [TimeOut]="2500">
                 <ng-template #CardTitle>Portlet Title</ng-template>
                 <h3>
                     <span class="semi-bold">Circular</span> Progress</h3>
@@ -223,7 +223,7 @@
        <div class="card-body">
          <div class="row">
            <div class="col-lg-4">
-              <pgcard Maximize="false" ProgressType="bar" ProgressColor="success" TimeOut="2500">
+              <pgcard [Maximize]="false" ProgressType="bar" ProgressColor="success" [TimeOut]="2500">
                 <ng-template #CardTitle>Portlet Title</ng-template>
                 <h3>
                 <span class="semi-bold">Linear</span> Progress</h3>
@@ -232,7 +232,7 @@
               </pgcard>
            </div>
            <div class="col-lg-4">
-              <pgcard ProgressColor="success" Maximize="false" TimeOut="2500">
+              <pgcard ProgressColor="success" [Maximize]="false" [TimeOut]="2500">
                 <ng-template #CardTitle>Portlet Title</ng-template>
                 <h3>
                 <span class="semi-bold">Circular</span> Progress</h3>
@@ -241,7 +241,7 @@
               </pgcard>
            </div>
            <div class="col-lg-4">
-              <pgcard (onRefresh)="errorCardSampleRefresh()" Maximize="false" [Loading]="errorCard_isLoading" [ShowMessage]="errorCard_errorMessage" [Message]="errorCard_message">
+              <pgcard (onRefresh)="errorCardSampleRefresh()" [Maximize]="false" [Loading]="errorCard_isLoading" [ShowMessage]="errorCard_errorMessage" [Message]="errorCard_message">
                 <ng-template #CardTitle>Portlet Title</ng-template>
                 <h3>
                 Portlet with <span class="semi-bold">Errors</span></h3>

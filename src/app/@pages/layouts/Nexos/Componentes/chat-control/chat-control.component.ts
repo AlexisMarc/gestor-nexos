@@ -19,7 +19,7 @@ export class ChatControlComponent implements OnInit {
   profileForm = new FormGroup({
     message: new FormControl(''),
   });
-  message: string;
+  message!: string;
   messages: any[] = [];
   meeting_id: string;
   user_id: any;
@@ -39,7 +39,7 @@ export class ChatControlComponent implements OnInit {
     private storage: WebStorageService,
     private socketService: SocketService
   ) {
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
     this.keysession = userStorage['content']['token'];
@@ -53,12 +53,12 @@ export class ChatControlComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint6 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/50')
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         if (resp2['message'] == "La sesión es inválida") {
           swal.fire({
             title:'Atención', 
             text:'Su sesión no es valida por favor ingrese de nuevo.', 
-            type:'info',
+            icon:'info',
             backdrop: true,
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
           }).then(response=>{
@@ -80,7 +80,7 @@ export class ChatControlComponent implements OnInit {
         }
       }
       });
-    this.socketService.listen('meeting_chat_' + this.meeting_id).subscribe((response) => {
+    this.socketService.listen('meeting_chat_' + this.meeting_id).subscribe((response:any) => {
       this.newMessage = response;
       this.newMessage['created_at'] = this.transformTimeZone(this.newMessage['created_at']);
       this.messages.push(this.newMessage);
@@ -100,7 +100,7 @@ export class ChatControlComponent implements OnInit {
     if (this.profileForm.value.message == '' || this.profileForm.value.message == ' ') {
       swal.fire({
         title: '<strong>Atención</strong>',
-        type: 'error',
+        icon: 'error',
         html:
           'Debe escribir algo',
         showCloseButton: true,
@@ -116,7 +116,7 @@ export class ChatControlComponent implements OnInit {
     if (this.profileForm.value.message == null || this.profileForm.value.message == 'null') {
       swal.fire({
         title: '<strong>Atención</strong>',
-        type: 'error',
+        icon: 'error',
         html:
           'No se pueden enviar caracteres especiales',
         showCloseButton: true,
@@ -138,7 +138,7 @@ export class ChatControlComponent implements OnInit {
   }
 
   scrollBottom() {
-    var element = document.getElementById("style-1");
+    var element = document.getElementById("style-1")!;
     element.scrollTop = element.scrollHeight;
   }
 
@@ -151,12 +151,12 @@ export class ChatControlComponent implements OnInit {
     this.scrollBottom();
   }
 
-  cahngeStatusChat(statusChat) {
+  cahngeStatusChat(statusChat:any) {
     const formData2 = new FormData();
     formData2.append('key', this.config.key);
     formData2.append('id', this.meeting_id);
     formData2.append('enable_chat', statusChat);
-    this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe(data => {
+    this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
       if (statusChat == '1') {
         this.enable_chat = 1;
       } else {
@@ -165,7 +165,7 @@ export class ChatControlComponent implements OnInit {
     });
   }
 
-  transformTimeZone(dateToTransform) {
+  transformTimeZone(dateToTransform:any) {
     var date = new Date();
     var offset = date.getTimezoneOffset();
     var dateGot = dateToTransform.trim();

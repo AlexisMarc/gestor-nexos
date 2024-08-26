@@ -7,7 +7,6 @@ import swal from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { json } from 'd3';
-import { stringify } from '@angular/compiler/src/util';
 ​
 @Component({
   selector: 'app-voting-meeting-setup',
@@ -22,8 +21,8 @@ export class VotingMeetingSetupComponent implements OnInit {
   quorum_on_real_time = "1";
   show_results = "0";
   redireccion = '';
-  name: string;
-  userToken: string;
+  name!: string;
+  userToken!: string;
 ​
   @Input() loadDatabase = {
     id: '0',
@@ -50,7 +49,7 @@ export class VotingMeetingSetupComponent implements OnInit {
     session_check_time: '0'
   };
   imgURL: any;
-  fileData: File = null;
+  fileData: File | null = null;
   previewUrl: any;
 ​
   interval20: any;
@@ -59,7 +58,7 @@ export class VotingMeetingSetupComponent implements OnInit {
   limit_aporte = '0';
   limit_amount = '0';
   voted_email = '0';
-  user_id: string;
+  user_id!: string;
   listTypeEmail: [] = [];
   email_request_password_id = 32;
   limit_request_by_user = 3;
@@ -91,7 +90,7 @@ export class VotingMeetingSetupComponent implements OnInit {
     }
 ​
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.name = this.route.snapshot.paramMap.get('nameResidential');
+    this.name = this.route.snapshot.paramMap.get('nameResidential')!;
     this.userToken = userStorage['content']['token'];
     this.user_id = userStorage['content']['id'];
     this.interval20 = setTimeout(() => {
@@ -108,7 +107,7 @@ export class VotingMeetingSetupComponent implements OnInit {
 ​
   ngOnInit() {
     this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getAllEmailContent?key=' + this.config.key + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listTypeEmail = resp["content"]
       });
   }
@@ -125,7 +124,7 @@ export class VotingMeetingSetupComponent implements OnInit {
     if (this.loadDatabase['name'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'El Nombre de la reunion es obligatorio',
         cancelButtonColor: '#727272',
@@ -139,7 +138,7 @@ export class VotingMeetingSetupComponent implements OnInit {
     if (this.loadDatabase['date'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'la fecha de la reunion es obligatoria',
         cancelButtonColor: '#727272',
@@ -153,7 +152,7 @@ export class VotingMeetingSetupComponent implements OnInit {
     if (this.loadDatabase['is_online'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'Seleccione si es asamblea a distancia',
         cancelButtonColor: '#727272',
@@ -167,7 +166,7 @@ export class VotingMeetingSetupComponent implements OnInit {
     if (this.loadDatabase['meeting_time'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'La hora registro y fecha son obligatorios',
         cancelButtonColor: '#727272',
@@ -181,7 +180,7 @@ export class VotingMeetingSetupComponent implements OnInit {
     if (this.loadDatabase['youtube_link'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'La url de votaciones es obligatoria',
         cancelButtonColor: '#FF8B00',
@@ -194,7 +193,7 @@ export class VotingMeetingSetupComponent implements OnInit {
       if (this.fileData == null) {
         swal.fire({
           title: '<strong>Advertencia</strong>',
-          type: 'warning',
+          icon: 'warning',
           html:
             'Debe cargar una base de datos',
           showCloseButton: true,
@@ -251,7 +250,7 @@ export class VotingMeetingSetupComponent implements OnInit {
   }
   preview() {
     // Show preview 
-    var mimeType = this.fileData.type;
+    var mimeType = this.fileData!.type;
     this.previewUrl = './assets/img/excel.png';
     if (mimeType.match(/csv\/*/) == null) {
       return;
@@ -260,7 +259,7 @@ export class VotingMeetingSetupComponent implements OnInit {
       this.previewUrl = './assets/img/excel.png';
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.fileData!);
     reader.onload = (_event) => {
       //this.previewUrl = reader.result; 
     }

@@ -6,7 +6,8 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
 import { CreateAnswerService } from '../../service/create-answer.service';
 import * as jsPDF from 'jspdf';
 import swal from 'sweetalert2';
-import { Chats } from '../../Interface/chats.model';
+import $ from "jquery";
+import { Chats } from '../../interface/chats.model';
 declare var moment:any;
 
 @Component({
@@ -20,18 +21,18 @@ export class ListVoteByResidentialComponent implements OnInit {
   user_id: string;
   residential_id: string;
   meeting_id: any;
-  id_vote_active: string;
-  absent_save: string;
-  not_voted_save: string;
-  options_save: string;
-  request_accepted: string;
-  unit_to_chart: string;
-  mode_chart: string;
+  id_vote_active!: string;
+  absent_save!: string;
+  not_voted_save!: string;
+  options_save!: string;
+  request_accepted!: string;
+  unit_to_chart!: string;
+  mode_chart!: string;
   keysession: string;
   with_cutomer_name = 'false';
   chats: Chats[] = [];
-  residential_name: string;
-  cant_votes: number;
+  residential_name!: string;
+  cant_votes!: number;
 
   constructor(
     private router: Router,
@@ -43,14 +44,14 @@ export class ListVoteByResidentialComponent implements OnInit {
     private createAnswerService: CreateAnswerService) {
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
     this.keysession = userStorage['content']['token'];
   }
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.Votes = resp['content'];
         this.cant_votes = resp['content'].length;
       });
@@ -77,30 +78,30 @@ export class ListVoteByResidentialComponent implements OnInit {
     }, 100);
   }
 
-  goEditVotation(voting_id) {
+  goEditVotation(voting_id:any) {
     this.router.navigate(['home/interventioncontrol/' + this.residential_id + '/editaVotacion/' + this.residential_id + '/' + voting_id + '/' + this.meeting_id]);
     setTimeout(function () {
       window.scrollTo(0, 550);
     }, 100);
   }
 
-  goUsersInRoom(voting_id) {
+  goUsersInRoom(voting_id:any) {
     this.router.navigate(['home/interventioncontrol/' + this.residential_id + '/usuariosVotantesEnSala/' + this.residential_id + '/' + this.meeting_id + '/' + voting_id]);
     setTimeout(function () {
       window.scrollTo(0, 550);
     }, 300);
   }
 
-  goPendientes(voting_id) {
+  goPendientes(voting_id:any) {
     this.router.navigate(['home/interventioncontrol/' + this.residential_id + '/pendientes/' + this.residential_id + '/' + this.meeting_id + '/' + voting_id]);
     setTimeout(function () {
       window.scrollTo(0, 550);
     }, 300);
   }
 
-  Inform(voting_id, name) {
+  Inform(voting_id:any, name:any) {
     this.httpClient.get(this.config.endpoint6 + 'api/voting/getVotingReportByHeaderExcel/' + this.keysession + '/' + voting_id + '/' + this.with_cutomer_name)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -118,20 +119,20 @@ export class ListVoteByResidentialComponent implements OnInit {
 
   reload() {
     this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.Votes = resp['content'];
         this.cant_votes = resp['content'].length;
       });
   }
 
-  statusVote(id_vote, name, request_accepted, status) {
+  statusVote(id_vote:any, name:any, request_accepte:any, status:any) {
     var text = "";
     var textheader = "";
     if (status == "1") {
       text = "Si, abrir";
       textheader = 'Seguro desea abrir la votacion?';
       this.httpClient.get(this.config.endpoint3 + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           if (resp['success'] == true) {
             swal.fire({
               title: 'Hay otra votacion activa desea desactivar esa y activar la seleccionada?',
@@ -152,7 +153,7 @@ export class ListVoteByResidentialComponent implements OnInit {
                 formData.append('residential_id', this.residential_id);
                 formData.append('name', name);
                 formData.append('id', id_vote);
-                formData.append('request_accepted', request_accepted);
+                formData.append('request_accepted', this.request_accepted);
                 formData.append('status_id', status);
                 this.createAnswerService.editAnswer(formData, this.residential_id, status, "1", this.meeting_id, this.keysession);
                 setTimeout(function () {
@@ -173,7 +174,7 @@ export class ListVoteByResidentialComponent implements OnInit {
                 formData.append('residential_id', this.residential_id);
                 formData.append('name', name);
                 formData.append('id', id_vote);
-                formData.append('request_accepted', request_accepted);
+                formData.append('request_accepted', this.request_accepted);
                 formData.append('status_id', status);
                 this.createAnswerService.editAnswer(formData, this.residential_id, status, "1", this.meeting_id, this.keysession);
                 setTimeout(function () {
@@ -187,7 +188,7 @@ export class ListVoteByResidentialComponent implements OnInit {
     }
     else {
       this.httpClient.get(this.config.endpoint3 + 'VotingServices/getVotingOptionResults?key=' + this.config.key + '&user_id=' + this.user_id + '&header_id=' + id_vote)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           this.unit_to_chart = resp['content']['vote']['unit_to_chart'];
           this.mode_chart = resp['content']['vote']['mode_chart'];
           this.absent_save = JSON.stringify(resp['content']['absent']);
@@ -197,7 +198,7 @@ export class ListVoteByResidentialComponent implements OnInit {
           formData.append('residential_id', this.residential_id);
           formData.append('name', name);
           formData.append('id', id_vote);
-          formData.append('request_accepted', request_accepted);
+          formData.append('request_accepted', this.request_accepted);
           formData.append('status_id', status);
           this.createAnswerService.editAnswer(formData, this.residential_id, status, "1", this.meeting_id, this.keysession);
           const formData2 = new FormData();
@@ -218,7 +219,7 @@ export class ListVoteByResidentialComponent implements OnInit {
     }
   }
 
-  deleteQuetion(vote_id) {
+  deleteQuetion(vote_id:any) {
     swal.fire({
       title: 'Esta seguro de borrar esta votacion?',
       showCancelButton: true,
@@ -240,7 +241,7 @@ export class ListVoteByResidentialComponent implements OnInit {
   InformAttendance() {
     
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getUnitsByMeetingForWeb/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -252,7 +253,7 @@ export class ListVoteByResidentialComponent implements OnInit {
 
   InformAttendanceRealTime() {
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getSessionConfirmation/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -267,12 +268,12 @@ export class ListVoteByResidentialComponent implements OnInit {
     var htmlElement;
     var nameResidential = "";
     this.httpClient.get(this.config.endpoint6 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(response => {
+      .subscribe((response :any)=> {
         this.residential_name = response['content']['residential'];
         nameResidential = response['content']['residential'];
       });
     this.httpClient.get(this.config.endpoint6 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/0')
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         if (resp2['success']) {
           for (let index = 0; index < resp2['content']['messages'].length; index++) {
             if (resp2['content']['messages'][index]['user_id']) {
@@ -322,11 +323,12 @@ export class ListVoteByResidentialComponent implements OnInit {
           //   '<strong><h5>Conjunto</h5></strong>' +
           //   unitsText +
           //   '</div>';
+          //@ts-ignore
           var pdf = new jsPDF('p', 'pt', 'letter');
           var source = $('#content')[0];
           // var source = htmlElement;
           var specialElementHandlers = {
-            '#bypassme': function (element, renderer) {
+            '#bypassme': function (element:any, renderer:any) {
               return true
             }
           };
@@ -351,7 +353,7 @@ export class ListVoteByResidentialComponent implements OnInit {
       });
   }
 
-  transformTimeZone(dateToTransform) {
+  transformTimeZone(dateToTransform:any) {
     var date = new Date();
     var offset = date.getTimezoneOffset();
     var dateGot = dateToTransform.trim();

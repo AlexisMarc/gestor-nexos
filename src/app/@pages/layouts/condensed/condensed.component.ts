@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class CondensedComponent extends RootLayout implements OnInit {
-  name: string;
+  name!: string;
     menuLinks = [
       {
         label:"Dashboard",
@@ -282,7 +282,7 @@ export class CondensedComponent extends RootLayout implements OnInit {
       },
   ];
 
-    ngOnInit() {
+    override ngOnInit() {
       this.name = this.nombre_usuario;
     }
 }

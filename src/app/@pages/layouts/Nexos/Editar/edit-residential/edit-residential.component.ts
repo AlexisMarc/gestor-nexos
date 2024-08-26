@@ -22,11 +22,11 @@ export class EditResidentialComponent implements OnInit {
   selectedItems = [];
   dropdownSettings = {};
 
-  infoResidential: InformationResidential[] = [];
-  editInfoResidential: InformationResidential[] = [];
+  infoResidential: any;
+  editInfoResidential: any;
 
   ListServiceActive: ListService[] = [];
-  serviceActive: [] = [];
+  serviceActive:any;
   address = 'CLL 25F 73B 61';
   constructor(
     private route: ActivatedRoute,
@@ -56,12 +56,12 @@ export class EditResidentialComponent implements OnInit {
     this.uuid_code = this.route.snapshot.paramMap.get('uuid_code');
     this.editInfoResidential['status_id'] = '1';
 
-    // this.httpClient.get(this.config.endpoint + 'ResidentialServices/getResidentialById?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response) => {
+    // this.httpClient.get(this.config.endpoint + 'ResidentialServices/getResidentialById?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
     //   this.infoResidential = response['content'];
     // })
 
     this.httpClient.get(this.config.endpoint5 + 'getResidentialByCode?key=' + this.config.key + '&code=' + this.uuid_code)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.infoResidential = resp['content'];
 
         // tslint:disable-next-line: forin

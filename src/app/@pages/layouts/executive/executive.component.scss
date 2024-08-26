@@ -1,9 +1,6 @@
 
 @import 'core.scss';
 
-$base-img-url: "../../assets/images" !global;
-$assets-url: "../../assets" !global;
-
 @import "modules/_layout.scss";
 @import "modules/_horizontal_menu.scss";
 @import "modules/_horizontal-layout.scss";
@@ -99,7 +96,7 @@ $assets-url: "../../assets" !global;
 @import "vendor/ng-tree.scss";
 @import "vendor/quill.scss";
 @import "vendor/ng-datatable.scss";
-@import "vendor/ngx-nvd3.scss";
+// @import "vendor/ngx-nvd3.scss";
 @import "vendor/ngx-google-map.scss";
 
 //Layout Overrides

@@ -27,14 +27,14 @@ export class UsersVotedInRoomComponent implements OnInit {
     @Inject(SESSION_STORAGE)
     private storage: WebStorageService
   ) {
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.voting_header_id = this.route.snapshot.paramMap.get('idVote');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
+    this.voting_header_id = this.route.snapshot.paramMap.get('idVote')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
 
     this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getCustomerWithoutVote?key=' + this.config.key + '&user_id=' + this.user_id + '&meeting_id=' + this.meeting_id + '&voting_header_id=' + this.voting_header_id )
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listUserInRoom = resp['content'];
         this.total = this.listUserInRoom.length
       });
@@ -54,7 +54,7 @@ export class UsersVotedInRoomComponent implements OnInit {
   reloadList() {
     
     this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getCustomerWithoutVote?key=' + this.config.key + '&user_id=' + this.user_id + '&meeting_id=' + this.meeting_id + '&voting_header_id=' + this.voting_header_id )
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listUserInRoom = resp['content'];
       });
   }

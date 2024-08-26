@@ -18,9 +18,9 @@
       <div class="row" style="text-align: center;">
         <div class="col-12 col-md-3" *ngFor="let Type of ListTypeQuotes">
           <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="defaultGroupExample{{Type.id}}" name="IdTypeQuote"
-              value="{{Type.id}}" [(ngModel)]="idTypeQuote">
-            <label class="custom-control-label" for="defaultGroupExample{{Type.id}}">{{Type.name}}</label>
+            <input type="radio" class="custom-control-input" id="defaultGroupExample{{Type['id']}}" name="IdTypeQuote"
+              value="{{Type['id']}}" [(ngModel)]="idTypeQuote">
+            <label class="custom-control-label" for="defaultGroupExample{{Type['id']}}">{{Type['name']}}</label>
           </div>
         </div>
       </div>
@@ -49,38 +49,38 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of ListQuote">
-                <td>{{item.name}}</td>
-                <td>{{item.nit}}</td>
+                <td>{{item['name']}}</td>
+                <td>{{item['nit']}}</td>
                 <td> 
                   <div *ngIf="item['administrator'] == null ; then thenBlock1 else elseBlock1"></div>
                   <ng-template #thenBlock1>
                   </ng-template>
                   <ng-template #elseBlock1>
-                    {{item.administrator['name']}}
+                    {{item['administrator']['name']}}
                   </ng-template>
                 </td>
                 <td>
-                  <div style="cursor: pointer;" (click)="GoQuote(item.id, item['last_hired_quote']['id'])"
+                  <div style="cursor: pointer;" (click)="GoQuote(item['id'], item['last_hired_quote']['id'])"
                     *ngIf="item['last_hired_quote']['id']">
                     <img src="./assets/img/go-to-location.png" style="width: 20px;">
                     Ir
                   </div>
                 </td>
                 <td>
-                  <div style="cursor: pointer;" (click)="GoQuote(item.id, item['last_not_hired_quote']['id'])"
+                  <div style="cursor: pointer;" (click)="GoQuote(item['id'], item['last_not_hired_quote']['id'])"
                     *ngIf="item['last_not_hired_quote']['id']">
                     <img src="./assets/img/go-to-location.png" style="width: 20px;">
                     Ir
                   </div>
                 </td>
                 <td>
-                  <div style="cursor: pointer;" (click)="GoQuote(item.id, 0)">
+                  <div style="cursor: pointer;" (click)="GoQuote(item['id'], 0)">
                     <img src="./assets/img/go-to-location.png" style="width: 20px;">
                     Ir
                   </div>
                 </td>
                 <td>
-                  <div style="cursor: pointer;" (click)="goCustomerQuoteHistory(item.id)">
+                  <div style="cursor: pointer;" (click)="goCustomerQuoteHistory(item['id'])">
                     <img src="./assets/img/go-to-location.png" style="width: 20px;">
                     Ver mas
                   </div>

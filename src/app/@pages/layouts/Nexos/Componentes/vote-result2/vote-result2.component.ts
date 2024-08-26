@@ -16,30 +16,30 @@ export class VoteResult2Component implements OnInit {
 
   id_vote = 0;
   votes: [] = [];
-  meeting_id: string;
-  user_id: string;
-  residential_id: any;
-  name_vote: string;
+  meeting_id!: string;
+  user_id!: string;
+  residential_id!: any;
+  name_vote!: string;
   votes_show = [];
   votes_aporte = [];
-  cantidad_votantes: number;
+  cantidad_votantes!: number;
   status_vote = 0;
-  absent = [];
-  not_voted = [];
+  absent:any = [];
+  not_voted:any;
   total_votes = 0;
   votes_options: [] = [];
   dato = 0;
   variable = 0;
   unidad = 0;
-  asitentes: number;
+  asitentes!: number;
   total_aportes = 0;
-  unit_to_chart: string;
-  mode_chart: string;
-  absent_save: string;
-  not_voted_save: string;
-  options_save: string;
-  request_accepted: string;
-  keysession: string;
+  unit_to_chart!: string;
+  mode_chart!: string;
+  absent_save!: string;
+  not_voted_save!: string;
+  options_save!: string;
+  request_accepted!: string;
+  keysession!: string;
 
   constructor(
     private httpClient: HttpClient,
@@ -64,16 +64,16 @@ export class VoteResult2Component implements OnInit {
     }
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.user_id = userStorage['content']['id'];
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.keysession = userStorage['content']['token'];
     //Obtener listado de votaciones
     this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.votes = resp['content'];
       });
     //Obeter votacion activa
     this.httpClient.get(this.config.endpoint3 + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['success'] == false) {
           this.name_vote = "No hay votaciones activas"
         } else {
@@ -81,7 +81,7 @@ export class VoteResult2Component implements OnInit {
           this.dato = 1;
 
           this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
-            .subscribe(resp => {
+            .subscribe((resp:any)=> {
               this.total_votes = 0;
               this.name_vote = resp['content']['vote']['name'];
               this.votes_options = resp['content']['vote']['options'];
@@ -100,7 +100,7 @@ export class VoteResult2Component implements OnInit {
                 this.total_votes = this.total_votes + this.votes[index]['total_aporte'];
               }
               if (this.status_vote == 1) {
-                this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response) => {
+                this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response:any) => {
                   this.total_votes = 0;
                   this.name_vote = response['vote']['name'];
                   this.votes_options = response['vote']['options'];
@@ -132,15 +132,15 @@ export class VoteResult2Component implements OnInit {
     this.socketService.removeListen('vote_stored_' + this.meeting_id)
   }
 
-  goVote(id_vote) {
+  goVote(id_vote:any) {
     this.router.navigate(['home/resultados2/' + id_vote])
   }
 
-  selectedVote(id_vote, status) {
+  selectedVote(id_vote:any, status:any) {
     this.id_vote = id_vote;
     this.dato = 1;
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.total_votes = 0;
         this.name_vote = resp['content']['vote']['name'];
         this.votes_options = resp['content']['vote']['options'];
@@ -159,7 +159,7 @@ export class VoteResult2Component implements OnInit {
           this.total_votes = this.total_votes + this.votes[index]['total_aporte'];
         }
         if (this.status_vote == 1) {
-          this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response) => {
+          this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response:any) => {
             this.total_votes = 0;
             this.name_vote = response['vote']['name'];
             this.votes_options = response['vote']['options'];

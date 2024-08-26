@@ -38,7 +38,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CommonModule,
     ObserversModule,
     TypeaheadModule.forRoot(),
-    RouterModule
+    RouterModule,
+    pgRetinaDirective
   ],
   declarations: [
   SecondarySidebarComponent,
@@ -53,7 +54,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   MenuIconComponent,
   ListItemComponent,
   ListViewContainerComponent,
-  pgRetinaDirective,
   ],
   exports: [
   SecondarySidebarComponent,
@@ -69,7 +69,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   MenuIconComponent,
   ListItemComponent,
   ListViewContainerComponent,
-  pgRetinaDirective
   ],
   providers:[
     {

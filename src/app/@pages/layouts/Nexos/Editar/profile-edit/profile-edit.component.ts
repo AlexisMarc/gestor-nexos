@@ -18,7 +18,7 @@ export class ProfileEditComponent implements OnInit {
     status_id: '',
 
   }
-  idProfile: string;
+  idProfile!: string;
   constructor(private router: Router,
     private route: ActivatedRoute,
     private config: ConfigurationRestService,
@@ -41,11 +41,11 @@ export class ProfileEditComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.idProfile = this.route.snapshot.paramMap.get('idProfile')
+    this.idProfile = this.route.snapshot.paramMap.get('idProfile')!
 
     // get Profile for id
     this.httpClient.get(this.config.endpoint + 'UserServices/getUserProfileById?key=' + this.config.key + '&id=' + this.idProfile)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.EditParametersProfile['name'] = resp['content']['name'];
         this.EditParametersProfile['id'] = resp['content']['id'];
         this.EditParametersProfile['status_id'] = resp['content']['status_id'];

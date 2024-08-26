@@ -286,7 +286,7 @@ export class RootLayout implements OnInit, OnDestroy {
   }
 
   singOut() {
-    this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe(response => {
+    this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
       this.storage.remove('user');
       this.router.navigate(['/']);
     })

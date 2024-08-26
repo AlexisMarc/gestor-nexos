@@ -15,16 +15,16 @@ var domtoimage = require('dom-to-image');
 })
 export class QuorumComponent implements OnInit {
 
-  quorum: number;
+  quorum!: number;
   quorumShow = 0;
   residential_id: any;
   id_user: any;
   asistentes: any;
   aportes: any;
-  meeting_id: string;
+  meeting_id!: string;
   unidades: any;
-  user_id: string;
-  keysession: string;
+  user_id!: string;
+  keysession!: string;
   progress: any;
   valueContainer: any;
   end_session_time: any;
@@ -52,12 +52,12 @@ export class QuorumComponent implements OnInit {
     }
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.user_id = userStorage['content']['id'];
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.verifyShow = this.route.snapshot.paramMap.get('showVerify');
     this.id_user = userStorage['user_id'];
     this.keysession = userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint6 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         // console.log(resp)
         this.end_session_time =(resp['success']== false)?'': resp['content']['end_session_time'];
       });
@@ -65,7 +65,7 @@ export class QuorumComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getChartsByMeeting/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         if (resp2['message'] == "La sesión es inválida") {
           swal.fire({
             title:'Atención', 
@@ -73,7 +73,7 @@ export class QuorumComponent implements OnInit {
             icon:'info',
             backdrop: true,
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-          }).then(response=>{
+          }).then((response:any)=>{
             if(response.value){
               this.storage.remove('user');
               this.router.navigate(['/']);
@@ -96,7 +96,7 @@ export class QuorumComponent implements OnInit {
           }
         }
       });
-    this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response) => {
+    this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response:any) => {
       clearInterval(this.progress);
       this.quorum = response['coefficient'];
       this.asistentes = response['attendance'];
@@ -114,7 +114,7 @@ export class QuorumComponent implements OnInit {
   screenShotQuorum() {
     this.InformAttendance();
     domtoimage.toJpeg(document.getElementById('content-quorum'), { quality: 1 })
-      .then(function (dataUrl) {
+      .then(function (dataUrl:any) {
         var link = document.createElement('a');
         link.download = 'Quorum.jpeg';
         link.href = dataUrl;
@@ -126,7 +126,7 @@ export class QuorumComponent implements OnInit {
     var date = new Date();
     var name = 'Informe de asistencia ' + date.getDate() + "-" + date.getMonth() + '-' + date.getFullYear() + ' ' + date.getHours() + '.' + date.getMinutes() + '.' + date.getSeconds() + ' %' + this.quorum;
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getUnitsByMeetingForWeb/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -142,7 +142,7 @@ export class QuorumComponent implements OnInit {
       });
   }
 
-  quorumAnimated(coefficient) {
+  quorumAnimated(coefficient:any) {
     var progressBar = document.getElementById("circularprogress")!;
     this.valueContainer = document.querySelector(".value-container");
     var progressValue = this.quorumShow;
@@ -175,7 +175,7 @@ export class QuorumComponent implements OnInit {
     this.quorumShow = coefficient;
   }
 
-  quorumAnimatedSocket(coefficient) {
+  quorumAnimatedSocket(coefficient:any) {
     var progressBar = document.getElementById("circularprogress")!;
     this.valueContainer = document.querySelector(".value-container");
     var progressValue = this.quorumShow;
@@ -238,17 +238,17 @@ export class QuorumComponent implements OnInit {
         confirmButtonText: 'Sí',
         cancelButtonText: 'No',
         icon: 'question',
-      }).then((result) => {
+      }).then((result:any) => {
         if (result.isConfirmed) {
           const formData = new FormData();
           formData.append('key', this.config.key);
           formData.append('id', this.meeting_id);
           formData.append('end_session_time', this.end_session_time);
-          this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe(data => {
+          this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe((data:any) => {
             if (data['success']) {
-              this.httpClient.get(this.config.endpoint6 + 'api/customers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe(response => {
+              this.httpClient.get(this.config.endpoint6 + 'api/customers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe((response :any)=> {
                 this.httpClient.get(this.config.endpoint6 + 'api/reports/getChartsByMeeting/' + this.keysession + '/' + this.meeting_id)
-                  .subscribe(resp2 => {
+                  .subscribe((resp2 :any)=> {
                     if (resp2['message'] == "La sesión es inválida") {
                       swal.fire({
                         title:'Atención', 
@@ -256,7 +256,7 @@ export class QuorumComponent implements OnInit {
                         icon:'info',
                         backdrop: true,
                         allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-                      }).then(response=>{
+                      }).then((response:any)=>{
                         if(response.value){
                           this.storage.remove('user');
                           this.router.navigate(['/']);
@@ -291,18 +291,18 @@ export class QuorumComponent implements OnInit {
         confirmButtonText: 'Sí',
         cancelButtonText: 'No',
         icon: 'question',
-      }).then((result) => {
+      }).then((result:any) => {
         if (result.isConfirmed) {
           this.end_session_time = 2000;
           const formData = new FormData();
           formData.append('key', this.config.key);
           formData.append('id', this.meeting_id);
           formData.append('end_session_time', this.end_session_time);
-          this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe(data => {
+          this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe((data:any) => {
             if (data['success']) {
-              this.httpClient.get(this.config.endpoint6 + 'api/customers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe(response => {
+              this.httpClient.get(this.config.endpoint6 + 'api/customers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe((response :any)=> {
                 this.httpClient.get(this.config.endpoint6 + 'api/reports/getChartsByMeeting/' + this.keysession + '/' + this.meeting_id)
-                  .subscribe(resp2 => {
+                  .subscribe((resp2 :any)=> {
                     if (resp2['message'] == "La sesión es inválida") {
                       swal.fire({
                         title:'Atención', 
@@ -310,7 +310,7 @@ export class QuorumComponent implements OnInit {
                         icon:'info',
                         backdrop: true,
                         allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-                      }).then(response=>{
+                      }).then((response:any)=>{
                         if(response.value){
                           this.storage.remove('user');
                           this.router.navigate(['/']);
@@ -341,7 +341,7 @@ export class QuorumComponent implements OnInit {
   }
 
   closeVerifyQuorum() {
-    this.httpClient.get(this.config.endpoint6 + 'api/customers/dropCustomerSessionsByMeeting/' + this.keysession + '/' + this.meeting_id).subscribe(response => {
+    this.httpClient.get(this.config.endpoint6 + 'api/customers/dropCustomerSessionsByMeeting/' + this.keysession + '/' + this.meeting_id).subscribe((response :any)=> {
     });
   }
 

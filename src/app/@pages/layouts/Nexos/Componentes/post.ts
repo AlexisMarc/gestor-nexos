@@ -1,7 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { values } from 'd3';
-
-
 @Pipe({
    name : 'Search'
 })

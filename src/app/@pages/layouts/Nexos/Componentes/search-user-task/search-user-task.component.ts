@@ -13,11 +13,11 @@ import * as moment from 'moment';
   styleUrls: ['./search-user-task.component.scss']
 })
 export class SearchUserTaskComponent implements OnInit {
-  profile: string;
+  profile!: string;
   listTaksByUser: [] = [];
   showListTaksByUser: [] = [];
   bridge = '';
-  keysession: string;
+  keysession!: string;
   userId = '';
   dateFrom = '';
   dateTo = '';
@@ -56,7 +56,7 @@ export class SearchUserTaskComponent implements OnInit {
   ngOnInit() {
     //Obtener todos los usuarios
     this.httpClient.get(this.config.endpoint + 'UserServices/getAllUsers?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listUsers = resp['content'];
       });
   }
@@ -67,11 +67,11 @@ export class SearchUserTaskComponent implements OnInit {
 
   selectedUser() {
     this.listTaksByUser = [];
-    var user = this.listUsers.find(user => user.name === this.nameOfUser);
+    var user = this.listUsers.find((user:any) => user.name === this.nameOfUser);
     this.getListByUser(user)
   }
 
-  getListByUser(user) {
+  getListByUser(user:any) {
     if (this.dateFrom == '' || user == '') {
       swal.fire(
         'mensaje',
@@ -89,7 +89,7 @@ export class SearchUserTaskComponent implements OnInit {
         queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId + '/' + this.dateTo
       }
       //Llamar listado de tareas del día actual
-      this.httpClient.get(queryToSearch).subscribe((response) => {
+      this.httpClient.get(queryToSearch).subscribe((response:any) => {
         if (response['success']) {
 
           this.listTaksByUser = response['content'];
@@ -110,14 +110,14 @@ export class SearchUserTaskComponent implements OnInit {
     this.listTaksByUser = [];
     this.indexOfUser = '';
     this.nameOfUser = '';
-    document.getElementById('input-search-by-name').focus();
+    document.getElementById('input-search-by-name')!.focus();
   }
 
-  goToEditTask(idTask) {
+  goToEditTask(idTask:any) {
     this.router.navigate(['/home/editartarea/' + idTask]);
   }
 
-  editTask(idTask, description, start_task, end_task, duration, status_task) {
+  editTask(idTask:any, description:any, start_task:any, end_task:any, duration:any, status_task:any) {
 
     var formData = new FormData;
     start_task = this.calculoHoras(start_task)
@@ -133,11 +133,11 @@ export class SearchUserTaskComponent implements OnInit {
     var dataTaskToSend = JSON.stringify(arrayDataTask2);
     formData.append("task", dataTaskToSend);
     
-    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp) => {
+    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
       if (resp['success']) {
         swal.fire('Mensaje', 'Se ha editado la información de manera exitosa', 'success');
         // this.return();
-        document.getElementById("serachUserButton").click();
+        document.getElementById("serachUserButton")!.click();
       } else {
         swal.fire('Atención', 'No se pudo completar su solicitud', 'error');
       }
@@ -152,7 +152,7 @@ export class SearchUserTaskComponent implements OnInit {
       queryToSearch = this.config.endpoint6 + 'api/reports/getTaskReportExcel/' + this.keysession + '/' + this.userId + '/' + this.dateFrom + '/' + this.dateTo
     }
     //Descargar excel con reporte
-    this.httpClient.get(queryToSearch).subscribe(response => {
+    this.httpClient.get(queryToSearch).subscribe((response :any)=> {
       var base64decode = decodeURIComponent(atob(response['content']).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
@@ -171,7 +171,7 @@ export class SearchUserTaskComponent implements OnInit {
       queryToSearch = this.config.endpoint6 + 'api/reports/getTaskReportExcel/' + this.keysession + '/0/' + this.dateFrom + '/' + this.dateTo
     }
     //Descargar excel con reporte
-    this.httpClient.get(queryToSearch).subscribe(response => {
+    this.httpClient.get(queryToSearch).subscribe((response :any)=> {
       var base64decode = decodeURIComponent(atob(response['content']).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
@@ -183,11 +183,12 @@ export class SearchUserTaskComponent implements OnInit {
   }
 
 
-  transformTimeZone(dateToTransform) {
-    dateToTransform.forEach(element => {
+  transformTimeZone(dateToTransform:any) {
+    dateToTransform.forEach((element:any) => {
       if(element.start_task != null){
         let dateToBack = Date.parse(element.start_task)
         let actualDate = dateToBack - this.rest_hour
+        //@ts-ignore
         var datetransformed = moment(actualDate)
         let dateFormate = datetransformed.format('YYYY-MM-DD HH:mm:ss')
         element.start_task = dateFormate
@@ -195,6 +196,7 @@ export class SearchUserTaskComponent implements OnInit {
       if(element.end_task != null){
         let dateToBack2 = Date.parse(element.end_task)
         let actualDate2 = dateToBack2 - this.rest_hour
+        //@ts-ignore
         var datetransformed2 = moment(actualDate2)
         let dateFormate2 = datetransformed2.format('YYYY-MM-DD HH:mm:ss')
         element.end_task = dateFormate2
@@ -202,10 +204,11 @@ export class SearchUserTaskComponent implements OnInit {
     });
   }
 
-  calculoHoras(hora){
+  calculoHoras(hora:any){
       if(hora != null){
         let dateToBack = Date.parse(hora)
         let actualDate = dateToBack + this.rest_hour
+        //@ts-ignore
         var datetransformed = moment(actualDate)
         let dateFormate = datetransformed.format('YYYY-MM-DD HH:mm:ss')
         hora = dateFormate

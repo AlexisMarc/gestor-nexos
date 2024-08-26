@@ -1,5 +1,5 @@
-<pgcard TimeOut="3000" AdditionalClasses="widget-16 card no-border  no-margin widget-loader-circle" Maximize="false" Toggle="false"
-Close="false" BodyClass="no-padding">
+<pgcard [TimeOut]="3000" AdditionalClasses="widget-16 card no-border  no-margin widget-loader-circle" [Maximize]="false" [Toggle]="false"
+[Close]="false" BodyClass="no-padding">
 	<ng-template #CardTitle>
 		<span class="font-montserrat fs-11 all-caps">
 			PAGE OPTIONS
@@ -35,7 +35,7 @@ Close="false" BodyClass="no-padding">
 	</div>
 	<div class="relative no-overflow" #chartContainer>
 		<div class="widget-16-chart line-chart" data-line-color="success" data-points="true" data-point-color="white" data-stroke-width="2">
-			<nvd3 [options]="nvd3LineOptions" [data]="nvd3LineData"></nvd3>
+			<!-- <nvd3 [options]="nvd3LineOptions" [data]="nvd3LineData"></nvd3> -->
 		</div>
 	</div>
 	<div class="b-b b-t b-grey p-l-20 p-r-20 p-b-10 p-t-10">

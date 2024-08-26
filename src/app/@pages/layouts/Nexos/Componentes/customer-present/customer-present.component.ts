@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 
 @Component({
@@ -12,9 +12,9 @@ import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 })
 export class CustomerPresentComponent implements OnInit {
 
-  meeting_id: string;
+  meeting_id!: string;
   ListCustomer = [];
-  residential_id: string;
+  residential_id!: string;
   interval: any;
   keysession: string;
 
@@ -38,10 +38,10 @@ export class CustomerPresentComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.httpClient.get(this.config.endpoint6 + 'api/customers/getOfflineCustomers/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.ListCustomer = resp['content']
       });
   }
@@ -68,14 +68,14 @@ export class CustomerPresentComponent implements OnInit {
   goSearchPointContrpl() {
     this.router.navigate(['home/pointControl']);
   }
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id])
   }
 
   ChargeAusents() {
     // this.httpClient.get(this.config.endpoint3 + 'VotingServices/getResidentsInMeetingByPresent?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&present=1')
     this.httpClient.get(this.config.endpoint6 + 'api/customers/getOfflineCustomers/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.ListCustomer = resp['content'];
       });
   }

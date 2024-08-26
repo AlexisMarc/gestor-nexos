@@ -16,7 +16,7 @@ export class UserTaskService {
   ) { }
 
   createOrEditTask(data, token) {
-    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + token, data).subscribe(response => {
+    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + token, data).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -29,7 +29,7 @@ export class UserTaskService {
   }
 
   getTasksByUser(userId, date, token) {
-    this.httpClient.get(this.config.endpoint + 'ApiTasks/getTaskByUser/' + userId + '/' + date + '/' + token).subscribe(response => {
+    this.httpClient.get(this.config.endpoint + 'ApiTasks/getTaskByUser/' + userId + '/' + date + '/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -42,7 +42,7 @@ export class UserTaskService {
   }
 
   getTaskToday(token) {
-    this.httpClient.get(this.config.endpoint + 'api/tasks/getActiveTaskList/' + token).subscribe(response => {
+    this.httpClient.get(this.config.endpoint + 'api/tasks/getActiveTaskList/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -55,7 +55,7 @@ export class UserTaskService {
   }
 
   getTaskDefault(token) {
-    this.httpClient.get(this.config.endpoint + 'api/tasks/getTasks/' + token).subscribe(response => {
+    this.httpClient.get(this.config.endpoint + 'api/tasks/getTasks/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -68,7 +68,7 @@ export class UserTaskService {
   }
 
   getTaskDetails(userId, token) {
-    this.httpClient.get(this.config.endpoint + 'api/tasks/getActiveTaskByUser/' + userId + '/' + token).subscribe(response => {
+    this.httpClient.get(this.config.endpoint + 'api/tasks/getActiveTaskByUser/' + userId + '/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');

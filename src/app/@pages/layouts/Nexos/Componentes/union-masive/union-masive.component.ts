@@ -16,21 +16,21 @@ declare var swal: any;
 })
 export class UnionMasiveComponent implements OnInit {
 
-  residential_id: string;
-  residential_name: string;
-  keysession: string;
-  meeting_id: string;
+  residential_id!: string;
+  residential_name!: string;
+  keysession!: string;
+  meeting_id!: string;
   unitslist: listadoUnidadToUnion[] = [];
   unitsListToSend: listadoUnidadEnvio[] = [];
   ListadoConjuntosSelect: any[] = [];
   ListadoConjuntosSelect2: any[] = [];
-  sector: string;
-  name_unidad: string;
-  int2 = 'value';
+  sector!: string;
+  name_unidad!: string;
+  int2:any = 'value';
   id_unit_search = 'value';
   ListadoUnidades: any[] = [];
   name = '';
-  customer_id: string;
+  customer_id!: string;
   showTable = false;
   cantUnitsToUnion = 0;
   eyeToShowUnion = true;
@@ -54,16 +54,16 @@ export class UnionMasiveComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.residential_name = this.route.snapshot.paramMap.get('nameResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
+    this.residential_name = this.route.snapshot.paramMap.get('nameResidential')!;
     this.keysession = userStorage['content']['token'];
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.meeting_id = response['content']['id'];
       this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
-        .subscribe(response => {
+        .subscribe((response :any)=> {
           this.ListadoConjuntosSelect = response['content'];
           this.ListadoConjuntosSelect2 = response['content']
           this.sector = response['content'][0]['name'];
@@ -111,7 +111,9 @@ export class UnionMasiveComponent implements OnInit {
       if (td && td2) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          //@ts-ignore
           checkItem = td2.getElementsByTagName("input") as HTMLInputElement;
+          //@ts-ignore
           checkItemId = (td2.getElementsByTagName("input")[0].id).replace("union", "") * 1;
           this.unitslist[checkItemId]['status_union'] = this.selectAllStatus;
         }
@@ -137,7 +139,7 @@ export class UnionMasiveComponent implements OnInit {
       cancelButtonColor: '#262626',
       confirmButtonText: "Sí",
       cancelButtonText:'No',
-    }).then((result) => {
+    }).then((result:any) => {
       if (result['value'] == true) {
         let unidades = '';
         this.unitslist.forEach(unit => {
@@ -150,7 +152,7 @@ export class UnionMasiveComponent implements OnInit {
         const formData2 = new FormData();
         formData2.append('units', unidades);
         this.httpClient.post(this.config.endpoint6 + 'api/customers/updateCustomerProperties/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id, formData2)
-          .subscribe(response => {
+          .subscribe((response :any)=> {
             if (response['success']) {
               swal.fire('Mensaje', response['message'], 'success');
               this.unitsListToSend = [];
@@ -185,14 +187,14 @@ export class UnionMasiveComponent implements OnInit {
     this.showTable = true;
     this.name = '';
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_unit_search)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.customer_id = resp['content']['id'];
         this.name = resp['content']['name'];
         this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + resp['content']['document_number'] + '/' + this.meeting_id)
-          .subscribe(response => {
-            response['content']['units'].forEach(unitByCustomer => {
+          .subscribe((response :any)=> {
+            response['content']['units'].forEach((unitByCustomer:any) => {
               var unitSearching = this.unitslist.find(unitFind => unitFind['unit_id'] === unitByCustomer['unit_id']);
-              unitSearching.status_union = true;
+              unitSearching!.status_union = true;
               this.cantUnitsToUnion++;
             });
           });

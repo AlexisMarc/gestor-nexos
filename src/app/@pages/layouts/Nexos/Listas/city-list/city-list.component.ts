@@ -37,7 +37,7 @@ export class CityListComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllActiveCities?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
 
         this.listItem = resp['content']
       });
@@ -48,7 +48,7 @@ export class CityListComponent implements OnInit {
   goCreateCity() {
     this.router.navigate(['home/createCity'])
   }
-  goEditCity(idCity) {
+  goEditCity(idCity:any) {
     this.router.navigate(['home/editCity/' + idCity])
   }
   goMenuSetting() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
@@ -13,12 +13,12 @@ export class UserProfileService {
     private config: ConfigurationRestService,
     private router: Router) { }
 
-  CreateProfile(createProfile) {
+  CreateProfile(createProfile:any) {
     this.httpClient.post(this.config.endpoint + 'UserServices/addEditUserProfile', createProfile)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        var iconStatus: SweetAlertType = 'success'
-        var iconStatus2: SweetAlertType = 'warning'
+        var iconStatus: SweetAlertIcon  = 'success'
+        var iconStatus2: SweetAlertIcon  = 'warning'
         if (data['success'] == true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/profilelist'])
@@ -34,12 +34,12 @@ export class UserProfileService {
       })
   }
 
-  editUser(updateProfile) {
+  editUser(updateProfile:any) {
     this.httpClient.post(this.config.endpoint + 'UserServices/addEditUserProfile', updateProfile)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        var iconStatus: SweetAlertType = 'success'
-        var iconStatus2: SweetAlertType = 'warning'
+        var iconStatus: SweetAlertIcon = 'success'
+        var iconStatus2: SweetAlertIcon = 'warning'
         if (data['success'] == true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/profilelist'])
@@ -55,12 +55,12 @@ export class UserProfileService {
       }
 
 
-      createProfileVotation(createProfileVotation) {
+      createProfileVotation(createProfileVotation:any) {
         this.httpClient.post(this.config.endpoint + 'ApiVoting/createEditVoterProfile', createProfileVotation)
-        .subscribe(data => {
+        .subscribe((data:any) => {
           this.data = data;
-          let iconStatus: SweetAlertType = 'success';
-          let iconStatus2: SweetAlertType = 'warning';
+          let iconStatus: SweetAlertIcon = 'success';
+          let iconStatus2: SweetAlertIcon = 'warning';
           if (data['success'] === true) {
             if (data['success']) {
               iconStatus = 'success', this.router.navigate(['/home/listProfileVotation']);
@@ -74,12 +74,12 @@ export class UserProfileService {
           }
         });
       }
-      editProfileVotation(editProfileVotation) {
+      editProfileVotation(editProfileVotation:any) {
         this.httpClient.post(this.config.endpoint + 'ApiVoting/createEditVoterProfile', editProfileVotation)
-        .subscribe(data => {
+        .subscribe((data:any) => {
           this.data = data;
-          let iconStatus: SweetAlertType = 'success';
-          let iconStatus2: SweetAlertType = 'warning';
+          let iconStatus: SweetAlertIcon = 'success';
+          let iconStatus2: SweetAlertIcon = 'warning';
           if (data['success'] === true) {
             if (data['success']) {
               iconStatus = 'success', this.router.navigate(['/home/listProfileVotation']);

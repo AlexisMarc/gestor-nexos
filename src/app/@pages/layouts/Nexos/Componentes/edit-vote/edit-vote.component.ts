@@ -25,7 +25,7 @@ export class EditVoteComponent implements OnInit {
   user_id: string;
   allProfilesVotation_edit: DataProfileVoter[] = [];
   ProfileSelected_edit = "0";
-  nameOption_edit: string;
+  nameOption_edit!: string;
   ProfilesToSend_edit: DataProfileVoterSend[] = [];
   request_accepted_edit = 1;
   vote_id_edit: string;
@@ -33,7 +33,7 @@ export class EditVoteComponent implements OnInit {
   unit_chart_edit = '1';
   ausentes_edit = false;
   pendientes_edit = true;
-  status_id_edit: string;
+  status_id_edit!: string;
   meeting_id_edit: string;
   keysession_edit: string;
   totalProfiles_edit = 0;
@@ -48,16 +48,16 @@ export class EditVoteComponent implements OnInit {
     private storage: WebStorageService,
     private createAnswerService: CreateAnswerService) {
 
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.meeting_id_edit = this.route.snapshot.paramMap.get('idMeeting');
-    this.vote_id_edit = this.route.snapshot.paramMap.get('idVote');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
+    this.meeting_id_edit = this.route.snapshot.paramMap.get('idMeeting')!;
+    this.vote_id_edit = this.route.snapshot.paramMap.get('idVote')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
     this.keysession_edit = userStorage['content']['token']
     var profileVoterForAddList_edit: DataProfileVoter;
 
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.totalProfiles_edit = resp['content'].length;
         for (let index = 0; index < resp['content'].length; index++) {
           if (resp['content'][index]['id'] == 1) {
@@ -72,7 +72,7 @@ export class EditVoteComponent implements OnInit {
       });
 
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getVoteOptionById?key=' + this.config.key + '&id=' + this.vote_id_edit + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['content']['mode_chart'] == '1') {
           this.pendientes_edit = true;
           this.ausentes_edit = true;
@@ -124,7 +124,7 @@ export class EditVoteComponent implements OnInit {
     }
   }
 
-  changeProfileById_edit(profile_id, selected) {
+  changeProfileById_edit(profile_id:any, selected:any) {
     if (selected) {
       var profileDefault = new DataProfileVoterSend(profile_id)
       this.ProfilesToSend_edit.push(profileDefault);

@@ -8,7 +8,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 //Thirdparty
 import {NgsRevealModule} from 'ng-scrollreveal';
-import { SwiperModule, SWIPER_CONFIG, SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { SwiperModule, SWIPER_CONFIG, SwiperConfigInterface } from '@sonrisa-dev/ngx-swiper-wrapper-sonfork';
 
 // Dependant of pg-slider
 import { FormsModule } from '@angular/forms'; 

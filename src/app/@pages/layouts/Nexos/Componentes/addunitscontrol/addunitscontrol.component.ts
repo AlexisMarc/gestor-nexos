@@ -20,47 +20,48 @@ import { WhatsappService } from '../../service/whatsaap_services';
 })
 export class AddunitscontrolComponent implements OnInit {
 
-  residential_id: string;
+  textToSearch: any
+  residential_id!: string;
   document_number: any;
-  customer_id: string;
-  customer_id_send: string;
-  listadoUnidad: listadoUnidad[] = [];
+  customer_id!: string;
+  customer_id_send!: string;
+  listadoUnidad: any = [];
   listadoUnidad2:any []  = []
-  listadoUnidadData: listadoUnidad[] = [];
+  listadoUnidadData: any = [];
   ListadoConjuntosSelect: [] = [];
   ListadoConjuntosSelect2: [] = [];
   ListadoUnidades: [] = [];
-  sector: string;
+  sector!: string;
   ListadoUnidades2: [] = [];
-  name_unidad: string;
-  int = 'value';
-  int2 = 'value';
-  id_sector_search = 'value';
+  name_unidad!: string;
+  int:any = 'value';
+  int2:any = 'value';
+  id_sector_search:any = 'value';
   unidadesOk = false;
   id_unit_add = 'value';
   id_unit_search = 'value';
-  add_unit_text: string;
+  add_unit_text!: string;
   show_components = 0;
   id_unidad_envio: listadoUnidadEnvio[] = [];
-  nameRegister: string;
-  name: string;
-  residential_name: string;
-  moroso: string;
-  meeting_id: string;
+  nameRegister!: string;
+  name!: string;
+  residential_name!: string;
+  moroso!: string;
+  meeting_id!: string;
   token = '';
-  user_id: string;
-  profile: string;
-  is_observer: string;
-  speaker: string;
-  quorum_real_time: string;
+  user_id!: string;
+  profile!: string;
+  is_observer!: string;
+  speaker!: string;
+  quorum_real_time!: string;
   customer_email = '';
   customer_email_2 = '';
   customer_email_3 = '';
   customer_email_4 = '';
-  keysession: string;
+  keysession!: string;
   typeSelectedUser = true;
   userLocation = '';
-  whatsapp_phone:string
+  whatsapp_phone!:string
   contrys = []
   phone_code='57'
   
@@ -78,7 +79,7 @@ export class AddunitscontrolComponent implements OnInit {
     private _WhatsappService : WhatsappService
   ) {
     
-    this._WhatsappService.getCountry().subscribe(resp => {
+    this._WhatsappService.getCountry().subscribe((resp:any)=> {
       this.contrys = resp['content']
     })
 
@@ -94,21 +95,21 @@ export class AddunitscontrolComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.user_id = userStorage['content']['id'];
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.profile = userStorage['content']['profile'];
     this.token = userStorage['content']['token'];
     this.quorum_real_time = this.global.quorum_real_time;
     this.keysession = userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
 
-      .subscribe(resp4 => {
+      .subscribe((resp4:any) => {
         if (resp4['message'] == "La sesión es inválida") {
           swal.fire({
             title:'Atención', 
             text:'Su sesión no es valida por favor ingrese de nuevo.', 
-            type:'info',
+            icon:'info',
             backdrop: true,
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
           }).then(response=>{
@@ -133,14 +134,14 @@ export class AddunitscontrolComponent implements OnInit {
 
   ngOnInit() {
     
-    // this._WhatsappService.getCountry().subscribe(resp => {
+    // this._WhatsappService.getCountry().subscribe((resp:any)=> {
     //   this.contrys = resp['content']
     // })
     
   }
 
-  ejem(i) {
-    this.listadoUnidad2.forEach(element => {
+  ejem(i:any) {
+    this.listadoUnidad2.forEach((element:any) => {
       if (element.id_unidad == i) {
         element.is_owner = element.is_owner === '1' ? '0' : '1'
       }
@@ -151,7 +152,7 @@ export class AddunitscontrolComponent implements OnInit {
     this.listadoUnidad = [];
     this.listadoUnidad2 = []
     this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + this.document_number + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         
         if (resp['success'] === true) {
           this.show_components = 1;
@@ -197,7 +198,7 @@ export class AddunitscontrolComponent implements OnInit {
         this.listadoUnidadData = resp['content']['units'];
         let listadoUnidad2_owner =  resp['content']['units'];
         
-        listadoUnidad2_owner.forEach(element=>{
+        listadoUnidad2_owner.forEach((element:any)=>{
           let unidad = {'name_sector':element.building_name,'number_sector':element.building_number,'name_unidad':element.unit_name,'number_unidad':element.unit_number,'id_unidad':element.unit_id,'is_owner':element.is_owner,'total_users':element.total_users}
         this.listadoUnidad2.push(unidad)
         })
@@ -242,7 +243,7 @@ export class AddunitscontrolComponent implements OnInit {
     if (this.int == 'value' || this.id_unit_add == 'value') {
       Swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'Seleccione la torre y la unidad',
         showCloseButton: true,
@@ -261,7 +262,7 @@ export class AddunitscontrolComponent implements OnInit {
       }
       Swal.fire({
         title: '<strong>Esta Seguro</strong>',
-        type: 'question',
+        icon: 'question',
         html:
           this.add_unit_text,
         showCloseButton: true,
@@ -287,7 +288,7 @@ export class AddunitscontrolComponent implements OnInit {
   }
 
   saveChanges() {
-    const validateEmail = (email) => {
+    const validateEmail = (email:any) => {
       return String(email)
         .toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     };
@@ -325,8 +326,8 @@ export class AddunitscontrolComponent implements OnInit {
               this.id_unidad_envio.push(new_unit);
             }
             let unidades2 = '';
-            let id_unidad_envio2 =[]
-            this.listadoUnidad2.forEach(element=>{
+            let id_unidad_envio2:any =[]
+            this.listadoUnidad2.forEach((element:any)=>{
               let new_unit2 = {'unit':element.id_unidad,'is_owner':element.is_owner}
               id_unidad_envio2.push(new_unit2)
             })
@@ -372,7 +373,7 @@ export class AddunitscontrolComponent implements OnInit {
     }
   }
 
-  deleteUnit(i) {
+  deleteUnit(i:any) {
     this.listadoUnidad2.splice(i, 1);
   }
 
@@ -382,7 +383,7 @@ export class AddunitscontrolComponent implements OnInit {
   goMenuSettingVoting() {
     this.router.navigate(['home/menusettingVoting']);
   }
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id]);
   }
   goSearchPointControl() {
@@ -395,7 +396,7 @@ export class AddunitscontrolComponent implements OnInit {
   enableUserAndChagePass() {
     Swal.fire({
       title: '<strong>Esta Seguro de expulsar este usuario</strong>',
-      type: 'question',
+      icon: 'question',
       html:
         this.add_unit_text,
       showCloseButton: true,
@@ -434,7 +435,7 @@ export class AddunitscontrolComponent implements OnInit {
     this.nameRegister = '';
     this.name = '';
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_unit_search)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['success'] == true) {
           this.document_number = resp['content']['document_number'];
           this.phone_code =resp['content']['country_code']
@@ -492,7 +493,7 @@ export class AddunitscontrolComponent implements OnInit {
     this.customer_email_3 = "";
     this.customer_email_4 = "";
     this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + this.document_number + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
           if (resp['content']['nameRegister'] == null) {
@@ -528,7 +529,7 @@ export class AddunitscontrolComponent implements OnInit {
   }
 
   saveChangesAndSendEmail() {
-    const validateEmail = (email) => {
+    const validateEmail = (email:any) => {
       return String(email)
         .toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     };
@@ -567,8 +568,8 @@ export class AddunitscontrolComponent implements OnInit {
             // }
 
             let unidades2 = '';
-            let id_unidad_envio_and_send_email =[]
-            this.listadoUnidad2.forEach(element=>{
+            let id_unidad_envio_and_send_email:any =[]
+            this.listadoUnidad2.forEach((element:any)=>{
               let new_unit2 = {'unit':element.id_unidad,'is_owner':element.is_owner}
               id_unidad_envio_and_send_email.push(new_unit2)
             })
@@ -591,10 +592,10 @@ export class AddunitscontrolComponent implements OnInit {
 
             if(this.customer_email  != '' || this.customer_email_2!='' || this.customer_email_3!='' || this.customer_email_4!=''){
               this.httpClient.post(this.config.endpoint6 + 'api/customers/updateCustomerProperties/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id, formData2)
-              .subscribe(data => {
+              .subscribe((data:any) => {
                 
                 if (data['success']) {
-                  this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateCustomerData', formData).subscribe((user) => {
+                  this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateCustomerData', formData).subscribe((user:any) => {
                     if (user['success']) {
                       if (this.customer_email != '' || this.customer_email_2 != '' || this.customer_email_3 != '' || this.customer_email_4 != '') {
                         this.sendmailService.SendMailServiceByUnit(this.keysession, this.customer_id, this.meeting_id);
@@ -624,7 +625,7 @@ export class AddunitscontrolComponent implements OnInit {
               });
             }else{
               Swal.fire({
-                type: 'info',
+                icon: 'info',
                 title: ' Atención',
                 html:' Los campos de email a enviar estan vacios'
               })
@@ -640,7 +641,7 @@ export class AddunitscontrolComponent implements OnInit {
   closeSessionUser() {
     Swal.fire({
       title: '<strong>¿Esta seguro de cerrarle sesión al usuario?</strong>',
-      type: 'question',
+      icon: 'question',
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: true,
@@ -653,7 +654,7 @@ export class AddunitscontrolComponent implements OnInit {
       .then((result) => {
         if (result.value) {
           this.httpClient.get(this.config.endpoint6 + 'api/customers/removeUserSessionFromMeeting/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id)
-            .subscribe(response => {
+            .subscribe((response :any)=> {
               if (response['success']) {
                 swal.fire("Mensaje", response['message'], 'success');
               } else {
@@ -683,9 +684,9 @@ export class AddunitscontrolComponent implements OnInit {
     }
   }
 
-  selectedUser2(unit_id_of_customer, sector_name, sector_number, unit_name, unit_number) {
+  selectedUser2(unit_id_of_customer:any, sector_name:any, sector_number:any, unit_name:any, unit_number:any) {
     // this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + unit_id_of_customer)
-    //   .subscribe(resp => {
+    //   .subscribe((resp:any)=> {
     //     this.form_unit = sector_name + " " + sector_number + ' ' + unit_name + ' ' + unit_number;
     //     this.getCustomerDetails(resp['content']['document_number']);
     //   });

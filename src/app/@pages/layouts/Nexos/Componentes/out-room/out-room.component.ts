@@ -21,7 +21,7 @@ export class OutRoomComponent implements OnInit {
   profileForm = new FormGroup({
     token_2: new FormControl(''),
   });
-  token_2: string;
+  token_2!: string;
 
 
   constructor(
@@ -32,9 +32,9 @@ export class OutRoomComponent implements OnInit {
     @Inject(SESSION_STORAGE)
     private storage: WebStorageService
   ) {
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.voting_header_id = this.route.snapshot.paramMap.get('idVote');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
+    this.voting_header_id = this.route.snapshot.paramMap.get('idVote')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
   }
@@ -42,7 +42,7 @@ export class OutRoomComponent implements OnInit {
   ngOnInit() {
   }
 
-  sendQR(customerData) {
+  sendQR(customerData:any) {
     const formData2 = new FormData();
     formData2.append('key', this.config.key);
     formData2.append('user_id', this.user_id);
@@ -51,7 +51,7 @@ export class OutRoomComponent implements OnInit {
     formData2.append('meeting_id', this.meeting_id);
 
     this.httpClient.post(this.config.endpoint + 'ApiQrPresence/updateCustomerRoomByToken', formData2)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         // this.listUserInRoom = resp['content'];
       });
     this.profileForm.reset();
@@ -81,7 +81,7 @@ export class OutRoomComponent implements OnInit {
     this.router.navigate(['home/entradaSala/' + this.residential_id + '/' + this.meeting_id]);
   }
 
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id]);
   }
   goSearchPointControl() {

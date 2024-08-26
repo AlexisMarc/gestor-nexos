@@ -7,9 +7,9 @@ import { pagesToggleService } from '../../services/toggler.service'
 })
 export class SecondarySidebarComponent implements OnInit,OnDestroy {
   _toggleMobileSidebar = false;
-  _togglePosition;
-  _extraClass;
-  _service;
+  _togglePosition:any;
+  _extraClass:any;
+  _service:any;
 
   constructor(private toggler:pagesToggleService) { }
   

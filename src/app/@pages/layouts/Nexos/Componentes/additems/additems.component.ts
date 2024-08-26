@@ -16,13 +16,13 @@ import Swal from 'sweetalert2';
 })
 export class AdditemsComponent implements OnInit {
   quote_type_id = '1';
-  listItems: ItemSave[] = [];
+  listItems: {[key:string]:any}[] = [];
   listadoItems: [] = [];
   listadoItemsCant: ItemsCant[] = [];
   listadoItemsSave: ItemSave[] = [];
   cantidad: any;
-  id_building: string;
-  id_quote: string;
+  id_building!: string;
+  id_quote!: string;
   constructor(
     private router: Router,
     private config: ConfigurationRestService,
@@ -56,17 +56,17 @@ export class AdditemsComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
-    this.id_building = this.route.snapshot.paramMap.get('id');
-    this.id_quote = this.route.snapshot.paramMap.get('id_quote');
+    this.id_building = this.route.snapshot.paramMap.get('id')!;
+    this.id_quote = this.route.snapshot.paramMap.get('id_quote')!;
 
     // Obtener todos los items a cotizar
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllItemsToSellByTypeQuote?key=' + this.config.key + '&quote_type_id=' + this.quote_type_id)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         this.listItems = resp2['content'];
         for (let index3 = 0; index3 < this.listItems.length; index3++) {
           for (let index4 = 0; index4 < globals.listadoItems.length; index4++) {
-            if (globals.listadoItems[index4]['item_price_id'] === this.listItems[index3]['id']) {
+            if (globals.listadoItems[index4]['item_price_id'] === this.listItems[index3]['item_price_id']) {
               this.listadoItemsCant[index3] = globals.listadoItems[index4]['quantity'];
             }
           }
@@ -98,14 +98,14 @@ export class AdditemsComponent implements OnInit {
       if (this.listadoItemsCant[index] === true) {
         this.cantidad = 1;
       } else {
-        if (x > 0) {
+        if (x) {
           this.cantidad = this.listadoItemsCant[index];
         }
       }
       if (this.cantidad > 0) {
 
         const item = new ItemSave(
-          this.listItems[index]['id'],
+          this.listItems[index]['item_price_id'],
           '',
           this.listItems[index]['name'],
           this.cantidad,

@@ -10,12 +10,12 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
   styleUrls: ['./units-not-voted.component.scss']
 })
 export class UnitsNotVotedComponent implements OnInit {
-  @Input() residential_id: string;
-  @Input() meeting_id: string;
+  @Input() residential_id!: string;
+  @Input() meeting_id!: string;
 
   keysession: string;
   unitslist: any;
-  totalunits: number;
+  totalunits!: number;
   totalnovotedunits: number;
   totalvotedunits: number;
   selectallvoters: any;
@@ -41,12 +41,12 @@ export class UnitsNotVotedComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(response => {
+      .subscribe((response :any)=> {
         if (response['success']) {
           this.unitslist = response['content'];
           this.sector_name = this.unitslist[0]['name'];
           this.unit_name = this.unitslist[0]['units'][0]['name'];
-          this.unitslist.forEach((building) => {
+          this.unitslist.forEach((building:any) => {
             building['units'].forEach((unit: any) => {
               unit['can_vote'] = unit['can_vote'].toString();
               if (unit['can_vote'] == 0) {
@@ -89,7 +89,7 @@ export class UnitsNotVotedComponent implements OnInit {
   }
 
   changeStatusToAllVoters(status: string) {
-    var input, filter, table, tr, td, i, txtValue, radio, td2, radioId, arrayUnit;
+    var input, filter, table, tr, td, i, txtValue, radio, td2, radioId, arrayUnit:any;
     input = document.getElementById('myInput') as HTMLInputElement;
     filter = input.value.toUpperCase();
     if (filter != '') {
@@ -98,6 +98,7 @@ export class UnitsNotVotedComponent implements OnInit {
       for (i = 1; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[0];
         td2 = tr[i].getElementsByTagName("td")[3];
+        //@ts-ignore
         radio = td2.getElementsByTagName("input") as HTMLInputElement;
         radioId = td2.getElementsByTagName("input")[0].id;
         if (td) {
@@ -112,7 +113,7 @@ export class UnitsNotVotedComponent implements OnInit {
         }
       }
     } else {
-      this.unitslist.forEach((building) => {
+      this.unitslist.forEach((building:any) => {
         building['units'].forEach((unit: any) => {
           unit['can_vote'] = status;
         });
@@ -160,7 +161,7 @@ export class UnitsNotVotedComponent implements OnInit {
     this.status = 1;
     var units;
     var button = document.getElementById('button-event');
-    this.unitslist.forEach((building) => {
+    this.unitslist.forEach((building:any) => {
       building['units'].forEach((unit: any) => {
         var profile = new DataProfile(unit['id'], unit['can_vote']);
         this.arrayVoteProfile.push(profile);
@@ -170,7 +171,7 @@ export class UnitsNotVotedComponent implements OnInit {
     var formData = new FormData;
     formData.append('units', units);
     formData.append('meeting_id', this.meeting_id);
-    this.httpClient.post(this.config.endpoint6 + 'api/units/updateMultipleUnits/' + this.keysession, formData).subscribe((response) => {
+    this.httpClient.post(this.config.endpoint6 + 'api/units/updateMultipleUnits/' + this.keysession, formData).subscribe((response:any) => {
       if (response['success']) {
         this.status = 2;
         button!.classList.toggle('succes-event')

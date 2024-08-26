@@ -2,10 +2,10 @@ import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import { Chats } from '../../Interface/chats.model';
 import * as jsPDF from 'jspdf';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import Swal from 'sweetalert2';
+import { Chats } from '../../interface/chats.model';
 declare var moment: any;
 
 @Component({
@@ -15,15 +15,15 @@ declare var moment: any;
 })
 export class ChatComponent implements OnInit {
 
-  @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('content', { static: false }) content!: ElementRef;
 
   residential_id: any;
   meeting_id: any;
-  chat: Chats[] = [];
-  chats: Chats[] = [];
-  user_id: string;
+  chat: any[] = [];
+  chats: any[] = [];
+  user_id!: string;
   residential: any;
-  keysession: string;
+  keysession!: string;
 
   constructor(
     private router: Router,
@@ -48,11 +48,11 @@ export class ChatComponent implements OnInit {
     this.residential_id = this.route.snapshot.paramMap.get('id');
     this.keysession = userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];
         this.residential = resp['content']['residential'];
         this.httpClient.get(this.config.endpoint6 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/0')
-          .subscribe(resp2 => {
+          .subscribe((resp2 :any)=> {
             if (resp2['success']) {
               for (let index = 0; index < resp2['content']['messages'].length; index++) {
                 if (resp2['content']['messages'][index]['user_id']) {
@@ -98,7 +98,7 @@ export class ChatComponent implements OnInit {
     this.router.navigate(['home/menusettingVoting']);
   }
 
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id]);
   }
 
@@ -110,11 +110,12 @@ export class ChatComponent implements OnInit {
     this.router.navigate(['home/pointControlMeeting/' + this.residential_id]);
   }
 
-  downloadPdf(name) {
+  downloadPdf(name:any) {
+    //@ts-ignore
     var pdf = new jsPDF('p', 'pt', 'letter');
     var source = $('#content')[0];
     var specialElementHandlers = {
-      '#bypassme': function (element, renderer) {
+      '#bypassme': function (element:any, renderer:any) {
         return true
       }
     };
@@ -137,7 +138,7 @@ export class ChatComponent implements OnInit {
     );
   }
 
-  transformTimeZone(dateToTransform) {
+  transformTimeZone(dateToTransform:any) {
     var date = new Date();
     var offset = date.getTimezoneOffset();
     var dateGot = dateToTransform.trim();

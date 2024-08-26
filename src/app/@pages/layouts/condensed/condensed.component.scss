@@ -1,9 +1,6 @@
 
 @import 'core.scss';
 
-$base-img-url: "../../assets/images" !global;
-$assets-url: "../../assets" !global;
-
 @import "modules/_layout.scss";
 @import "modules/sidebar";
 @import "modules/_secondary-sidebar.scss";
@@ -104,7 +101,7 @@ $assets-url: "../../assets" !global;
 @import "vendor/ng-tree.scss";
 @import "vendor/quill.scss";
 @import "vendor/ng-datatable.scss";
-@import "vendor/ngx-nvd3.scss";
+// @import "vendor/ngx-nvd3.scss";
 @import "vendor/ngx-google-map.scss";
 
 .nav-item {

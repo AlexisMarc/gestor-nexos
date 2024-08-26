@@ -21,7 +21,7 @@ export class UserService {
     private storage: WebStorageService
   ) { }
 
-  authentication(userAthentication) {
+  authentication(userAthentication:any) {
     var email = userAthentication.get("email");
     var password = userAthentication.get("password");
     // var ip = userAthentication.get("ip");
@@ -30,7 +30,7 @@ export class UserService {
     this.arrayToSend = {"email": email,"password":password,"source":source}
     this.arrayToSend = JSON.stringify(this.arrayToSend)
 
-    this.httpClient.post(this.config.endpoint6 + 'api/users/login',this.arrayToSend).subscribe(response => {
+    this.httpClient.post(this.config.endpoint6 + 'api/users/login',this.arrayToSend).subscribe((response:any) => {
       if (response['success'] == true) {
         this.storage.set('user', response);
         this.router.navigate(['/home']);

@@ -14,9 +14,9 @@ import * as moment from 'moment';
 })
 export class UserWorkComponent implements OnInit {
 
-  profile: string;
+  profile!: string;
   listActiveUser: any;
-  keysession: string;
+  keysession!: string;
   rest_hour = 1000*60*60*5
 
   constructor(
@@ -45,7 +45,7 @@ export class UserWorkComponent implements OnInit {
 
   ngOnInit() {
     //Llamar listado de tareas del día actual
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskList/' + this.keysession).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskList/' + this.keysession).subscribe((response:any) => {
       if (response['success']) {
         this.listActiveUser = response['content']
         this.transformTimeZone(this.listActiveUser)
@@ -57,11 +57,12 @@ export class UserWorkComponent implements OnInit {
     this.router.navigate(['/home/tareas']);
   }
 
-  transformTimeZone(dateToTransform) {
-    dateToTransform.forEach(element => {
+  transformTimeZone(dateToTransform:any) {
+    dateToTransform.forEach((element:any) => {
       if(element.start_task != null){
         let dateToBack = Date.parse(element.start_task)
         let actualDate = dateToBack - this.rest_hour
+        //@ts-ignore
         var datetransformed = moment(actualDate)
         let dateFormate = datetransformed.format('YYYY-MM-DD HH:mm:ss')
         element.start_task = dateFormate
@@ -69,6 +70,7 @@ export class UserWorkComponent implements OnInit {
       if(element.end_task != null){
         let dateToBack2 = Date.parse(element.end_task)
         let actualDate2 = dateToBack2 - this.rest_hour
+        //@ts-ignore
         var datetransformed2 = moment(actualDate2)
         let dateFormate2 = datetransformed2.format('YYYY-MM-DD HH:mm:ss')
         element.end_task = dateFormate2

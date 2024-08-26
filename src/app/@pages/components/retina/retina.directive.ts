@@ -1,7 +1,8 @@
 import { Directive, Input, OnInit,ElementRef,Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[pgRetina]'
+  selector: '[pgRetina]',
+  standalone: true,
 })
 export class pgRetinaDirective implements OnInit {
   isRetina:boolean = false;

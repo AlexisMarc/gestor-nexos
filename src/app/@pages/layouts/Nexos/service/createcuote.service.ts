@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon, SweetAlertOptions } from 'sweetalert2';
 import { SaveQuotationHistoryService } from './save-quotation-history.service';
 
 @Injectable({
@@ -17,12 +17,12 @@ export class CreatecuoteService {
     private router: Router,
     private saveQuotationHistoryService: SaveQuotationHistoryService) { }
 
-  CreateQuote(dataQuote, user_id) {
+  CreateQuote(dataQuote:any, user_id:any) {
     this.httpClient.post(this.config.endpoint + 'QuoteServices/storeQuote', dataQuote)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        var iconStatus: SweetAlertType = 'success'
-        var iconStatus2: SweetAlertType = 'warning'
+        var iconStatus: SweetAlertIcon = 'success'
+        var iconStatus2: SweetAlertIcon = 'warning'
         if (data['success'] == true) {
           if (data['success']) {
             iconStatus = 'success'
@@ -30,7 +30,7 @@ export class CreatecuoteService {
           window.open(data['document']);
           swal.fire({
             title: '<strong>Confirma la recepcion</strong>',
-            type: 'question',
+            icon: 'question',
             html:
               'Pregunta si el cliente recibio la cotizacion <br> <input type="text" id="d" value="" style="width: 100%;padding: 12px 20px;margin: 8px 0;display: inline-block;border: 1px solid #ccc;border-radius: 4px; box-sizing: border-box;">',
             showCancelButton: true,

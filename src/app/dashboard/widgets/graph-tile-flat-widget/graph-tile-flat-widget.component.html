@@ -1,5 +1,5 @@
-<pgcard TimeOut="3000" ProgressType="bar" AdditionalClasses="widget-8 card no-border {{_bgColor}} no-margin widget-loader-bar" Maximize="false" Toggle="false"
- Close="false" BodyClass="no-padding">
+<pgcard [TimeOut]="3000" ProgressType="bar" AdditionalClasses="widget-8 card no-border {{_bgColor}} no-margin widget-loader-bar" [Maximize]="false" [Toggle]="false"
+ [Close]="false" BodyClass="no-padding">
 	<ng-template #CardTitle>
 		<span class="font-montserrat fs-11 all-caps">
 			Weekly Sales
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<div class="widget-8-chart line-chart" data-line-color="black" data-points="true" [attr.data-point-color]="_pointColor" data-stroke-width="2">
-					<nvd3 [options]="chartOptions" [data]="chartData"></nvd3>
+					<!-- <nvd3 [options]="chartOptions" [data]="chartData"></nvd3> -->
 				</div>
 			</div>
 		</div>

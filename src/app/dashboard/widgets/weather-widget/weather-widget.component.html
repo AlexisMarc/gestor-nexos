@@ -1,4 +1,4 @@
-<pgcard TimeOut="3000" *ngIf="_type === 'compact'" AdditionalClasses="widget-17 card  no-border no-margin widget-loader-circle" Maximize="false" Toggle="false" Close="false">
+<pgcard [TimeOut]="3000" *ngIf="_type === 'compact'" AdditionalClasses="widget-17 card  no-border no-margin widget-loader-circle" [Maximize]="false" [Toggle]="false" [Close]="false">
 		<ng-template #CardTitle>
 
 				<span class="font-montserrat fs-11 all-caps">
@@ -200,7 +200,7 @@
 		  </div>
 </pgcard>
 
-<pgcard TimeOut="3000" *ngIf="_type !== 'compact'" AdditionalClasses="widget-17 card  no-border no-margin widget-loader-circle" Maximize="false" Toggle="false" Close="false">
+<pgcard [TimeOut]="3000" *ngIf="_type !== 'compact'" AdditionalClasses="widget-17 card  no-border no-margin widget-loader-circle" [Maximize]="false" [Toggle]="false" [Close]="false">
 	<ng-template #CardTitle>
 			<span class="font-montserrat fs-11 all-caps">
 					<i class="pg pg-map"></i> California, USA

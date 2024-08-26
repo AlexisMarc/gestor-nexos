@@ -14,10 +14,10 @@ export class SendMessageService {
 
   ngOnInit() { }
 
-  sendMessage(dataMessage, keysession) {
+  sendMessage(dataMessage:any, keysession:any) {
     
     this.httpClient.post(this.config.endpoint6+'api/chat/storemessage/' + keysession, dataMessage)
-      .subscribe(data => {
+      .subscribe((data:any) => {
       });
   }
 }

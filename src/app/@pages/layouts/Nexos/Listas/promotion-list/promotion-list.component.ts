@@ -36,7 +36,7 @@ export class PromotionListComponent implements OnInit {
       this.router.navigate(['/']);
     }
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllDiscounts?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.ListDiscounts = resp['content'];
       });
   }
@@ -49,7 +49,7 @@ export class PromotionListComponent implements OnInit {
   goCreatePromotion() {
     this.router.navigate(['home/createPromotion'])
   }
-  goEditPromotion(idDiscount) {
+  goEditPromotion(idDiscount:any) {
     this.router.navigate(['home/editPromotion/' + idDiscount])
   }
   goMenuSetting() {

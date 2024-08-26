@@ -35,10 +35,10 @@ export class TracingQuoteComponent implements OnInit {
   idQuote: any;
   idResidential: any;
   id_user: any;
-  url: string;
+  url!: string;
   init_time: any;
-  confirm: string;
-  text: string;
+  confirm!: string;
+  text!: string;
   datatext: any;
   dateNow: any;
   constructor(
@@ -74,7 +74,7 @@ export class TracingQuoteComponent implements OnInit {
     this.idResidential = this.route.snapshot.paramMap.get('id_residential');
     //get data quote
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteById?key=' + this.config.key + '&id=' + this.idQuote)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.dataQuote = resp['content'];
         this.quoteParameters['residentialName'] = resp['content']['residentialName'];
         this.quoteParameters['nit'] = resp['content']['nit'];
@@ -90,13 +90,13 @@ export class TracingQuoteComponent implements OnInit {
 
     //get data quote
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getResidentialById?key=' + this.config.key + '&residential_id=' + this.idResidential)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.quoteParameters['name_administrator'] = resp['content']['encargado']['name'];
         this.quoteParameters['units'] = resp['content']['total_properties'];
       });
 
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteConfirmationHistoryByQuote?key=' + this.config.key + '&user_id=' + this.id_user + '&quote_id=' + this.idQuote)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.datatext = resp['content']['messages'];
       });
     let myDate = Date.now();

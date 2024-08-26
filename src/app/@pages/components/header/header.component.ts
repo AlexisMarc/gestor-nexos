@@ -1,6 +1,5 @@
 import { Component, OnInit,OnDestroy, Inject,forwardRef,Input } from '@angular/core';
 import { pagesToggleService } from '../../services/toggler.service'
-import { Subscriber } from 'rxjs/Subscriber'
 declare var pg: any;
 @Component({
   selector: 'pg-header',
@@ -9,8 +8,8 @@ declare var pg: any;
 })
 export class HeaderComponent implements OnInit,OnDestroy {
 	_headerClass = "";
-	isHorizontalLayout:false;
-	_service;
+	isHorizontalLayout = false;
+	_service: any;
 	@Input()
 	boxed:boolean = false;
 

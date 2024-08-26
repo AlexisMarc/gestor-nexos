@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 export class CreateUserServicesService {
   data: any;
   id: any;
-  profile: string;
+  profile: string = '';
   userStorage: any;
 
   constructor(private httpClient: HttpClient,
@@ -35,12 +35,12 @@ export class CreateUserServicesService {
 
   }
 
-  CreateUser(createUser, keysession) {
+  CreateUser(createUser:any, keysession:any) {
     this.httpClient.post(this.config.endpoint6 + 'api/users/record/' + keysession, createUser)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        var iconStatus: SweetAlertType = 'success'
-        var iconStatus2: SweetAlertType = 'warning'
+        var iconStatus: SweetAlertIcon = 'success'
+        var iconStatus2: SweetAlertIcon = 'warning'
         if (data['success'] == true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/userlist'])
@@ -55,13 +55,13 @@ export class CreateUserServicesService {
       });
   }
 
-  editUser(updateUser, profile) {
+  editUser(updateUser:any, profile:any) {
     this.profile = this.userStorage['content']['profile'];
     this.httpClient.post(this.config.endpoint + 'UserServices/addEditUser', updateUser)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        var iconStatus: SweetAlertType = 'success'
-        var iconStatus2: SweetAlertType = 'warning'
+        var iconStatus: SweetAlertIcon = 'success'
+        var iconStatus2: SweetAlertIcon = 'warning'
         if (data['success'] == true && profile == 'Super Usuario') {
           swal.fire('Correcto', data['message'], iconStatus);
           iconStatus = 'success', this.router.navigate(['/home/userlist'])

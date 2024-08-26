@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { Globals } from '../../interface/globals.model';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 @Component({
   selector: 'app-technical-support',
@@ -60,7 +60,7 @@ export class TechnicalSupportComponent implements OnInit {
 
     // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getActiveMeetingByResidential?key=' + this.config.key + '&date=' + this.date)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listResidentials = resp['content'];
       });
 
@@ -68,7 +68,7 @@ export class TechnicalSupportComponent implements OnInit {
 
   reLoadList() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getActiveMeetingByResidential?key=' + this.config.key + '&date=' + this.date)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listResidentials = resp['content'];
       });
   }
@@ -79,7 +79,7 @@ export class TechnicalSupportComponent implements OnInit {
   goHome() {
     this.router.navigate(['home/']);
   }
-  goSupportTechnical(idResidential) {
+  goSupportTechnical(idResidential:any) {
     this.router.navigate(['home/SoporteTelefonico/' + idResidential]);
   }
 

@@ -17,7 +17,7 @@ export class SearchActiveSetsComponent implements OnInit {
   ListServiceActive: any;
   searchPost = '';
   meeting_id: any;
-  keysession: string;
+  keysession!: string;
   constructor(
     private router: Router,
     private httpClient: HttpClient,
@@ -50,30 +50,30 @@ export class SearchActiveSetsComponent implements OnInit {
     this.router.navigate(['home/menusettingVoting']);
   }
 
-  goPreRegistration(idResidential) {
+  goPreRegistration(idResidential:any) {
     this.router.navigate(['home/preregistration/' + idResidential]);
   }
 
-  goVote(idResidential, name) {
+  goVote(idResidential:any, name:any) {
     this.router.navigate(['home/votingMeeting/' + idResidential + '/' + name]);
   }
 
-  goEditMetting(idResidential) {
+  goEditMetting(idResidential:any) {
     this.router.navigate(['home/editMeeting/' + idResidential]);
   }
 
-  goVoteAndPreRegistration(idResidential) {
+  goVoteAndPreRegistration(idResidential:any) {
     this.router.navigate(['home/votingAndPreregistration/' + idResidential]);
   }
 
   Search2() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });
   }
 
-  clone(idResidential) {
+  clone(idResidential:any) {
     Swal.fire({
       icon: 'question',
       title: '¿Esta seguro de clonar esta reunión?',
@@ -82,9 +82,9 @@ export class SearchActiveSetsComponent implements OnInit {
       cancelButtonColor: '#444',
       confirmButtonText: 'Si, Iniciar!',
       cancelButtonText: 'No'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value) {
-        this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + idResidential).subscribe((response) => {
+        this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + idResidential).subscribe((response:any) => {
           if (response['success']) {
             if (response['content']['status_preregister'] == '1') {
               Swal.fire('Mensaje', 'Tiene un preregistro activo, no puede clonar la reunión sin haberlo cerrado', 'info')
@@ -96,10 +96,10 @@ export class SearchActiveSetsComponent implements OnInit {
                 const formData2 = new FormData();
                 formData2.append('id', this.meeting_id);
                 formData2.append('meeting_status', '2');
-                this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe(data => {
+                this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
                   if (data['success']) {
                     this.httpClient.get(this.config.endpoint6 + 'api/meetings/cloneMeeting/' + this.keysession + '/' + this.meeting_id)
-                      .subscribe(resp2 => {
+                      .subscribe((resp2 :any)=> {
                         if (resp2['success']) {
                           Swal.fire('Atención', 'Se ha clonado con exito la reunión', 'success');
                         } else {

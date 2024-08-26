@@ -45,7 +45,7 @@ export class EditCityComponent implements OnInit {
     this.idCity = this.route.snapshot.paramMap.get('idCity')
     //get city by id
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getCityById?key=' + this.config.key + '&id=' + this.idCity)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.CityParameters['id'] = resp['content']['id'];
         this.CityParameters['name'] = resp['content']['name'];
         this.CityParameters['status_id'] = resp['content']['status_id'];

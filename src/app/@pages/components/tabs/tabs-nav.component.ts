@@ -17,15 +17,10 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { merge } from 'rxjs/observable/merge';
-import { of as observableOf } from 'rxjs/observable/of';
-import { auditTime } from 'rxjs/operators/auditTime';
-import { startWith } from 'rxjs/operators/startWith';
 import { toBoolean } from '../util/convert';
 import { pgTabLabelDirective } from './tab-label.directive';
 import { pgTabsInkBarDirective } from './tabs-ink-bar.directive';
+import { auditTime, fromEvent, merge, startWith, Subscription } from 'rxjs';
 
 const EXAGGERATED_OVERSCROLL = 64;
 export type ScrollDirection = 'after' | 'before';
@@ -68,8 +63,8 @@ export class pgTabsNavComponent implements AfterContentChecked, AfterContentInit
   _scrollDistance = 0;
   _selectedIndexChanged = false;
   _realignInkBar: Subscription | null = null;
-  _tabLabelCount: number;
-  _scrollDistanceChanged: boolean;
+  _tabLabelCount!: number;
+  _scrollDistanceChanged!: boolean;
   _selectedIndex = 0;
   _tabPositionMode: TabPositionMode = 'horizontal';
   _tabPosition = 'top';
@@ -112,11 +107,11 @@ export class pgTabsNavComponent implements AfterContentChecked, AfterContentInit
     return this._type;
   }
 
-  @ContentChild('tabBarExtraContent', { read: true, static: false }) _tabBarExtraContent: TemplateRef<void>;
-  @ContentChildren(pgTabLabelDirective) _labelWrappers: QueryList<pgTabLabelDirective>;
-  @ViewChild(pgTabsInkBarDirective, { read: true, static: false }) _inkBar: pgTabsInkBarDirective;
-  @ViewChild('tabListContainer', { read: true, static: false }) _tabListContainer: ElementRef;
-  @ViewChild('tabList', { read: true, static: false }) _tabList: ElementRef;
+  @ContentChild('tabBarExtraContent', { read: true, static: false }) _tabBarExtraContent!: TemplateRef<void>;
+  @ContentChildren(pgTabLabelDirective) _labelWrappers!: QueryList<pgTabLabelDirective>;
+  @ViewChild(pgTabsInkBarDirective, { read: true, static: false }) _inkBar!: pgTabsInkBarDirective;
+  @ViewChild('tabListContainer', { read: true, static: false }) _tabListContainer!: ElementRef;
+  @ViewChild('tabList', { read: true, static: false }) _tabList!: ElementRef;
 
   @Input()
   set ShowPagination(value: boolean) {
@@ -195,10 +190,9 @@ export class pgTabsNavComponent implements AfterContentChecked, AfterContentInit
 
   ngAfterContentInit(): void {
     this._realignInkBar = this._ngZone.runOutsideAngular(() => {
-      const dirChange = this._dir ? this._dir.change : observableOf(null);
-      const resize = typeof window !== 'undefined' ?
-        fromEvent(window, 'resize').pipe(auditTime(10)) :
-        observableOf(null);
+      const dirChange:any =this._dir.value;
+      const resize:any = typeof window !== 'undefined' ??
+        fromEvent(window, 'resize').pipe(auditTime(10))
       return merge(dirChange, resize).pipe(startWith(null)).subscribe(() => {
         if (this.ShowPagination) {
           this._updatePagination();

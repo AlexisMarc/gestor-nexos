@@ -9,9 +9,9 @@ import { sub } from 'date-fns';
   styleUrls: ['./chat-whatsapp.component.scss']
 })
 export class ChatWhatsappComponent implements OnInit {
-  @Input() conversation;
+  @Input() conversation:any;
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();
-  emojiPickerVisible;
+  emojiPickerVisible:any;
   message = '';
   constructor(
     private _whatsappService:WhatsappService
@@ -22,7 +22,7 @@ export class ChatWhatsappComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submitMessage(event) {
+  submitMessage(event:any) {
     let value = event.target.value.trim();
     this.message = '';
     if (value.length < 1) return false;
@@ -36,6 +36,7 @@ export class ChatWhatsappComponent implements OnInit {
     //   time: this.DateFormate(),
     //   me: true,
     // });
+    return;
   }
 
   DateFormate(){
@@ -45,7 +46,7 @@ export class ChatWhatsappComponent implements OnInit {
       return horaFormateada
   }
 
-  emojiClicked(event) {
+  emojiClicked(event:any) {
     this.message += event.emoji.native;
   }
 }

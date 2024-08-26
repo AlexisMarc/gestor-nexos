@@ -24,30 +24,30 @@ export class VoteResultComponent implements OnInit {
 
   id_vote = 0;
   votes: [] = [];
-  meeting_id: string;
-  user_id: string;
+  meeting_id!: string;
+  user_id!: string;
   residential_id: any;
   name_vote = '';
   votes_show = [];
   votes_aporte = [];
-  cantidad_votantes: number;
+  cantidad_votantes!: number;
   status_vote = 0;
-  absent = [];
-  not_voted = [];
+  absent:any = [];
+  not_voted:any = [];
   total_votes = 0;
   votes_options: [] = [];
   dato = 0;
   variable = 0;
   unidad = 0;
-  asitentes: number;
+  asitentes!: number;
   total_aportes = 0;
-  unit_to_chart: string;
-  mode_chart: string;
-  absent_save: string;
-  not_voted_save: string;
-  options_save: string;
-  request_accepted: string;
-  keysession: string;
+  unit_to_chart!: string;
+  mode_chart!: string;
+  absent_save!: string;
+  not_voted_save!: string;
+  options_save!: string;
+  request_accepted!: string;
+  keysession!: string;
   orderDesc = true;
   with_cutomer_name = 'false';
   
@@ -86,10 +86,10 @@ export class VoteResultComponent implements OnInit {
 
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.user_id = userStorage['content']['id'];
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.keysession = userStorage['content']['token'];
 
-    this.createQuestion.activeVote.subscribe((data) => {
+    this.createQuestion.activeVote.subscribe((data:any) => {
       if (data == 1) {
         this.chargeVotes();
       } else {
@@ -105,13 +105,13 @@ export class VoteResultComponent implements OnInit {
   chargeVotes() {
     //Obtener listado de votaciones
     this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.votes = resp['content'];
       });
 
     //Obeter votacion activa
     this.httpClient.get(this.config.endpoint3 + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id)
-      .subscribe(response => {
+      .subscribe((response :any)=> {
         if (response['success'] == false) {
           this.name_vote = "En este momento no hay una votación activa"
         } else {
@@ -121,7 +121,7 @@ export class VoteResultComponent implements OnInit {
           ///////////////////////////////////////////
 
           //Activa el socket para escuchar la votación.
-          this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response) => {
+          this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response:any) => {
             
             
             this.total_votes = 0;
@@ -130,6 +130,7 @@ export class VoteResultComponent implements OnInit {
             this.absent = response['absent'];
             this.not_voted = response['not_voted'];
             this.status_vote = response['vote']['status_id'];
+            //@ts-ignore
             this.total_votes = this.total_votes + this.not_voted['total_aporte'];
             this.unit_to_chart = response['vote']['unit_to_chart'];
             this.mode_chart = response['vote']['mode_chart'];
@@ -145,13 +146,14 @@ export class VoteResultComponent implements OnInit {
 
 
           this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
-            .subscribe(resp => {
+            .subscribe((resp:any)=> {
               this.total_votes = 0;
               this.name_vote = resp['content']['vote']['name'];
               this.votes_options = resp['content']['vote']['options'];
               this.absent = resp['content']['absent'];
               this.not_voted = resp['content']['not_voted'];
               this.status_vote = resp['content']['vote']['status_id'];
+              //@ts-ignore
               this.total_votes = this.total_votes + this.not_voted['total_aporte'];
               this.unit_to_chart = resp['content']['vote']['unit_to_chart'];
               this.mode_chart = resp['content']['vote']['mode_chart'];
@@ -164,10 +166,10 @@ export class VoteResultComponent implements OnInit {
                 this.total_votes = this.total_votes + this.votes[index]['total_aporte'];
               }
               if (this.status_vote == 1) {
-                this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response) => {
+                this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response:any) => {
                   this.getResults();
                 });
-                // this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response) => {
+                // this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response:any) => {
                 //   this.total_votes = 0;
                 //   this.name_vote = response['vote']['name'];
                 //   this.votes_options = response['vote']['options'];
@@ -194,13 +196,13 @@ export class VoteResultComponent implements OnInit {
 
   getListVotes() {
     this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.votes = resp['content'];
       });
     this.status_vote = 0;
   }
 
-  goVote(id_vote) {
+  goVote(id_vote:any) {
     this.router.navigate(['home/resultados2/' + id_vote])
   }
 
@@ -208,13 +210,13 @@ export class VoteResultComponent implements OnInit {
     this.socketService.removeListen('vote_stored_' + this.meeting_id)
   }
 
-  selectedVote(id_vote, status) {
+  selectedVote(id_vote:any, status:any) {
     this.orderDesc = true;
     this.id_vote = id_vote;
     this.vote_vote = id_vote;
     this.dato = 1;
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.total_votes = 0;
         this.name_vote = resp['content']['vote']['name'];
         this.name_name = this.name_vote
@@ -222,6 +224,7 @@ export class VoteResultComponent implements OnInit {
         this.absent = resp['content']['absent'];
         this.not_voted = resp['content']['not_voted'];
         this.status_vote = resp['content']['vote']['status_id'];
+        //@ts-ignore
         this.total_votes = this.total_votes + this.not_voted['total_aporte'];
         this.unit_to_chart = resp['content']['vote']['unit_to_chart'];
         this.mode_chart = resp['content']['vote']['mode_chart'];
@@ -234,10 +237,10 @@ export class VoteResultComponent implements OnInit {
           this.total_votes = this.total_votes + this.votes[index]['total_aporte'];
         }
         if (this.status_vote == 1) {
-          this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response) => {
+          this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response:any) => {
             this.getResults();
           });
-          this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response) => {
+          this.socketService.listen('vote_stored_' + this.meeting_id).subscribe((response:any) => {
             
             this.total_votes = 0;
             this.name_vote = response['vote']['name'];
@@ -245,6 +248,7 @@ export class VoteResultComponent implements OnInit {
             this.absent = response['absent'];
             this.not_voted = response['not_voted'];
             this.status_vote = response['vote']['status_id'];
+            //@ts-ignore
             this.total_votes = this.total_votes + this.not_voted['total_aporte'];
             this.unit_to_chart = response['vote']['unit_to_chart'];
             this.mode_chart = response['vote']['mode_chart'];
@@ -273,7 +277,7 @@ export class VoteResultComponent implements OnInit {
       confirmButtonText: text
     }).then((result) => {
       this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           this.total_votes = 0;
           this.name_vote = resp['content']['vote']['name'];
           this.votes_options = resp['content']['vote']['options'];
@@ -281,6 +285,7 @@ export class VoteResultComponent implements OnInit {
           this.name_name = this.name_vote;
           this.not_voted = resp['content']['not_voted'];
           this.status_vote = resp['content']['vote']['status_id'];
+          //@ts-ignore
           this.total_votes = this.total_votes + this.not_voted['total_aporte'];
           this.unit_to_chart = resp['content']['vote']['unit_to_chart'];
           this.mode_chart = resp['content']['vote']['mode_chart'];
@@ -315,7 +320,7 @@ export class VoteResultComponent implements OnInit {
   Inform() {
     
     this.httpClient.get(this.config.endpoint6 + 'api/voting/getVotingReportByHeaderExcel/' + this.keysession + '/' + this.vote_vote + '/' + this.with_cutomer_name)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -331,9 +336,9 @@ export class VoteResultComponent implements OnInit {
       });
   }
 
-  screenShotVote(nameVote) {
+  screenShotVote(nameVote:any) {
     domtoimage.toJpeg(document.getElementById('content-vote'), { quality: 0.95 })
-      .then(function (dataUrl) {
+      .then(function (dataUrl:any) {
         var link = document.createElement('a');
         link.download = nameVote + '.jpeg';
         link.href = dataUrl;
@@ -343,13 +348,14 @@ export class VoteResultComponent implements OnInit {
 
   getResults() {
     this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.total_votes = 0;
         this.name_vote = resp['content']['vote']['name'];
         this.votes_options = resp['content']['vote']['options'];
         this.absent = resp['content']['absent'];
         this.not_voted = resp['content']['not_voted'];
         this.status_vote = resp['content']['vote']['status_id'];
+        //@ts-ignore
         this.total_votes = this.total_votes + this.not_voted['total_aporte'];
         this.unit_to_chart = resp['content']['vote']['unit_to_chart'];
         this.mode_chart = resp['content']['vote']['mode_chart'];

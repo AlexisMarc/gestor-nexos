@@ -2,8 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import { SweetAlertType } from 'sweetalert2';
-import { Chats } from '../../Interface/chats.model';
+import { SweetAlertIcon } from 'sweetalert2';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { SocketService } from '../../service/socket.service';
@@ -25,20 +24,20 @@ export class InterventionControlComponent implements OnInit {
   meeting_status: any;
   residential_id: any;
   meeting_id: any;
-  name: string;
+  name!: string;
   date: any;
   meeting_time: any;
-  meeting_time_start: '';
+  meeting_time_start!: '';
   is_online: any;
   youtube_link: any;
   youtube_share: any;
   max_agents = '3';
   max_units = '3';
-  chat: Chats[] = [];
-  chats: Chats[] = [];
+  chat: any[] = [];
+  chats: any[] = [];
   user_id = '9913';
   residential: any;
-  zoom_link: SafeUrl;
+  zoom_link!: SafeUrl;
   intervention_cant = 10;
   participants: any;
   interval: any;
@@ -49,12 +48,12 @@ export class InterventionControlComponent implements OnInit {
   cant_notification_participants_compare = 0;
   cant_user_sign = 0;
   cant_user_sign_compare = 0;
-  keysession: string;
+  keysession!: string;
   nameUserToEdit = '';
   userIdToEdit = '';
   intervention_active = true;
-  jitsi_link: string;
-  password_meeting: string;
+  jitsi_link!: string;
+  password_meeting!: string;
   userName = 'Nexos';
   hoursTimer = 0;
   minutesTimer = 2;
@@ -76,8 +75,8 @@ export class InterventionControlComponent implements OnInit {
   end_session_time: any;
   statusMic = 'true';
   statusCam = 'true';
-  newTokenJWT:string
-  intervention_status: boolean
+  newTokenJWT!:string
+  intervention_status!: boolean
 
   constructor(
     private _whatsappService : WhatsappService,
@@ -106,14 +105,14 @@ export class InterventionControlComponent implements OnInit {
     }
     this.keysession = userStorage['content']['token']
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.meeting_id = response['content']['id'];
       
-      this.httpClient.get(this.config.endpoint6+"api/meetings/getVideoMeetingToken/"+this.keysession+'/'+this.meeting_id).subscribe(Response =>{
-        this.newTokenJWT = Response['content']
+      this.httpClient.get(this.config.endpoint6+"api/meetings/getVideoMeetingToken/"+this.keysession+'/'+this.meeting_id).subscribe((response :any)=>{
+        this.newTokenJWT = response['content']
       })
       this.httpClient.get(this.config.endpoint6 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           if(resp['message']== "La sesión es inválida"){
 
           }else{
@@ -136,7 +135,7 @@ export class InterventionControlComponent implements OnInit {
           this.zoom_link = this.sanitizer.bypassSecurityTrustResourceUrl('https://meet.jit.si/' + resp['content']['zoom_link']);
           this.interval = setTimeout(() => {
             if (this.youtube_share.match(/www/gi) != null || this.youtube_share.match(/http/gi) != null) {
-              document.getElementById('youtube_id').setAttribute('src', this.youtube_share);
+              document.getElementById('youtube_id')!.setAttribute('src', this.youtube_share);
             } else {
               try {
                 this.twitch.twitchInsert(this.youtube_share);
@@ -144,34 +143,34 @@ export class InterventionControlComponent implements OnInit {
               }
             }
           }, 1000);
-          this.socketService.listen('hand_raised_' + this.meeting_id).subscribe((response) => {
+          this.socketService.listen('hand_raised_' + this.meeting_id).subscribe((response:any) => {
             // console.log(response)
             this.countParticipantsSocket(response);
           });
-          this.socketService.listen('new_property_added_' + this.meeting_id).subscribe((data) => {
+          this.socketService.listen('new_property_added_' + this.meeting_id).subscribe((data:any) => {
             // console.log(data)
             this.cant_notification = data['total'];
           });
-          this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response) => {
+          this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response:any) => {
             // console.log(response)
             this.countParticipantsSocket(response);
           });
           this.httpClient.get(this.config.endpoint6 + 'api/units/getCustomerUnitsRequested/' + this.keysession + '/' + this.meeting_id + '/0')
-            .subscribe(resp => {
+            .subscribe((resp:any)=> {
               this.units = resp['content'];
               this.cant_notification = resp['content'].length;
               this.cant_notification_compare = resp['content'].length;
             });
           this.countParticipants();
           this.httpClient.get(this.config.endpoint6 + 'api/raisinghands/getActiveRecordByMeeting/' + this.keysession + '/' + this.meeting_id)
-            .subscribe(resp => {
+            .subscribe((resp:any)=> {
               this.intervention_active = resp['status_id'];
             });
           setTimeout(() => {
-            document.getElementById('jitsi_button').click();
+            document.getElementById('jitsi_button')!.click();
             setTimeout(() => {
-              document.getElementById('buttonStatusMic').click();
-              document.getElementById('buttonStatusCam').click();
+              document.getElementById('buttonStatusMic')!.click();
+              document.getElementById('buttonStatusCam')!.click();
               setTimeout(() => {
                 this.statusMic = (<HTMLInputElement>document.getElementById('statusMic')).value;
                 this.statusCam = (<HTMLInputElement>document.getElementById('statusCam')).value;
@@ -200,7 +199,7 @@ export class InterventionControlComponent implements OnInit {
     this.socketService.removeListen('meeting_quorum_' + this.meeting_id)
   }
 
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id])
   }
 
@@ -240,7 +239,7 @@ export class InterventionControlComponent implements OnInit {
           icon:'info',
           backdrop: true,
           allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-        }).then(response=>{
+        }).then((response:any)=>{
           if(response.value){
             this.storage.remove('user');
             this.router.navigate(['/']);
@@ -280,7 +279,7 @@ export class InterventionControlComponent implements OnInit {
           icon:'info',
           backdrop: true,
           allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-        }).then(response=>{
+        }).then((response:any)=>{
           if(response.value){
             this.storage.remove('user');
             this.router.navigate(['/']);
@@ -330,7 +329,7 @@ export class InterventionControlComponent implements OnInit {
           icon:'info',
           backdrop: true,
           allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-        }).then(response=>{
+        }).then((response:any)=>{
           if(response.value){
             this.storage.remove('user');
             this.router.navigate(['/']);
@@ -361,7 +360,7 @@ export class InterventionControlComponent implements OnInit {
                   'VotingServices/createRasingHandsRecordPost',
                 formData2
               )
-              .subscribe((resp2) => {
+              .subscribe((resp2:any) => {
                 // console.log(resp2)
                 if (resp2["success"]) {
                   this.status = 2;
@@ -390,7 +389,7 @@ export class InterventionControlComponent implements OnInit {
     // console.log(this.participants)
   }
 
-  countParticipantsSocket(resp){
+  countParticipantsSocket(resp:any){
     // console.log(resp)
     this.cant_notification_participants = 0;
     this.cant_notification_participants_compare = 0;
@@ -416,7 +415,7 @@ export class InterventionControlComponent implements OnInit {
           "/" +
           this.meeting_id
       )
-      .subscribe((resp) => {
+      .subscribe((resp:any) => {
         // console.log(resp)
         this.cant_notification_participants = 0;
         this.cant_notification_participants_compare = 0;
@@ -441,7 +440,7 @@ export class InterventionControlComponent implements OnInit {
           "/" +
           this.meeting_id
       )
-      .subscribe((resp) => {
+      .subscribe((resp:any) => {
         if (resp['message'] == "La sesión es inválida") {
           swal.fire({
             title:'Atención', 
@@ -449,7 +448,7 @@ export class InterventionControlComponent implements OnInit {
             icon:'info',
             backdrop: true,
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-          }).then(response=>{
+          }).then((response:any)=>{
             if(response.value){
               this.storage.remove('user');
               this.router.navigate(['/']);
@@ -488,10 +487,10 @@ export class InterventionControlComponent implements OnInit {
           this.keysession,
         formData2
       )
-      .subscribe((data) => {
+      .subscribe((data:any) => {
         this.data = data;
-        let iconStatus: SweetAlertType = "success";
-        let iconStatus2: SweetAlertType = "warning";
+        let iconStatus: SweetAlertIcon = "success";
+        let iconStatus2: SweetAlertIcon = "warning";
         if (data["success"] === true) {
           if (data["success"]) {
             iconStatus = "success";
@@ -521,7 +520,7 @@ export class InterventionControlComponent implements OnInit {
         confirmButtonText: "Si, cerrar!",
         cancelButtonText: "No",
       })
-      .then((result) => {
+      .then((result:any) => {
         if (result.value) {
           this.httpClient
             .post(
@@ -530,10 +529,10 @@ export class InterventionControlComponent implements OnInit {
                 this.keysession,
               formData2
             )
-            .subscribe((data) => {
+            .subscribe((data:any) => {
               this.data2 = data;
-              let iconStatus: SweetAlertType = "success";
-              let iconStatus2: SweetAlertType = "warning";
+              let iconStatus: SweetAlertIcon = "success";
+              let iconStatus2: SweetAlertIcon = "warning";
               if (data["success"] === true) {
                 if (data["success"]) {
                   iconStatus = "success";
@@ -565,7 +564,7 @@ export class InterventionControlComponent implements OnInit {
         confirmButtonText: "Si, cerrar!",
         cancelButtonText: "No",
       })
-      .then((result) => {
+      .then((result:any) => {
         if (result.value) {
           this.httpClient
             .post(
@@ -573,10 +572,10 @@ export class InterventionControlComponent implements OnInit {
                 "PreRegisterMeetingServices/updateMeetingDetails",
               formData2
             )
-            .subscribe((data) => {
+            .subscribe((data:any) => {
               this.data2 = data;
-              let iconStatus: SweetAlertType = "success";
-              let iconStatus2: SweetAlertType = "warning";
+              let iconStatus: SweetAlertIcon = "success";
+              let iconStatus2: SweetAlertIcon = "warning";
               if (data["success"] === true) {
                 if (data["success"]) {
                   iconStatus = "success";
@@ -604,9 +603,9 @@ export class InterventionControlComponent implements OnInit {
           "PreRegisterMeetingServices/updateMeetingDetails",
         formData2
       )
-      .subscribe((data) => {
-        let iconStatus: SweetAlertType = "success";
-        let iconStatus2: SweetAlertType = "warning";
+      .subscribe((data:any) => {
+        let iconStatus: SweetAlertIcon = "success";
+        let iconStatus2: SweetAlertIcon = "warning";
         if (data["success"] === true) {
           if (data["success"]) {
             iconStatus = "success";
@@ -632,9 +631,9 @@ export class InterventionControlComponent implements OnInit {
           "PreRegisterMeetingServices/updateMeetingDetails",
         formData2
       )
-      .subscribe((data) => {
-        let iconStatus: SweetAlertType = "success";
-        let iconStatus2: SweetAlertType = "warning";
+      .subscribe((data:any) => {
+        let iconStatus: SweetAlertIcon = "success";
+        let iconStatus2: SweetAlertIcon = "warning";
         if (data["success"] === true) {
           if (data["success"]) {
             iconStatus = "success";
@@ -673,7 +672,7 @@ export class InterventionControlComponent implements OnInit {
           this.keysession,
         formData
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         if (response["success"]) {
           // swal.fire({
           //   icon: 'success',
@@ -719,7 +718,7 @@ export class InterventionControlComponent implements OnInit {
           this.keysession,
         formData
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         if (response["success"]) {
           var myAlert = document.getElementById("alert-union");
           var bsAlert = new bootstrap.Toast(myAlert, { delay: 5000 });
@@ -756,7 +755,7 @@ export class InterventionControlComponent implements OnInit {
         cancelButtonText: "No",
         icon: "question",
       })
-      .then((result) => {
+      .then((result:any) => {
         if (result.isConfirmed) {
           this.httpClient
             .get(
@@ -768,7 +767,7 @@ export class InterventionControlComponent implements OnInit {
                 "/" +
                 this.meeting_id
             )
-            .subscribe((response) => {
+            .subscribe((response:any) => {
               if (response["success"]) {
                 swal.fire({
                   icon: "success",
@@ -803,7 +802,7 @@ export class InterventionControlComponent implements OnInit {
             this.meeting_id +
             "/0"
         )
-        .subscribe((resp) => {
+        .subscribe((resp:any) => {
           this.units = resp["content"];
           this.cant_notification = resp["content"].length;
           this.cant_notification_compare = resp["content"].length;
@@ -811,14 +810,14 @@ export class InterventionControlComponent implements OnInit {
     }
   }
 
-  closedDropDown(elementId) {
-    document.getElementById(elementId).click();
+  closedDropDown(elementId:any) {
+    document.getElementById(elementId)!.click();
   }
 
   accepted_intervention(
     customer_id: string | Blob,
     raised_hand_id: string | Blob,
-    raising_hand_record_id
+    raising_hand_record_id:any
 
   ) {
     var formData = new FormData();
@@ -832,14 +831,14 @@ export class InterventionControlComponent implements OnInit {
         this.config.endpoint6 + "api/raisinghands/store/" + this.keysession,
         formData
       )
-      .subscribe((resp) => {
+      .subscribe((resp:any) => {
         if (resp["success"]) {
           this.countParticipants();
         }
       });
   }
 
-  refuse_intervention(customer_id, raising_hand_id,raising_hand_record_id) {
+  refuse_intervention(customer_id:any, raising_hand_id:any,raising_hand_record_id:any) {
     if (
       raising_hand_id != null &&
       raising_hand_id != "" &&
@@ -856,7 +855,7 @@ export class InterventionControlComponent implements OnInit {
           this.config.endpoint6 + "api/raisinghands/store/" + this.keysession,
           formData
         )
-        .subscribe((resp) => {
+        .subscribe((resp:any) => {
           if (resp["success"]) {
             this.countParticipants();
           }
@@ -864,7 +863,7 @@ export class InterventionControlComponent implements OnInit {
     }
   }
 
-  raised_hand_from_gestor(customer_id) {
+  raised_hand_from_gestor(customer_id:any) {
     var formData = new FormData();
     formData.append("customer_id", customer_id);
     formData.append("meeting_id", this.meeting_id);
@@ -875,14 +874,14 @@ export class InterventionControlComponent implements OnInit {
         this.config.endpoint6 + "api/raisinghands/store/" + this.keysession,
         formData
       )
-      .subscribe((resp) => {
+      .subscribe((resp:any) => {
         if (resp["success"]) {
           this.countParticipants();
         }
       });
   }
 
-  selectUser(customer_id, nameRegister) {
+  selectUser(customer_id:any, nameRegister:any) {
     this.userIdToEdit = customer_id;
     this.nameUserToEdit = nameRegister;
   }
@@ -898,7 +897,7 @@ export class InterventionControlComponent implements OnInit {
           "CustomerRegistrationServices/updateCustomerData",
         formData
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         if (response["success"]) {
           this.countParticipants();
         }
@@ -937,9 +936,9 @@ export class InterventionControlComponent implements OnInit {
     //     formData.append('key', this.config.key);
     //     formData.append('id', this.meeting_id);
     //     formData.append('end_session_time', this.end_session_time);
-    //     this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe(data => {
+    //     this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe((data:any) => {
     //       if (data['success']) {
-    //         this.httpClient.get(this.config.endpoint6 + 'ApiCustomers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe(response => {
+    //         this.httpClient.get(this.config.endpoint6 + 'ApiCustomers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe((response :any)=> {
     //         });
     //       }
     //     });
@@ -963,7 +962,7 @@ export class InterventionControlComponent implements OnInit {
           "/" +
           this.secondsTimer
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         this.startTimerShow(
           this.hoursTimer,
           this.minutesTimer,
@@ -974,7 +973,7 @@ export class InterventionControlComponent implements OnInit {
       });
   }
 
-  startTimerShow(hours, minutes, seconds) {
+  startTimerShow(hours:any, minutes:any, seconds:any) {
     if (seconds > 0 || minutes > 0 || hours > 0) {
       this.interval3 = setInterval(() => {
         if (seconds > 0) {
@@ -1020,7 +1019,7 @@ export class InterventionControlComponent implements OnInit {
           "/" +
           this.secondsTimer
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         this.startTimerShow(
           this.hoursTimer,
           this.minutesTimer,
@@ -1046,7 +1045,7 @@ export class InterventionControlComponent implements OnInit {
             "/" +
             this.st
         )
-        .subscribe((response) => {
+        .subscribe((response:any) => {
           this.startTimerShow(this.ht, this.mt, this.st);
           this.pauseTimerStatus = false;
           this.playTimer = 1;
@@ -1062,7 +1061,7 @@ export class InterventionControlComponent implements OnInit {
             this.meeting_id +
             "/0/0/0"
         )
-        .subscribe((response) => {
+        .subscribe((response:any) => {
           this.pauseTimerStatus = true;
           this.playTimer = 2;
         });
@@ -1080,7 +1079,7 @@ export class InterventionControlComponent implements OnInit {
           this.meeting_id +
           "/d/a/s"
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         this.playTimer = 0;
         this.ht = "00";
         this.mt = "00";
@@ -1088,7 +1087,7 @@ export class InterventionControlComponent implements OnInit {
       });
   }
 
-  hideTimer(statusShowTimer) {
+  hideTimer(statusShowTimer:any) {
     if (this.timerHide) {
       this.timerHide = false;
     } else {
@@ -1104,7 +1103,7 @@ export class InterventionControlComponent implements OnInit {
     this.viewVote = 0;
   }
 
-  blockChat(customer_id: string, status_chat, index) {
+  blockChat(customer_id: string, status_chat:any, index:any) {
     const formData2 = new FormData();
     formData2.append("key", this.config.key);
     formData2.append("id", customer_id);
@@ -1115,7 +1114,7 @@ export class InterventionControlComponent implements OnInit {
           "CustomerRegistrationServices/updateCustomerData",
         formData2
       )
-      .subscribe((response) => {
+      .subscribe((response:any) => {
         if (response["success"]) {
           this.participants[index]["can_chat"] = status_chat;
         }
@@ -1128,10 +1127,10 @@ export class InterventionControlComponent implements OnInit {
       this.socketService.removeListen('meeting_quorum_' + this.meeting_id)
     }else{
       this.countParticipants();
-     this.socketService.listen('hand_raised_' + this.meeting_id).subscribe((response) => {
+     this.socketService.listen('hand_raised_' + this.meeting_id).subscribe((response:any) => {
         this.countParticipantsSocket(response);
       });
-      this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response) => {
+      this.socketService.listen('meeting_quorum_' + this.meeting_id).subscribe((response:any) => {
         this.countParticipantsSocket(response);
       });
     }

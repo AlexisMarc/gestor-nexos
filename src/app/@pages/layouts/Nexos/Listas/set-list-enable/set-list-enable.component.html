@@ -56,11 +56,11 @@
                   <tr *ngFor="let item of ListQuote; index as i">
                     <!-- <td style="width: 10px;">{{i + 1}}</td> -->
                     <td>
-                      {{item.id}}
+                      {{item['id']}}
                     </td>
-                    <td>{{item.name}}</td>
+                    <td>{{item['name']}}</td>
                     <td>
-                      <div style="cursor: pointer;" (click)="goEditResidential(item.uuid_code)">
+                      <div style="cursor: pointer;" (click)="goEditResidential(item['uuid_code'])">
                         <img src="./assets/img/edit.png" style="width: 20px;">
                         Editar
                       </div>

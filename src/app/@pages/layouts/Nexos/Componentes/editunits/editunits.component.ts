@@ -5,7 +5,7 @@ import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 // import { ExecOptionsWithStringEncoding } from 'child_process';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { UnitEdit } from '../../interface/unitEdit.model';
-import { FormArray, FormBuilder , FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder , FormControl, FormGroup, Validators } from '@angular/forms';
 import { SocketService } from '../../service/socket.service';
 import { isEmpty, toArray } from 'rxjs/operators';
 declare var swal: any;
@@ -19,20 +19,20 @@ export class EditUnitsComponent implements OnInit {
   arrayToChangeCoef : any [] = []
   inputSearch: any;
   console = console;
-  token: string;
-  meeting_id: string;
-  residential_id: string;
+  token!: string;
+  meeting_id!: string;
+  residential_id!: string;
   unitsListbyMeeting: any;
   unitslist: any [] = [];
-  arrayCoefficientToSend = []
+  arrayCoefficientToSend: any = []
   status = 0;
   changeCoefficientUnits = [];
   arrayUnitEdit: UnitEdit[] = [];
   builds : any [] =[];
   dataUnitToSend2:any [] = []
-  meeting_id_full: string
-  nombre_unidadFormGruop : FormGroup
-  coeffEdit: string
+  meeting_id_full!: string
+  nombre_unidadFormGruop : FormGroup = new FormGroup({})
+  coeffEdit!: string
   // Nueva 
   addUnidades: Array<AddUnit> = new Array<AddUnit>();
   newUnidad = new AddUnit('0','','','','', '','','',false,false,false,0,1);
@@ -54,15 +54,15 @@ export class EditUnitsComponent implements OnInit {
     
   }
    mainLoad(){
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential')
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!
     const userStorage = this.storage.get('user');
     this.token = userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];
         this.meeting_id_full = this.meeting_id
         this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
-          .subscribe(resp => {
+          .subscribe((resp:any)=> {
             this.unitsListbyMeeting = resp['content'];
             
             // this.ListadoConjuntosSelect = resp4['content'];
@@ -76,7 +76,7 @@ export class EditUnitsComponent implements OnInit {
             // }
             // Se hace un filtro para obtener los building de la peticion  getBuildingsUnitByUserByMeeting
             // Para cargarlos en el modal de adicionar unidades a buildings existentes
-            this.unitsListbyMeeting.forEach(carga => {
+            this.unitsListbyMeeting.forEach((carga:any) => {
               this.builds.push({id_build: carga.id,name:carga.name,number:carga.number})
               this.unitslist.push(carga.units)
            });
@@ -151,8 +151,8 @@ export class EditUnitsComponent implements OnInit {
       // this.console.log('Coeficiente: '+this.coeffEdit)
       // this.console.log(this.arrayToChangeCoef)
       this.arrayToChangeCoef.forEach((item)=>{
-        elm.forEach((unitslist2)=>{
-        unitslist2.forEach((element)=>{
+        elm.forEach((unitslist2:any)=>{
+        unitslist2.forEach((element:any)=>{
           
           if(element.id == item){
             if(element.aporte<=0){
@@ -175,8 +175,8 @@ export class EditUnitsComponent implements OnInit {
   newEditAllCoefficientUnits(){
     let arrayAllUnits: any []=[]
     let ele2 = JSON.parse(JSON.stringify(this.unitslist))
-     ele2.forEach((unitslist2)=>{
-        unitslist2.forEach((element)=>{
+     ele2.forEach((unitslist2:any)=>{
+        unitslist2.forEach((element:any)=>{
           if(element.aporte<=0){
           }else{
           arrayAllUnits.push(element)
@@ -195,11 +195,11 @@ export class EditUnitsComponent implements OnInit {
       this.serviceToSendMultipleUnits(formData)
       
   }
-  serviceToSendMultipleUnits(form){
-    this.httpClient.post(this.config.endpoint6 + 'api/units/updateMultipleUnits/' +this.token, form).subscribe((response) => {
+  serviceToSendMultipleUnits(form:any){
+    this.httpClient.post(this.config.endpoint6 + 'api/units/updateMultipleUnits/' +this.token, form).subscribe((response:any) => {
       if (response['success']) {
         swal.fire('mensaje', response['message'], 'success'
-        ).then(response=>{
+        ).then((response:any)=>{
           if(response.isConfirmed){
             //this.resetPAge()
             window.location.reload();
@@ -216,7 +216,7 @@ export class EditUnitsComponent implements OnInit {
     });
   }
   //Editar una unidad cuando se clickea  en el boton que esta al frende de la unidad
-  editUnit(unit_id,unit_name,unit_number,unit_coefficient,unit_aporte,unit_can_vote,voter_profile_id, building_id){
+  editUnit(unit_id:any,unit_name:any,unit_number:any,unit_coefficient:any,unit_aporte:any,unit_can_vote:any,voter_profile_id:any, building_id:any){
     var arrayDataUnit = {
       'id': unit_id ,
       'building_id': building_id,
@@ -247,11 +247,11 @@ export class EditUnitsComponent implements OnInit {
   get nombre_unidads2() {
     return this.registerForm2.get('nombre_unidads2') as FormArray
   }
-  registerForm = this.formBuilder.group({
-    nombre_unidads: this.formBuilder.array([]),
+  registerForm = new FormGroup({
+    nombre_unidads: new FormArray([]),
   })
-  registerForm2 = this.formBuilder.group({
-    nombre_unidads2: this.formBuilder.array([]),
+  registerForm2 = new FormGroup({
+    nombre_unidads2: new FormArray([]),
   })
     
   addFileds2(){
@@ -266,11 +266,11 @@ export class EditUnitsComponent implements OnInit {
   }
   
   //Formbuilder del formulario
-  Data = this.formBuilder.group({
-    name:['', Validators.required],
-    surname:['',Validators.required],
-    credential:['',Validators.required],
-    password:['',Validators.required]
+  Data = new FormGroup({
+    name:new FormControl('', Validators.required),
+    surname:new FormControl('', Validators.required),
+    credential:new FormControl('', Validators.required),
+    password:new FormControl('', Validators.required)
   })
   
   removerField(indice:number){
@@ -292,9 +292,9 @@ export class EditUnitsComponent implements OnInit {
     
   }
   capitazateStringBuildings(){
-    this.nombre_unidads2.value.forEach(element => {
+    this.nombre_unidads2.value.forEach((element:any) => {
       let minusculas = element.name.toLowerCase()
-      element.name = minusculas.replace(/\b\w/g, x => x.toUpperCase())
+      element.name = minusculas.replace(/\b\w/g, (x:any) => x.toUpperCase())
      
     });
   }
@@ -315,12 +315,13 @@ export class EditUnitsComponent implements OnInit {
     this.newUnidad = new AddUnit('','','','','', '','','',false,false,false,0,1)
     // this.console.log(this.addUnidades)
   }
-  setBuild(e){
+  setBuild(e:any){
     let ind = e.target["selectedIndex"]-1
     this.newUnidad.building_id =this.builds[ind].id_build
   }
   saveNewUnitsByBuildings(){
     this.addUnidades.forEach((element)=>{
+      //@ts-ignore
     delete element.building_name
     })
     // let arrayToSend: any [] =[]
@@ -340,10 +341,10 @@ export class EditUnitsComponent implements OnInit {
     formData2.append('buildings',buildsToSave)
     formData2.append('meeting_id',this.meeting_id)
 
-    this.httpClient.post(this.config.endpoint6+ 'api/units/updateMultipleBuildings/'+this.token,formData2).subscribe((response)=>{
+    this.httpClient.post(this.config.endpoint6+ 'api/units/updateMultipleBuildings/'+this.token,formData2).subscribe((response:any)=>{
       if (response['success']) {
         swal.fire('mensaje', response['message'], 'success'
-        ).then(response=>{
+        ).then((response:any)=>{
           if(response.isConfirmed){
             window.location.reload()
           }else{
@@ -379,7 +380,7 @@ export class EditUnitsComponent implements OnInit {
   }
 }
 export class AddUnit {
-  constructor(public id:string, public building_name:string, String,public building_id:string ,public name: string,public number:string,public coefficient: string,public aporte: string,public can_vote: any,public is_observer: any ,public speaker: any, public meeting_id:number, public voter_profile_id:number) {
+  constructor(public id:string, public building_name:string, String:any,public building_id:string ,public name: string,public number:string,public coefficient: string,public aporte: string,public can_vote: any,public is_observer: any ,public speaker: any, public meeting_id:number, public voter_profile_id:number) {
     this.id='0'
     this.building_id=''
     this.name = name

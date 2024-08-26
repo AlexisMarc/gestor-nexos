@@ -22,7 +22,7 @@
 						<li *ngFor="let note of noteList" (click)="onSelectNote(note)">
 							<div class="left">
 								<!-- BEGIN Note Action !-->
-								<div class="checkbox check-warning no-margin" [ngStyle]="deleteNoteMode && {'display': 'block'}">
+								<div class="checkbox check-warning no-margin" [ngStyle]="{'display': 'block'}">
 									<input id="qncheckbox{{note.id}}" type="checkbox" value="1" (change)="onCheck($event,note)">
 									<label for="qncheckbox{{note.id}}"></label>
 								</div>
@@ -214,7 +214,7 @@
 	    <!-- EEND Alerts View !-->
 	  </div>
 	</tab>
-	<tab heading="Chat" id="quickview-chat" active="true" customClass="full-height"> 
+	<tab heading="Chat" id="quickview-chat" [active]="true" customClass="full-height"> 
 	  <div class="view-port clearfix" id="chat">
 	    <div class="view bg-white">
 	      <!-- BEGIN View Header !-->

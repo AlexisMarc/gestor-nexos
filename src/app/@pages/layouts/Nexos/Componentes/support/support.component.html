@@ -122,13 +122,13 @@
               </div>
               <div class="col-12 col-md-4" *ngFor="let item of listDocument; index as i">
                 <div class="card mb-12" style="cursor: pointer; height: 100px;" style="max-width: 540px;">
-                  <a (click)="download(item.id, item.name)" style="cursor: pointer;">
+                  <a (click)="download(item['id'], item['name'])" style="cursor: pointer;">
                     <div class="row no-gutters">
                       <div class="col-md-4" style="padding: 1%; background-color: #262626;">
                         <img src="./assets/img/download.png" style="width: 50px;" alt="./assets/img/download.png">
                       </div>
                       <div class="col-md-8">
-                        <h5 class="card-title">{{item.name}}</h5>
+                        <h5 class="card-title">{{item['name']}}</h5>
                       </div>
                     </div>
                   </a>

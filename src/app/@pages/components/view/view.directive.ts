@@ -5,13 +5,13 @@ declare var pg: any;
   selector: '[pg-view-trigger]'
 })
 export class ViewDirective {
-	@Input() parentView: string;
-	@Input() animationType: string;
+	@Input() parentView!: string;
+	@Input() animationType!: string;
 
  	constructor(private parallaxEl: ElementRef,private renderer: Renderer2) { 
  	}
 	@HostListener('click', ['$event']) 
-	onClick(e) {
+	onClick(e:any) {
 		e.preventDefault();
 		if(this.parentView != null){
 			var parent = document.getElementById(this.parentView);

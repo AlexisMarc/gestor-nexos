@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-campaign-whatsapp.component.scss']
 })
 export class CreateCampaignWhatsappComponent implements OnInit {
-  new64=[]
-  form_params = {
+  new64:any=[]
+  form_params:any = {
     id:'0',
     name:'',
     content:'',
@@ -25,15 +25,15 @@ export class CreateCampaignWhatsappComponent implements OnInit {
     private _whatsappService : WhatsappService,
     private router: Router
   ) { 
-    this.cargaObjeto()
+    //this.cargaObjeto()
   }
 
   ngOnInit() {
   }
 
-  fileConverter(event) {
+  fileConverter(event:any) {
     // console.log(event.addedFiles)
-    event.addedFiles.forEach(element => {
+    event.addedFiles.forEach((element:any) => {
     const file = element
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -91,20 +91,20 @@ quitarEspaciosYEnter(value: string) {
        }
        formData.append('template_name',this.form_params.template_name)
 
-      this._whatsappService.postSaveCampaignWhatsapp(formData).subscribe(resp => {
+      this._whatsappService.postSaveCampaignWhatsapp(formData).subscribe((resp:any)=> {
         // console.log("resp", resp)
         if (resp.success) {
           
           Swal.fire({
             title: '<strong>Guardado Exitoso</strong>',
-            type: 'success',
+            icon: 'success',
             html: resp.message,
           })
           this.router.navigate(['home/campaignlist'])
         } else {
           Swal.fire({
             title: '<strong>Ups! algo salio mal</strong>',
-            type: 'error',
+            icon: 'error',
             html: resp.message,
           })
         }
@@ -113,13 +113,12 @@ quitarEspaciosYEnter(value: string) {
   }
 
 
-  onSelect(event) {
+  onSelect(event:any) {
    this.fileConverter(event)
-   
-		this.form_params.photo.push(...event.addedFiles);
-	}
-
-	onRemove(event,index,idl) {
+   const value = event.addedFiles
+		this.form_params.photo.push(...value);
+  }
+	onRemove(event:any,index:any,idl:any) {
     this.form_params.delete.push(idl)
 		this.form_params.photo.splice(this.form_params.photo.indexOf(event), 1);
     this.new64.splice(index,1)
@@ -130,7 +129,7 @@ quitarEspaciosYEnter(value: string) {
     let navigation = this.router.getCurrentNavigation();
     if (navigation === null || navigation.extras.skipLocationChange === false) {
     } else {
-      let object = navigation.extras.state.example
+      let object = navigation.extras.state!['example']
       // console.log(object)
       this.form_params.id = object.id
       this.form_params.name = object.name

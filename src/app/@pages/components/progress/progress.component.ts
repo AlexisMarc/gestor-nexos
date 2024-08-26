@@ -5,13 +5,13 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./progress.component.scss']
 })
 export class ProgressComponent{
-  private _value: number;
-  private _value2: any;
+  private _value!: number;
+  private _value2!: any;
 
-  @Input() type: string;
-	@Input() color: string;
-  @Input() thick: boolean;
-  @Input() indeterminate:boolean;
+  @Input() type!: string;
+	@Input() color!: string;
+  @Input() thick!: boolean;
+  @Input() indeterminate!:boolean;
   
   @Input() set value(value: number) {
     if(this.type == "circle"){

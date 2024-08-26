@@ -45,7 +45,7 @@ export class CreateTextEmailComponent implements OnInit {
     }
     // service type quote
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.typeQuote = resp['content']
       });
   }

@@ -182,7 +182,7 @@
                 }
                 .note{
                     /* Quickview Note */
-                    background-image:url('#{$base-img-url}/notes_lines.png');
+                    background-image:url('./assets/images/notes_lines.png');
                     background-repeat:repeat-y;
                     background-position:27px top;
                     & > div{

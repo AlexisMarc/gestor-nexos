@@ -1,6 +1,6 @@
-<pgcard TimeOut="3000" AdditionalClasses="widget-15 card card-condensed  no-margin no-border widget-loader-circle" Maximize="false" Toggle="false"
- Close="false" BodyClass="no-padding" HeaderClass="top-right">
-	<pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true">
+<pgcard [TimeOut]="3000" AdditionalClasses="widget-15 card card-condensed  no-margin no-border widget-loader-circle" [Maximize]="false" [Toggle]="false"
+ [Close]="false" BodyClass="no-padding" HeaderClass="top-right">
+	<pg-tabset tabAnimation="slide-left" [ShowPagination]="true">
 		<pg-tab>
 			<ng-template #TabHeading>
 				APPL
@@ -12,7 +12,7 @@
 				<div class="full-width">
 					<div class="full-width" #chartContainer>
 						<div class="widget-15-chart">
-							<nvd3 [options]="chartOptions" [data]="chartData"></nvd3>
+							<!-- <nvd3 [options]="chartOptions" [data]="chartData"></nvd3> -->
 						</div>
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 				<div class="full-width">
 					<div class="full-width" #chartContainer>
 						<div class="widget-15-chart">
-							<nvd3 [options]="chartOptions" [data]="chartData"></nvd3>
+							<!-- <nvd3 [options]="chartOptions" [data]="chartData"></nvd3> -->
 						</div>
 					</div>
 				</div>
@@ -46,7 +46,7 @@
 				<div class="full-width">
 					<div class="full-width" #chartContainer>
 						<div class="widget-15-chart">
-							<nvd3 [options]="chartOptions" [data]="chartData"></nvd3>
+							<!-- <nvd3 [options]="chartOptions" [data]="chartData"></nvd3> -->
 						</div>
 					</div>
 				</div>

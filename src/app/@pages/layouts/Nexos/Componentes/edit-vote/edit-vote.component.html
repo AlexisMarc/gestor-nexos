@@ -43,10 +43,10 @@
                       </div>
                     </div>
                   </li>
-                  <li class="list-group-item padding-list" *ngFor="let item_edit of options_edit; index as i">
+                  <li class="list-group-item padding-list"*ngFor="let item_edit of options_edit; let i = index">
                     <img src="./assets/img/delete.png" alt=""
                       style="height: 20px; vertical-align: center; cursor: pointer; display: inline;"
-                      (click)="deleteOption(i)">
+                      (click)="'deleteOption(i)'">
                     <input class="form-control form-control-sm" style="display: inline; width: 85%;" type="text"
                       [(ngModel)]="item_edit['name']" placeholder=".form-control-sm"
                       aria-label=".form-control-sm example">

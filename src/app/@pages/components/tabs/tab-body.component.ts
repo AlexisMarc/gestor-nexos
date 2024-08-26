@@ -13,5 +13,5 @@ import {
   `,
 })
 export class pgTabBodyComponent {
-  @Input() content: TemplateRef<void>;
+  @Input() content!: TemplateRef<void>;
 }

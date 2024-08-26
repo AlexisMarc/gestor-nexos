@@ -11,8 +11,8 @@ declare var swal: any;
 })
 export class VerifyQuorumComponent implements OnInit {
 
-  @Input() residential_id: string;
-  @Input() meeting_id: string;
+  @Input() residential_id!: string;
+  @Input() meeting_id!: string;
   end_session_time: any;
   keysession: string;
 
@@ -29,7 +29,7 @@ export class VerifyQuorumComponent implements OnInit {
 
   ngOnInit() {
     // this.httpClient.get(this.config.endpoint6 + 'ApiMeetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
-    //   .subscribe(resp => {
+    //   .subscribe((resp:any)=> {
     //     this.meeting_id = resp['content']['id'];
     //     this.end_session_time = resp['content']['end_session_time'];
     //   });

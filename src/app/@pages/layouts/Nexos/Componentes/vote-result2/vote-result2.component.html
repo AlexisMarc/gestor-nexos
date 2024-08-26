@@ -113,10 +113,10 @@
           <div class="col-12" style="text-align: center;">
             <h4>Seleccione la votacion para ver los resultados</h4>
             <br>
-            <button *ngFor="let item3 of votes; let i3 = index" (click)="selectedVote(item3.id, item3.status_id)"
+            <button *ngFor="let item3 of votes; let i3 = index" (click)="selectedVote(item3['id'], item3['status_id'])"
               type="button" class="btn btn-secondary"
               style="width: 100%; background-color: #666; color: #FFF; vertical-align: center; margin-bottom: 10px;">
-              <p>{{item3.name}}</p>
+              <p>{{item3['name']}}</p>
             </button>
           </div>
         </div>

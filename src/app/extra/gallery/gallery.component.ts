@@ -6,10 +6,10 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { IsotopeOptions } from 'ngx-isotope';
+//import { IsotopeOptions } from 'ngx-isotope';
 import {GalleryService} from './gallery.service';
 import { SwiperDirective, SwiperComponent
-} from 'ngx-swiper-wrapper';
+} from '@sonrisa-dev/ngx-swiper-wrapper-sonfork';
 
 @Component({
   selector: 'app-gallery',
@@ -31,24 +31,24 @@ import { SwiperDirective, SwiperComponent
 })
 export class GalleryComponent implements OnInit {
 
-  @ViewChildren(SwiperDirective) swiperViewes: QueryList<SwiperDirective>
+  @ViewChildren(SwiperDirective) swiperViewes!: QueryList<SwiperDirective>
   
   @ViewChild('slider',{ read: true, static: false }) public _slider: any;
   @ViewChild('fadInModal',{ read: true, static: false }) _modal: any;
 
   feed = []
-  config
-  configModal;
+  config: any
+  configModal: any;
   index = 0
   index2 = 0
   _isLoading:boolean = true 
-  rangeValue
+  rangeValue: any
 
   constructor(private _service: GalleryService) {
   }
 
   ngOnInit() {
-    this._service.getFeed().subscribe(feed => {
+    this._service.getFeed().subscribe((feed:any) => {
       this.feed = feed;
       setTimeout(()=>{
         this._isLoading = false
@@ -94,7 +94,7 @@ export class GalleryComponent implements OnInit {
       this.swiperViewes.last.update()
     },500)
   }
-  public galleryOptions: IsotopeOptions = {
+  public galleryOptions = {
     itemSelector: '.gallery-item',
     masonry: {
         columnWidth: 280,

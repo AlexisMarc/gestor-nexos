@@ -13,21 +13,21 @@ import Swal from 'sweetalert2';
 })
 export class EditMeetingDetailsComponent implements OnInit {
 
-  meeting_id: string;
-  residential_id: string;
-  name_meet: string;
-  meeting_time: string;
-  youtube_link: string;
-  youtube_share: string;
-  meeting_time_start: string;
+  meeting_id!: string;
+  residential_id!: string;
+  name_meet!: string;
+  meeting_time!: string;
+  youtube_link!: string;
+  youtube_share!: string;
+  meeting_time_start!: string;
   date: any;
-  support: string;
+  support!: string;
   email_request_password_id: any;
   listTypeEmail: [] = [];
-  user_id: string;
-  keysession: string;
+  user_id!: string;
+  keysession!: string;
   url_redirection: string = '';
-  session_check_time: string | Blob;
+  session_check_time!: string | Blob;
 
   constructor(
     private router: Router,
@@ -47,15 +47,15 @@ export class EditMeetingDetailsComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.user_id = userStorage['content']['id'];
     this.keysession = userStorage['content']['token'];
     // this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.url_redirection =response['content']['url_redirection']
       this.meeting_id = response['content']['id'];
       this.httpClient.get(this.config.endpoint6 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           this.meeting_id = resp['content']['id'];
           this.name_meet = resp['content']['name'];
           this.date = resp['content']['date'].split(" ", 1);
@@ -72,7 +72,7 @@ export class EditMeetingDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getAllEmailContent?key=' + this.config.key + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listTypeEmail = resp["content"];
       });
   }
@@ -89,7 +89,7 @@ export class EditMeetingDetailsComponent implements OnInit {
   goSearchPointContrpl() {
     this.router.navigate(['home/pointControl']);
   }
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id])
   }
 

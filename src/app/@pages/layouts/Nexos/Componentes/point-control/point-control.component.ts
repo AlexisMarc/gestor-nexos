@@ -5,7 +5,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
 import { Globals } from '../../interface/globals.model';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'app-point-control',
@@ -55,14 +55,14 @@ export class PointControlComponent implements OnInit {
     this.router.navigate(['home/menusettingVoting']);
   }
 
-  goPointControlMeeting(idResidential) {
+  goPointControlMeeting(idResidential:any) {
     this.router.navigate(['home/pointControlMeeting/' + idResidential]);
   }
 
   
   Search2() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
         
       });

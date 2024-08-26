@@ -52,8 +52,8 @@ import { pgSwitchModule } from './@pages/components/switch/switch.module';
 import { ProgressModule } from './@pages/components/progress/progress.module';
 
 //  Thirdparty Components / Plugins - Optional
-import { NvD3Module } from 'ngx-nvd3';
-import { NgxEchartsModule } from 'ngx-echarts';
+//import { NvD3Module } from 'ngx-nvd3';
+import { NgxEchartsModule, NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 //import { IsotopeModule } from 'ngx-isotope';
 import { StepsformDirective } from './social/stepsform.directive';
 //import { NgxDnDModule} from '@swimlane/ngx-dnd';
@@ -374,7 +374,10 @@ export class AppHammerConfig extends HammerGestureConfig {}
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-    NvD3Module,
+    //NvD3Module,
+    pgRetinaDirective,
+    NgxEchartsModule,
+    NgxEchartsDirective,
     MatTabsModule,
     TabsModule.forRoot(),
     BrowserModule,

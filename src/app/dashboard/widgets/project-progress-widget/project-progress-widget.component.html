@@ -1,5 +1,5 @@
-<pgcard TimeOut="3000" AdditionalClasses="card no-border no-margin widget-loader-circle todolist-widget pending-projects-widget" Maximize="false"
- Toggle="false" Close="false">
+<pgcard [TimeOut]="3000" AdditionalClasses="card no-border no-margin widget-loader-circle todolist-widget pending-projects-widget" [Maximize]="false"
+ [Toggle]="false" [Close]="false">
 	<ng-template #CardTitle>
 		<span class="font-montserrat fs-11 all-caps">
 			Recent projects
@@ -11,7 +11,7 @@
 			<span class="semi-bold">pages</span>
 		</h5>
 	</div>
-	<pg-tabset tabAnimation="slide-left" Type="simple" ShowPagination="true">
+	<pg-tabset tabAnimation="slide-left"   [ShowPagination]="true">
 		<pg-tab>
 			<ng-template #TabHeading>
 				Pending

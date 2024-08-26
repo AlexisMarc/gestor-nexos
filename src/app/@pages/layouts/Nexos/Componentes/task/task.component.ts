@@ -16,7 +16,7 @@ declare var swal: any;
 })
 export class TaskComponent implements OnInit {
 
-  profile: string;
+  profile!: string;
   taskToCreate = '';
   minutesToEndTask = 0;
   hoursToEndTask = 0;
@@ -24,14 +24,14 @@ export class TaskComponent implements OnInit {
   durationHour = 0;
   durationMin = 0;
   durationSec = 0;
-  dateToSearchTaskByDay: string;
+  dateToSearchTaskByDay!: string;
   listTaksDay: any;
   listTasksDefalut: any;
   dateFrom = '';
   dateTo = '';
   currentTimeStamp: any;
-  keysession: string;
-  userId: string;
+  keysession!: string;
+  userId!: string;
   //Tarea activa
   taskActiveName = '';
   taskActiveId = '';
@@ -39,7 +39,7 @@ export class TaskComponent implements OnInit {
   interval: any;
   interval2: any;
   interval3: any;
-  intiTaskActive: string;
+  intiTaskActive!: string;
 
   constructor(
 
@@ -109,7 +109,7 @@ export class TaskComponent implements OnInit {
     this.dateFrom = yyyy + '-' + mmstr + '-' + ddstr;
     this.currentTimeStamp = yyyy + '-' + mmstr + '-' + ddstr + ' ' + hh + ':' + ii + ':' + ss;
 
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId).subscribe((response:any) => {
       if (response['success']) {
         this.listTaksDay = response['content']
         this.transformTimeZone(this.listTaksDay)
@@ -121,7 +121,7 @@ export class TaskComponent implements OnInit {
             icon:'info',
             backdrop: true,
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-          }).then(response=>{
+          }).then((response:any)=>{
             if(response.value){
               this.storage.remove('user');
               this.router.navigate(['/']);
@@ -132,7 +132,7 @@ export class TaskComponent implements OnInit {
     });
 
     //Llamar tarea activa
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response:any) => {
       if (response['success']) {
         this.taskActiveName = response['content']['description'];
         this.taskActiveId = response['content']['id'];
@@ -167,7 +167,7 @@ export class TaskComponent implements OnInit {
     });
 
     //Llamar listado de tareas predeterminadas
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getTasks/' + this.keysession).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getTasks/' + this.keysession).subscribe((response:any) => {
       this.listTasksDefalut = response['content'];
     });
   }
@@ -271,7 +271,7 @@ export class TaskComponent implements OnInit {
       }
       var dataTaskToSend = JSON.stringify(arrayDataTask)
       formData.append("task", dataTaskToSend)
-      this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp) => {
+      this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
         if (resp['success']) {
           this.secondsFromBeginActiveTask = 0;
           this.durationHour = 0;
@@ -314,7 +314,7 @@ export class TaskComponent implements OnInit {
       }
       var dataTaskToSend = JSON.stringify(arrayDataTask)
       formData.append("task", dataTaskToSend)
-      this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp) => {
+      this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
         if (resp['success']) {
           clearInterval(this.interval);
           clearInterval(this.interval2);
@@ -343,7 +343,7 @@ export class TaskComponent implements OnInit {
     } else {
       queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId + '/' + this.dateTo
     }
-    this.httpClient.get(queryToSearch).subscribe((response) => {
+    this.httpClient.get(queryToSearch).subscribe((response:any) => {
       if (response['success']) {
         this.listTaksDay = response['content']
         this.transformTimeZone(this.listTaksDay)
@@ -354,7 +354,7 @@ export class TaskComponent implements OnInit {
   }
 
   getActiveTask() {
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response) => {
+    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response:any) => {
       if (response['success']) {
         this.taskActiveName = response['content']['description'];
         this.taskActiveId = response['content']['id'];
@@ -368,8 +368,8 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  initCounterTime(intervalTime, repeatInterval) {
-    var timerInterval;
+  initCounterTime(intervalTime:any, repeatInterval:any) {
+    var timerInterval:any;
     // if (repeatInterval) {
     //   this.interval2 = setInterval(() => {
     //     this.notificationDesktop();
@@ -428,7 +428,7 @@ export class TaskComponent implements OnInit {
         onClose: () => {
           clearInterval(timerInterval)
         }
-      }).then((result) => {
+      }).then((result:any) => {
         if (result.isDenied) {
           this.endTask();
         }
@@ -454,12 +454,13 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  transformTimeZone(dateToTransform) {
+  transformTimeZone(dateToTransform:any) {
     let rest_hour = 1000*60*60*5
-    dateToTransform.forEach(element => {
+    dateToTransform.forEach((element:any) => {
       if(element.start_task != null){
         let dateToBack = Date.parse(element.start_task)
         let actualDate = dateToBack - rest_hour
+        //@ts-ignore
         var datetransformed = moment(actualDate)
         let dateFormate = datetransformed.format('LLL:s')
         element.start_task = dateFormate
@@ -467,6 +468,7 @@ export class TaskComponent implements OnInit {
       if(element.end_task != null){
         let dateToBack2 = Date.parse(element.end_task)
         let actualDate2 = dateToBack2 - rest_hour
+        //@ts-ignore
         var datetransformed2 = moment(actualDate2)
         let dateFormate2 = datetransformed2.format('LLL:s')
         element.end_task = dateFormate2
@@ -474,10 +476,11 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  transformTimeZone2(dateToTransform){
+  transformTimeZone2(dateToTransform:any){
     let rest_hour = 1000*60*60*5
     let dateToBack = Date.parse(dateToTransform)
     let actualDate = dateToBack - rest_hour
+    //@ts-ignore
     var datetransformed = moment(actualDate)
     let dateFormate = datetransformed.format('LLLL:s')
     return dateFormate;

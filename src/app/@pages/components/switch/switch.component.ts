@@ -40,8 +40,8 @@ export class pgSwitchComponent implements OnInit, ControlValueAccessor {
   _prefixCls = 'toggle-switch';
   _color = "primary";
   _innerPrefixCls = `${this._prefixCls}-inner `;
-  _classMap;
-  _size: string;
+  _classMap:any;
+  _size!: string;
   _checked = false;
   
   // ngModel Access

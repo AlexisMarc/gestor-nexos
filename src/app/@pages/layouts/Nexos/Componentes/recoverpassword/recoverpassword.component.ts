@@ -10,15 +10,17 @@ import { ForgotPasswordService } from '../../service/forgot-password.service';
 })
 export class RecoverpasswordComponent implements OnInit {
 
-  @Input() parametros = {
-    key: this.config.key,
-    email: ''
-  }
+  @Input() parametros
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private config: ConfigurationRestService,
-    private forgotPassword: ForgotPasswordService) { }
+    private forgotPassword: ForgotPasswordService) { 
+      this.parametros = {
+        key: this.config.key,
+        email: ''
+      }
+    }
 
   ngOnInit() {
   }

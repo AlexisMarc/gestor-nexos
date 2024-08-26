@@ -18,7 +18,7 @@ constructor(
 ){
     
         // let arrayToSend2 = JSON.stringify(this.arrayToSend)
-        // this.httpClient.post('https://apiasambleas.grupogift.com/gestor-test/api/users/login',arrayToSend2).subscribe(response => {
+        // this.httpClient.post('https://apiasambleas.grupogift.com/gestor-test/api/users/login',arrayToSend2).subscribe((response :any)=> {
         //   if (response['success'] == true) {
         //     sessionStorage.setItem('token',response['content']['token'])
         //     sessionStorage.setItem('id',response['content']['id'])

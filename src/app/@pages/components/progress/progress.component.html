@@ -18,9 +18,9 @@
 	>
 		<div *ngIf="indeterminate; else determineBlock"></div>
 	    <ng-template #determineBlock>
-			<div class="pie" [ngStyle]="_value2 && {'clip': 'rect(auto, auto, auto, auto)'}">
-				<div class="left-side half-circle" [ngStyle]="_value2 && {'transform': 'rotate('+value+'deg)'}"></div>
-				<div class="right-side half-circle" [ngStyle]="{'transform': _value2 === true ? 'rotate(180deg)' : 'rotate('+value+'deg)'}"></div>
+			<div class="pie" [ngStyle]="{'clip': 'rect(auto, auto, auto, auto)'}">
+				<div class="left-side half-circle" [ngStyle]="{'transform': 'rotate('+value+'deg)'}"></div>
+				<div class="right-side half-circle" [ngStyle]="{'transform': 'rotate('+value+'deg)'}"></div>
 			</div>
 			<div class="shadow"></div>
 		</ng-template>

@@ -5,9 +5,8 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
 import { listadoUnidadEnvio } from '../../interface/listadounidadenvio';
 import { AddunitserviceService } from '../../service/addunitservice.service';
 import { listadoUnidad } from '../../interface/listadounidad';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
-import { Chats } from '../../Interface/chats.model';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SendMessageService } from '../../service/send-message.service';
@@ -31,52 +30,52 @@ export class SupportComponent implements OnInit {
 
   residential_id: any;
   document_number: any;
-  customer_id: string;
-  listadoUnidad: listadoUnidad[] = [];
-  listadoUnidadData: listadoUnidad[] = [];
+  customer_id!: string;
+  listadoUnidad: any = []
+  listadoUnidadData: any =[];
   ListadoConjuntosSelect: [] = [];
   ListadoUnidades: [] = [];
-  sector: string;
-  name_unidad: string;
+  sector!: string;
+  name_unidad!: string;
   int = 'value';
-  int2 = 'value';
+  int2:any = 'value';
   unidadesOk = false;
   id_unit_add = 'value';
-  add_unit_text: string;
+  add_unit_text!: string;
   show_components = 0;
-  nameRegister: string;
-  name: string;
-  residential_name: string;
-  meeting_id: string;
+  nameRegister!: string;
+  name!: string;
+  residential_name!: string;
+  meeting_id!: string;
   Problem = '0';
   userEmail: any;
   dataUser: any;
   userStorage: any;
   interval5: any;
-  youtube_link: string;
+  youtube_link!: string;
   //var chat
-  message: string;
+  message!: string;
   id_conjunto: any;
   user_id: string;
-  unit_id: string;
+  unit_id!: string;
   messages: any[] = [];
-  chats: number;
+  chats!: number;
   is_mobil = false;
   code: any;
   id_user: any;
   votacion = 0;
   enable_chat = 0;
   filter = '';
-  moroso: string;
-  token: string;
-  customer_id_send: string;
+  moroso!: string;
+  token!: string;
+  customer_id_send!: string;
   //Form receive call
-  form_name: string;
+  form_name!: string;
   form_email = '';
-  form_phone: string;
+  form_phone!: string;
   form_description = "";
   form_resolve = "1"
-  form_unit: string;
+  form_unit!: string;
   scrollAuto = 1;
   keysession: string;
   newMessage: any;
@@ -101,7 +100,7 @@ export class SupportComponent implements OnInit {
     this.user_id = this.userStorage['content']['id'];
     this.keysession = this.userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.residential_name = resp['content']['residential'];
         this.meeting_id = resp['content']['id'];
         this.youtube_link = resp['content']['youtube_share'];
@@ -110,7 +109,7 @@ export class SupportComponent implements OnInit {
         }
         this.interval = setTimeout(() => {
           if (this.youtube_link.match(/www/gi) != null || this.youtube_link.match(/http/gi) != null) {
-            document.getElementById('youtube').setAttribute('src', this.youtube_link);
+            document.getElementById('youtube')!.setAttribute('src', this.youtube_link);
           } else {
             try {
               this.twitch.twitchInsert(this.youtube_link);
@@ -120,7 +119,7 @@ export class SupportComponent implements OnInit {
           }
         }, 1000);
         this.httpClient.get(this.config.endpoint6 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/50')
-          .subscribe(resp2 => {
+          .subscribe((resp2 :any)=> {
             this.messages = resp2['content']['messages'];
             if (this.scrollAuto == 1) {
               setTimeout(() => {
@@ -131,7 +130,7 @@ export class SupportComponent implements OnInit {
               this.messages[index]['created_at'] = this.transformTimeZone(this.messages[index]['created_at']);
             }
           });
-        this.socketService.listen('meeting_chat_' + this.meeting_id).subscribe((response) => {
+        this.socketService.listen('meeting_chat_' + this.meeting_id).subscribe((response:any) => {
           this.newMessage = response;
           this.newMessage['created_at'] = this.transformTimeZone(this.newMessage['created_at']);
           this.messages.push(this.newMessage);
@@ -144,12 +143,12 @@ export class SupportComponent implements OnInit {
       });
     //Listado de documentos
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         this.listDocument = resp2['content']
       });
     //servicio obtener unidades
     this.httpClient.get(this.config.endpoint3 + 'AppServices/getBuildingsUnitByResidential?key=' + this.config.key + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
-      .subscribe(resp4 => {
+      .subscribe((resp4:any) => {
         this.ListadoConjuntosSelect = resp4['content'];
         if (resp4['success'] === true) {
           this.sector = resp4['content'][0]['name'];
@@ -176,7 +175,7 @@ export class SupportComponent implements OnInit {
     if (this.profileForm.value.message == '' || this.profileForm.value.message == ' ') {
       swal.fire({
         title: '<strong>Atención</strong>',
-        type: 'error',
+        icon: 'error',
         html:
           'Debe escribir algo',
         showCloseButton: true,
@@ -192,7 +191,7 @@ export class SupportComponent implements OnInit {
     if (this.profileForm.value.message == null || this.profileForm.value.message == 'null') {
       swal.fire({
         title: '<strong>Atención</strong>',
-        type: 'error',
+        icon: 'error',
         html:
           'No se pueden enviar caracteres especiales',
         showCloseButton: true,
@@ -236,10 +235,10 @@ export class SupportComponent implements OnInit {
     formData2.append('is_online', "0")
     formData2.append('document_number', this.document_number)
     formData2.append('token', this.token);
-    this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateUserSignInStatus', formData2).subscribe((resp3) => {
+    this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateUserSignInStatus', formData2).subscribe((resp3:any) => {
       swal.fire({
         title: '<strong>Mensaje</strong>',
-        type: 'success',
+        icon: 'success',
         html:
           resp3['message'],
         showCloseButton: true,
@@ -256,7 +255,7 @@ export class SupportComponent implements OnInit {
   getCustomerDetails() {
     this.listadoUnidad = [];
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByDocumentNumber?key=' + this.config.key + '&document_number=' + this.document_number)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
           this.nameRegister = resp['content']['nameRegister'];
@@ -267,7 +266,7 @@ export class SupportComponent implements OnInit {
         this.customer_id = resp['content']['id'];
         this.customer_id_send = resp['content']['id'];
         this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getCustomerProperties?key=' + this.config.key + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
-          .subscribe(resp2 => {
+          .subscribe((resp2 :any)=> {
             this.listadoUnidadData = resp2['content']['properties'];
             this.moroso = resp2['content']['moroso'];
             for (let index = 0; index < this.listadoUnidadData.length; index++) {
@@ -277,7 +276,7 @@ export class SupportComponent implements OnInit {
               this.listadoUnidad.push(unidad);
             }
             this.httpClient.get(this.config.endpoint3 + 'CustomerRegistrationServices/getEntryTokenByCustomerByMeeting?key=' + this.config.key + '&customer_id=' + this.customer_id + '&meeting_id=' + this.meeting_id)
-              .subscribe(resp3 => {
+              .subscribe((resp3:any) => {
                 this.token = resp3['content'];
               });
           });
@@ -285,10 +284,10 @@ export class SupportComponent implements OnInit {
   }
 
   selectedUser() {
-    var unit_name = this.ListadoUnidades.find(units => units['id'] === this.id_unit_add);
+    var unit_name = this.ListadoUnidades.find(units => units['id'] === this.id_unit_add)!;
     this.form_unit = this.ListadoConjuntosSelect[this.int2]['name'] + " " + this.ListadoConjuntosSelect[this.int2]['number'] + ' ' + unit_name['name'] + ' ' + unit_name['number']
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_unit_add)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.document_number = resp['content']['document_number'];
         this.getCustomerDetails();
       });
@@ -344,9 +343,9 @@ export class SupportComponent implements OnInit {
     this.form_unit = "";
   }
 
-  download(id_file, name_file) {
+  download(id_file:any, name_file:any) {
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFileById?key=' + this.config.key + '&id=' + id_file)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         const linkSource = `data:application/pdf;base64,${resp2['content']['file_content']}`;
         const downloadLink = document.createElement("a");
         const fileName = name_file;
@@ -401,12 +400,12 @@ export class SupportComponent implements OnInit {
   }
 
   scrollBottom() {
-    var element = document.getElementById("style-1");
+    var element = document.getElementById("style-1")!;
     element.scrollTop = element.scrollHeight;
   }
 
   scrollTop() {
-    var element = document.getElementById("style-1");
+    var element = document.getElementById("style-1")!;
     element.scroll({
       top: 0,
       left: 0,
@@ -423,7 +422,7 @@ export class SupportComponent implements OnInit {
     this.scrollBottom();
   }
 
-  transformTimeZone(dateToTransform) {
+  transformTimeZone(dateToTransform:any) {
     var date = new Date();
     var offset = date.getTimezoneOffset();
     var dateGot = dateToTransform.trim();

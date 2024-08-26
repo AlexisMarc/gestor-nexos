@@ -36,7 +36,7 @@ import { MenuComponent } from './menu.component';
 })
 export class MenuAltComponent  extends MenuComponent implements OnInit {
 
-  ngOnInit() {
+  override ngOnInit() {
   }
   
 }

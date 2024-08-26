@@ -15,11 +15,10 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
 import { toBoolean } from '../util/convert';
 import { pgTabComponent } from './tab.component';
 import { pgTabsNavComponent } from './tabs-nav.component';
+import { map, Observable } from 'rxjs';
 
 export interface AnimatedInterface {
   inkBar: boolean;
@@ -27,8 +26,8 @@ export interface AnimatedInterface {
 }
 
 export class TabChangeEvent {
-  index: number;
-  tab: pgTabComponent;
+  index!: number;
+  tab!: pgTabComponent;
 }
 
 export type TabPosition = 'top' | 'bottom' | 'left' | 'right';
@@ -49,7 +48,7 @@ export type TabType = 'line' | 'fillup' | 'linetriangle';
         [Position]="_tabPosition"
         [Animated]="inkBarAnimated"
         [HideBar]="Hide"
-        [selectedIndex]="SelectedIndex"
+        [selectedIndex]="(SelectedIndex??0)"
         >
         <ng-template #tabBarExtraContent>
           <ng-template [ngTemplateOutlet]="TabBarExtraTemplate || TabBarExtraContent"></ng-template>
@@ -59,7 +58,7 @@ export type TabType = 'line' | 'fillup' | 'linetriangle';
           [disabled]="tab.disabled"
           (click)="clickLabel(i)"
           *ngFor="let tab of _tabs; let i = index">
-          <a href="javascript:void(0);" class="" [class.active]="(SelectedIndex == i)&&!Hide">
+          <a href="javascript:void(0);" class="" [class.active]="((SelectedIndex) == i)&&!Hide">
           <ng-template [ngTemplateOutlet]="tab._tabHeading"></ng-template>
           </a>
         </li>
@@ -69,7 +68,7 @@ export type TabType = 'line' | 'fillup' | 'linetriangle';
           #tabContent
           [class.animated]="tabPaneAnimated"
           [class.not-animated]="!tabPaneAnimated"
-          [style.margin-left.%]="tabPaneAnimated&&(-SelectedIndex*100)">
+          [style.margin-left.%]="tabPaneAnimated&&(-(SelectedIndex ?? 0)*100)">
           <pg-tab-body
             class="tab-pane"
             [class.active]="(SelectedIndex == i)&&!Hide"
@@ -85,10 +84,10 @@ export type TabType = 'line' | 'fillup' | 'linetriangle';
   ]
 })
 export class pgTabSetComponent implements AfterContentChecked, OnInit, AfterViewInit {
-  _el;
-  _classMap;
+  _el: any;
+  _classMap: any;
   _prefixCls = 'nav-tabs';
-  _width;
+  _width: any;
   _tabPosition: TabPosition = 'top';
   _tabPositionMode: TabPositionMode = 'horizontal';
   _indexToSelect: number | null = 0;
@@ -99,11 +98,11 @@ export class pgTabSetComponent implements AfterContentChecked, OnInit, AfterView
   _extra_tab_class = "";
   _extra_tabcontent_class = "";
 
-  @Input() TabBarExtraTemplate: TemplateRef<void>;
-  @ContentChild('TabBarExtraContent', { read: true, static: false }) TabBarExtraContent: TemplateRef<void>;
-  @ViewChild('tabNav', { read: true, static: false }) _tabNav: pgTabsNavComponent;
-  @ViewChild('tabContent', { read: true, static: false }) _tabContent: ElementRef;
-  @ViewChild('hostContent', { read: true, static: false }) _hostContent: ElementRef;
+  @Input() TabBarExtraTemplate!: TemplateRef<void>;
+  @ContentChild('TabBarExtraContent', { read: true, static: false }) TabBarExtraContent!: TemplateRef<void>;
+  @ViewChild('tabNav', { read: true, static: false }) _tabNav!: pgTabsNavComponent;
+  @ViewChild('tabContent', { read: true, static: false }) _tabContent!: ElementRef;
+  @ViewChild('hostContent', { read: true, static: false }) _hostContent!: ElementRef;
   @Input() Animated: AnimatedInterface | boolean = true;
   @Input() ShowPagination = true;
   @Input() Hide = false;

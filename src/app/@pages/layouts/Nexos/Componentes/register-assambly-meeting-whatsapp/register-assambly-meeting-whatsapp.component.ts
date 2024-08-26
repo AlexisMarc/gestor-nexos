@@ -19,12 +19,12 @@ export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
   meeting_id: any
   buildings:any
   acccess_service:boolean = false
-  buildByUser:any[]
+  buildByUser:any[] = []
   allBuilds:any[] =[]
   coincidences:any
   id_sector_search:any = '00'
   id_unit_search:any = '00'
-  ListadoUnidades:any[]
+  ListadoUnidades:any[] = []
   userCheck:any
   id_selected:any = '00'
   userSelected:any
@@ -50,12 +50,12 @@ export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
    }
   ngOnInit() {
-    this._global.getMeetingDetails(this.residential_id).subscribe(resp => {
+    this._global.getMeetingDetails(this.residential_id).subscribe((resp:any)=> {
       if (resp.success == true) {
         this.meeting_id = resp.content.id
-        this._whatsappService.getBuilding(this.meeting_id).subscribe(response => {
+        this._whatsappService.getBuilding(this.meeting_id).subscribe((response :any)=> {
           this.buildings = response['content']
-          // this.buildings.forEach(element => {
+          // this.buildings.forEach((element:any) => {
           //   element.units.forEach(ele => {
               
           //     this.allBuilds.push(ele)
@@ -66,7 +66,7 @@ export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
       } else {
       }
     })
-    this._whatsappService.getCountry().subscribe(resp => {
+    this._whatsappService.getCountry().subscribe((resp:any)=> {
       this.contrys = resp['content']
     })
   }
@@ -83,11 +83,11 @@ export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
     this.router.navigate(['home/pointControl']);
   }
 
-  actualizarValor(index) {
+  actualizarValor(index:any) {
     this.buildByUser[index].value_check = this.buildByUser[index].value_check == 1 ? 0: 1
   }
 
-  actualizarValor2(index) {
+  actualizarValor2(index:any) {
     this.buildByUser[index].is_owner = this.buildByUser[index].is_owner == 1 ? 0: 1
   }
 
@@ -117,15 +117,15 @@ export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
   build_selected(){
     
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_selected)
-    .subscribe(resp=>{
+    .subscribe((resp:any)=>{
       let document_aux = resp['content']['document_number']
       let phone_aux = resp['content']['phone1']
       this.userIdOwner = resp['content']['id']
       let data = {'document':document_aux,'phone':phone_aux,'meeting_id':this.meeting_id,'phone_code':this.data.phone_code}
-      this._whatsappService.postDataByDocumentOrPhone(data).subscribe(resp=>{
+      this._whatsappService.postDataByDocumentOrPhone(data).subscribe((resp:any)=>{
         if(resp['success']== true){
           this.buildByUser = resp['content']['properties']
-          this.buildByUser.forEach(element => {
+          this.buildByUser.forEach((element:any) => {
               element['value_check'] = 1
           });
         }
@@ -140,7 +140,7 @@ export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
 
 if (seEncuentraEnArreglo) {
   Swal.fire({
-    type: "error",
+    icon: "error",
     title: "No se puede agregar",
     text: "Ya existe este usuario en la lista",
   });
@@ -148,7 +148,7 @@ if (seEncuentraEnArreglo) {
   
   Swal.fire({
     title: '<strong>Esta Seguro</strong>',
-    type: 'question',
+    icon: 'question',
     html: 'que desea agregar esta unidad Unidad: <b>' + this.userCheck.building_name + ' - ' + this.userCheck.building_number+' - ' + this.userCheck.unit_number+' - ' + this.userCheck.building_name+'</b>',
     showCloseButton: true,
     showCancelButton: true,
@@ -190,8 +190,8 @@ if (seEncuentraEnArreglo) {
   
 
   sendData(){
-    let unitscheck =[]
-    this.buildByUser.forEach(element => {
+    let unitscheck:any =[]
+    this.buildByUser.forEach((element:any) => {
       if(element.value_check== 1){
         unitscheck.push({'id':element.unit_id,'is_owner':element.is_owner})
       }
@@ -206,17 +206,17 @@ if (seEncuentraEnArreglo) {
       "country_code":this.data.phone_code,
       "units":unitscheck
     }
-this._whatsappService.postRegisterUserWithWhatsapp(dataToSend).subscribe(resp=>{
+this._whatsappService.postRegisterUserWithWhatsapp(dataToSend).subscribe((resp:any)=>{
   if(resp['status']){
     Swal.fire({
-      type:'success',
+      icon:'success',
       title:'Proceso Exitoso',
       text:resp['message']
     });
     this.recargarModulo()
   }else{
     Swal.fire({
-      type:'error',
+      icon:'error',
       title:'Error',
       text:resp['message']
     });
@@ -228,7 +228,7 @@ this._whatsappService.postRegisterUserWithWhatsapp(dataToSend).subscribe(resp=>{
   searchUser(){
     let data = {'document':this.data.document,'phone':this.data.phone,'meeting_id':this.meeting_id,'phone_code':this.data.phone_code}
     if(data.document!='' || data.phone!=''){
-      this._whatsappService.postDataByDocumentOrPhone(data).subscribe(resp=>{
+      this._whatsappService.postDataByDocumentOrPhone(data).subscribe((resp:any)=>{
         if(resp['success']== true){
           this.userIdOwner = resp['content']['id']
           this.data.document = resp['content']['document']
@@ -237,7 +237,7 @@ this._whatsappService.postRegisterUserWithWhatsapp(dataToSend).subscribe(resp=>{
           this.data.name  = resp['content']['name']
           this.acccess_service = resp['success']
           this.buildByUser = resp['content']['properties']
-          this.buildByUser.forEach(element => {
+          this.buildByUser.forEach((element:any) => {
               element['value_check'] = 1  
           });
           // this.coincidences = this.buildByUser.filter(obj1 => {const idBuscado = obj1.unit_id.toString();

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
-import { Observable } from 'rxjs/Observable';
 import { ConfigurationRestService } from './configuration.rest.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class SocketService {
 
   public listen(eventName: string) {
     return new Observable((subscriber) => {
-      this.socket.on(eventName, (data) => {
+      this.socket.on(eventName, (data:any) => {
         subscriber.next(data);
       })
     });

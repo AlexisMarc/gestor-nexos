@@ -11,7 +11,7 @@ export class TwitchCallService {
 
   constructor() { }
 
-  public twitchInsert(channel) {
+  public twitchInsert(channel:any) {
     var options = {
       width: '100%',
       height: '100%',
@@ -24,15 +24,23 @@ export class TwitchCallService {
     this.embed.setMuted(false);
     this.embed.setVolume(1);
     this.embed.addEventListener(Twitch.Embed.VIDEO_PLAY, function () {
+      //@ts-ignore
       this.embed_ready = true;
+      //@ts-ignore
       this.cantidad_video++;
+      //@ts-ignore
       if (this.cantidad_video == 2) {
+        //@ts-ignore
         this.embed.setQuality("480p30");
       } else {
+        //@ts-ignore
         if (this.cantidad_video == 3) {
+          //@ts-ignore
           this.embed.setQuality("360p30");
         } else {
+          //@ts-ignore
           if (this.cantidad_video > 3) {
+            //@ts-ignore
             this.embed.setQuality("160p30");
           }
         }
@@ -43,7 +51,7 @@ export class TwitchCallService {
     this.embed.setQuality("auto")
   }
 
-  setVolume(volume) {
+  setVolume(volume:any) {
     this.embed.setMuted(false);
     this.embed.setVolume(volume);
   }

@@ -16,7 +16,7 @@ export class CreateQrComponent implements OnInit {
   userEmail4: any;
   document_number: any;
   nameRegister: any;
-  name: string;
+  name!: string;
   password: any;
   meeting_id: string;
   residential_id: string;
@@ -29,8 +29,8 @@ export class CreateQrComponent implements OnInit {
     private route: ActivatedRoute,
     @Inject(SESSION_STORAGE)
     private storage: WebStorageService,) {
-      this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
-      this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+      this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
+      this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
       const userStorage = this.storage.get('user');
       this.user_id = userStorage['content']['id'];
     }
@@ -61,7 +61,7 @@ export class CreateQrComponent implements OnInit {
     this.router.navigate(['home/entradaSala/' + this.residential_id + '/' + this.meeting_id]);
   }
   
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id]);
   }
   goSearchPointControl() {
@@ -72,7 +72,7 @@ export class CreateQrComponent implements OnInit {
    
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByDocumentNumber?key=' + this.config.key + '&document_number=' + this.document_number)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.name = resp['content']['name'];
         this.nameRegister = resp['content']['nameRegister'];
         this.userEmail = resp['content']['email'];
@@ -81,7 +81,7 @@ export class CreateQrComponent implements OnInit {
         this.userEmail4 = resp['content']['email4'];
       });
       this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getSecondTokenByDocumentNumber?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&document_number=' + this.document_number)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.token_2 = resp['content']['token_2'];
       });
   }

@@ -17,24 +17,24 @@ export class CustomerControlComponent implements OnInit {
 
   residential_id: any;
   document_number: any;
-  customer_id: string;
-  listadoUnidad: listadoUnidad[] = [];
-  listadoUnidadData: listadoUnidad[] = [];
+  customer_id!: string;
+  listadoUnidad: any = [];
+  listadoUnidadData:any = [];
   ListadoConjuntosSelect: [] = [];
   ListadoUnidades: [] = [];
-  sector: string;
-  name_unidad: string;
+  sector!: string;
+  name_unidad!: string;
   int = 'value';
-  int2 = 'value';
+  int2:any = 'value';
   unidadesOk = false;
   id_unit_add = 'value';
-  add_unit_text: string;
-  form_name: string;
+  add_unit_text!: string;
+  form_name!: string;
   form_email = '';
-  form_phone: string;
+  form_phone!: string;
   form_description = "";
   form_resolve = "1"
-  form_unit: string;
+  form_unit!: string;
   userStorage: any;
   user_id: string;
   customer_email = '';
@@ -45,12 +45,12 @@ export class CustomerControlComponent implements OnInit {
   customer_email_2_compare = '';
   customer_email_3_compare = '';
   customer_email_4_compare = '';
-  moroso: string;
-  token: string;
-  customer_id_send: string;
+  moroso!: string;
+  token!: string;
+  customer_id_send!: string;
   show_components = 0;
-  nameRegister: string;
-  name: string;
+  nameRegister!: string;
+  name!: string;
   meeting_id: string;
   keysession: string;
   textToSearch = '';
@@ -66,7 +66,7 @@ export class CustomerControlComponent implements OnInit {
     private sendmailService: SendmailService
   ) {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.userStorage = this.storage.get('user');
     this.user_id = this.userStorage['content']['id'];
     this.keysession = this.userStorage['content']['token'];
@@ -74,7 +74,7 @@ export class CustomerControlComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
-      .subscribe(resp4 => {
+      .subscribe((resp4:any) => {
         if (resp4['message'] == "La sesión es inválida") {
           Swal.fire({
             title:'Atención', 
@@ -82,7 +82,7 @@ export class CustomerControlComponent implements OnInit {
             icon:'info',
             backdrop: true,
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
-          }).then(response=>{
+          }).then((response:any)=>{
             if(response.value){
               this.storage.remove('user');
               this.router.navigate(['/']);
@@ -133,10 +133,10 @@ export class CustomerControlComponent implements OnInit {
     }
   }
 
-  getCustomerDetails(document_number) {
+  getCustomerDetails(document_number:any) {
     this.listadoUnidad = [];
     this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + document_number + '/' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
           this.nameRegister = resp['content']['nameRegister'];
@@ -184,16 +184,16 @@ export class CustomerControlComponent implements OnInit {
       });
   }
  
-  selectedUser(unit_id_of_customer, sector_name, sector_number, unit_name, unit_number) {
+  selectedUser(unit_id_of_customer:any, sector_name:any, sector_number:any, unit_name:any, unit_number:any) {
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + unit_id_of_customer)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.form_unit = sector_name + " " + sector_number + ' ' + unit_name + ' ' + unit_number;
         this.getCustomerDetails(resp['content']['document_number']);
       });
   }
 
   sendMail() {
-    const validateEmail = (email) => {
+    const validateEmail = (email:any) => {
       return String(email)
         .toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     };
@@ -233,7 +233,7 @@ export class CustomerControlComponent implements OnInit {
               formData2.append('email2', this.customer_email_2);
               formData2.append('email3', this.customer_email_3);
               formData2.append('email4', this.customer_email_4);
-              this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateCustomerData', formData2).subscribe((user) => {
+              this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateCustomerData', formData2).subscribe((user:any) => {
                 if (user['success'] === true) {
                   if (this.customer_email != '' || this.customer_email_2 != '' || this.customer_email_3 != '' || this.customer_email_4 != '') {
                     this.sendmailService.SendMailServiceByUnit(this.keysession, this.customer_id_send, this.meeting_id);

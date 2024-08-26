@@ -14,7 +14,7 @@ import { StoreMeetingService } from '../../service/store-meeting.service';
 export class PreregistrationMeetingSetupComponent implements OnInit {
   residential_id:  any;
   dataResidential: [] = [];
-  token: string;
+  token!: string;
 
   @Input() loadDatabase = {
     id: '0',
@@ -37,47 +37,47 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     youtube_share: '',
   };
   imgURL: any;
-  fileData: File = null;
+  fileData: File | null = null;
   previewUrl: any;
 
   imgURL1: any;
-  fileData1: File = null;
+  fileData1: File | null = null;
   previewUrl1: any;
 
   imgURL2: any;
-  fileData2: File = null;
+  fileData2: File | null = null;
   previewUrl2: any;
 
   imgURL3: any;
-  fileData3: File = null;
+  fileData3: File | null = null;
   previewUrl3: any;
 
   imgURL4: any;
-  fileData4: File = null;
+  fileData4: File | null = null;
   previewUrl4: any;
 
   imgURL5: any;
-  fileData5: File = null;
+  fileData5: File | null = null;
   previewUrl5: any;
 
   imgURL6: any;
-  fileData6: File = null;
+  fileData6: File | null = null;
   previewUrl6: any;
 
   imgURL7: any;
-  fileData7: File = null;
+  fileData7: File | null = null;
   previewUrl7: any;
 
   imgURL8: any;
-  fileData8: File = null;
+  fileData8: File | null = null;
   previewUrl8: any;
 
   imgURL9: any;
-  fileData9: File = null;
+  fileData9: File | null = null;
   previewUrl9: any;
 
   imgURL10: any;
-  fileData10: File = null;
+  fileData10: File | null = null;
   previewUrl10: any;
 
   interval21: any;
@@ -111,7 +111,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if (this.loadDatabase['name'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'El Nombre de la reunion es obligatorio',
        cancelButtonColor: '#727272',
@@ -125,7 +125,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if (this.loadDatabase['date'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'la fecha de la reunion es obligatoria',
        cancelButtonColor: '#727272',
@@ -139,7 +139,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if ( this.loadDatabase['is_online'] === '') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'Seleccione si es asamblea a distancia',
        cancelButtonColor: '#727272',
@@ -153,7 +153,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if ( this.loadDatabase['meeting_time'] === '' ) {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
         'La hora registro y fecha son obligatorios',
        cancelButtonColor: '#727272',
@@ -168,7 +168,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if ( this.loadDatabase['max_units'] === null) {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
         'la maxima cantidad de unidades es obligatoria',
        cancelButtonColor: '#727272',
@@ -182,7 +182,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       if (this.loadDatabase['max_units'] === '0' ) {
         swal.fire({
           title: '<strong>Advertencia</strong>',
-          type: 'warning',
+          icon: 'warning',
           html:
           'la maxima cantidad debe ser mayor que cero',
          cancelButtonColor: '#727272',
@@ -196,7 +196,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if ( this.loadDatabase['max_agents'] === null) {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
         'la maxima cantidad de poderes es obligatoria',
        cancelButtonColor: '#727272',
@@ -210,7 +210,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if ( this.loadDatabase['max_agents'] === '0') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
         'la maxima cantidad de poderes debe ser mayor que cero',
        cancelButtonColor: '#727272',
@@ -224,7 +224,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
     if ( this.loadDatabase['youtube_link'] === '') {
         swal.fire({
           title: '<strong>Advertencia</strong>',
-          type: 'warning',
+          icon: 'warning',
           html:
             'La url de votaciones es obligatoria',
          cancelButtonColor: '#FF8B00',
@@ -237,7 +237,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       if (this.fileData == null) {
         swal.fire({
           title: '<strong>Advertencia</strong>',
-          type: 'warning',
+          icon: 'warning',
           html:
             'Debe cargar una base de datos',
           showCloseButton: true,
@@ -267,14 +267,14 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
         formData.append('document7', this.loadDatabase['document7']);
         formData.append('document8', this.loadDatabase['document8']);
         formData.append('file', this.fileData);
-        formData.append('file1', this.fileData1);
-        formData.append('file2', this.fileData2);
-        formData.append('file3', this.fileData3);
-        formData.append('file4', this.fileData4);
-        formData.append('file5', this.fileData5);
-        formData.append('file6', this.fileData6);
-        formData.append('file7', this.fileData7);
-        formData.append('file8', this.fileData8);
+        formData.append('file1', this.fileData1!);
+        formData.append('file2', this.fileData2!);
+        formData.append('file3', this.fileData3!);
+        formData.append('file4', this.fileData4!);
+        formData.append('file5', this.fileData5!);
+        formData.append('file6', this.fileData6!);
+        formData.append('file7', this.fileData7!);
+        formData.append('file8', this.fileData8!);
         formData.append('youtube_link', this.loadDatabase['youtube_link']);
         formData.append('youtube_share', this.loadDatabase['youtube_share']);
         this.storeMeeting.storeMeetingService(formData, this.token, 0);
@@ -289,7 +289,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   }
   preview() {
     // Show preview
-    const mimeType = this.fileData.type;
+    const mimeType = this.fileData!.type;
     this.previewUrl = './assets/img/excel.png';
     if (mimeType.match(/csv\/*/) == null) {
       return;
@@ -298,7 +298,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       this.previewUrl = './assets/img/excel.png';
     }
     const reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.fileData!);
     reader.onload = (_event) => {
       // this.previewUrl = reader.result;
     };
@@ -310,7 +310,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   }
   preview1() {
     // Show preview
-    const mimeType = this.fileData1.type;
+    const mimeType = this.fileData1!.type;
     this.previewUrl1 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -319,7 +319,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       this.previewUrl1 = './assets/img/pdf1.png';
     }
     const reader = new FileReader();
-    reader.readAsDataURL(this.fileData1);
+    reader.readAsDataURL(this.fileData1!);
     reader.onload = (_event) => {
       // this.previewUrl = reader.result;
     };
@@ -331,7 +331,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   }
   preview2() {
     // Show preview
-    const mimeType = this.fileData2.type;
+    const mimeType = this.fileData2!.type;
     this.previewUrl2 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -340,7 +340,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       this.previewUrl2 = './assets/img/pdf1.png';
     }
     const reader = new FileReader();
-    reader.readAsDataURL(this.fileData2);
+    reader.readAsDataURL(this.fileData2!);
     reader.onload = (_event) => {
       // this.previewUrl = reader.result;
     };
@@ -352,7 +352,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   }
   preview3() {
     // Show preview
-    const mimeType = this.fileData3.type;
+    const mimeType = this.fileData3!.type;
     this.previewUrl3 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -361,7 +361,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       this.previewUrl3 = './assets/img/pdf1.png';
     }
     const reader = new FileReader();
-    reader.readAsDataURL(this.fileData3);
+    reader.readAsDataURL(this.fileData3!);
     reader.onload = (_event) => {
       // this.previewUrl = reader.result;
     };
@@ -373,7 +373,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   }
   preview4() {
     // Show preview
-    const mimeType = this.fileData4.type;
+    const mimeType = this.fileData4!.type;
     this.previewUrl4 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -382,7 +382,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       this.previewUrl4 = './assets/img/pdf1.png';
     }
    const reader = new FileReader();
-    reader.readAsDataURL(this.fileData4);
+    reader.readAsDataURL(this.fileData4!);
     reader.onload = (_event) => {
       // this.previewUrl = reader.result;
     };
@@ -394,7 +394,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   }
   preview5() {
     // Show preview
-    const mimeType = this.fileData5.type;
+    const mimeType = this.fileData5!.type;
     this.previewUrl5 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -403,7 +403,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       this.previewUrl5 = './assets/img/pdf1.png';
     }
     const reader = new FileReader();
-    reader.readAsDataURL(this.fileData5);
+    reader.readAsDataURL(this.fileData5!);
     reader.onload = (_event) => {
       // this.previewUrl = reader.result;
     };
@@ -415,7 +415,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   }
   preview6() {
     // Show preview
-    const mimeType = this.fileData6.type;
+    const mimeType = this.fileData6!.type;
     this.previewUrl6 = './assets/img/pdf1.png';
     if (mimeType.match(/.pdf\/*/) == null) {
       return;
@@ -424,7 +424,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       this.previewUrl6 = './assets/img/pdf1.png';
     }
     const reader = new FileReader();
-    reader.readAsDataURL(this.fileData6);
+    reader.readAsDataURL(this.fileData6!);
     reader.onload = (_event) => {
       // this.previewUrl = reader.result;
     };

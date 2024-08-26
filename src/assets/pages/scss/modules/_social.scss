@@ -21,7 +21,7 @@
     margin: 0 auto;
     overflow-x: hidden;
     &:before{
-        background-image: url("#{$base-img-url}/linear_gradient.png");
+        background-image: url("./assets/images/linear_gradient.png");
         background-repeat: repeat-x;
         bottom: 0;
         content: " ";

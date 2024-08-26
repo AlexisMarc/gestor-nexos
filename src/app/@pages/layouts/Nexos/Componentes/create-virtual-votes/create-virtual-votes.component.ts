@@ -48,12 +48,12 @@ export class CreateVirtualVotesComponent implements OnInit {
       'APROBACION CUOTAEXTRAORDINARIA'
     ];
 
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
 
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         // this.allProfilesVotation = resp['content'];
         // let num = 1;
         // const profileVoterForAdd = new DataProfileVoter(this.allProfilesVotation[num]['id'], this.allProfilesVotation[num]['name']);
@@ -65,7 +65,7 @@ export class CreateVirtualVotesComponent implements OnInit {
 
   ngOnInit() {
   }
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id]);
   }
   goSearchPointControl() {
@@ -195,12 +195,12 @@ export class CreateVirtualVotesComponent implements OnInit {
     this.voter_profiles = [];
   }
 
-  deleteProfilesToQuestion(index) {
+  deleteProfilesToQuestion(index:any) {
     this.voter_profiles.splice(index, 1);
     this.ProfilesToSend.splice(index, 1);
   }
 
-  deleteOption(index) {
+  deleteOption(index:any) {
     this.options.splice(index, 1);
   }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy,HostBinding,ElementRef,Input,HostListener,ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { fadeAnimation } from '../../animations/fade-animations';
 import { pagesToggleService} from '../../services/toggler.service';
 import { SearchResult } from './search-result';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-search-overlay',
   templateUrl: './search-overlay.component.html',
@@ -16,7 +16,7 @@ export class SearchOverlayComponent implements OnDestroy {
   _isEnabled:boolean = false;
   isVisible:boolean = false;
   value:string = "";
-  modal:SearchResult;
+  modal!:SearchResult;
 
   constructor(private el: ElementRef,private toggler:pagesToggleService) {
     this.toggleSubscription = this.toggler.searchToggle.subscribe((toggleValue) => { this.open() });
@@ -32,7 +32,7 @@ export class SearchOverlayComponent implements OnDestroy {
     return this._isEnabled;
   }
 
-  close($event){
+  close($event:any){
     $event.preventDefault();
   	this.isVisible = false;
   	this.value = "";
@@ -48,7 +48,7 @@ export class SearchOverlayComponent implements OnDestroy {
   @ViewChild('searchField', { read: true, static: false })
   searchField: any;
 
-  @HostListener('document:keypress', ['$event']) onKeydownHandler(e) {
+  @HostListener('document:keypress', ['$event']) onKeydownHandler(e:any) {
     var nodeName = e.target.nodeName;
     //Ignore When focus on input, textarea & contenteditable
     if (nodeName == 'INPUT' || nodeName == 'TEXTAREA' || e.target.contentEditable == "true") {
@@ -69,7 +69,7 @@ export class SearchOverlayComponent implements OnDestroy {
     }
   }
 
-  searchKeyPress(event){
+  searchKeyPress(event:any){
     if (this.isVisible && event.keyCode == 27) {
       this.isVisible = false;
       this.value = "";

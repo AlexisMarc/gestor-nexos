@@ -6,8 +6,8 @@ import { ItemSave } from "./itemsave.model";
 @Injectable()
 export class Globals {
     listadoItems: ItemSave[] = [];
-    dataQuote: DataQuote[] = [];
+    dataQuote: any = [];
     quote_type_id: any;
-    search_data: string;
-    quorum_real_time: string;
+    search_data!: string;
+    quorum_real_time!: string;
 }

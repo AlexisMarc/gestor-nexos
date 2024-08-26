@@ -38,7 +38,7 @@ export class ListUsersComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint + 'UserServices/getAllUsers?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listUsers = resp['content'];
 
       });
@@ -49,7 +49,7 @@ export class ListUsersComponent implements OnInit {
   goHome() {
     this.router.navigate(['/home']);
   }
-  irEditUsers(idUser) {
+  irEditUsers(idUser:any) {
     this.router.navigate(['home/editUsers/' + idUser]);
   }
   goMenuSetting() {

@@ -32,9 +32,9 @@ export class ListCampaignWhatsappComponent implements OnInit {
     })
   }
 
-  goEditCampaign(id){
+  goEditCampaign(id:any){
     let ObjectToSend = ''
-    this.list.forEach(element => {
+    this.list.forEach((element:any) => {
       if(element.id === id){
         ObjectToSend = element
       }

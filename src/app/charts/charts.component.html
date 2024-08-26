@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="col-lg-8 sm-no-padding">
-          <pgcard Type="transparent" Maximize="false" Close="false" Refresh="false" Toggle="false">
+          <pgcard [Maximize]="false" [Close]="false" [Refresh]="false" [Toggle]="false">
               <ng-template #CardTitle></ng-template>
               <pg-tabset tabAnimation="slide-left" Type="linetriangle" extraTabClass="no-border" extraTabContentClass="no-padding b-t b-light">
                 <pg-tab>
@@ -44,7 +44,7 @@
                       Stacked Bar Charts
                     </ng-template>
                     <div class="sample-bar-chart">
-                      <nvd3 [options]="barChartOptions" [data]="barChartData"></nvd3>
+                      <!-- <nvd3 [options]="barChartOptions" [data]="barChartData"></nvd3> -->
                     </div>
                   </pg-tab>
                   <pg-tab>
@@ -65,7 +65,7 @@
   <!-- START CONTAINER FLUID -->
   <div class="p-l-30 p-r-30 sm-no-padding bg-white">
     <!-- START card -->
-    <pgcard Type="transparent" BodyClass="d-flex flex-wrap" Maximize="false" Close="false" Refresh="false" Toggle="false">
+    <pgcard BodyClass="d-flex flex-wrap" [Maximize]="false" [Close]="false" [Refresh]="false" [Toggle]="false">
         <ng-template #CardTitle>NVD3 Charts</ng-template>
         <div class="col-lg-4 no-padding">
             <div class="p-r-30">
@@ -88,7 +88,7 @@
                       Line Chart
                   </ng-template>
                   <div class="line-chart text-center p-t-20" data-x-grid="false">
-                  <nvd3 [options]="nvd3LineOptions" [data]="nvd3LineData"></nvd3>
+                  <!-- <nvd3 [options]="nvd3LineOptions" [data]="nvd3LineData"></nvd3> -->
                   </div>
                 </pg-tab>
                 <pg-tab>
@@ -96,7 +96,7 @@
                         Stacked Area Charts
                     </ng-template>
                     <div class="line-chart text-center  p-t-20" data-x-grid="false">
-                    <nvd3 [options]="options" [data]="data"></nvd3>
+                    <!-- <nvd3 [options]="options" [data]="data"></nvd3> -->
                     </div>
                   </pg-tab>
                   <pg-tab>
@@ -104,7 +104,7 @@
                           Line Charts with area
                       </ng-template>
                       <div class="line-chart text-center  p-t-20" data-x-grid="false">
-                        <nvd3 [options]="nvd3LineAreaOptions" [data]="nvd3LineAreaData"></nvd3>
+                        <!-- <nvd3 [options]="nvd3LineAreaOptions" [data]="nvd3LineAreaData"></nvd3> -->
                       </div>
                     </pg-tab>
               </pg-tabset>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class EditEmailUserService {
     private router: Router
   ) { }
 
-  editMail(CustomerData) {
-    var iconStatus: SweetAlertType = 'error'
+  editMail(CustomerData:any) {
+    var iconStatus: SweetAlertIcon = 'error'
     iconStatus = 'success';
 
     

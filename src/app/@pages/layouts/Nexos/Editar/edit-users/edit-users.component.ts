@@ -23,13 +23,13 @@ export class EditUsersComponent implements OnInit {
     status_id: '',
   }
   allProfile: any;
-  idUser: string;
+  idUser!: string;
   imgURL: any;
-  fileData: File = null;
+  fileData: File| null = null;
   previewUrl: any = null;
   id: any;
   profile: any;
-  keysession: string;
+  keysession!: string;
   passwordValid = false;
 
   constructor(
@@ -58,11 +58,11 @@ export class EditUsersComponent implements OnInit {
       this.profile = userStorage['content']['profile'];
     }
 
-    this.idUser = this.route.snapshot.paramMap.get('idUser')
+    this.idUser = this.route.snapshot.paramMap.get('idUser')!
     this.keysession = userStorage['content']['token'];
     //obtener user for id UserServices/getUserProfileById
     this.httpClient.get(this.config.endpoint6 + 'api/users/details/' + this.keysession + '/' + this.idUser)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.userEdit['name'] = resp['content']['name'];
         this.userEdit['id'] = resp['content']['id'];
         this.userEdit['email'] = resp['content']['email'];
@@ -76,7 +76,7 @@ export class EditUsersComponent implements OnInit {
 
     //obtener all profiles 
     this.httpClient.get(this.config.endpoint + 'UserServices/getAllUserProfiles?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.allProfile = resp['content']
       });
   }
@@ -92,7 +92,7 @@ export class EditUsersComponent implements OnInit {
     var lengthValid = false;
 
     var buttonSubmit = document.getElementById("buttonSubmit")
-    buttonSubmit.addEventListener("hover", closePassCollapsible)
+    buttonSubmit!.addEventListener("hover", closePassCollapsible)
 
     function closePassCollapsible() {
       var myCollapse = document.getElementById('myCollapse')
@@ -128,59 +128,59 @@ export class EditUsersComponent implements OnInit {
       // Validate lowercase letters
       var lowerCaseLetters = /[a-z]/g;
       if (myInput.value.match(lowerCaseLetters)) {
-        letter.classList.remove("invalid");
-        letter.classList.add("valid");
+        letter!.classList.remove("invalid");
+        letter!.classList.add("valid");
         letterValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        letter.classList.remove("valid");
-        letter.classList.add("invalid");
+        letter!.classList.remove("valid");
+        letter!.classList.add("invalid");
         letterValid = false;
       }
 
       // Validate capital letters
       var upperCaseLetters = /[A-Z]/g;
       if (myInput.value.match(upperCaseLetters)) {
-        capital.classList.remove("invalid");
-        capital.classList.add("valid");
+        capital!.classList.remove("invalid");
+        capital!.classList.add("valid");
         capitalValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        capital.classList.remove("valid");
-        capital.classList.add("invalid");
+        capital!.classList.remove("valid");
+        capital!.classList.add("invalid");
         capitalValid = false;
       }
 
       // Validate numbers
       var numbers = /[0-9]/g;
       if (myInput.value.match(numbers)) {
-        number.classList.remove("invalid");
-        number.classList.add("valid");
+        number!.classList.remove("invalid");
+        number!.classList.add("valid");
         numberValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        number.classList.remove("valid");
-        number.classList.add("invalid");
+        number!.classList.remove("valid");
+        number!.classList.add("invalid");
         numberValid = false;
       }
 
       // Validate length
       if (myInput.value.length >= 8) {
-        length.classList.remove("invalid");
-        length.classList.add("valid");
+        length!.classList.remove("invalid");
+        length!.classList.add("valid");
         lengthValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        length.classList.remove("valid");
-        length.classList.add("invalid");
+        length!.classList.remove("valid");
+        length!.classList.add("invalid");
         lengthValid = false;
       }
     }
@@ -200,7 +200,7 @@ export class EditUsersComponent implements OnInit {
     formData.append('phone', this.userEdit['phone']);
     formData.append('profile_id', this.userEdit['profile_id']);
     formData.append('status_id', this.userEdit['status_id']);
-    formData.append('file', this.fileData);
+    formData.append('file', this.fileData!);
     this.createUserServices.editUser(formData, this.profile);
   }
   goMenuSetting() {
@@ -220,12 +220,12 @@ export class EditUsersComponent implements OnInit {
   }
   preview() {
     // Show preview 
-    var mimeType = this.fileData.type;
+    var mimeType = this.fileData!.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.fileData!);
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
     }

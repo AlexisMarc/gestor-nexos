@@ -14,6 +14,7 @@ function requestAnimationFramePolyfill(): typeof requestAnimationFrame {
 
 function getRequestAnimationFrame(): typeof requestAnimationFrame {
   if (typeof window === 'undefined') {
+    //@ts-ignore
     return () => null;
   }
   if (window.requestAnimationFrame) {
@@ -24,6 +25,7 @@ function getRequestAnimationFrame(): typeof requestAnimationFrame {
   const prefix = availablePrefixs.filter(key => `${key}RequestAnimationFrame` in window)[0];
 
   return prefix
+  //@ts-ignore
     ? window[`${prefix}RequestAnimationFrame`]
     : requestAnimationFramePolyfill();
 }

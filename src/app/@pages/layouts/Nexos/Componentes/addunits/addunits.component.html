@@ -27,14 +27,14 @@
         style="border: 1px solid #444;">
         <option value="value">Seleccione la {{sector}}</option>
         <option *ngFor="let item4 of ListadoConjuntosSelect2; index as i4" value="{{i4}}">
-          {{item4.number}}</option>
+          {{item4['number']}}</option>
       </select>
       <br><br>
       <select class="custom-select custom-select-sm" [(ngModel)]="id_unit_search" name="unidades"
         (change)="selectedUser()" style="border: 1px solid #444;">
-        <option value="value">Seleccione la {{name_unidad}}</option>
-        <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index" value="{{item3.id}}">
-          {{item3.name}} {{item3.number}}
+        <option value="value">Seleccione la {{'name_unidad'}}</option>
+        <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index" value="{{item3['id']}}">
+          {{item3['name']}} {{item3['number']}}
         </option>
       </select>
       <hr>
@@ -49,14 +49,14 @@
         <label>Agregar unidades</label>
         <select class="custom-select custom-select-sm" [(ngModel)]="int2" name="sector" (change)="cambio()">
           <option value="value">Seleccione la {{sector}}</option>
-          <option *ngFor="let item4 of ListadoConjuntosSelect; index as i4" value="{{i4}}">{{item4.number}}</option>
+          <option *ngFor="let item4 of ListadoConjuntosSelect; index as i4" value="{{i4}}">{{item4['number']}}</option>
         </select>
         <br><br>
         <select class="custom-select custom-select-sm" [(ngModel)]="id_unit_add" name="unidades">
-          <option value="value">Seleccione la {{name_unidad}}</option>
+          <option value="value">Seleccione la {{'name_unidad'}}</option>
           <option *ngFor="let item3 of this.ListadoUnidades; let i3 = index"
-            value="{{item3.id}} {{item3.number}} {{item3.total_users}}">
-            {{item3.name}} {{item3.number}}
+            value="{{item3['id']}} {{item3['number']}} {{item3['total_users']}}">
+            {{item3['name']}} {{item3['number']}}
           </option>
         </select>
         <br><br>

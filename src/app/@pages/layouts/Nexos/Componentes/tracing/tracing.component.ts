@@ -37,7 +37,7 @@ export class TracingComponent implements OnInit {
 
     global.listadoItems = [];
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getNotHiredQuoteByClient?key=' + this.config.key + '&param=' + this.param)
-    .subscribe(resp => {
+    .subscribe((resp:any)=> {
       this.listQuoteConfirmation = resp['content'];
 
     });
@@ -49,10 +49,11 @@ export class TracingComponent implements OnInit {
   Search() {
     if (this.param == '') {
       this.listQuoteConfirmation = [];
+      return;
     }
     else {
       return this.httpClient.get(this.config.endpoint + 'QuoteServices/getNotHiredQuoteByClient?key=' + this.config.key + '&param=' + this.param)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           this.listQuoteConfirmation = resp['content'];
 
         });
@@ -63,7 +64,7 @@ export class TracingComponent implements OnInit {
     this.router.navigate(['/home'])
   }
 
-  goTracingQuote(idQuote, idResidential) {
+  goTracingQuote(idQuote:any, idResidential:any) {
     this.router.navigate(['home/tracingQuote/' + idQuote + '/' + idResidential])
   }
 

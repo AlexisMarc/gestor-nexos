@@ -55,7 +55,7 @@ export class TracingReportComponent implements OnInit {
     //get report quote confirmation
     window.open(this.config.endpoint + 'QuoteServices/getHiredQuotesReportExcel?key=' + this.config.key + '&init_date=' + this.init_date_save + '&end_date='  + this.end_date_save);
     //this.httpClient.get(this.config.endpoint + 'QuoteServices/getHiredQuotesReportExcel?key=' + this.config.key + '&init_date=' + this.init_date_save + '&end_date='  + this.end_date_save)
-    //.subscribe(resp => {
+    //.subscribe((resp:any)=> {
     //})
   }
 }

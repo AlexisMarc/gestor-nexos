@@ -5,7 +5,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import { SendmailService } from '../../service/sendmail.service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'app-send-mail',
@@ -22,14 +22,14 @@ export class SendMailComponent implements OnInit {
   user_id: string;
   mailContent = '';
   //Data meeting
-  name_meeting: string;
-  name_residential: string;
-  meeting_time: string;
-  meeting_time_start: string;
-  youtube_link: string;
-  support: string;
-  meeting_id: string;
-  keysession: string;
+  name_meeting!: string;
+  name_residential!: string;
+  meeting_time!: string;
+  meeting_time_start!: string;
+  youtube_link!: string;
+  support!: string;
+  meeting_id!: string;
+  keysession!: string;
 
   constructor(
     private router: Router,
@@ -41,7 +41,7 @@ export class SendMailComponent implements OnInit {
     private storage: WebStorageService,
     private sendmailService: SendmailService
   ) {
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
     if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor') {
@@ -56,7 +56,7 @@ export class SendMailComponent implements OnInit {
 
     //Obtener detalles de la reunion
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         this.name_meeting = resp2['content']['name'];
         this.name_residential = resp2['content']['residential'];
         this.meeting_time = resp2['content']['meeting_time'];
@@ -67,7 +67,7 @@ export class SendMailComponent implements OnInit {
         this.keysession = userStorage['content']['token']
         this.idTypeService = '2';
         this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getEmailContentByService?key=' + this.config.key + '&user_id=' + this.user_id + '&service_id=' + this.idTypeService)
-          .subscribe(resp => {
+          .subscribe((resp:any)=> {
             this.listEmails = resp['content'];
           });
       });
@@ -79,7 +79,7 @@ export class SendMailComponent implements OnInit {
   SelectService() {
     this.idTypeEmail = '0';
     this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getEmailContentByService?key=' + this.config.key + '&user_id=' + this.user_id + '&service_id=' + this.idTypeService)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listEmails = resp['content'];
       });
   }
@@ -105,7 +105,7 @@ export class SendMailComponent implements OnInit {
 
   sendMails() {
     if (this.idTypeEmail === '0') {
-      let iconStatus: SweetAlertType = 'warning';
+      let iconStatus: SweetAlertIcon = 'warning';
       swal.fire('Advertencia', 'Debe seleccionar un tipo de email a enviar', iconStatus);
     }
     else {
@@ -121,7 +121,7 @@ export class SendMailComponent implements OnInit {
 
   ViewMail() {
     this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getEmailContentById?key=' + this.config.key + '&user_id=' + this.user_id + '&id=' + this.idTypeEmail)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.mailContent = resp['content']['message'];
         this.mailContent = this.mailContent.replace('Name_residential', this.name_residential)
         this.mailContent = this.mailContent.replace('Name_meeting', this.name_meeting)

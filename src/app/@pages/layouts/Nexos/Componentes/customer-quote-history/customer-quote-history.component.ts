@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 @Component({
   selector: 'app-customer-quote-history',
   templateUrl: './customer-quote-history.component.html',
@@ -42,7 +42,7 @@ export class CustomerQuoteHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuotesByResidential?key=' + this.config.key + '&residential_id=' + this.idResidential)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listadoQuoteHistory = resp['content']
       });
   }
@@ -52,7 +52,7 @@ export class CustomerQuoteHistoryComponent implements OnInit {
   goQuote() {
     this.router.navigate(['/home/quote'])
   }
-  irEditQuote(idQuote) {
+  irEditQuote(idQuote:any) {
     this.router.navigate(['/home/createquote/' + this.idResidential + '/' + idQuote])
   }
 }

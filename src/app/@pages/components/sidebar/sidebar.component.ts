@@ -1,10 +1,10 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation, Inject, forwardRef, Input, ViewChild, TemplateRef, ContentChild, HostListener, HostBinding } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { pagesToggleService } from '../../services/toggler.service';
 import { Router } from '@angular/router';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../layouts/Nexos/service/configuration.rest.service';
+import { Subscription } from 'rxjs';
 
 declare var pg: any;
 
@@ -40,24 +40,24 @@ export class SidebarComponent implements OnInit {
   subscriptions: Array<Subscription> = [];
   pin = false;
   drawer = false;
-  sidebar;
-  timer;
-  _menuPin = false; 7;
+  sidebar:any;
+  timer:any;
+  _menuPin = false;
   _menuDrawerOpen = false;
   id_perfil: any;
   uuid: any;
   userStorage: any;
 
   @HostBinding('style.transform')
-  style: string;
+  style!: string;
 
   private sideBarWidth = 280;
   private sideBarWidthCondensed = 280 - 70;
 
 
-  @ContentChild('sideBarOverlay', { read: true, static: false }) sideBarOverlay: TemplateRef<void>;
-  @ContentChild('sideBarHeader', { read: true, static: false }) sideBarHeader: TemplateRef<void>;
-  @ContentChild('menuItems', { read: true, static: false }) menuItems: TemplateRef<void>;
+  @ContentChild('sideBarOverlay', { read: true, static: false }) sideBarOverlay!: TemplateRef<void>;
+  @ContentChild('sideBarHeader', { read: true, static: false }) sideBarHeader!: TemplateRef<void>;
+  @ContentChild('menuItems', { read: true, static: false }) menuItems!: TemplateRef<void>;
   @HostBinding('class.visible') mobileSidebar: boolean;
 
 
@@ -67,7 +67,7 @@ export class SidebarComponent implements OnInit {
     this.toggler.toggleMenuDrawer();
   }
 
-  toggleMenuPin2($event) {
+  toggleMenuPin2($event:any) {
     if (pg.isVisibleSm()) {
       this._menuPin = false;
       return;
@@ -98,6 +98,7 @@ export class SidebarComponent implements OnInit {
 
     this.style = 'translate3d(' + this.sideBarWidthCondensed + 'px, 0,0)';
     pg.addClass(document.body, 'sidebar-visible');
+    return;
   }
 
   closeSideBar() {
@@ -108,6 +109,7 @@ export class SidebarComponent implements OnInit {
     this.style = 'translate3d(0,0,0)'
     pg.removeClass(document.body, 'sidebar-visible');
     // this.drawer = false;
+    return;
   }
 
   // Nexos sidebar
@@ -174,7 +176,7 @@ export class SidebarComponent implements OnInit {
   }
 
   singOut() {
-    this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe(response => {
+    this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
       this.storage.remove('user');
       this.router.navigate(['/']);
     })

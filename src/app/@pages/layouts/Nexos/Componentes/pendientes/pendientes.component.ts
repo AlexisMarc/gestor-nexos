@@ -24,7 +24,7 @@ export class PendientesComponent implements OnInit {
   keysession: string;
   voting_header_id_select: any;
   optionsByVote: any;
-  nameVote: string;
+  nameVote!: string;
   attendancePercent = 0;
   voterPercent = 0;
   voterByOption = 0;
@@ -40,9 +40,9 @@ export class PendientesComponent implements OnInit {
     @Inject(SESSION_STORAGE)
     private storage: WebStorageService
   ) {
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.voting_header_id = this.route.snapshot.paramMap.get('idVote');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
+    this.voting_header_id = this.route.snapshot.paramMap.get('idVote')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
     this.keysession = userStorage['content']['token']
@@ -65,7 +65,7 @@ export class PendientesComponent implements OnInit {
 
   getVoteWithOptions() {
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getVoteOptionById?key=' + this.config.key + '&id=' + this.voting_header_id + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.nameVote = resp['content']['name'];
         this.optionsByVote = resp['content']['options'];
         this.status_vote = resp['content']['status_id'];
@@ -73,13 +73,13 @@ export class PendientesComponent implements OnInit {
       });
   }
 
-  getVotersByVote(status) {
+  getVotersByVote(status:any) {
     this.list_units = [];
     this.list_units_show = [];
     if (status == 1) {
       this.httpClient.get(this.config.endpoint6 + 'api/voting/getVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
-        .subscribe(resp => {
-          resp['content'].forEach(voter => {
+        .subscribe((resp:any)=> {
+          resp['content'].forEach((voter:any) => {
             voter['coefficient'] = voter['coefficient'].replace(',', '.');
             if (voter['option_name']) {
               var voterAdd = new DataVoterList(voter['aporte'], voter['coefficient'], voter['nameRegister'], voter['option_name'], voter['present'], voter['unit_details'])
@@ -103,8 +103,8 @@ export class PendientesComponent implements OnInit {
       // }, 5000)
     } else {
       this.httpClient.get(this.config.endpoint6 + 'api/voting/getCurrentVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
-        .subscribe(resp => {
-          resp['content'].forEach(voter => {
+        .subscribe((resp:any)=> {
+          resp['content'].forEach((voter:any) => {
             voter['Coeficiente'] = voter['Coeficiente'].replace(',', '.');
             if (voter['Opcion']) {
               var voterAdd = new DataVoterList(voter['Aporte'], voter['Coeficiente'], voter['Nombre'], voter['Opcion'], voter['Asistencia'], voter['Unidad'])
@@ -126,7 +126,7 @@ export class PendientesComponent implements OnInit {
     }
   }
 
-  selectVote(voting_header_id) {
+  selectVote(voting_header_id:any) {
     this.voting_header_id_select = voting_header_id;
   }
 
@@ -204,8 +204,8 @@ export class PendientesComponent implements OnInit {
     this.voterPercent = 0;
     this.voterByOption = 0;
     this.httpClient.get(this.config.endpoint6 + 'api/voting/getVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
-      .subscribe(resp => {
-        resp['content'].forEach(voter => {
+      .subscribe((resp:any)=> {
+        resp['content'].forEach((voter:any) => {
           voter['coefficient'] = voter['coefficient'].replace(',', '.');
           if (voter['option_name']) {
             var voterAdd2 = new DataVoterList(voter['aporte'], voter['coefficient'], voter['nameRegister'], voter['option_name'], voter['present'], voter['unit_details'])

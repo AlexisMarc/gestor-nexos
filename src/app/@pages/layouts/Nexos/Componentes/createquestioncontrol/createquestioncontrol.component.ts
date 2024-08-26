@@ -18,8 +18,8 @@ declare var bootstrap: any;
 })
 export class CreatequestioncontrolComponent implements OnInit {
 
-  @Input() residential_id: string;
-  @Input() meeting_id: string;
+  @Input() residential_id!: string;
+  @Input() meeting_id!: string;
 
   nameVote = "";
   options: DataOptionsvote[] = [];
@@ -61,7 +61,7 @@ export class CreatequestioncontrolComponent implements OnInit {
     this.user_id = userStorage['content']['id'];
     var profileVoterForAddList;
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.totalProfiles = resp['content'].length;
         for (let index = 0; index < resp['content'].length; index++) {
           if (resp['content'][index]['id'] == 1) {
@@ -144,7 +144,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                 }
                 swal.fire({
                   title: '<strong>Desea activar de una vez la pregunta</strong>',
-                  type: 'question',
+                  icon: 'question',
                   html: '',
                   showCloseButton: true,
                   showCancelButton: true,
@@ -156,7 +156,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                 }).then((result) => {
                   if (result.value) {
                     this.httpClient.get(this.config.endpoint3 + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id)
-                      .subscribe(resp => {
+                      .subscribe((resp:any)=> {
                         if (resp['success']) {
                           var formData2 = new FormData();
                           formData2.append('residential_id', this.residential_id);
@@ -165,7 +165,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                           formData2.append('request_accepted', resp['content']['request_accepted']);
                           formData2.append('status_id', "0");
                           this.httpClient.post(this.config.endpoint6 + 'api/voting/editVoteOption/' + this.keysession, formData2)
-                            .subscribe(data => {
+                            .subscribe((data:any) => {
                               if (data['success']) {
                                 const options = JSON.stringify(this.options);
                                 const voteProfiles = JSON.stringify(this.ProfilesToSend);
@@ -181,7 +181,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                                 formData.append('mode_chart', this.mode_chart);
                                 formData.append('unit_to_chart', this.unit_chart);
                                 this.createAnswerService.createAnswer(formData, this.residential_id, 1, this.meeting_id, this.keysession);
-                                document.getElementById('modal-vote-close').click();
+                                document.getElementById('modal-vote-close')!.click();
                                 this.resetDataToCreateVote();
                               } else {
                                 swal.fire('Mensaje', 'No se pudo crear la pregunta, por favor intentelo nuevamente.', 'info')
@@ -195,7 +195,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                           // formData2.append('request_accepted', resp['content']['request_accepted']);
                           // formData2.append('status_id', "0");
                           // this.httpClient.post(this.config.endpoint6 + 'ApiVoting/editVoteOption/' + this.keysession, formData2)
-                          //   .subscribe(data => {
+                          //   .subscribe((data:any) => {
                           // if (data['success']) {
                           const options = JSON.stringify(this.options);
                           const voteProfiles = JSON.stringify(this.ProfilesToSend);
@@ -211,7 +211,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                           formData.append('mode_chart', this.mode_chart);
                           formData.append('unit_to_chart', this.unit_chart);
                           this.createAnswerService.createAnswer(formData, this.residential_id, 1, this.meeting_id, this.keysession);
-                          document.getElementById('modal-vote-close').click();
+                          document.getElementById('modal-vote-close')!.click();
                           this.resetDataToCreateVote();
                           // } else {
                           //   swal.fire('Mensaje', 'No se pudo crear la pregunta, por favor intentelo nuevamente.', 'info')
@@ -234,7 +234,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                     formData.append('mode_chart', this.mode_chart);
                     formData.append('unit_to_chart', this.unit_chart);
                     this.createAnswerService.createAnswer(formData, this.residential_id, 0, this.meeting_id, this.keysession);
-                    document.getElementById('modal-vote-close').click();
+                    document.getElementById('modal-vote-close')!.click();
                     this.resetDataToCreateVote();
                   }
                 });
@@ -302,7 +302,7 @@ export class CreatequestioncontrolComponent implements OnInit {
     }
   }
 
-  changeProfileById(profile_id, selected) {
+  changeProfileById(profile_id:any, selected:any) {
     if (selected) {
       var profileDefault = new DataProfileVoterSend(profile_id)
       this.ProfilesToSend.push(profileDefault);
@@ -320,7 +320,7 @@ export class CreatequestioncontrolComponent implements OnInit {
     }
   }
 
-  deleteOption(index) {
+  deleteOption(index:any) {
     this.options.splice(index, 1);
   }
 

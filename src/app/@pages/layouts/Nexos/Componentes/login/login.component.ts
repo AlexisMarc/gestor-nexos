@@ -12,12 +12,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  @Input() parametrosLogin = {
-    key: this.config.key,
-    email: '',
-    password: ''
-  }
-  errorMessage: string = null;
+  @Input() parametrosLogin 
+  errorMessage: string | null = null;
   errorActive = false;
   localStorage: any;
   user: any;
@@ -27,6 +23,11 @@ export class LoginComponent implements OnInit {
     private config: ConfigurationRestService,
     private userService: UserService, @Inject(SESSION_STORAGE)
     private storage: WebStorageService) {
+      this.parametrosLogin = {
+        key: this.config.key,
+        email: '',
+        password: ''
+      }
     const userStorage = this.storage.get('user');
     if (userStorage != null && userStorage.success) {
       this.router.navigate(['/home']);

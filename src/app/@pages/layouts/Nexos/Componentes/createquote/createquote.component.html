@@ -58,7 +58,7 @@
       <label for="formGroupExampleInput">Ciudad</label>
       <select class="form-control form-control-sm" name="ciudad" [(ngModel)]="dataResidential['city_id']">
         <!--<option value="0">Seleccione la ciudad</option>-->
-        <option *ngFor="let item of activeCity" value="{{item.id}}">{{item.name}}</option>
+        <option *ngFor="let item of activeCity" value="{{item['id']}}">{{item['name']}}</option>
       </select>
     </div>
   </div>

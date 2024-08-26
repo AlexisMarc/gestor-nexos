@@ -37,13 +37,13 @@ export class ListSendCampaignWhatsappComponent implements OnInit {
 
   Search2() {
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
         
       });
   }
 
-  doSendwhatsapp(id){
+  doSendwhatsapp(id:any){
       const dato: NavigationExtras = {state: {example: id}};
       this.router.navigate(['/home/sendcampaignwhatsapp'],dato);
       }

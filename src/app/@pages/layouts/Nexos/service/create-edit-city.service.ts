@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,12 @@ export class CreateEditCityService {
     private config: ConfigurationRestService,
     private router: Router) { }
 
-  createCity(createCity) {
+  createCity(createCity:any) {
     this.httpClient.post(this.config.endpoint + 'ResidentialServices/addEditCity', createCity)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        let iconStatus: SweetAlertType = 'success';
-        let iconStatus2: SweetAlertType = 'warning';
+        let iconStatus: SweetAlertIcon = 'success';
+        let iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] === true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/cityList']);
@@ -36,12 +36,12 @@ export class CreateEditCityService {
 
       });
   }
-  UpdateCity(editCity) {
+  UpdateCity(editCity:any) {
     this.httpClient.post(this.config.endpoint + 'ResidentialServices/addEditCity', editCity)
-      .subscribe(data => {
+      .subscribe((data:any) => {
         this.data = data;
-        let iconStatus: SweetAlertType = 'success';
-        let iconStatus2: SweetAlertType = 'warning';
+        let iconStatus: SweetAlertIcon = 'success';
+        let iconStatus2: SweetAlertIcon = 'warning';
         if (data['success'] === true) {
           if (data['success']) {
             iconStatus = 'success', this.router.navigate(['/home/cityList']);

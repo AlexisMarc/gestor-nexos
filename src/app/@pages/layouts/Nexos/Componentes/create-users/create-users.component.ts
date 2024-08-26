@@ -26,9 +26,9 @@ export class CreateUsersComponent implements OnInit {
   profile: any;
   allProfile: any;
   imgURL: any;
-  fileData: File = null;
+  fileData: File | null = null;
   previewUrl: any = null;
-  keysession: string;
+  keysession!: string;
   passwordValid = false;
 
   constructor(private router: Router,
@@ -53,7 +53,7 @@ export class CreateUsersComponent implements OnInit {
     }
     // service profiles
     this.httpClient.get(this.config.endpoint + 'UserServices/getAllUserProfiles?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.allProfile = resp['content'];
       });
     this.keysession = userStorage['content']['token'];
@@ -71,7 +71,7 @@ export class CreateUsersComponent implements OnInit {
     var lengthValid = false;
 
     var buttonSubmit = document.getElementById("buttonSubmit")
-    buttonSubmit.addEventListener("hover", closePassCollapsible)
+    buttonSubmit!.addEventListener("hover", closePassCollapsible)
 
     function closePassCollapsible() {
       var myCollapse = document.getElementById('myCollapse')
@@ -107,59 +107,59 @@ export class CreateUsersComponent implements OnInit {
       // Validate lowercase letters
       var lowerCaseLetters = /[a-z]/g;
       if (myInput.value.match(lowerCaseLetters)) {
-        letter.classList.remove("invalid");
-        letter.classList.add("valid");
+        letter!.classList.remove("invalid");
+        letter!.classList.add("valid");
         letterValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        letter.classList.remove("valid");
-        letter.classList.add("invalid");
+        letter!.classList.remove("valid");
+        letter!.classList.add("invalid");
         letterValid = false;
       }
 
       // Validate capital letters
       var upperCaseLetters = /[A-Z]/g;
       if (myInput.value.match(upperCaseLetters)) {
-        capital.classList.remove("invalid");
-        capital.classList.add("valid");
+        capital!.classList.remove("invalid");
+        capital!.classList.add("valid");
         capitalValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        capital.classList.remove("valid");
-        capital.classList.add("invalid");
+        capital!.classList.remove("valid");
+        capital!.classList.add("invalid");
         capitalValid = false;
       }
 
       // Validate numbers
       var numbers = /[0-9]/g;
       if (myInput.value.match(numbers)) {
-        number.classList.remove("invalid");
-        number.classList.add("valid");
+        number!.classList.remove("invalid");
+        number!.classList.add("valid");
         numberValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        number.classList.remove("valid");
-        number.classList.add("invalid");
+        number!.classList.remove("valid");
+        number!.classList.add("invalid");
         numberValid = false;
       }
 
       // Validate length
       if (myInput.value.length >= 8) {
-        length.classList.remove("invalid");
-        length.classList.add("valid");
+        length!.classList.remove("invalid");
+        length!.classList.add("valid");
         lengthValid = true;
         if (letterValid && capitalValid && numberValid && lengthValid) {
           this.passwordValid = true;
         }
       } else {
-        length.classList.remove("valid");
-        length.classList.add("invalid");
+        length!.classList.remove("valid");
+        length!.classList.add("invalid");
         lengthValid = false;
       }
     }
@@ -227,13 +227,13 @@ export class CreateUsersComponent implements OnInit {
   }
   preview() {
     // Show preview 
-    var mimeType = this.fileData.type;
+    var mimeType = this.fileData!.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
 
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.fileData!);
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
     }

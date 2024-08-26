@@ -1,5 +1,5 @@
-<pgcard TimeOut="3000" AdditionalClasses="widget-12 card no-border widget-loader-circle no-margin full-height"
- Maximize="false" Toggle="false" Close="false" Controls="false" HeaderClass="hidden">
+<pgcard [TimeOut]="3000" AdditionalClasses="widget-12 card no-border widget-loader-circle no-margin full-height"
+ [Maximize]="false" [Toggle]="false" [Close]="false" [Controls]="false" HeaderClass="hidden">
 	<div class="row full-height">
 		<div class="{{_chartWrapperClass}}">
 			<div class="p-l-5 full-height inner-wrapper">
@@ -30,7 +30,7 @@
 					</ul>
 				</div>
 				<div class="nvd3-line line-chart text-center" data-x-grid="false">
-					<nvd3 [options]="nvd3LineOptions" [data]="nvd3LineData"></nvd3>
+					<!-- <nvd3 [options]="nvd3LineOptions" [data]="nvd3LineData"></nvd3> -->
 				</div>
 			</div>
 		</div>

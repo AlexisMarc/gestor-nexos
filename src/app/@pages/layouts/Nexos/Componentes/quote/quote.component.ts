@@ -29,12 +29,12 @@ export class QuoteComponent implements OnInit {
       this.param = this.globals.search_data;
     }
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.ListTypeQuotes = resp['content'];
       });
     if (this.param != '') {
       this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           this.ListQuote = resp['content'];
         });
     }
@@ -47,10 +47,11 @@ export class QuoteComponent implements OnInit {
     this.globals.search_data = this.param;
     if (this.param == '') {
       this.ListQuote = [];
+      return;
     }
     else {
       return this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
-        .subscribe(resp => {
+        .subscribe((resp:any)=> {
           this.ListQuote = resp['content'];
         });
     }
@@ -68,11 +69,11 @@ export class QuoteComponent implements OnInit {
   goConfirmQuote() {
     this.router.navigate(['home/confirmquote'])
   }
-  GoQuote(id_residential, id_quote) {
+  GoQuote(id_residential:any, id_quote:any) {
     this.globals.quote_type_id = this.idTypeQuote;
     this.router.navigate(['home/createquote/' + id_residential + '/' + id_quote])
   }
-  goCustomerQuoteHistory(id_residential) {
+  goCustomerQuoteHistory(id_residential:any) {
     this.router.navigate(['home/customerQuoteHistory/' + id_residential])
   }
 }

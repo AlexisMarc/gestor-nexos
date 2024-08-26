@@ -32,8 +32,8 @@ constructor(
     this.router.navigate(['home/menusettingEmail']);
   }
 
-  conversation;
-  onConversationSelected(conversation){
+  conversation:any;
+  onConversationSelected(conversation:any){
     this.conversation = conversation;
   } 
   goBack(): void {

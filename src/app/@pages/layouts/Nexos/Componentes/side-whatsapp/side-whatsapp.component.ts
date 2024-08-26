@@ -13,7 +13,7 @@ import { sub } from 'date-fns';
 export class SideWhatsappComponent implements OnInit {
 
   @Output() conversationClicked: EventEmitter<any> = new EventEmitter();
-  searchText: string;
+  searchText!: string;
   token:any
   conversations:any [] =[]
   mensajes:any[] = []
@@ -36,20 +36,20 @@ export class SideWhatsappComponent implements OnInit {
     private socket:SocketService,
     private _WhatsappService : WhatsappService
   ) {
-    this.token = JSON.parse(sessionStorage.getItem('user')).content.token 
+    this.token = JSON.parse(sessionStorage.getItem('user')!).content.token 
     this.conversations = []
     this.mensajes = []
     this.CargaDeMensajesInicial()
   }
   
-  DateFormate(resp){
+  DateFormate(resp:any){
     const fecha = new Date(resp);
       const fechaRestada = sub(fecha, { hours: 5 });
       const horaFormateada = format(fechaRestada, 'HH:mm');
       return horaFormateada
   }
 
-  DateFormate2(resp){
+  DateFormate2(resp:any){
     const fecha = new Date(resp);
       const fechaRestada = sub(fecha, { hours: 5 });
       const horaFormateada = format(fechaRestada, 'yy-MM-dd HH:mm');
@@ -61,7 +61,7 @@ export class SideWhatsappComponent implements OnInit {
     return format(fecha, 'yy-MM-dd HH:mm');
   }
 
-  VerificacionUserSidebarSocket(resp){
+  VerificacionUserSidebarSocket(resp:any){
     const existingConversationIndex = this.conversations.findIndex(conversation => conversation.name === resp.sender);
 
     if (existingConversationIndex !== -1) {
@@ -86,7 +86,7 @@ export class SideWhatsappComponent implements OnInit {
     })
   }
 
-  lastMessageToUser(resp) {
+  lastMessageToUser(resp:any) {
 
     const existingConversationIndex = this.conversations.findIndex(conversation => conversation.recipient_id === resp.recipient_id);
     if (existingConversationIndex !== -1) {
@@ -101,7 +101,7 @@ export class SideWhatsappComponent implements OnInit {
     }
   }
 
-  VerificacionLastMessage(resp){
+  VerificacionLastMessage(resp:any){
     const existingConversationIndex = this.conversations.findIndex(conversation => conversation.recipient_id === resp.recipient_id);
     if (existingConversationIndex !== -1) {
       // Si ya existe una conversación con el mismo nombre, reemplázala
@@ -113,15 +113,15 @@ export class SideWhatsappComponent implements OnInit {
     }
   }
 
-  BuildingMessages(date, name,index) {
-    let messages = [];
+  BuildingMessages(date:any, name:any,index:any) {
+    let messages:any = [];
     let i = -1;
     const existingConversationIndex = this.conversations.findIndex(conversation => conversation.name === name);
     if (existingConversationIndex !== -1) {
-      date.forEach((element) => {
+      date.forEach((element:any) => {
         i=i+1
         this.mensajes.push([{ 'created_at': element.created_at }])
-        element.messages.forEach((elem, ind) => {
+        element.messages.forEach((elem:any, ind:any) => {
           // console.log({id:ind,body:elem.body,time:this.formatearFecha(elem.message_date),person:elem.person})
           messages.unshift({id:ind,body:elem.body,time:this.formatearFecha(elem.message_date),person:elem.person})
         
@@ -130,7 +130,7 @@ export class SideWhatsappComponent implements OnInit {
         let transformedData = {
           created_at: this.mensajes[index][0].created_at,
           messages: Array.isArray(this.mensajes[index][1].messages)
-            ? this.mensajes[index][1].messages.map(message => ({
+            ? this.mensajes[index][1].messages.map((message:any) => ({
                 id: message.id + 1,
                 body: message.body,
                 time: message.time,
@@ -149,7 +149,7 @@ export class SideWhatsappComponent implements OnInit {
   CargaDeMensajesInicial(){
     this._WhatsappService.initialDataLoad().subscribe((resp:any)=>{
       if(resp.success == true){
-        resp.content.forEach((element,index) => {
+        resp.content.forEach((element:any,index:any) => {
           // console.log(element.recipient_id)
           this.VerificacionLastMessage(element)
           this.BuildingMessages(element.dates,element.name_customer,index)

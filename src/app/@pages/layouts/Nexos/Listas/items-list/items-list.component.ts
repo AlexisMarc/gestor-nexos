@@ -36,7 +36,7 @@ export class ItemsListComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllItems?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
 
         this.listItem = resp['content'];
       });
@@ -47,7 +47,7 @@ export class ItemsListComponent implements OnInit {
   goCreateItems() {
     this.router.navigate(['home/createItems']);
   }
-  goEditItems(idItem) {
+  goEditItems(idItem:any) {
     this.router.navigate(['home/editItems/' + idItem]);
   }
   goMenuSetting() {

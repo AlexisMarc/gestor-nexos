@@ -32,9 +32,9 @@ export class EditItemsComponent implements OnInit {
   price: any;
   priceFraction: any;
   imgURL: any;
-  fileData: File = null;
+  fileData: File|null = null;
   previewUrl: any = null;
-  idItem: string;
+  idItem!: string;
   typeQuote: any;
   constructor(
     private router: Router,
@@ -58,10 +58,10 @@ export class EditItemsComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.idItem = this.route.snapshot.paramMap.get('idItem')
+    this.idItem = this.route.snapshot.paramMap.get('idItem')!
     //get item for id
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getItemById?key=' + this.config.key + '&id=' + this.idItem)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.priceFraction = resp['content']['price_fraction'].split(".", 1)
         this.price = resp['content']['price'].split(".", 1)
         this.ItemsParameters['name'] = resp['content']['name'];
@@ -84,7 +84,7 @@ export class EditItemsComponent implements OnInit {
   ngOnInit() {
     //service type quote
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.typeQuote = resp['content']
       });
   }
@@ -132,7 +132,7 @@ export class EditItemsComponent implements OnInit {
     formData.append('voting_details', this.ItemsParameters['voting_details']);
     formData.append('show_quantity', this.ItemsParameters['show_quantity']);
     formData.append('order', this.ItemsParameters['order']);
-    formData.append('file', this.fileData);
+    formData.append('file', this.fileData!);
     this.createOrEditItem.UpdateTypeItems(formData);
   }
   goMenuSetting() {
@@ -148,12 +148,12 @@ export class EditItemsComponent implements OnInit {
   }
   preview() {
     // Show preview 
-    var mimeType = this.fileData.type;
+    var mimeType = this.fileData!.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.fileData!);
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
     }

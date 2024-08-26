@@ -9,7 +9,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  profile: string;
+  profile!: string;
 
   constructor(
     private router: Router,

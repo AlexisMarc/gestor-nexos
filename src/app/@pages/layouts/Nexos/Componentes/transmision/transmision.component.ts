@@ -10,8 +10,8 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
   styleUrls: ['./transmision.component.scss']
 })
 export class TransmisionComponent implements OnInit {
-  jitsi_link: string;
-  password_meeting: string;
+  jitsi_link!: string;
+  password_meeting!: string;
   id_conjunto: string;
   userName = 'Transmision';
 
@@ -26,15 +26,15 @@ export class TransmisionComponent implements OnInit {
 
     //Poner filtros de seguridad verificación variables de sesion y perfil
 
-    this.id_conjunto = this.route.snapshot.paramMap.get('idResidential');
+    this.id_conjunto = this.route.snapshot.paramMap.get('idResidential')!;
 
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.id_conjunto)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         if (resp2['success']) {
           this.jitsi_link = resp2['content']['zoom_link'];
           this.password_meeting = resp2['content']['pasword_meeting'];
           setTimeout(() => {
-            document.getElementById('jitsi_button').click();
+            document.getElementById('jitsi_button')!.click();
           }, 100);
         }
       });

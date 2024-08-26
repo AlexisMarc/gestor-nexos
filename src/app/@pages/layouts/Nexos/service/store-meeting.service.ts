@@ -61,7 +61,7 @@ export class StoreMeetingService {
   }
 
   loadFiles(dataFiles:any, meeting_id:any, keySession:any) {
-    // this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/uploadDocumentsForMeeting', dataFiles).subscribe(data => {
+    // this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/uploadDocumentsForMeeting', dataFiles).subscribe((data:any) => {
     this.httpClient.post(this.config.endpoint6 + 'api/meetings/uploadDocumentsForMeeting/' + keySession + '/' + meeting_id, dataFiles).subscribe((data:any) => {
       let iconStatus:any = 'error';
       if (data['success']) {

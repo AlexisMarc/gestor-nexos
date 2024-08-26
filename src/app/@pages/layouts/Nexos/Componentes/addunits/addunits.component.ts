@@ -17,35 +17,35 @@ import { SendmailService } from '../../service/sendmail.service';
 })
 export class AddunitsComponent implements OnInit {
 
-  residential_id: string;
+  residential_id!: string;
   document_number: any;
-  customer_id: string;
-  customer_id_send: string;
-  listadoUnidad: listadoUnidad[] = [];
-  listadoUnidadData: listadoUnidad[] = [];
+  customer_id!: string;
+  customer_id_send!: string;
+  listadoUnidad: any = [];
+  listadoUnidadData: any = [];
   ListadoConjuntosSelect: [] = [];
   ListadoConjuntosSelect2: [] = [];
   ListadoUnidades: [] = [];
-  sector: string;
-  name_unidad: string;
-  int = 'value';
-  int2 = 'value';
-  id_sector_search = 'value';
+  sector!: string;
+  name_unidad!: string;
+  int:any = 'value';
+  int2:any = 'value';
+  id_sector_search:any = 'value';
   unidadesOk = false;
   id_unit_add = 'value';
   id_unit_search = 'value';
-  add_unit_text: string;
+  add_unit_text!: string;
   show_components = 0;
   id_unidad_envio: listadoUnidadEnvio[] = [];
-  nameRegister: string;
-  name: string;
-  residential_name: string;
-  moroso: string;
-  meeting_id: string;
+  nameRegister!: string;
+  name!: string;
+  residential_name!: string;
+  moroso!: string;
+  meeting_id!: string;
   token = '';
-  user_id: string;
-  customer_email: string;
-  keysession: string;
+  user_id!: string;
+  customer_email!: string;
+  keysession!: string;
 
   constructor(
     private router: Router,
@@ -70,16 +70,16 @@ export class AddunitsComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.user_id = userStorage['content']['id'];
     this.keysession = userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.residential_name = resp['content']['name'];
         this.meeting_id = resp['content']['id'];
       });
     this.httpClient.get(this.config.endpoint3 + 'AppServices/getBuildingsUnitByResidential?key=' + this.config.key + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
-      .subscribe(resp4 => {
+      .subscribe((resp4:any) => {
         this.ListadoConjuntosSelect = resp4['content'];
         this.ListadoConjuntosSelect2 = resp4['content']
         if (resp4['success'] === true) {
@@ -101,7 +101,7 @@ export class AddunitsComponent implements OnInit {
   getCustomerDetails() {
     this.listadoUnidad = [];
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByDocumentNumber?key=' + this.config.key + '&document_number=' + this.document_number)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
           this.nameRegister = resp['content']['nameRegister'];
@@ -111,7 +111,7 @@ export class AddunitsComponent implements OnInit {
         this.customer_id = resp['content']['id'];
         this.customer_id_send = resp['content']['id'];
         this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getCustomerProperties?key=' + this.config.key + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
-          .subscribe(resp2 => {
+          .subscribe((resp2 :any)=> {
             this.listadoUnidadData = resp2['content']['properties'];
             this.moroso = resp2['content']['moroso'];
             for (let index = 0; index < this.listadoUnidadData.length; index++) {
@@ -121,7 +121,7 @@ export class AddunitsComponent implements OnInit {
               this.listadoUnidad.push(unidad);
             }
             this.httpClient.get(this.config.endpoint3 + 'CustomerRegistrationServices/getEntryTokenByCustomerByMeeting?key=' + this.config.key + '&customer_id=' + this.customer_id + '&meeting_id=' + this.meeting_id)
-              .subscribe(resp3 => {
+              .subscribe((resp3:any) => {
                 this.token = resp3['content'];
               });
           });
@@ -158,7 +158,7 @@ export class AddunitsComponent implements OnInit {
     if (this.int == 'value' || this.id_unit_add == 'value') {
       Swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'Seleccione la torre y la unidad',
         showCloseButton: true,
@@ -177,7 +177,7 @@ export class AddunitsComponent implements OnInit {
       }
       Swal.fire({
         title: '<strong>Esta Seguro</strong>',
-        type: 'question',
+        icon: 'question',
         html:
           this.add_unit_text,
         showCloseButton: true,
@@ -233,7 +233,7 @@ export class AddunitsComponent implements OnInit {
     this.customer_email = "";
   }
 
-  deleteUnit(i) {
+  deleteUnit(i:any) {
     this.listadoUnidad.splice(i, 1);
   }
 
@@ -243,7 +243,7 @@ export class AddunitsComponent implements OnInit {
   goMenuSettingVoting() {
     this.router.navigate(['home/menusettingVoting']);
   }
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id]);
   }
   goSearchPointControl() {
@@ -266,7 +266,7 @@ export class AddunitsComponent implements OnInit {
   enableUserAndChagePass() {
     Swal.fire({
       title: '<strong>Esta Seguro de expulsar este usuario</strong>',
-      type: 'question',
+      icon: 'question',
       html:
         this.add_unit_text,
       showCloseButton: true,
@@ -301,7 +301,7 @@ export class AddunitsComponent implements OnInit {
 
   selectedUser() {
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_unit_search)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.document_number = resp['content']['document_number'];
         this.getCustomerDetails();
       });
@@ -314,7 +314,7 @@ export class AddunitsComponent implements OnInit {
   getCustomerDetails2() {
     this.listadoUnidad = [];
     this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByDocumentNumber?key=' + this.config.key + '&document_number=' + this.document_number)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
           this.nameRegister = resp['content']['nameRegister'];
@@ -323,7 +323,7 @@ export class AddunitsComponent implements OnInit {
         this.customer_id = resp['content']['id'];
         this.customer_id_send = resp['content']['id'];
         this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getCustomerProperties?key=' + this.config.key + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
-          .subscribe(resp2 => {
+          .subscribe((resp2 :any)=> {
             this.listadoUnidadData = resp2['content']['properties'];
             this.moroso = resp2['content']['moroso'];
             for (let index = 0; index < this.listadoUnidadData.length; index++) {
@@ -333,7 +333,7 @@ export class AddunitsComponent implements OnInit {
               this.listadoUnidad.push(unidad);
             }
             this.httpClient.get(this.config.endpoint3 + 'CustomerRegistrationServices/getEntryTokenByCustomerByMeeting?key=' + this.config.key + '&customer_id=' + this.customer_id + '&meeting_id=' + this.meeting_id)
-              .subscribe(resp3 => {
+              .subscribe((resp3:any) => {
                 this.token = resp3['content'];
               });
           });

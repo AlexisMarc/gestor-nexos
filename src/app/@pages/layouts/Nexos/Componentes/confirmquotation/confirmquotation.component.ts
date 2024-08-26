@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class ConfirmquotationComponent implements OnInit {
   ListQuote: any;
-  id: string;
+  id!: string;
   param = '';
   constructor(
     private router: Router,
@@ -36,7 +36,7 @@ export class ConfirmquotationComponent implements OnInit {
     this.id = userStorage['content']['id'];
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuotesPendingConfirmation?key=' + this.config.key + '&user_id=' + this.id + '&param=' + this.param)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.ListQuote = resp['content'];
       });
   }
@@ -51,7 +51,7 @@ export class ConfirmquotationComponent implements OnInit {
   goQuote() {
     this.router.navigate(['home/quote']);
   }
-  GoQuoteHistory(id_residential) {
+  GoQuoteHistory(id_residential:any) {
     this.router.navigate(['home/quoteHistory/' + id_residential]);
   }
 
@@ -59,7 +59,7 @@ export class ConfirmquotationComponent implements OnInit {
     this.ListQuote = [];
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuotesPendingConfirmation?key=' + this.config.key + '&user_id=' + this.id + '&param=' + this.param)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.ListQuote = resp['content'];
       });
   }

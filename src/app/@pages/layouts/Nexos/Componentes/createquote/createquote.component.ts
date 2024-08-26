@@ -10,7 +10,6 @@ import { variance } from 'd3';
 import { Discounts } from '../../interface/discounts.model';
 import { CreatecuoteService } from '../../service/createcuote.service';
 import Swal from 'sweetalert2';
-import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-createquote',
@@ -19,24 +18,24 @@ import { isUndefined } from 'util';
 })
 export class CreatequoteComponent implements OnInit {
   text = "Ocultar";
-  dataResidential: [] = [];
-  dataAdministrator: [] = [];
+  dataResidential:any = {};
+  dataAdministrator:any = [];
   dataQuote: [] = [];
   id_building: string;
   id_quote: string;
-  id_user: string;
+  id_user!: string;
   activeCity: [] = [];
   activeDiscount: [] = [];
   listItems: ItemSave[] = [];
-  saveResidential: [] = [];
+  saveResidential:any = [];
   listadoItemsSave: ItemSave[] = [];
   listItemsSave: ItemSave[] = [];
   totalQuote = 0;
-  observationsQuote: string;
+  observationsQuote!: string;
   dateQuote: any;
   discountSelect: any;
   listDiscounts: Discounts[] = [];
-  promotionText: string;
+  promotionText!: string;
   promotionValue: any;
   promotionPercent = 0;
   DevicePercent = 80;
@@ -64,8 +63,8 @@ export class CreatequoteComponent implements OnInit {
     this.quote_type_id = globals.quote_type_id;
     this.discountSelect = 'value';
     this.dataResidential['city_id'] = '1'
-    this.id_building = this.route.snapshot.paramMap.get("id");
-    this.id_quote = this.route.snapshot.paramMap.get("id_quote");
+    this.id_building = this.route.snapshot.paramMap.get("id")!;
+    this.id_quote = this.route.snapshot.paramMap.get("id_quote")!;
     const userStorage = this.storage.get('user');
     // this.listItems = this.globals.listadoItems;
 
@@ -92,7 +91,7 @@ export class CreatequoteComponent implements OnInit {
     }
     // get all active discounts
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveMonthlyDiscounts?key=' + this.config.key)
-      .subscribe(resp3 => {
+      .subscribe((resp3:any) => {
         this.activeDiscount = resp3['content'];
       });
 
@@ -126,7 +125,7 @@ export class CreatequoteComponent implements OnInit {
       } else {
         // tslint:disable-next-line: max-line-length
         this.httpClient.get(this.config.endpoint + 'ResidentialServices/getResidentialById?key=' + this.config.key + '&residential_id=' + this.id_building)
-          .subscribe(resp1 => {
+          .subscribe((resp1 :any)=> {
             this.dataResidential = resp1['content'];
             this.totalproperties = this.dataResidential['total_properties'];
             this.DeviceCant = Math.round((this.totalproperties * 1) * (this.DevicePercent * 1) / 100);
@@ -220,7 +219,7 @@ export class CreatequoteComponent implements OnInit {
 
     //get all active city
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllActiveCities?key=' + this.config.key)
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         this.activeCity = resp2['content'];
       });
 
@@ -237,7 +236,7 @@ export class CreatequoteComponent implements OnInit {
     }
     else {
       this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteById?key=' + this.config.key + '&id=' + this.id_quote)
-        .subscribe(resp4 => {
+        .subscribe((resp4:any) => {
           this.DevicePercent = resp4['content']['device_percentage'] * 1;
           this.DeviceCant = Math.round((this.totalproperties * 1) * (this.DevicePercent * 1) / 100);
           this.observationsQuote = resp4['content']['observations'];
@@ -338,7 +337,7 @@ export class CreatequoteComponent implements OnInit {
 
           }
 
-          if (isUndefined(resp4['content']['discounts'].length > 0)) {
+          if (resp4['content']['discounts']!==undefined && resp4['content']['discounts'].length > 0) {
             if (resp4['content']['discounts'][0]['discount_id'] > 0 && resp4['content']['discounts'][0]['discount_id'] != null) {
               for (let index5 = 0; index5 < this.activeDiscount.length; index5++) {
                 if (this.activeDiscount[index5]['id'] == resp4['content']['discounts'][0]['discount_id']) {
@@ -610,7 +609,7 @@ export class CreatequoteComponent implements OnInit {
     if ((this.promotionPercent * 1) + (this.promotion2Percent * 1) > 15) {
       Swal.fire({
         title: '<strong>Ha superado el maximo descuento permitido en %</strong>',
-        type: 'question',
+        icon: 'question',
         html:
           'Consulte con gerencia esta decision y poner la clave aqui:' +
           '<br><input type="password" id="codeSecurity" value="" style="width: 100%;padding: 12px 20px;margin: 8px 0;display: inline-block;border: 1px solid #ccc;border-radius: 4px; box-sizing: border-box;">',
@@ -631,7 +630,7 @@ export class CreatequoteComponent implements OnInit {
             }
             Swal.fire({
               title: '<strong>Atención</strong>',
-              type: 'info',
+              icon: 'info',
               html:
                 'Esta seguro que desea guardar  esta informacion',
               showCancelButton: true,
@@ -672,7 +671,7 @@ export class CreatequoteComponent implements OnInit {
     if (this.DevicePercent < 80) {
       Swal.fire({
         title: '<strong>El porcentaje de dispositivos no puede ser inferior al 80%</strong>',
-        type: 'question',
+        icon: 'question',
         html:
           'Consulte con gerencia esta decision y poner la clave aqui:' +
           '<br><input type="password" id="codeSecurity" value="" style="width: 100%;padding: 12px 20px;margin: 8px 0;display: inline-block;border: 1px solid #ccc;border-radius: 4px; box-sizing: border-box;">',
@@ -693,7 +692,7 @@ export class CreatequoteComponent implements OnInit {
             }
             Swal.fire({
               title: '<strong>Atención</strong>',
-              type: 'info',
+              icon: 'info',
               html:
                 'Esta seguro que desea guardar  esta informacion',
               showCancelButton: true,
@@ -736,7 +735,7 @@ export class CreatequoteComponent implements OnInit {
     }
     Swal.fire({
       title: '<strong>Atención</strong>',
-      type: 'info',
+      icon: 'info',
       html:
         'Esta seguro que desea guardar  esta informacion',
       showCancelButton: true,
@@ -769,7 +768,7 @@ this.createcuoteService.CreateQuote(formData, this.id_user);
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
-  quitarItem(i) {
+  quitarItem(i:any) {
     this.listItems.splice(i, 1);
   }
 
@@ -831,7 +830,7 @@ this.createcuoteService.CreateQuote(formData, this.id_user);
     this.listItems = [];
     //Obtener todos los items a cotizar
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllItemsToSellByTypeQuote?key=' + this.config.key + '&quote_type_id=1')
-      .subscribe(resp2 => {
+      .subscribe((resp2 :any)=> {
         for (let index3 = 0; index3 < resp2['content'].length; index3++) {
           if (resp2['content'][index3]['id'] == '5') {
             if (this.totalproperties < 51) {

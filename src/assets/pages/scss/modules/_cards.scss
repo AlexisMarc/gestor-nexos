@@ -341,11 +341,11 @@
     }
 }
 .card-icon-refresh-lg-master{
-    background-image:url('#{$base-img-url}/progress/progress-circle-lg-master-static.svg');
+    background-image:url('./assets/images/progress/progress-circle-lg-master-static.svg');
 }
 
 .card-icon-refresh-lg-white{
-    background-image:url('#{$base-img-url}/progress/progress-circle-lg-white-static.svg');
+    background-image:url('./assets/images/progress/progress-circle-lg-white-static.svg');
 }
 
 .card-icon-refresh-lg-master-animated,
@@ -361,10 +361,10 @@
     }
 }
 .card-icon-refresh-lg-master-animated{
-    background-image:url('#{$base-img-url}/progress/progress-circle-lg-master.svg');
+    background-image:url('./assets/images/progress/progress-circle-lg-master.svg');
 }
 .card-icon-refresh-lg-white-animated{
-    background-image:url('#{$base-img-url}/progress/progress-circle-lg-white.svg');
+    background-image:url('./assets/images/progress/progress-circle-lg-white.svg');
 }
 
 

@@ -1,10 +1,10 @@
 import { Component, OnInit,OnDestroy,ViewEncapsulation,ViewChild,ElementRef } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { HttpClient } from '@angular/common/http';
 import { pagesToggleService} from '../../services/toggler.service';
 import {QuickviewService} from './quickview.service';
 import {Note} from './note';
 import {chatMessage,chatHistory} from './message';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-quickview',
@@ -15,20 +15,20 @@ import {chatMessage,chatHistory} from './message';
 export class QuickviewComponent implements OnInit,OnDestroy {
   subscriptions: Array<Subscription> = [];
   isOpen:boolean = false;
-  noteList = [];
-  noteDeleteList = []
+  noteList:any = [];
+  noteDeleteList:any = []
   //Single
-  selectedNote:Note;
+  selectedNote!:Note;
   noteText = "";
   //List for deleting or CRUD functions
   deleteNoteMode:boolean = false;
   isNoteOpen = false;
-  userList = [];
-  chatHistory:chatHistory;
-  userMessage;
-  newMessage:chatMessage;
+  userList:any = [];
+  chatHistory!:chatHistory;
+  userMessage:any;
+  newMessage!:chatMessage;
 
-  @ViewChild('chatHistoryWrapper', { read: true, static: false }) chatHistoryWrapper: ElementRef;
+  @ViewChild('chatHistoryWrapper', { read: true, static: false }) chatHistoryWrapper!: ElementRef;
 
   constructor(private _service: QuickviewService, private http: HttpClient, private toggler:pagesToggleService) {
     this.subscriptions.push(this.toggler.quickViewToggle.subscribe(message => { this.toggle() }));
@@ -41,15 +41,15 @@ export class QuickviewComponent implements OnInit,OnDestroy {
   }
   ngOnInit() {
     // Retrieve posts from the API
-    this.subscriptions.push(this._service.getNotes().subscribe(notes => {
+    this.subscriptions.push(this._service.getNotes().subscribe((notes:any) => {
       this.noteList = notes;
     }));
   
-    this.subscriptions.push(this._service.getUsers().subscribe(users => {
+    this.subscriptions.push(this._service.getUsers().subscribe((users:any) => {
       this.userList = users;
     }));
 
-    this.subscriptions.push(this._service.getChatMessages().subscribe(messages => {
+    this.subscriptions.push(this._service.getChatMessages().subscribe((messages:any) => {
       this.chatHistory = messages;
     }));
   }
@@ -90,7 +90,7 @@ export class QuickviewComponent implements OnInit,OnDestroy {
       this.isNoteOpen = true;
   }
 
-  onCheck(e,item:Note):void{
+  onCheck(e:any,item:Note):void{
     if(e.target.checked){
       this.pushNote(item);
     }else{
@@ -120,10 +120,10 @@ export class QuickviewComponent implements OnInit,OnDestroy {
   }
 
   deleteNote():void{
-    this.noteList = this.noteList.filter(item => this.noteDeleteList.indexOf(item)  === -1);
+    this.noteList = this.noteList.filter((item:any) => this.noteDeleteList.indexOf(item)  === -1);
   }
 
-  onMessageKeyPress(event){
+  onMessageKeyPress(event:any){
     if (event.keyCode == 13) {
       if(this.userMessage){
         this.newMessage = new chatMessage;

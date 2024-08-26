@@ -30,7 +30,7 @@ export class CreateItemsComponent implements OnInit {
   };
 
   imgURL: any;
-  fileData: File = null;
+  fileData: File | null = null;
   previewUrl: any = null;
   typeQuote: any;
 
@@ -59,7 +59,7 @@ export class CreateItemsComponent implements OnInit {
   }
     // service type quote
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.typeQuote = resp['content']
       });
   }
@@ -116,7 +116,7 @@ export class CreateItemsComponent implements OnInit {
     formData.append('voting_details', this.ItemsParameters['voting_details']);
     formData.append('show_quantity', this.ItemsParameters['show_quantity']);
     formData.append('order', this.ItemsParameters['order']);
-    formData.append('file', this.fileData);
+    formData.append('file', this.fileData!);
     this.createOrEditItem.CreateTypeItems(formData);
   }
   goMenuSetting() {
@@ -133,12 +133,12 @@ export class CreateItemsComponent implements OnInit {
   }
   preview() {
     // Show preview
-    var mimeType = this.fileData.type;
+    var mimeType = this.fileData!.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
     var reader = new FileReader();
-    reader.readAsDataURL(this.fileData);
+    reader.readAsDataURL(this.fileData!);
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
     };

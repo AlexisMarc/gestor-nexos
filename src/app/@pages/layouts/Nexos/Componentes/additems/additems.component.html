@@ -26,15 +26,15 @@
     <div class="col-12 col-md-4" *ngFor="let item of listItems; index as i">
       <div class="input-group" *ngIf="item['contable']=='1'">
         <div class="input-group-prepend" style="width: 70%;">
-          <div class="input-group-text" style="width: 100%;">{{item.name}}</div>
+          <div class="input-group-text" style="width: 100%;">{{item['name']}}</div>
         </div>
         <input type="number" min="0" class="form-control" style="width: 20%;"
           placeholder="Cantidad" [(ngModel)]="listadoItemsCant[i]">
       </div>
-      <div class="custom-control custom-checkbox" *ngIf="item['contable']=='0'">
+      <div class="custom-control custom-checkbox" *ngIf="item['contable']">
         <input type="checkbox" class="custom-control-input" id="{{i}}"
           [(ngModel)]="listadoItemsCant[i]" style="cursor: pointer;">
-        <label class="custom-control-label" for="{{i}}" style="cursor: pointer;">{{item.name}}</label>
+        <label class="custom-control-label" for="{{i}}" style="cursor: pointer;">{{item['name']}}</label>
       </div>
     </div>
   </div>

@@ -18,30 +18,30 @@ import { AddunitserviceService } from '../../service/addunitservice.service';
 })
 export class UpdateDataBaseComponent implements OnInit {
 
-  residential_id: string;
+  residential_id!: string;
   EmailSearch = '';
   user_id: string;
   users: Customer[] = [];
   ListadoConjuntosSelect: [] = [];
   ListadoConjuntosSelect2: [] = [];
-  sector: string;
+  sector!: string;
   ListadoUnidades2: [] = [];
-  name_unidad: string;
-  int = 'value';
-  int2 = 'value';
+  name_unidad!: string;
+  int:any = 'value';
+  int2:any = 'value';
   unidadesOk = false;
   id_unit_add = 'value';
   ListadoUnidades: [] = [];
-  add_unit_text: string;
+  add_unit_text!: string;
   listadoUnidad: listadoUnidad[] = [];
   listadoUnidad_nuevo_usuario: listadoUnidad[] = [];
   id_unidad_envio: listadoUnidadEnvio[] = [];
   ningun_usuario_del_residential = 0;
   show_components = 1;
-  profile: string;
-  keysession: string;
+  profile!: string;
+  keysession!: string;
   meeting_id: any;
-  token: string;
+  token!: string;
   messageIfNotResultsOfSearch = '';
 
   constructor(private router: Router,
@@ -66,10 +66,10 @@ export class UpdateDataBaseComponent implements OnInit {
       this.router.navigate(['/']);
     }
     this.token = userStorage['content']['token'];
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.keysession = userStorage['content']['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];
       });
   }
@@ -83,7 +83,7 @@ export class UpdateDataBaseComponent implements OnInit {
     this.users = [];
     this.messageIfNotResultsOfSearch = '';
     this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerRecordsByEmail/' + this.keysession + '/' + this.EmailSearch + '/' + this.meeting_id)
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         if (resp1['success'] == true) {
           for (let index = 0; index < resp1['content'].length; index++) {
             this.getSectors(resp1['content'][index]['id']);
@@ -105,7 +105,7 @@ export class UpdateDataBaseComponent implements OnInit {
             //Trae las unidades
             this.listadoUnidad = [];
             this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + resp1['content'][index]['document_number'] + '/' + this.meeting_id)
-              .subscribe(resp2 => {
+              .subscribe((resp2 :any)=> {
                 for (let index2 = 0; index2 < resp2['content']['units'].length; index2++) {
                   let unidad = new listadoUnidad(resp2['content']['units'][index2]['building_name'], resp2['content']['units'][index2]['building_number'],
                     resp2['content']['units'][index2]['unit_name'], resp2['content']['units'][index2]['unit_number'], resp2['content']['units'][index2]['unit_id'],
@@ -121,10 +121,10 @@ export class UpdateDataBaseComponent implements OnInit {
       });
   }
 
-  getSectors(customer_id) {
+  getSectors(customer_id:any) {
     //Obtener los sectores
     this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
-      .subscribe(resp4 => {
+      .subscribe((resp4:any) => {
         this.ListadoConjuntosSelect = resp4['content'];
         this.ListadoConjuntosSelect2 = resp4['content']
         if (resp4['success'] === true) {
@@ -153,11 +153,11 @@ export class UpdateDataBaseComponent implements OnInit {
     }
   }
 
-  addUnit(index) {
+  addUnit(index:any) {
     if (this.int == 'value' || this.id_unit_add == 'value') {
       swal.fire({
         title: '<strong>Advertencia</strong>',
-        type: 'warning',
+        icon: 'warning',
         html:
           'Seleccione la torre y la unidad',
         showCloseButton: true,
@@ -176,7 +176,7 @@ export class UpdateDataBaseComponent implements OnInit {
       }
       swal.fire({
         title: '<strong>Esta Seguro</strong>',
-        type: 'question',
+        icon: 'question',
         html:
           this.add_unit_text,
         showCloseButton: true,
@@ -200,12 +200,12 @@ export class UpdateDataBaseComponent implements OnInit {
     }
   }
 
-  sendCustomerEmail(customer_id_send) {
+  sendCustomerEmail(customer_id_send:any) {
     this.sendmailService.SendMailServiceByUnit(this.keysession, customer_id_send, this.meeting_id);
   }
 
 
-  saveChanges(index_user, customer_id, email_1, nameRegister, moroso, unitsActualUser, is_speaker, is_observer, email_2, email_3, email_4, name) {
+  saveChanges(index_user:any, customer_id:any, email_1:any, nameRegister:any, moroso:any, unitsActualUser:any, is_speaker:any, is_observer:any, email_2:any, email_3:any, email_4:any, name:any) {
     this.ningun_usuario_del_residential = 0;
     this.listadoUnidad_nuevo_usuario = [];
     this.id_unidad_envio = [];
@@ -238,13 +238,13 @@ export class UpdateDataBaseComponent implements OnInit {
     else {
       //Buscar si existe el usuario del nuevo correo
       this.httpClient.get(this.config.endpoint + 'ResidentialServices/getCustomerRecordsByEmail?key=' + this.config.key + '&user_id=' + this.user_id + '&email=' + email_1)
-        .subscribe(resp1 => {
+        .subscribe((resp1 :any)=> {
           //1. Si existe el usuario
           if (resp1['success'] == true) {
             for (let index = 0; index < resp1['content'].length; index++) {
               //Buscar si el usuario del nuevo correo pertenece al reisdential
               this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getCustomerProperties?key=' + this.config.key + '&user_id=' + resp1['content'][index]['id'] + '&residential_id=' + this.residential_id)
-                .subscribe(resp2 => {
+                .subscribe((resp2 :any)=> {
                   //2. Si el usuario del nuevo correo pertence a ese residential
                   if (resp2['content']['properties'].length > 0) {
                     this.ningun_usuario_del_residential = 1;
@@ -289,7 +289,7 @@ export class UpdateDataBaseComponent implements OnInit {
                       this.ningun_usuario_del_residential = 1;
                       swal.fire({
                         title: '<strong>Alerta</strong>',
-                        type: 'question',
+                        icon: 'question',
                         html: 'el usuario del nuevo correo existe pero tiene mas correos asociados los cuales son: ' + resp2['content']['email2'] + ' &nbsp; ' + resp2['content']['email3'] + ' &nbsp; ' + resp2['content']['email4'] + ' &nbsp; ' + ' desea unirlos de todas maneras?',
                         showCloseButton: true,
                         showCancelButton: true,
@@ -403,7 +403,7 @@ export class UpdateDataBaseComponent implements OnInit {
     this.int2 = 'value';
   }
 
-  deleteUnit(index_unit, index_customer) {
+  deleteUnit(index_unit:any, index_customer:any) {
     this.users[index_customer].units.splice(index_unit, 1)
   }
 

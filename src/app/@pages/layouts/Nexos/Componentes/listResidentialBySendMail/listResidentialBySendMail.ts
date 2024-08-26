@@ -35,7 +35,7 @@ export class listResidentialBySendMail implements OnInit {
   goMenuSettingVoting() {
     this.router.navigate(['home/menusettingVoting']);
   }
-  doSendEmail(idResidential) {
+  doSendEmail(idResidential:any) {
     this.router.navigate(['home/sendEmail/' + idResidential]);
   }
 
@@ -43,7 +43,7 @@ export class listResidentialBySendMail implements OnInit {
   Search2() {
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
-      .subscribe(resp1 => {
+      .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });
   }

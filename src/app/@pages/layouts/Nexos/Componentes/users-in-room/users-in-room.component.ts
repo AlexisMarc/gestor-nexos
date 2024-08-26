@@ -14,7 +14,7 @@ export class UsersInRoomComponent implements OnInit {
   meeting_id: string;
   residential_id: string;
   user_id: string;
-  room: string;
+  room!: string;
   listUserInRoom: [] = [];
   listUserOutRoom: [] = [];
   total = 0;
@@ -28,19 +28,19 @@ export class UsersInRoomComponent implements OnInit {
     @Inject(SESSION_STORAGE)
     private storage: WebStorageService
   ) {
-    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
-    this.residential_id = this.route.snapshot.paramMap.get('idResidential');
+    this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
+    this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     const userStorage = this.storage.get('user');
     this.user_id = userStorage['content']['id'];
 
     this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getCustomersInRoom?key=' + this.config.key + '&user_id=' + this.user_id + '&room=1' + '&meeting_id=' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listUserInRoom = resp['content'];
         this.total = this.listUserInRoom.length
       });
 
       this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getCustomersInRoom?key=' + this.config.key + '&user_id=' + this.user_id + '&room=2' + '&meeting_id=' + this.meeting_id)
-      .subscribe(resp => {
+      .subscribe((resp:any)=> {
         this.listUserOutRoom = resp['content'];
         this.totalOut = this.listUserOutRoom.length
       });
@@ -55,7 +55,7 @@ export class UsersInRoomComponent implements OnInit {
   goMenuSettingVoting() {
     this.router.navigate(['home/menusettingVoting']);
   }
-  goPointContrpl(residential_id) {
+  goPointContrpl(residential_id:any) {
     this.router.navigate(['home/pointControlMeeting/' + residential_id]);
   }
   goSearchPointControl() {

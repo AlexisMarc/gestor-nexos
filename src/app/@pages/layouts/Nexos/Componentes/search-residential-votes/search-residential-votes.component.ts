@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { Globals } from '../../interface/globals.model';
 import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
-import swal, { SweetAlertType } from 'sweetalert2';
+import swal, { SweetAlertIcon } from 'sweetalert2';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import { Pipe, PipeTransform } from '@angular/core';
 @Component({
@@ -53,14 +53,14 @@ export class SearchResidentialVotesComponent implements OnInit {
   goHome() {
     this.router.navigate(['home/']);
   }
-  goCreateVituralVotes(idResidential) {
+  goCreateVituralVotes(idResidential:any) {
     this.router.navigate(['home/crearVotacion/' + idResidential ]);
   }
 
   Search3() {
     // tslint:disable-next-line: max-line-length
     this.httpClient.get(this.config.endpoint3 + 'AppServices/getActiveResidentialByService?key=' + this.config.key + '&service_type=' + '2' )
-        .subscribe(resp1 => {
+        .subscribe((resp1 :any)=> {
           this.ListQuote = resp1['content'];
 
         });

@@ -190,7 +190,7 @@
                 <select class="form-select" aria-label="Default select example" name="Email_id"
                   [(ngModel)]="email_request_password_id">
                   <option value="">Seleccione el tipo de correo que se enviará</option>
-                  <option [value]="item.id" *ngFor="let item of listTypeEmail">{{item.name_email}}</option>
+                  <option [value]="item['id']" *ngFor="let item of listTypeEmail">{{item['name_email']}}</option>
                 </select>
               </div>
               <div class="col-4">
