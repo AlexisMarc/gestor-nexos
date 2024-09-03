@@ -11,15 +11,15 @@ import { PerfectScrollbarConfigInterface,
 export class ListViewContainerComponent implements OnInit {
   
   _items: ListItemComponent[] = [];
-  elems = [];
+  elems:any = [];
   topHeader:any;
-  topElement;
+  topElement:any;
   fakeHeaderHidden = false;
   topClassAnimated = false;
   public config: PerfectScrollbarConfigInterface = {};
   isPerfectScrollbarDisabled = false;
   
-  @ViewChild('itemListWrapper', { read: true, static: false }) itemListWrapper: ElementRef;
+  @ViewChild('itemListWrapper', { read: true, static: false }) itemListWrapper!: ElementRef<any>;
 
   constructor(private el: ElementRef) { }
 
@@ -62,7 +62,7 @@ export class ListViewContainerComponent implements OnInit {
   }
 
   computeHeader(){
-    let currentTop;
+    let currentTop = 0;
     let offscreenElement, topElementBottom,topIndex = 0;
     let i = 0;
     while ((this.elems[i].listOffset - currentTop) <= 0) {
@@ -77,7 +77,7 @@ export class ListViewContainerComponent implements OnInit {
           break;
       }
     }
-    if (topElementBottom < this.topElement.headerHeight && topElementBottom > 0) {
+    if (topElementBottom! < this.topElement.headerHeight && topElementBottom! > 0) {
       this.fakeHeaderHidden = true;
       this.topElement.animated = true;
     } else {

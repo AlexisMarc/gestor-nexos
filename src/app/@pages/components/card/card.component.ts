@@ -192,7 +192,7 @@ import {
       }
       else{
         this._isMaximixed = true;
-        let pagecontainer = document.querySelector(".content");
+        let pagecontainer = document.querySelector(".content")!;
         
         let rect = pagecontainer.getBoundingClientRect();
         let elementRect = nativeElement.getBoundingClientRect();

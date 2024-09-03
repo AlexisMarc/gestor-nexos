@@ -7,8 +7,8 @@ import { ListViewContainerComponent } from '../list-view-container/list-view-con
 })
 export class ListItemComponent implements OnInit {
 
-  @ContentChild('ItemHeading', { read: true, static: false }) _itemHeading: TemplateRef<void>;
-  @ViewChild(TemplateRef, { read: true, static: false }) _content: TemplateRef<void>;
+  @ContentChild('ItemHeading', { read: true, static: false }) _itemHeading!: TemplateRef<void>;
+  @ViewChild(TemplateRef, { read: true, static: false }) _content!: TemplateRef<void>;
 
   get content(): TemplateRef<void> | null {
     return this._content;

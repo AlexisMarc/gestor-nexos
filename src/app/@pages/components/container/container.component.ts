@@ -15,12 +15,12 @@ export class ContainerComponent implements OnInit {
   constructor() { }
 
   @Input()
-  set extraClass(value) {
+  set extraClass(value:any) {
     this._extraClass = value
   }
 
   @Input()
-  set extraHorizontalClass(value) {
+  set extraHorizontalClass(value:any) {
     this._extraHorizontalClass = value
   }
 

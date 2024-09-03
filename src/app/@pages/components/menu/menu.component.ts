@@ -35,7 +35,7 @@ import { PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
   encapsulation:ViewEncapsulation.None 
 })
 export class MenuComponent implements OnInit {
-  menuItems = [];
+  menuItems:any = [];
   currentItem:any = null;
   isPerfectScrollbarDisabled = false
   public config: PerfectScrollbarConfigInterface = {};

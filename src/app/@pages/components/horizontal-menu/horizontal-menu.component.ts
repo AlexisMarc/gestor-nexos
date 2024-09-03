@@ -18,18 +18,18 @@ declare var pg: any;
   encapsulation:ViewEncapsulation.None
 })
 export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
-  menuItems = [];
-  _renduerMenuItems = [];
+  menuItems:any = {};
+  _renduerMenuItems:any = {};
   _hideExtra = 0;
-  currentItem = null;
+  currentItem:any;
   _horizontalMobileMenu:boolean = false;
   resizeId:any;
   _service;
   //Simple hack flag to check if its wrapped
   _wrapped:boolean = false;
-  @ViewChild('menuItemsList', { read: true, static: false }) _menuItemsList: ElementRef;
-  @ViewChild('menuWrapper', { read: true, static: false }) _menuWrapper: ElementRef;
-  @ContentChild('mobileSidebarFooter', { read: true, static: false }) mobileSidebarFooter: TemplateRef<void>;
+  @ViewChild('menuItemsList', { read: true, static: false }) _menuItemsList!: ElementRef;
+  @ViewChild('menuWrapper', { read: true, static: false }) _menuWrapper!: ElementRef;
+  @ContentChild('mobileSidebarFooter', { read: true, static: false }) mobileSidebarFooter!: TemplateRef<void>;
   constructor(private toggler:pagesToggleService) { 
 
 		this._service = this.toggler.mobileHorizontaMenu
@@ -40,12 +40,12 @@ export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
   }
 
   @Input()
-  set HideExtra(value) {
+  set HideExtra(value:any) {
     this._hideExtra = value
   }
 
   @Input()
-  set Items(value) {
+  set Items(value:any) {
     this.menuItems = value
     this._renduerMenuItems = this.menuItems.slice();
   }
@@ -66,6 +66,7 @@ export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
     setTimeout(()=>{
       if (pg.isVisibleSm() || pg.isVisibleXs()) return false 
       this._onContentChanges();
+    return
     })
   }
 
@@ -80,7 +81,7 @@ export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
     }
   }
 
-  toggleLink(event,item){
+  toggleLink(event:any,item:any){
     //Mobile
     if (pg.isVisibleSm() || pg.isVisibleXs()) {
       if(this.currentItem && this.currentItem != item){
@@ -90,6 +91,7 @@ export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
       item.mToggle = (item.mToggle === 'close' ? 'open' : 'close');
       return false 
     }
+
 
     //Desktop
     if(this.currentItem && this.currentItem != item){
@@ -136,11 +138,11 @@ export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
       },0);
 
     }
-
+return
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(event:any) {
     clearTimeout(this.resizeId);
     this.resizeId = setTimeout(()=>{
       if (pg.isVisibleSm() || pg.isVisibleXs()) {
@@ -148,6 +150,7 @@ export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
         return false
       }
       this._onContentChanges();
+      return
     },140);
   }
 
@@ -178,7 +181,7 @@ export class HorizontalMenuComponent implements AfterContentInit,OnDestroy {
     this._wrapped = true; 
     startIndex--;
     startIndex = startIndex - this._hideExtra;
-    let temp = {
+    let temp:any = {
       type:"more",
       toggle:"close",
       submenu:[]

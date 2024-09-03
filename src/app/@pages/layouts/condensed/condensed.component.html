@@ -90,7 +90,7 @@
 						<swal #deleteSwal title="Esta seguro que desea cerrar sesion?" type="question"
 							[showCancelButton]="true" [focusCancel]="true" (confirm)="singOut()">
 						</swal>
-						<a class="clearfix bg-master-lighter dropdown-item" (click)="deleteSwal.show()"
+						<a class="clearfix bg-master-lighter dropdown-item" (click)="'deleteSwal.show()'"
 							style="cursor: pointer">
 							<span class="pull-left">Cerrar Sesion</span>
 							<span class="pull-right"><i class="fs-13 pg pg-power"></i></span>

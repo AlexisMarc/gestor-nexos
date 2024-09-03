@@ -55,7 +55,6 @@ export type TabType = 'line' | 'fillup' | 'linetriangle';
         </ng-template>
         <li
           pg-tab-label
-          [disabled]="tab.disabled"
           (click)="clickLabel(i)"
           *ngFor="let tab of _tabs; let i = index">
           <a href="javascript:void(0);" class="" [class.active]="((SelectedIndex) == i)&&!Hide">
@@ -73,7 +72,7 @@ export type TabType = 'line' | 'fillup' | 'linetriangle';
             class="tab-pane"
             [class.active]="(SelectedIndex == i)&&!Hide"
             [class.inactive]="(SelectedIndex != i)||Hide"
-            [content]="tab.content"
+            [content]="tab.content!"
             *ngFor="let tab of _tabs; let i = index">
           </pg-tab-body>
         </div>

@@ -2,7 +2,7 @@
     <div class="list-view-fake-header" [class.list-view-hidden]="fakeHeaderHidden">
         <ng-template [ngTemplateOutlet]="topHeader"></ng-template>
     </div>
-    <div class="scroll-wrapper list-view-wrapper" (scroll)="computeHeader()" #itemListWrapper [perfectScrollbar]="config" [disabled]="isPerfectScrollbarDisabled">
+    <div class="scroll-wrapper list-view-wrapper" (scroll)="computeHeader()" #itemListWrapper>
       <div class="list-view-group-container" [class.list-view-animated]="elems[elem_i]?.animated" *ngFor="let item of _items; let elem_i = index" [class.list-view-animated]="item">
           <div class="list-view-group-header text-uppercase"><ng-template [ngTemplateOutlet]="item._itemHeading"></ng-template></div>
           <ul>

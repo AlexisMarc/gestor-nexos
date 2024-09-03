@@ -9,7 +9,7 @@ import { ProgressModule } from '../progress/progress.module';
 })
 
 export class pgCardModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<any> {
     return {
       ngModule: pgCardModule
     };

@@ -42,7 +42,7 @@ export class pgCollapseComponent {
   private _disabled = false;
   _active = false;
   _el;
-  @Input() Title: string;
+  @Input() Title!: string;
 
   @Input()
   @HostBinding('class.disabled')
