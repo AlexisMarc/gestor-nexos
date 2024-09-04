@@ -14,16 +14,16 @@ export class ConfigurationRestService {
   // endpoint5 = 'https://apiasambleas.grupoempresarialnexos.com/app/ServicesResidential/';
   // endpoint6 = 'https://apiasambleas.grupoempresarialnexos.com/gestor-v2/';
   // endpointSocket = 'wss://socket.grupoempresarialnexos.com:3000';
-  //// endpoint6 = 'https://apiasambleas.grupoempresarialnexos.com/gestor-test/';
+  //// endpoint6 = 'https://apiasambleas.grupoempresarialnexos.com/management/';
    
 
   // Server de prueba
-  endpoint = 'https://apiasambleas.grupogift.com/app-management/';
-  endpoint2 = 'https://apiasambleas.grupogift.com/app/Api/';
-  endpoint3 = 'https://apiasambleas.grupogift.com/app-preregistro/';
-  endpoint4 = 'https://apiasambleas.grupogift.com/';
-  endpoint5 = 'https://apiasambleas.grupogift.com/app/ServicesResidential/';  
-  endpoint6 = 'https://apiasambleas.grupogift.com/gestor-test/';
+  endpoint = 'https://apiservices.grupogift.com/app-management/';
+  endpoint2 = 'https://apiservices.grupogift.com/app/Api/';
+  endpoint3 = 'https://apiservices.grupogift.com/app-preregistro/';
+  endpoint4 = 'https://apiservices.grupogift.com/';
+  endpoint5 = 'https://apiservices.grupogift.com/app/ServicesResidential/';  
+  endpoint6 = 'https://apiservices.grupogift.com/management/';
   endpointSocket = 'wss://socket.tetranscribo.com:3000';
 
   // WHASTAPP PRUEBAS

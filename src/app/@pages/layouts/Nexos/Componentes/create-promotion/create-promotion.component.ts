@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateOrEditDiscountService } from '../../service/create-or-edit-discount.service';
 import Swal from 'sweetalert2';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 
 
 @Component({
@@ -24,14 +24,14 @@ export class CreatePromotionComponent implements OnInit {
     private router: Router,
     private config: ConfigurationRestService,
     private createOrEditDiscount: CreateOrEditDiscountService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
   ) {
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario') {
+    if (userStorage['profile'] === 'Super Usuario') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -39,7 +39,7 @@ export class CreatePromotionComponent implements OnInit {
 
     }
    // tslint:disable-next-line: max-line-length
-   if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+   if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['status_id'] === 0 ) {
     sessionStorage.clear();
     this.router.navigate(['/']);
   } }

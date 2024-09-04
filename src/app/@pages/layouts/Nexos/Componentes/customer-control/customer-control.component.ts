@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { listadoUnidad } from '../../interface/listadounidad';
 import { AddSupportCalledService } from '../../service/AddSupportCalled.service';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -60,16 +60,16 @@ export class CustomerControlComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private addSupportCalledService: AddSupportCalledService,
     private sendmailService: SendmailService
   ) {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
-    this.userStorage = this.storage.get('user');
-    this.user_id = this.userStorage['content']['id'];
-    this.keysession = this.userStorage['content']['token'];
+    this.userStorage = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = this.userStorage['id'];
+    this.keysession = this.userStorage['token'];
   }
 
   ngOnInit() {
@@ -84,7 +84,7 @@ export class CustomerControlComponent implements OnInit {
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
           }).then((response:any)=>{
             if(response.value){
-              this.storage.remove('user');
+              sessionStorage.removeItem('user');
               this.router.navigate(['/']);
             }
           })

@@ -6,7 +6,7 @@ import { listadoUnidad } from '../../interface/listadounidad';
 import Swal from 'sweetalert2';
 import { listadoUnidadEnvio } from '../../interface/listadounidadenvio';
 import { AddunitserviceService } from '../../service/addunitservice.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import swal from 'sweetalert2';
 import { SendmailService } from '../../service/sendmail.service';
 import { Globals } from '../../interface/globals.model';
@@ -72,8 +72,8 @@ export class AddunitscontrolComponent implements OnInit {
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
     private addUnitservice: AddunitserviceService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private sendmailService: SendmailService,
     private global: Globals,
     private _WhatsappService : WhatsappService
@@ -83,25 +83,25 @@ export class AddunitscontrolComponent implements OnInit {
       this.contrys = resp['content']
     })
 
-    const userStorage = this.storage.get('user');
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador') {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home/pointControl']);
       return;
     }
 
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
-    this.user_id = userStorage['content']['id'];
+    this.user_id = userStorage['id'];
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
-    this.profile = userStorage['content']['profile'];
-    this.token = userStorage['content']['token'];
+    this.profile = userStorage['profile'];
+    this.token = userStorage['token'];
     this.quorum_real_time = this.global.quorum_real_time;
-    this.keysession = userStorage['content']['token'];
+    this.keysession = userStorage['token'];
     this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
 
       .subscribe((resp4:any) => {
@@ -114,7 +114,7 @@ export class AddunitscontrolComponent implements OnInit {
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
           }).then(response=>{
             if(response.value){
-              this.storage.remove('user');
+              sessionStorage.removeItem('user');
               this.router.navigate(['/']);
             }
           })

@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import { SendmailService } from '../../service/sendmail.service';
 import swal, { SweetAlertIcon } from 'sweetalert2';
 
@@ -37,14 +36,14 @@ export class SendMailComponent implements OnInit {
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
     private getAllActiveAppServices: GetAllActiveAppServicesTypeService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private sendmailService: SendmailService
   ) {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id'];
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor') {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id'];
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -64,7 +63,7 @@ export class SendMailComponent implements OnInit {
         this.support = resp2['content']['support'];
         this.youtube_link = resp2['content']['youtube_link'];
         this.meeting_id = resp2['content']['id'];
-        this.keysession = userStorage['content']['token']
+        this.keysession = userStorage['token']
         this.idTypeService = '2';
         this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getEmailContentByService?key=' + this.config.key + '&user_id=' + this.user_id + '&service_id=' + this.idTypeService)
           .subscribe((resp:any)=> {

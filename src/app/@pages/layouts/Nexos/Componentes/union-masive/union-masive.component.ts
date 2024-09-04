@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { listadoUnidadEnvio } from '../../interface/listadounidadenvio';
 import { listadoUnidadToUnion } from '../../interface/listadounidadtounion';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -41,22 +41,22 @@ export class UnionMasiveComponent implements OnInit {
     private config: ConfigurationRestService,
     private router: Router,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-    const userStorage = this.storage.get('user');
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Soporte telefonico') {
+     
+     ) {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador' || userStorage['profile'] === 'Soporte telefonico') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home/pointControl']);
       return;
     }
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.residential_name = this.route.snapshot.paramMap.get('nameResidential')!;
-    this.keysession = userStorage['content']['token'];
+    this.keysession = userStorage['token'];
   }
 
   ngOnInit() {

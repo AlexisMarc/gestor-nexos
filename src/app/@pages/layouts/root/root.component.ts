@@ -6,7 +6,6 @@ import { Router, Event, NavigationEnd,  } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../Nexos/service/configuration.rest.service';
 import { UserService } from '../Nexos/service/user.service';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import { Globals } from '../Nexos/interface/globals.model';
 import { Subscription } from 'rxjs';
 
@@ -64,20 +63,20 @@ export class RootLayout implements OnInit, OnDestroy {
     private config: ConfigurationRestService,
     public toggler: pagesToggleService,
     public router: Router,
-    private userService: UserService, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+    private userService: UserService,  
+     
     private global: Globals) {
     global.listadoItems = [];
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     if (userStorage == null || userStorage == undefined || userStorage == '') {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     }
     else {
-      this.nombre_usuario = userStorage['content']['name'];
-      this.photo = userStorage['content']['photo'];
-      this.id = userStorage['content']['id'];
-      this.token = userStorage['content']['token'];
+      this.nombre_usuario = userStorage['name'];
+      this.photo = userStorage['photo'];
+      this.id = userStorage['id'];
+      this.token = userStorage['token'];
     }
 
     if (this.layoutState) {
@@ -287,7 +286,7 @@ export class RootLayout implements OnInit, OnDestroy {
 
   singOut() {
     this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     })
   }

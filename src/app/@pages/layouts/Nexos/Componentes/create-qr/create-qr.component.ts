@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 @Component({
   selector: 'app-create-qr',
@@ -27,12 +27,12 @@ export class CreateQrComponent implements OnInit {
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,) {
+     
+     ) {
       this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
       this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
-      const userStorage = this.storage.get('user');
-      this.user_id = userStorage['content']['id'];
+      const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+      this.user_id = userStorage['id'];
     }
 
   ngOnInit() {

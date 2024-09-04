@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { StoreMeetingService } from '../../service/store-meeting.service';
 import { HttpClient } from '@angular/common/http';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import Swal from 'sweetalert2';
 
 @Component({
@@ -34,22 +34,22 @@ export class EditMeetingDetailsComponent implements OnInit {
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
     private storeMeeting: StoreMeetingService,
-    private httpClient: HttpClient, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-    const userStorage = this.storage.get('user');
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor') {
+    private httpClient: HttpClient,  
+     ) {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
       return;
     }
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
-    this.user_id = userStorage['content']['id'];
-    this.keysession = userStorage['content']['token'];
+    this.user_id = userStorage['id'];
+    this.keysession = userStorage['token'];
     // this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.url_redirection =response['content']['url_redirection']

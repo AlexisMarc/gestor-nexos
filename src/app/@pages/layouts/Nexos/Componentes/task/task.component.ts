@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import * as moment from 'moment';
 import 'moment/locale/es';
@@ -44,14 +44,14 @@ export class TaskComponent implements OnInit {
   constructor(
 
     private router: Router,
-    private route: ActivatedRoute, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+    private route: ActivatedRoute,  
+     
     private httpClient: HttpClient,
     private config: ConfigurationRestService) {
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Asesor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Soporte telefonico') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Asesor' || userStorage['profile'] === 'Moderador' || userStorage['profile'] === 'Soporte telefonico') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       sessionStorage.clear();
@@ -60,13 +60,13 @@ export class TaskComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.profile = userStorage['content']['profile'];
-    this.keysession = userStorage['content']['token'];
-    this.userId = userStorage['content']['id'];
+    this.profile = userStorage['profile'];
+    this.keysession = userStorage['token'];
+    this.userId = userStorage['id'];
   }
 
 
@@ -123,7 +123,7 @@ export class TaskComponent implements OnInit {
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
           }).then((response:any)=>{
             if(response.value){
-              this.storage.remove('user');
+              sessionStorage.removeItem('user');
               this.router.navigate(['/']);
             }
           })

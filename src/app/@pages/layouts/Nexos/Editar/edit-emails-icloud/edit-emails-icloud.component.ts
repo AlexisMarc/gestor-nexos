@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { Globals } from '../../interface/globals.model';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import Swal from 'sweetalert2';
 import { CreateEmailContentService } from '../../service/create-email-content.service';
@@ -34,16 +34,16 @@ export class EditEmailsIcloudComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private globals: Globals,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private createEmailService: CreateEmailContentService,
     private getAllActiveAppServices: GetAllActiveAppServicesTypeService,
     private route: ActivatedRoute) {
 
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id']; 
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id']; 
     this.idEmail = this.route.snapshot.paramMap.get('idEmail');
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -52,7 +52,7 @@ export class EditEmailsIcloudComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['status_id'] === 0 ) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }

@@ -98,7 +98,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 //import { Select2Module } from 'ng2-select2';
 import { LoginComponent } from './@pages/layouts/Nexos/Componentes/login/login.component';
-import { StorageServiceModule } from 'angular-webstorage-service';
 import { DashboardComponent } from './@pages/layouts/Nexos/Componentes/dashboard/dashboard.component';
 import { RecoverpasswordComponent } from './@pages/layouts/Nexos/Componentes/recoverpassword/recoverpassword.component';
 import { QuoteComponent } from './@pages/layouts/Nexos/Componentes/quote/quote.component';

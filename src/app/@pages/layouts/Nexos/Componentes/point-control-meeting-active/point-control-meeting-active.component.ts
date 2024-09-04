@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { Globals } from '../../interface/globals.model';
 
 
@@ -43,23 +43,23 @@ export class PointControlMeetingActiveComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    private storeMeeting: StoreMeetingService, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+    private storeMeeting: StoreMeetingService,  
+     
     private global: Globals) {
 
-    this.userStorage = this.storage.get('user');
-    if (this.userStorage['content']['profile'] === 'Super Usuario' || this.userStorage['content']['profile'] === 'Supervisor' || this.userStorage['content']['profile'] === 'Moderador') {
+    this.userStorage = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (this.userStorage['profile'] === 'Super Usuario' || this.userStorage['profile'] === 'Supervisor' || this.userStorage['profile'] === 'Moderador') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
       return;
     }
-    if (this.userStorage === null || this.userStorage === 'null' || this.userStorage === undefined || this.userStorage === 'undefined' || this.userStorage === '' || this.userStorage['content']['status_id'] === 0) {
+    if (this.userStorage === null || this.userStorage === 'null' || this.userStorage === undefined || this.userStorage === 'undefined' || this.userStorage === '' || this.userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.keysession = this.userStorage['content']['token'];
+    this.keysession = this.userStorage['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         // console.log(resp)

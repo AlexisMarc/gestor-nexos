@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit, } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 // import { ExecOptionsWithStringEncoding } from 'child_process';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { UnitEdit } from '../../interface/unitEdit.model';
@@ -41,8 +41,8 @@ export class EditUnitsComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private formBuilder: FormBuilder,
     private socket:SocketService
     
@@ -55,8 +55,8 @@ export class EditUnitsComponent implements OnInit {
   }
    mainLoad(){
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!
-    const userStorage = this.storage.get('user');
-    this.token = userStorage['content']['token'];
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.token = userStorage['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];

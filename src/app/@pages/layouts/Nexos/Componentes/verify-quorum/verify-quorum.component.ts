@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 declare var swal: any;
 @Component({
@@ -20,11 +20,11 @@ export class VerifyQuorumComponent implements OnInit {
     private router: Router,
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
   ) {
-    const userStorage = this.storage.get('user');
-    this.keysession = userStorage['content']['token']
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.keysession = userStorage['token']
   }
 
   ngOnInit() {

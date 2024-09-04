@@ -5,7 +5,7 @@ import { CreateOrEditItemService } from '../../service/create-or-edit-item.servi
 import { HttpClient } from '@angular/common/http';
 import { CreateEmailContentService } from '../../service/create-email-content.service';
 import Swal from 'sweetalert2';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 
 @Component({
   selector: 'app-create-text-email',
@@ -29,14 +29,14 @@ export class CreateTextEmailComponent implements OnInit {
     private createOrEditItem: CreateOrEditItemService,
     private httpClient: HttpClient,
     private createEmailService: CreateEmailContentService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
   ) {
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario') {
+    if (userStorage['profile'] === 'Super Usuario') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { StoreMeetingService } from '../../service/store-meeting.service';
 import swal from 'sweetalert2';
@@ -48,26 +48,26 @@ export class UpdateDataBaseComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    private storeMeeting: StoreMeetingService, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+    private storeMeeting: StoreMeetingService,  
+     
     private sendmailService: SendmailService,
     private addUnitservice: AddunitserviceService) {
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id'];
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador') {
-      this.profile = userStorage['content']['profile'];
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id'];
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador') {
+      this.profile = userStorage['profile'];
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
       return;
     }
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.token = userStorage['content']['token'];
+    this.token = userStorage['token'];
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
-    this.keysession = userStorage['content']['token'];
+    this.keysession = userStorage['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import swal from 'sweetalert2';
 
 @Component({
@@ -12,12 +12,12 @@ export class SettingVotationMenuComponent implements OnInit {
   userStorage: any;
 
   constructor(private router: Router,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-    this.userStorage = this.storage.get('user');
+     
+     ) {
+    this.userStorage = JSON.parse(sessionStorage.getItem('user')!)!;
 
     // tslint:disable-next-line: max-line-length
-    if (this.userStorage['content']['profile'] === 'Super Usuario' || this.userStorage['content']['profile'] === 'Supervisor' || this.userStorage['content']['profile'] === 'Moderador') {
+    if (this.userStorage['profile'] === 'Super Usuario' || this.userStorage['profile'] === 'Supervisor' || this.userStorage['profile'] === 'Moderador') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -26,7 +26,7 @@ export class SettingVotationMenuComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (this.userStorage === null || this.userStorage === 'null' || this.userStorage === undefined || this.userStorage === 'undefined' || this.userStorage === '' || this.userStorage['content']['status_id'] === 0) {
+    if (this.userStorage === null || this.userStorage === 'null' || this.userStorage === undefined || this.userStorage === 'undefined' || this.userStorage === '' || this.userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }

@@ -5,7 +5,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
 import { Globals } from '../../interface/globals.model';
 import swal from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 
 @Component({
   selector: 'app-votiing-and-preregistration',
@@ -81,11 +81,11 @@ export class VotiingAndPreregistrationComponent implements OnInit {
     private config: ConfigurationRestService,
     private globals: Globals,
     private route: ActivatedRoute,
-    private storeMeeting: StoreMeetingService, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-    const userStorage = this.storage.get('user');
+    private storeMeeting: StoreMeetingService,  
+     ) {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -94,7 +94,7 @@ export class VotiingAndPreregistrationComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['status_id'] === 0 ) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }

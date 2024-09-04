@@ -36,7 +36,7 @@ export class SideWhatsappComponent implements OnInit {
     private socket:SocketService,
     private _WhatsappService : WhatsappService
   ) {
-    this.token = JSON.parse(sessionStorage.getItem('user')!).content.token 
+    this.token = (JSON.parse(sessionStorage.getItem('user')!)! as any).content.token 
     this.conversations = []
     this.mensajes = []
     this.CargaDeMensajesInicial()

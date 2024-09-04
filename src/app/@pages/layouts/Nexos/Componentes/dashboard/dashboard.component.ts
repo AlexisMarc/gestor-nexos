@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import swal from 'sweetalert2';
 
 @Component({
@@ -13,12 +12,12 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-    const userStorage = this.storage.get('user');
+    private route: ActivatedRoute,  
+     ) {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Asesor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Soporte telefonico') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Asesor' || userStorage['profile'] === 'Moderador' || userStorage['profile'] === 'Soporte telefonico') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       sessionStorage.clear();
@@ -28,11 +27,11 @@ export class DashboardComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['status_id'] === 0 ) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.profile = userStorage['content']['profile']
+    this.profile = userStorage['profile']
 
     }
 

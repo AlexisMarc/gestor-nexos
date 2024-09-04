@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import swal, { SweetAlertIcon } from 'sweetalert2';
 @Component({
   selector: 'app-customer-quote-history',
@@ -17,13 +17,13 @@ export class CustomerQuoteHistoryComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
   ) {
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Asesor') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador' || userStorage['profile'] === 'Asesor') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -32,7 +32,7 @@ export class CustomerQuoteHistoryComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['status_id'] === 0 ) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }

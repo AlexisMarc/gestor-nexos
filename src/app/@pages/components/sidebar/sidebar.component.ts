@@ -1,7 +1,6 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation, Inject, forwardRef, Input, ViewChild, TemplateRef, ContentChild, HostListener, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, TemplateRef, ContentChild, HostListener, HostBinding } from '@angular/core';
 import { pagesToggleService } from '../../services/toggler.service';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../layouts/Nexos/service/configuration.rest.service';
 import { Subscription } from 'rxjs';
@@ -24,12 +23,10 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private toggler: pagesToggleService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
     private httpClient: HttpClient,
     private config: ConfigurationRestService,) {
-    this.userStorage = this.storage.get('user');
-    this.token = this.userStorage['content']['token'];
+    this.userStorage = JSON.parse(sessionStorage.getItem('user')!);
+    this.token = this.userStorage['token'];
 
     this.subscriptions.push(this.toggler.sideBarToggle.subscribe(toggle => { this.toggleMobile(toggle); }));
     this.subscriptions.push(this.toggler.pageContainerHover.subscribe(message => { this.closeSideBar(); }));
@@ -177,7 +174,7 @@ export class SidebarComponent implements OnInit {
 
   singOut() {
     this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     })
   }

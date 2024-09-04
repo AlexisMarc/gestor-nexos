@@ -46,6 +46,6 @@
 
     </div>
     <div [@fadeAnimation]="_isLoading" class="card-progress"  [style.backgroundColor] = "_minimalHeader ? 'rgba(0,0,0, 0.6)' : 'rgba(255, 255, 255, 0.8)'" style="display: block;pointer-events: none">
-        <pg-progress *ngIf="_minimalHeader == false" type="{{_progressType}}" color="{{_progressColor}}" indeterminate="true" class=""></pg-progress>
+        <pg-progress *ngIf="_minimalHeader == false" type="{{_progressType}}" color="{{_progressColor}}" [indeterminate]="true" class=""></pg-progress>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import swal from 'sweetalert2';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
   number:any
   constructor(private router: Router,
     private config: ConfigurationRestService,
-    private userService: UserService, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
+    private userService: UserService,  
+     ) {
       this.parametrosLogin = {
         key: this.config.key,
         email: '',
         password: ''
       }
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     if (userStorage != null && userStorage.success) {
       this.router.navigate(['/home']);
     }

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import swal from 'sweetalert2';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { UserProfileService } from '../../service/user-profile.service';
 
 
@@ -24,12 +24,12 @@ export class CreatProfileVotationComponent implements OnInit {
     private router: Router,
     private profileService: UserProfileService,
     private config: ConfigurationRestService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
     ) 
     {
-      const userStorage = this.storage.get('user');
-      this.userId = userStorage['content']['id'];
+      const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+      this.userId = userStorage['id'];
 
     }
 

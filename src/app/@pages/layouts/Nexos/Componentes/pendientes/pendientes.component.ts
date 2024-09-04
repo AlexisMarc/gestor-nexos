@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { DataVoterList } from '../../interface/dataVoterList.model';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 
@@ -37,15 +37,15 @@ export class PendientesComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
   ) {
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.voting_header_id = this.route.snapshot.paramMap.get('idVote')!;
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id'];
-    this.keysession = userStorage['content']['token']
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id'];
+    this.keysession = userStorage['token']
   }
 
   ngOnInit() {

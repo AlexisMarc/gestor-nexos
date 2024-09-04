@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { SweetAlertIcon } from 'sweetalert2';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { SocketService } from '../../service/socket.service';
 import { TwitchCallService } from '../../service/twitch-call.service';
 import { StoreMeetingService } from '../../service/store-meeting.service';
@@ -85,25 +85,25 @@ export class InterventionControlComponent implements OnInit {
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private socketService: SocketService,
     private twitch: TwitchCallService,
     private storeMeeting: StoreMeetingService
   ) {
     
-    const userStorage = this.storage.get('user');
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador') {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home/pointControl']);
       return;
     }
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.keysession = userStorage['content']['token']
+    this.keysession = userStorage['token']
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.meeting_id = response['content']['id'];
@@ -241,7 +241,7 @@ export class InterventionControlComponent implements OnInit {
           allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
         }).then((response:any)=>{
           if(response.value){
-            this.storage.remove('user');
+            sessionStorage.removeItem('user');
             this.router.navigate(['/']);
           }
         })
@@ -281,7 +281,7 @@ export class InterventionControlComponent implements OnInit {
           allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
         }).then((response:any)=>{
           if(response.value){
-            this.storage.remove('user');
+            sessionStorage.removeItem('user');
             this.router.navigate(['/']);
           }
         })
@@ -331,7 +331,7 @@ export class InterventionControlComponent implements OnInit {
           allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
         }).then((response:any)=>{
           if(response.value){
-            this.storage.remove('user');
+            sessionStorage.removeItem('user');
             this.router.navigate(['/']);
           }
         })
@@ -450,7 +450,7 @@ export class InterventionControlComponent implements OnInit {
             allowOutsideClick: false // Aunque se muestre el backdrop, no permitir clics fuera
           }).then((response:any)=>{
             if(response.value){
-              this.storage.remove('user');
+              sessionStorage.removeItem('user');
               this.router.navigate(['/']);
             }
           })

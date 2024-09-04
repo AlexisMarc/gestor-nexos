@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject, ɵConsole } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { Globals } from '../../interface/globals.model';
 import { ItemsQuote } from '../../interface/items.model';
 import { ItemSave } from '../../interface/itemsave.model';
@@ -54,8 +54,8 @@ export class CreatequoteComponent implements OnInit {
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
     private globals: Globals,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private route: ActivatedRoute,
     private createcuoteService: CreatecuoteService) {
 
@@ -65,15 +65,15 @@ export class CreatequoteComponent implements OnInit {
     this.dataResidential['city_id'] = '1'
     this.id_building = this.route.snapshot.paramMap.get("id")!;
     this.id_quote = this.route.snapshot.paramMap.get("id_quote")!;
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     // this.listItems = this.globals.listadoItems;
 
     if (userStorage == null || userStorage == undefined || userStorage == '') {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     }
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Asesor') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador' || userStorage['profile'] === 'Asesor') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -82,12 +82,12 @@ export class CreatequoteComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['status_id'] === 0 ) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
     else {
-      this.id_user = userStorage['content']['id'];
+      this.id_user = userStorage['id'];
     }
     // get all active discounts
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveMonthlyDiscounts?key=' + this.config.key)

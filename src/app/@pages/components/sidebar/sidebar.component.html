@@ -23,7 +23,7 @@
       </a>
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-home"></i></span>
     </li>
-    <li class="m-t-30 " (click)="goMenuSetting()" *ngIf="userStorage['content']['profile']=='Super Usuario'">
+    <li class="m-t-30 " (click)="goMenuSetting()" *ngIf="userStorage['profile']=='Super Usuario'">
       <a class="nav-link" class="detailed">
         <span class="title">Configuracion</span>
         <span class="details">Crear/editar </span>
@@ -31,7 +31,7 @@
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-user"></i></span>
     </li>
     <li class="m-t-30 " (click)="goQuote()"
-      *ngIf="userStorage['content']['profile']=='Super Usuario' || userStorage['content']['profile']=='Supervisor' || userStorage['content']['profile']=='Asesor'">
+      *ngIf="userStorage['profile']=='Super Usuario' || userStorage['profile']=='Supervisor' || userStorage['profile']=='Asesor'">
       <a class="nav-link" class="detailed">
         <span class="title">Cotizacion</span>
         <span class="details">Crear/editar cotizaciones</span>
@@ -39,7 +39,7 @@
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-file"></i></span>
     </li>
     <li class="m-t-30 " (click)="goTracing()"
-      *ngIf="userStorage['content']['profile']=='Super Usuario' || userStorage['content']['profile']=='Supervisor' || userStorage['content']['profile']=='Asesor'">
+      *ngIf="userStorage['profile']=='Super Usuario' || userStorage['profile']=='Supervisor' || userStorage['profile']=='Asesor'">
       <a class="nav-link" class="detailed">
         <span class="title">Seguimiento</span>
         <span class="details">Confirmar contrato</span>
@@ -47,14 +47,14 @@
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-briefcase"></i></span>
     </li>
     <li class="m-t-30" (click)="goSupportTechinical()"
-      *ngIf="userStorage['content']['profile']=='Super Usuario'||userStorage['content']['profile']=='Supervisor'||userStorage['content']['profile']=='Moderador'||userStorage['content']['profile']=='Soporte telefonico'">
+      *ngIf="userStorage['profile']=='Super Usuario'||userStorage['profile']=='Supervisor'||userStorage['profile']=='Moderador'||userStorage['profile']=='Soporte telefonico'">
       <a class="nav-link" class="detailed">
         <span class="title">Soporte Tecnico</span>
       </a>
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-cogs"></i></span>
     </li>
     <li class="m-t-30" (click)="goVotationSetting()"
-      *ngIf="userStorage['content']['profile']=='Super Usuario'||userStorage['content']['profile']=='Supervisor'||userStorage['content']['profile']=='Moderador'">
+      *ngIf="userStorage['profile']=='Super Usuario'||userStorage['profile']=='Supervisor'||userStorage['profile']=='Moderador'">
       <a class="nav-link" class="detailed">
         <span class="title">Asambleas</span>
         <span class="details">Gestor de Asambleas</span>

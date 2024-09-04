@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 
 @Component({
@@ -24,14 +24,14 @@ export class UsersVotedInRoomComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
   ) {
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.voting_header_id = this.route.snapshot.paramMap.get('idVote')!;
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id'];
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id'];
 
     this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getCustomerWithoutVote?key=' + this.config.key + '&user_id=' + this.user_id + '&meeting_id=' + this.meeting_id + '&voting_header_id=' + this.voting_header_id )
       .subscribe((resp:any)=> {

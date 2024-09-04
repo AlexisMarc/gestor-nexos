@@ -4,7 +4,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
 import { UserProfileService } from '../../service/user-profile.service';
 import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 
 @Component({
   selector: 'app-edit-profile-votation',
@@ -24,10 +24,10 @@ export class EditProfileVotationComponent implements OnInit {
     private config: ConfigurationRestService,
     private profileService: UserProfileService,
     private httpClient: HttpClient,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-      const userStorage = this.storage.get('user');
-      this.user_id = userStorage['content']['id'];
+     
+     ) {
+      const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+      this.user_id = userStorage['id'];
 
     this.idProfileVotation = this.route.snapshot.paramMap.get('idProfileVotes');
   // get Profile votation for id

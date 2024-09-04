@@ -31,9 +31,9 @@ import {
 
     _additionalClasses = "";
     
-    @ViewChild('hostContent', { read: true, static: false }) _hostContent: ElementRef;
-    @ContentChild('CustomBody', { read: true, static: false }) CustomBody: TemplateRef<void>;
-    @ContentChild('AuthorAvatar', { read: true, static: false }) AuthorAvatar: TemplateRef<void>;
+    @ViewChild('hostContent', { read: true, static: false }) _hostContent!: ElementRef;
+    @ContentChild('CustomBody', { read: true, static: false }) CustomBody!: TemplateRef<void>;
+    @ContentChild('AuthorAvatar', { read: true, static: false }) AuthorAvatar!: TemplateRef<void>;
 
     @Input()
     set Title(value:string){

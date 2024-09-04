@@ -2,8 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
-import { ItemsQuote } from '../../interface/items.model';
 import { Globals } from '../../interface/globals.model';
 import { ItemsCant } from '../../interface/itemscant.model';
 import { ItemSave } from '../../interface/itemsave.model';
@@ -12,11 +10,11 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-additems',
   templateUrl: './additems.component.html',
-  styleUrls: ['./additems.component.scss']
+  styleUrls: ['./additems.component.scss'],
 })
 export class AdditemsComponent implements OnInit {
   quote_type_id = '1';
-  listItems: {[key:string]:any}[] = [];
+  listItems: { [key: string]: any }[] = [];
   listadoItems: [] = [];
   listadoItemsCant: ItemsCant[] = [];
   listadoItemsSave: ItemSave[] = [];
@@ -28,10 +26,9 @@ export class AdditemsComponent implements OnInit {
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
     private globals: Globals,
-    private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-      const userStorage = this.storage.get('user');
+    private route: ActivatedRoute
+  ) {
+    const userStorage: any = JSON.parse(sessionStorage.getItem('user')!)!;
     if (globals.quote_type_id > 0) {
       if (globals.quote_type_id === '5') {
         this.quote_type_id = '1';
@@ -42,16 +39,31 @@ export class AdditemsComponent implements OnInit {
       this.quote_type_id = '1';
     }
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Asesor') {
+    if (
+      userStorage['profile'] === 'Super Usuario' ||
+      userStorage['profile'] === 'Supervisor' ||
+      userStorage['profile'] === 'Moderador' ||
+      userStorage['profile'] === 'Asesor'
+    ) {
     } else {
-      Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
+      Swal.fire(
+        'Atención',
+        'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia',
+        'error'
+      );
       this.router.navigate(['/home/pointControl']);
       return;
-
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+    if (
+      userStorage === null ||
+      userStorage === 'null' ||
+      userStorage === undefined ||
+      userStorage === 'undefined' ||
+      userStorage === '' ||
+      userStorage['status_id'] === 0
+    ) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
@@ -61,21 +73,31 @@ export class AdditemsComponent implements OnInit {
 
     // Obtener todos los items a cotizar
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllItemsToSellByTypeQuote?key=' + this.config.key + '&quote_type_id=' + this.quote_type_id)
-      .subscribe((resp2 :any)=> {
+    this.httpClient
+      .get(
+        this.config.endpoint +
+          'QuoteServices/getAllItemsToSellByTypeQuote?key=' +
+          this.config.key +
+          '&quote_type_id=' +
+          this.quote_type_id
+      )
+      .subscribe((resp2: any) => {
         this.listItems = resp2['content'];
         for (let index3 = 0; index3 < this.listItems.length; index3++) {
           for (let index4 = 0; index4 < globals.listadoItems.length; index4++) {
-            if (globals.listadoItems[index4]['item_price_id'] === this.listItems[index3]['item_price_id']) {
-              this.listadoItemsCant[index3] = globals.listadoItems[index4]['quantity'];
+            if (
+              globals.listadoItems[index4]['item_price_id'] ===
+              this.listItems[index3]['item_price_id']
+            ) {
+              this.listadoItemsCant[index3] =
+                globals.listadoItems[index4]['quantity'];
             }
           }
         }
       });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   goHome() {
     this.router.navigate(['/home']);
@@ -86,7 +108,9 @@ export class AdditemsComponent implements OnInit {
   }
 
   goCreateQuote() {
-    this.router.navigate(['/home/createquote/' + this.id_building + '/' + this.id_quote]);
+    this.router.navigate([
+      '/home/createquote/' + this.id_building + '/' + this.id_quote,
+    ]);
   }
   goQuote() {
     this.router.navigate(['/home/quote']);
@@ -103,7 +127,6 @@ export class AdditemsComponent implements OnInit {
         }
       }
       if (this.cantidad > 0) {
-
         const item = new ItemSave(
           this.listItems[index]['item_price_id'],
           '',
@@ -118,7 +141,9 @@ export class AdditemsComponent implements OnInit {
     }
     if (this.listadoItemsSave.length === 0) {
       Swal.fire('Atencion', 'No agrego items', 'warning');
-      this.router.navigate(['/home/createquote/' + this.id_building + '/' + this.id_quote]);
+      this.router.navigate([
+        '/home/createquote/' + this.id_building + '/' + this.id_quote,
+      ]);
       return;
     }
     this.globals.listadoItems = [];
@@ -133,6 +158,8 @@ export class AdditemsComponent implements OnInit {
       );
       this.globals.listadoItems.push(item);
     }
-    this.router.navigate(['/home/createquote/' + this.id_building + '/' + this.id_quote]);
+    this.router.navigate([
+      '/home/createquote/' + this.id_building + '/' + this.id_quote,
+    ]);
   }
 }

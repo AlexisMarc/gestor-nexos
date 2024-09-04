@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import swal from 'sweetalert2';
 @Component({
   selector: 'app-visado',
@@ -20,11 +20,11 @@ export class VisadoComponent implements OnInit {
     private router: Router,
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
-    private route: ActivatedRoute, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+    private route: ActivatedRoute,  
+     
   ) {
-    const userStorage = this.storage.get('user');
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor') {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor') {
     } else {
       swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -32,10 +32,10 @@ export class VisadoComponent implements OnInit {
 
     }
     if (userStorage == null || userStorage === undefined || userStorage === '') {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     } else {
-      this.user_id = userStorage['content']['id'];
+      this.user_id = userStorage['id'];
     }
     this.residential_id = this.route.snapshot.paramMap.get('id')!;
     // this.residential_id = this.route.snapshot.paramMap.get('idResidential');

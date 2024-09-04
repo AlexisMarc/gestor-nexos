@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import swal from 'sweetalert2';
 import { CreateAnswerService } from '../../service/create-answer.service';
 import { SocketService } from '../../service/socket.service';
 import { WhatsappService } from '../../service/whatsaap_services';
-
+import { DomToImage } from 'dom-to-image';
 
 declare var require: any
-var domtoimage = require('dom-to-image');
 
 @Component({
   selector: 'app-vote-result',
@@ -60,8 +59,8 @@ export class VoteResultComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private router: Router,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private route: ActivatedRoute,
     private createAnswerService: CreateAnswerService,
     private socketService: SocketService,
@@ -69,9 +68,9 @@ export class VoteResultComponent implements OnInit {
     private _whatsappService : WhatsappService
   ) {
     
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     //Verifica si quien hace la petición es un Superusuario, Supervisor o Moderador.
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Soporte telefonico') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador' || userStorage['profile'] === 'Soporte telefonico') {
     } 
     else {
       
@@ -79,15 +78,15 @@ export class VoteResultComponent implements OnInit {
       this.router.navigate(['/home/pointControl']);
       return;
     }
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
 
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.user_id = userStorage['content']['id'];
+    this.user_id = userStorage['id'];
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
-    this.keysession = userStorage['content']['token'];
+    this.keysession = userStorage['token'];
 
     this.createQuestion.activeVote.subscribe((data:any) => {
       if (data == 1) {
@@ -337,7 +336,7 @@ export class VoteResultComponent implements OnInit {
   }
 
   screenShotVote(nameVote:any) {
-    domtoimage.toJpeg(document.getElementById('content-vote'), { quality: 0.95 })
+    DomToImage.toJpeg(document.getElementById('content-vote')!, { quality: 0.95 })
       .then(function (dataUrl:any) {
         var link = document.createElement('a');
         link.download = nameVote + '.jpeg';

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { DataProfile } from '../../interface/dataProfile.model';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 
@@ -30,11 +30,11 @@ export class UnitsNotVotedComponent implements OnInit {
   constructor(
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
   ) {
-    const userStorage = this.storage.get('user');
-    this.keysession = userStorage['content']['token'];
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.keysession = userStorage['token'];
     this.totalnovotedunits = 0;
     this.totalvotedunits = 0;
   }

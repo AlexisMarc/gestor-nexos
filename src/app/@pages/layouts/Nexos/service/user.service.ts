@@ -3,40 +3,51 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  arrayToSend:any
+  arrayToSend: any;
 
   user: any;
   constructor(
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
-    private router: Router,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
-  ) { }
+    private router: Router
+  ) {}
 
-  authentication(userAthentication:any) {
-    var email = userAthentication.get("email");
-    var password = userAthentication.get("password");
+  authentication(userAthentication: any) {
+    var email = userAthentication.get('email');
+    var password = userAthentication.get('password');
     // var ip = userAthentication.get("ip");
-    var source = "gestor";
+    var source = 'gestor';
 
-    this.arrayToSend = {"email": email,"password":password,"source":source}
-    this.arrayToSend = JSON.stringify(this.arrayToSend)
+    this.arrayToSend = { email: email, password: password, source: source };
+    this.arrayToSend = JSON.stringify(this.arrayToSend);
 
-    this.httpClient.post(this.config.endpoint6 + 'api/users/login',this.arrayToSend).subscribe((response:any) => {
-      if (response['success'] == true) {
-        this.storage.set('user', response);
-        this.router.navigate(['/home']);
-      } else {
-        swal.fire('Error', response['message'], 'error');
-      }
-    });
+    this.httpClient
+      .post(this.config.endpoint6 + 'api/user/login', this.arrayToSend)
+      .subscribe((response: any) => {
+        if (response['success'] == true) {
+          const user = {
+            ...JSON.parse(response.user),
+            _state: { adding: false, db: 'default' },
+            id: 328,
+            name: 'postman',
+            email: 'postman@postmaan.com',
+            status_id: 1,
+            phone: '12345678',
+            photo: '',
+            signature: null,
+              profile: 'Super Usuario'
+          };
+          console.log(user);
+          sessionStorage.setItem('user', JSON.stringify(user));
+          this.router.navigate(['/home']);
+        } else {
+          swal.fire('Error', response['message'], 'error');
+        }
+      });
   }
 }

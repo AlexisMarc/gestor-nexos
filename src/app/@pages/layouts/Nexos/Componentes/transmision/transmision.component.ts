@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 
 @Component({
@@ -18,8 +18,8 @@ export class TransmisionComponent implements OnInit {
   constructor(
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private route: ActivatedRoute,
     private router: Router
   ) {

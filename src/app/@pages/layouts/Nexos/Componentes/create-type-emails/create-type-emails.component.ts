@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create-type-emails',
@@ -10,14 +10,14 @@ import Swal from 'sweetalert2';
 export class CreateTypeEmailsComponent implements OnInit {
 
   constructor(private router: Router,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
   ) {
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario') {
+    if (userStorage['profile'] === 'Super Usuario') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);

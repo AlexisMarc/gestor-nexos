@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateAnswerService } from '../../service/create-answer.service';
 import * as jsPDF from 'jspdf';
@@ -38,15 +38,15 @@ export class ListVoteByResidentialComponent implements OnInit {
     private router: Router,
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private route: ActivatedRoute,
     private createAnswerService: CreateAnswerService) {
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id'];
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id'];
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting');
-    this.keysession = userStorage['content']['token'];
+    this.keysession = userStorage['token'];
   }
 
   ngOnInit() {

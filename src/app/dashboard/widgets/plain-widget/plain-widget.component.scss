@@ -1,5 +1,3 @@
-$assets-url :"/assets";
-@import 'core.scss';
 
 .widget-6 {
     height: 100%;
@@ -11,7 +9,7 @@ $assets-url :"/assets";
     .card-body{
         height: auto !important;
     }
-    background: mix($color-master, #fff, 69%);
+    background: mix(#000, #fff, 69%);
     .label {
       background: rgba(0, 0, 0, .3);
       color: rgba(255, 255, 255, .67);

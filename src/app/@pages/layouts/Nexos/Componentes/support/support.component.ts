@@ -7,7 +7,7 @@ import { AddunitserviceService } from '../../service/addunitservice.service';
 import { listadoUnidad } from '../../interface/listadounidad';
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { FormControl, FormGroup } from '@angular/forms';
 import { SendMessageService } from '../../service/send-message.service';
 import { EditEmailUserService } from '../../service/editEmailUser.service';
@@ -88,17 +88,17 @@ export class SupportComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private route: ActivatedRoute,
-    private editEmailService: EditEmailUserService, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+    private editEmailService: EditEmailUserService,  
+     
     private sendMessage: SendMessageService,
     private addSupportCalledService: AddSupportCalledService,
     private sendmailService: SendmailService,
     private socketService: SocketService,
     private twitch: TwitchCallService) {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.userStorage = this.storage.get('user');
-    this.user_id = this.userStorage['content']['id'];
-    this.keysession = this.userStorage['content']['token'];
+    this.userStorage = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = this.userStorage['id'];
+    this.keysession = this.userStorage['token'];
     this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.residential_name = resp['content']['residential'];

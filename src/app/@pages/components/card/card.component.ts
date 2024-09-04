@@ -78,11 +78,11 @@ import {
 
     _additionalClasses = "";
     
-    @ViewChild('hostContent', { read: true, static: false }) _hostContent: ElementRef;
-    @ViewChild('minimalCircleLoading', { read: true, static: false }) minimalCircleLoading: ElementRef;
-    @ViewChild('minimalCircleLoadingTrigger', { read: true, static: false }) minimalCircleLoadingTrigger: ElementRef;
-    @ContentChild('CardTitle', { read: true, static: false }) CardTitle: TemplateRef<void>;
-    @ContentChild('CardExtraControls', { read: true, static: false }) CardExtraControls: TemplateRef<void>;
+    @ViewChild('hostContent', { read: true, static: false }) _hostContent!: ElementRef;
+    @ViewChild('minimalCircleLoading', { read: true, static: false }) minimalCircleLoading!: ElementRef;
+    @ViewChild('minimalCircleLoadingTrigger', { read: true, static: false }) minimalCircleLoadingTrigger!: ElementRef;
+    @ContentChild('CardTitle', { read: true, static: false }) CardTitle!: TemplateRef<void>;
+    @ContentChild('CardExtraControls', { read: true, static: false }) CardExtraControls!: TemplateRef<void>;
     @Input()
     set Title(value:string){
       this._titleText = value
@@ -199,7 +199,7 @@ import {
         let style = window.getComputedStyle(pagecontainer);
 
         nativeElement.style.left = ((parseFloat(style["marginLeft"])+parseFloat(style["paddingLeft"])) + rect.left)+"px" ;
-        nativeElement.style.top = (parseFloat(style["padding-top"])+ rect.top)+"px";			
+        nativeElement.style.top = (parseFloat(style["paddingTop"])+ rect.top)+"px";			
       }
     }
     alertDismiss():void{

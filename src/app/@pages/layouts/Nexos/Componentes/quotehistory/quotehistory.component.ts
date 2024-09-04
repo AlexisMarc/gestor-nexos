@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { SaveQuotationHistoryService } from '../../service/save-quotation-history.service';
 
 @Component({
@@ -37,14 +37,14 @@ export class QuotehistoryComponent implements OnInit {
     private router: Router,
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private route: ActivatedRoute,
     private saveQuotationHistoryService: SaveQuotationHistoryService) {
 
     this.idQuote = this.route.snapshot.paramMap.get("id");
-    const userStorage = this.storage.get('user');
-    this.id = userStorage['content']['id'];
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.id = userStorage['id'];
 
     this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteConfirmationHistoryByQuote?key=' + this.config.key + '&user_id=' + this.id + '&quote_id=' + this.idQuote)
       .subscribe((resp:any)=> {

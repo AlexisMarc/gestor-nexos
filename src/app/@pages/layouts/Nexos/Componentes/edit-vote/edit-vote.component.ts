@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { DataOptionsvote } from '../../interface/dataOptionsVote.model';
 import { DataOptionVote } from '../../interface/dataOptionVote.model';
 import { DataProfileVoter } from '../../interface/dataProfileVoter.model';
@@ -44,16 +44,16 @@ export class EditVoteComponent implements OnInit {
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private createAnswerService: CreateAnswerService) {
 
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.meeting_id_edit = this.route.snapshot.paramMap.get('idMeeting')!;
     this.vote_id_edit = this.route.snapshot.paramMap.get('idVote')!;
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id'];
-    this.keysession_edit = userStorage['content']['token']
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id'];
+    this.keysession_edit = userStorage['token']
     var profileVoterForAddList_edit: DataProfileVoter;
 
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)

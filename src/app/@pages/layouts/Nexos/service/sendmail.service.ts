@@ -17,7 +17,7 @@ export class SendmailService {
     private config: ConfigurationRestService,
     private router: Router
   ) {
-    this.token = JSON.parse((sessionStorage.getItem('user')!)).content.token
+    this.token = JSON.parse((JSON.parse(sessionStorage.getItem('user')!)!)).content.token
     this.header  = new HttpHeaders().set('authorization', `${this.token}`);
    }
 

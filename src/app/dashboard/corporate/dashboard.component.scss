@@ -1,4 +1,4 @@
-@import 'core.scss';
+ 
 
 .social-card-img{
     background-image: url(/assets/img/dashboard/social_new.jpg);
@@ -11,7 +11,7 @@
     [echarts] > div {
         & > svg > path {
             &[d='M 1 0 A 1 1 0 1 0 1 0.0001'] {
-                fill: $color-warning !important;
+                fill: '#ffffff' !important;
             }
         }
     }

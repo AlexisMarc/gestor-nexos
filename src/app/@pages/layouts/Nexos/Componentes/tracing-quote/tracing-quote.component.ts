@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import { ConfirmationByQuoteService } from '../../service/confirmation-by-quote.service';
 import Swal from 'sweetalert2';
 
@@ -46,15 +45,15 @@ export class TracingQuoteComponent implements OnInit {
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
     private route: ActivatedRoute,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private confirmationByQuoteService: ConfirmationByQuoteService,
   ) {
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     // this.listItems = this.globals.listadoItems;
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario' || userStorage['content']['profile'] === 'Supervisor' || userStorage['content']['profile'] === 'Moderador' || userStorage['content']['profile'] === 'Asesor') {
+    if (userStorage['profile'] === 'Super Usuario' || userStorage['profile'] === 'Supervisor' || userStorage['profile'] === 'Moderador' || userStorage['profile'] === 'Asesor') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -63,11 +62,11 @@ export class TracingQuoteComponent implements OnInit {
     }
 
     if (userStorage == null || userStorage == undefined || userStorage == '') {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     }
     else {
-      this.id_user = userStorage['content']['id'];
+      this.id_user = userStorage['id'];
     }
     //get idQuote
     this.idQuote = this.route.snapshot.paramMap.get('id_quote');

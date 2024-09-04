@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { CreateUserServicesService } from '../../service/create-user-services.service';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import Swal from 'sweetalert2';
 declare var bootstrap: any
 
@@ -35,19 +34,19 @@ export class CreateUsersComponent implements OnInit {
     private createUserServices: CreateUserServicesService,
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService
+     
+     
   ) {
-    const userStorage = this.storage.get('user');
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     // tslint:disable-next-line: max-line-length
-    if (userStorage['content']['profile'] === 'Super Usuario') {
+    if (userStorage['profile'] === 'Super Usuario') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
       return;
     }
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['content']['status_id'] === 0) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' || userStorage === '' || userStorage['status_id'] === 0) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
@@ -56,7 +55,7 @@ export class CreateUsersComponent implements OnInit {
       .subscribe((resp:any)=> {
         this.allProfile = resp['content'];
       });
-    this.keysession = userStorage['content']['token'];
+    this.keysession = userStorage['token'];
   }
 
   ngOnInit() {

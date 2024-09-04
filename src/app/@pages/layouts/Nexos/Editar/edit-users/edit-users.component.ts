@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateUserServicesService } from '../../service/create-user-services.service';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 import Swal from 'sweetalert2';
 declare var bootstrap: any
 
@@ -38,11 +37,11 @@ export class EditUsersComponent implements OnInit {
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private createUserServices: CreateUserServicesService,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
+     
+     ) {
 
-    const userStorage = this.storage.get('user');
-    if (userStorage['content']['profile'] === 'Super Usuario') {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (userStorage['profile'] === 'Super Usuario') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -50,16 +49,16 @@ export class EditUsersComponent implements OnInit {
   
     }
     if (userStorage == null || userStorage == undefined || userStorage == '') {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     }
     else {
-      this.id = userStorage['content']['id'];
-      this.profile = userStorage['content']['profile'];
+      this.id = userStorage['id'];
+      this.profile = userStorage['profile'];
     }
 
     this.idUser = this.route.snapshot.paramMap.get('idUser')!
-    this.keysession = userStorage['content']['token'];
+    this.keysession = userStorage['token'];
     //obtener user for id UserServices/getUserProfileById
     this.httpClient.get(this.config.endpoint6 + 'api/users/details/' + this.keysession + '/' + this.idUser)
       .subscribe((resp:any)=> {

@@ -4,7 +4,6 @@ import { CreateEmailContentService } from '../../service/create-email-content.se
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import Swal from 'sweetalert2';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import { WebStorageService, SESSION_STORAGE } from 'angular-webstorage-service';
 
 @Component({
   selector: 'app-create-email-icloud',
@@ -25,12 +24,12 @@ export class CreateEmailIcloudComponent implements OnInit {
               private createEmailService: CreateEmailContentService,
               private config: ConfigurationRestService,
               private getAllActiveAppServices: GetAllActiveAppServicesTypeService,
-              @Inject(SESSION_STORAGE)
-              private storage: WebStorageService) {
+               
+               ) {
 
 
-                const userStorage = this.storage.get('user');
-                 this.user_id = userStorage['content']['id'];
+                const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+                 this.user_id = userStorage['id'];
                }
 
   ngOnInit() {

@@ -3,7 +3,7 @@ import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 
 
 @Injectable({
@@ -18,16 +18,16 @@ export class CreateUserServicesService {
   constructor(private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private router: Router,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
-    this.userStorage = storage.get('user');
+     
+     ) {
+    this.userStorage = JSON.parse(sessionStorage.getItem('user')!);
     if (this.userStorage == null || this.userStorage == undefined || this.userStorage == '') {
-      this.storage.remove('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     }
     else {
-      this.id = this.userStorage['content']['id'];
-      this.profile = this.userStorage['content']['profile'];
+      this.id = this.userStorage['id'];
+      this.profile = this.userStorage['profile'];
     }
   }
 
@@ -56,7 +56,7 @@ export class CreateUserServicesService {
   }
 
   editUser(updateUser:any, profile:any) {
-    this.profile = this.userStorage['content']['profile'];
+    this.profile = this.userStorage['profile'];
     this.httpClient.post(this.config.endpoint + 'UserServices/addEditUser', updateUser)
       .subscribe((data:any) => {
         this.data = data;

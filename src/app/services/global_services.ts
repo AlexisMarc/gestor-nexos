@@ -22,7 +22,7 @@ import { Observable } from 'rxjs';
 
     getMeetingDetails():Observable<any>{
     let residential ='1470'
-    return this.httpClient.get('https://apiasambleas.grupogift.com/app-preregistro/PreRegisterMeetingServices/getMeetingDetails?key=GiUBniR9UtmfKDaeOc9tXKt16lk=&residential_id='+residential)
+    return this.httpClient.get('https://apiservices.grupogift.com/app-preregistro/PreRegisterMeetingServices/getMeetingDetails?key=GiUBniR9UtmfKDaeOc9tXKt16lk=&residential_id='+residential)
    }
 
    initialDataLoad(){

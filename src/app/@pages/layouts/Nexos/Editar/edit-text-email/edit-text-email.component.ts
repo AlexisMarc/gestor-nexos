@@ -5,7 +5,7 @@ import { CreateOrEditItemService } from '../../service/create-or-edit-item.servi
 import { HttpClient } from '@angular/common/http';
 import { CreateEmailContentService } from '../../service/create-email-content.service';
 import Swal from 'sweetalert2';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 
 @Component({
   selector: 'app-edit-text-email',
@@ -28,11 +28,11 @@ export class EditTextEmailComponent implements OnInit {
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
     private createEmailService: CreateEmailContentService,
-    private route: ActivatedRoute, @Inject(SESSION_STORAGE)
-    private storage: WebStorageService) {
+    private route: ActivatedRoute,  
+     ) {
 
-    const userStorage = this.storage.get('user');
-    if (userStorage['content']['profile'] === 'Super Usuario') {
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    if (userStorage['profile'] === 'Super Usuario') {
     } else {
       Swal.fire('Atención', 'Usted no esta autorizado para ingresar <br> pongase en contacto con la Gerencia', 'error');
       this.router.navigate(['/home']);
@@ -41,7 +41,7 @@ export class EditTextEmailComponent implements OnInit {
     }
 
     // tslint:disable-next-line: max-line-length
-    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['content']['status_id'] === 0 ) {
+    if (userStorage === null || userStorage === 'null' || userStorage === undefined || userStorage === 'undefined' ||  userStorage === '' || userStorage['status_id'] === 0 ) {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service';
+ 
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import swal from 'sweetalert2';
 import { DataProfileVoter } from '../../interface/dataProfileVoter.model';
@@ -43,8 +43,8 @@ export class CreatequestioncontrolComponent implements OnInit {
   constructor(private router: Router,
     private config: ConfigurationRestService,
     private httpClient: HttpClient,
-    @Inject(SESSION_STORAGE)
-    private storage: WebStorageService,
+     
+     
     private createAnswerService: CreateAnswerService) {
 
     this.defaultOptions = [
@@ -57,8 +57,8 @@ export class CreatequestioncontrolComponent implements OnInit {
       'APROBACIÓN DEL COMITÉ DE CONVIVENCIA'
     ];
 
-    const userStorage = this.storage.get('user');
-    this.user_id = userStorage['content']['id'];
+    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
+    this.user_id = userStorage['id'];
     var profileVoterForAddList;
     this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
@@ -74,7 +74,7 @@ export class CreatequestioncontrolComponent implements OnInit {
         var profileDefault = new DataProfileVoterSend('1')
         this.ProfilesToSend.push(profileDefault);
       });
-    this.keysession = userStorage['content']['token']
+    this.keysession = userStorage['token']
   }
 
   ngOnInit() {
