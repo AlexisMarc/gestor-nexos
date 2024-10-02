@@ -1,0 +1,58 @@
+<div class="w-full h-fit p-4 flex gap-4">
+    <div class="flex-1 max-w-64 flex flex-col gap-4">
+        <div class="w-full h-fit flex items-center gap-2 rounded-2xl p-4 border-2 border-neutral-100 bg-white">
+            <button class="b-primary p-1 b-fit">
+                <svg class="w-6 h-6 fill-neutral-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                    <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+                </svg>
+            </button>
+            <div class="flex flex-col">
+                <span class="font-bold text-xs text-neutral-500">Reuniones</span>
+                <span class="font-bold text-lg text-neutral-900">{{resident?.name ?? 'Cliente'}} </span>
+            </div>
+        </div>
+        <nx-progress-bar [items]="items" (emitSelect)="selectSection($event)"></nx-progress-bar>
+    </div>
+    <div class="flex-1 flex flex-col bg-white rounded-2xl border-2 border-neutral-100 p-8 gap-8">
+        @if (!selectedSection) {
+        <div class="w-full flex gap-2 items-center">
+            <nx-search-resident class="flex-1" [selectedResident]="resident"
+                (emitResident)="setResident($event)"></nx-search-resident>
+            @if(resident && viewButtons){
+            <button type="button" (click)="settingsRegister('create')" class="b-tertiary p-2 b-fit">
+                <svg class="fill-brand-orange-500 w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                </svg>
+            </button>
+            <button type="button" (click)="settingsRegister('clone')" class="b-secondary px-4 py-2 b-fit">Clonar</button>
+            <button type="button" (click)="settingsRegister('edit')" class="b-primary px-4 py-2 b-fit">Editar</button>
+            }
+        </div>
+        }
+        @switch (selectedSection) {
+        @case (0) {<register-form-config (onNext)="NextOrAfter(true, 0)" (onCustomize)="setCustomize($event)" [statusCustomize]="statusCustomize"
+            [disabled]="disabled"></register-form-config>}
+        @case (1) {<register-form-customize (onNext)="NextOrAfter(true, 1)"
+            (onAfter)="NextOrAfter(false, 1)"></register-form-customize>}
+        @case (2) {<register-form-design [statusProcess]="statusProcess" (onNext)="NextOrAfter(true, 2)"
+            (onAfter)="NextOrAfter(false, 2)"></register-form-design>}
+        }
+    </div>
+    <!--  -->
+    <!-- <nx-toggle-switch [values]="values"></nx-toggle-switch> -->
+    <!-- <nx-color-field></nx-color-field> -->
+    <!-- <nx-dropdown-field [items]="options"></nx-dropdown-field> -->
+    <!-- <nx-search-resident [selectedResident]="resident" (emitResident)="resident=$event"></nx-search-resident> -->
+    <!-- <label for="textarea" class="container-field">
+        <span>Label</span>
+        <textarea id="textarea" class="peer" cols="30"></textarea>
+        <div class="focus-field peer-focus-visible:border-brand-orange-500 peer-focus-visible:border-2">
+        </div>
+    </label>
+    <label for="field" class="container-field">
+        <span>Label</span>
+        <input id="field" type="text" class="peer">
+        <div class="focus-field peer-focus-visible:border-brand-orange-500 peer-focus-visible:border-2">
+        </div>
+    </label> -->
+</div>

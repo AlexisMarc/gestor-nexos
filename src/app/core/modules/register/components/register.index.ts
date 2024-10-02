@@ -1,0 +1,6 @@
+export * from './register/register.component'
+export * from './register-form-config/register-form-config.component'
+export * from './register-form-customize/register-form-customize.component'
+export * from './register-form-design/register-form-design.component'
+export * from './register-modeler-form/register-modeler-form.component'
+export * from './register-unit/register-unit.component'

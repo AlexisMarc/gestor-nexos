@@ -1,1 +1,21 @@
-<p>form-login works!</p>,
+<form [formGroup]="form" class="w-full flex flex-col gap-2 items-end" (ngSubmit)="saveForm()" >
+    <div class="w-full">
+        <h3 class="text-4xl font-bold text-neutral-900">Inicio de sesión</h3>
+        <p class="font-medium text-neutral-600">Bienvenido al gestor de Nexos</p>
+    </div>
+    <label for="login-email" class="container-field">
+        <span>Correo electrónico</span>
+        <input id="login-email" formControlName="email" type="text" class="peer">
+        <div class="focus-field peer-focus-visible:border-brand-orange-500 peer-focus-visible:border-2">
+        </div>
+    </label>
+    <label for="login-password" class="container-field">
+        <span>Contraseña</span>
+        <input id="login-password" formControlName="password" type="text" class="peer">
+        <div class="focus-field peer-focus-visible:border-brand-orange-500 peer-focus-visible:border-2">
+        </div>
+    </label>
+    <a class="text-brand-orange-500 w-fit text-right font-bold text-xs" href="http://"><span>¿Olvidaste la
+            contraseña?</span></a>
+    <button type="submit" class="w-full h-fit py-2 px-4 b-primary">Iniciar sesión</button>
+</form>

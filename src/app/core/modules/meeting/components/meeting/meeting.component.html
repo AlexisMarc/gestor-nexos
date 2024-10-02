@@ -1,0 +1,76 @@
+<!-- <app-layout> -->
+    <ng-scrollbar [orientation]="'vertical'">
+        <div class="w-full h-fit flex justify-center">
+            <div class="flex-1 max-w-sm flex flex-col items-end justify-start py-8 px-4 gap-4">
+                <div class="w-full flex items-center gap-4 p-2 border-2 border-neutral-100 rounded shadow">
+                    <button class="b-tertiary b-fit fill-brand-orange-500">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z" />
+                        </svg>
+                    </button>
+                    <div>
+                        <span class="text-xs font-medium text-neutral-400">Reuniones</span>
+                        <h2 class="font-bold text-neutral-800 text-lg">Seleccione cliente</h2>
+                    </div>
+                </div>
+                <div class="flex w-full pl-8 items-center justify-start gap-4">
+                    <div class="rounded-full border-2 border-neutral-600 h-8 w-8 ring-2 ring-brand-orange-500/10"></div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-medium text-neutral-400">Paso 1</span>
+                        <h4 class="font-semibold text-neutral-600 text-nowrap">Datos básicos</h4>
+                    </div>
+                </div>
+                <div class="flex w-full pl-8 items-center justify-start gap-4">
+                    <div
+                        class="rounded-full border-2 border-neutral-600 h-8 w-8 relative ring-2 ring-brand-orange-500/10">
+                        <div class="h-5 w-1 bg-brand-red-200 absolute bottom-8 left-3"></div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-medium text-neutral-400">Paso 2</span>
+                        <h4 class="font-semibold text-neutral-600 text-nowrap">Configuración</h4>
+                    </div>
+                </div>
+                <div class="flex w-full pl-8 items-center justify-start gap-4">
+                    <div
+                        class="rounded-full border-2 border-neutral-600 h-8 w-8 relative ring-2 ring-brand-orange-500/10">
+                        <div class="h-5 w-1 bg-brand-red-200 absolute bottom-8 left-3"></div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-medium text-neutral-400">Paso 3</span>
+                        <h4 class="font-semibold text-neutral-600 text-nowrap">Estilos</h4>
+                    </div>
+                </div>
+                <div class="flex w-full pl-8 items-center justify-start gap-4">
+                    <div
+                        class="rounded-full border-2 border-neutral-600 h-8 w-8 relative ring-2 ring-brand-orange-500/10">
+                        <div class="h-5 w-1 bg-brand-red-200 absolute bottom-8 left-3"></div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-medium text-neutral-400">Paso 4</span>
+                        <h4 class="font-semibold text-neutral-600 text-nowrap">Personalización</h4>
+                    </div>
+                </div>
+                <div class="flex w-full pl-8 items-center justify-start gap-4">
+                    <div
+                        class="rounded-full border-2 border-neutral-600 h-8 w-8 relative ring-2 ring-brand-orange-500/10">
+                        <div class="h-5 w-1 bg-brand-red-200 absolute bottom-8 left-3"></div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-medium text-neutral-400">Paso 5</span>
+                        <h4 class="font-semibold text-neutral-600 text-nowrap">Unidades</h4>
+                    </div>
+                </div>
+            </div>
+
+            @switch (sectionSelect) {
+                @case ('basic') {
+                    <app-basic-form-meeting (next)="nextSection()"></app-basic-form-meeting>
+                }
+                @case ('config') {
+                    <app-config-form-meeting (next)="nextSection()" (after)="afterSection()"></app-config-form-meeting>
+                }
+            }
+        </div>
+    </ng-scrollbar>
+<!-- </app-layout> -->

@@ -1,15 +1,17 @@
 import { Component} from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
-import { SocketService } from './@pages/layouts/Nexos/service/socket.service';
+import { RouterOutlet } from '@angular/router';
+import { NxToastComponent, NxConfirmDialogComponent, NxLoadingComponent } from '@shared';
 
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
-  styleUrls: ['./app.component.scss']
+  standalone: true,
+  imports: [RouterOutlet, NxToastComponent, NxConfirmDialogComponent, NxLoadingComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent  {
-  constructor(private httpClient:HttpClient, private socketService: SocketService){
+  constructor(){
     
   }
 
