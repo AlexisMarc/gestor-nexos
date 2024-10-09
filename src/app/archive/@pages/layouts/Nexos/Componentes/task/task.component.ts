@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import moment from 'moment';
 import 'moment/locale/es';
+import { EnvServiceService } from '@env';
 declare var swal: any;
 
 
@@ -15,7 +16,7 @@ declare var swal: any;
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   profile!: string;
   taskToCreate = '';
   minutesToEndTask = 0;
@@ -109,7 +110,7 @@ export class TaskComponent implements OnInit {
     this.dateFrom = yyyy + '-' + mmstr + '-' + ddstr;
     this.currentTimeStamp = yyyy + '-' + mmstr + '-' + ddstr + ' ' + hh + ':' + ii + ':' + ss;
 
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId).subscribe((response:any) => {
       if (response['success']) {
         this.listTaksDay = response['content']
         this.transformTimeZone(this.listTaksDay)
@@ -132,7 +133,7 @@ export class TaskComponent implements OnInit {
     });
 
     //Llamar tarea activa
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response:any) => {
       if (response['success']) {
         this.taskActiveName = response['content']['description'];
         this.taskActiveId = response['content']['id'];
@@ -167,7 +168,7 @@ export class TaskComponent implements OnInit {
     });
 
     //Llamar listado de tareas predeterminadas
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getTasks/' + this.keysession).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTasks/' + this.keysession).subscribe((response:any) => {
       this.listTasksDefalut = response['content'];
     });
   }
@@ -250,7 +251,7 @@ export class TaskComponent implements OnInit {
         }
         var dataTaskToSend = JSON.stringify(arrayDataTask2);
         formData.append("task", dataTaskToSend);
-        this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp) => {
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp) => {
           this.getListTaskByDay();
         });
       }
@@ -271,7 +272,7 @@ export class TaskComponent implements OnInit {
       }
       var dataTaskToSend = JSON.stringify(arrayDataTask)
       formData.append("task", dataTaskToSend)
-      this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
+      this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
         if (resp['success']) {
           this.secondsFromBeginActiveTask = 0;
           this.durationHour = 0;
@@ -314,7 +315,7 @@ export class TaskComponent implements OnInit {
       }
       var dataTaskToSend = JSON.stringify(arrayDataTask)
       formData.append("task", dataTaskToSend)
-      this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
+      this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
         if (resp['success']) {
           clearInterval(this.interval);
           clearInterval(this.interval2);
@@ -337,11 +338,11 @@ export class TaskComponent implements OnInit {
 
   getListTaskByDay() {
     this.listTaksDay = [];
-    var queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
+    var queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
     if (this.dateFrom == this.dateTo || this.dateTo == '') {
-      queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
+      queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
     } else {
-      queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId + '/' + this.dateTo
+      queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId + '/' + this.dateTo
     }
     this.httpClient.get(queryToSearch).subscribe((response:any) => {
       if (response['success']) {
@@ -354,7 +355,7 @@ export class TaskComponent implements OnInit {
   }
 
   getActiveTask() {
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getActiveTaskByUser/' + this.userId + '/' + this.keysession).subscribe((response:any) => {
       if (response['success']) {
         this.taskActiveName = response['content']['description'];
         this.taskActiveId = response['content']['id'];

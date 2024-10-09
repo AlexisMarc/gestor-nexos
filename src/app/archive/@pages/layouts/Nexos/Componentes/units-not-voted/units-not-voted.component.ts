@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Inject, Input, OnInit } from '@angular/core';
  
 import { DataProfile } from '../../interface/dataProfile.model';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-units-not-voted',
@@ -10,6 +11,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
   styleUrls: ['./units-not-voted.component.scss']
 })
 export class UnitsNotVotedComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() residential_id!: string;
   @Input() meeting_id!: string;
 
@@ -40,7 +42,7 @@ export class UnitsNotVotedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
       .subscribe((response :any)=> {
         if (response['success']) {
           this.unitslist = response['content'];
@@ -171,7 +173,7 @@ export class UnitsNotVotedComponent implements OnInit {
     var formData = new FormData;
     formData.append('units', units);
     formData.append('meeting_id', this.meeting_id);
-    this.httpClient.post(this.config.endpoint6 + 'api/units/updateMultipleUnits/' + this.keysession, formData).subscribe((response:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/updateMultipleUnits/' + this.keysession, formData).subscribe((response:any) => {
       if (response['success']) {
         this.status = 2;
         button!.classList.toggle('succes-event')

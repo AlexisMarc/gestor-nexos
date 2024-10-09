@@ -26,7 +26,6 @@ import {
   EventService,
   FormDynamicService,
   MeetingDataService,
-  ReqDataEvent,
   ReqMeetingData,
   WhatsAppServiceService,
 } from '@services';
@@ -41,6 +40,7 @@ import {
   DataTemplate,
   MeetingId,
 } from '@store';
+import { DYNAMIC_FORM_DATA_DEFAULT } from '@constants';
 
 @Component({
   selector: 'app-register',
@@ -76,13 +76,13 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
       disabled: false,
       show: false,
     },
-    {
-      id: 3,
-      status: 'pending',
-      title: 'Unidades',
-      disabled: false,
-      show: true,
-    },
+    // {
+    //   id: 3,
+    //   status: 'pending',
+    //   title: 'Unidades',
+    //   disabled: false,
+    //   show: true,
+    // },
   ];
 
   resident?: resident;
@@ -90,6 +90,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
   private customize?: RegisterDataCustomize;
   private design?: RegisterDataDesign;
   private form?: RegisterForm;
+  private meeting_id?: number;
 
   private _subscription = new Subscription();
   private _store: Store<AppStore> = inject(Store<AppStore>);
@@ -102,9 +103,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
   private _serviceForm = inject(FormDynamicService);
   private _loading = inject(NxLoadingService);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['disabled']);
-  }
+  ngOnChanges(_: SimpleChanges): void {}
 
   ngOnInit(): void {
     this.initData();
@@ -149,6 +148,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
             this.customize = structuredClone(value.customize);
             this.design = structuredClone(value.design);
             this.form = structuredClone(value.dynamicForm);
+            this.meeting_id = value.meeting_id;
           }
         },
       })
@@ -271,7 +271,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
                   color,
                   signature_module,
                   welcome_message,
-                  authority_granted
+                  authority_granted,
                 } = value.content[value.content.length - 1];
 
                 const file = upload_database ? 'File upload' : '';
@@ -300,7 +300,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
                       label_name_agent,
                       limit_raising_by_customer,
                       mails_to_send_documents,
-                      authority_granted
+                      authority_granted,
                     },
                   })
                 );
@@ -360,7 +360,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
         return { ...item, status: 'pending' } as itemsProgressBar;
       }),
     ];
-    this.items[0].status = 'select';
+    this.NextOrAfter(false, 0, false, true);
   }
 
   public setCustomize(status: boolean) {
@@ -375,7 +375,17 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
     this.items = [...items];
   }
 
-  NextOrAfter(isNext: boolean, index: 0 | 1 | 2 | 3, isSave: boolean = false) {
+  NextOrAfter(
+    isNext: boolean,
+    index: 0 | 1 | 2 | 3,
+    isSave: boolean = false,
+    reset: boolean = false
+  ) {
+    if (reset) {
+      this.setStatusSuccess(0, true);
+      this.selectedSection = 0;
+      return;
+    }
     if (index === 0) {
       if (!this.resident) {
         this._serviceMessage.addMessage({
@@ -385,16 +395,16 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
         });
         return;
       }
+      if (!this.statusCustomize) {
+        this.saveDataAll();
+        return;
+      }
     }
     if (isSave) {
       this.saveDataAll();
       return;
     }
     if (isNext) {
-      if (!this.statusCustomize) {
-        this.saveDataAll();
-        return;
-      }
       this.setStatusSuccess(index);
       this.selectSection(index + 1);
       return;
@@ -402,9 +412,18 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
     this.selectSection(index - 1);
   }
 
-  setStatusSuccess(index: number) {
+  setStatusSuccess(index: number, reset: boolean = false) {
     const items = this.items;
-    const indexCustomize = items.findIndex((item) => item.id === 1);
+    if (reset) {
+      this.items = [
+        ...items.map<itemsProgressBar>((item) => {
+          return { ...item, status: 'pending' };
+        }),
+      ];
+      this.items[0].status = 'select';
+      return;
+    }
+    const indexCustomize = items.findIndex((item) => item.id === index);
     if (indexCustomize === -1) return;
     this.items[index].status = 'success';
     this.items = [...items];
@@ -414,7 +433,9 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
     if (!this.dataConfig) return;
     this._loading.view(true);
     let data = this.getDataMeeting();
-    if (this.statusProcess === 'create') {
+    if (this.statusProcess === 'edit') {
+      this.editMeeting(data);
+      return;
     }
     this.saveMeeting(data);
   }
@@ -424,6 +445,13 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
       this._serviceMeetingData.createMeetingData(data).subscribe({
         next: (value) => {
           if (value.success) {
+            if (value.meeting_id) {
+              this.saveDynamicForm(
+                value.meeting_id,
+                this.form ?? DYNAMIC_FORM_DATA_DEFAULT
+              );
+              return;
+            }
             this._serviceMessage.addMessage({
               type: 'success',
               message: '¡Información guardada exitosamente!',
@@ -451,13 +479,122 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
+  private editMeeting(data: ReqMeetingData) {
+    this._subscription.add(
+      this._serviceMeetingData
+        .editMeetingData(data, this.meeting_id!)
+        .subscribe({
+          next: (value) => {
+            if (value.success) {
+              if (this.meeting_id) {
+                this.saveDynamicForm(
+                  this.meeting_id,
+                  this.form ?? DYNAMIC_FORM_DATA_DEFAULT
+                );
+                return;
+              }
+              this._serviceMessage.addMessage({
+                type: 'success',
+                message: '¡Información editada exitosamente!',
+                life: 5000,
+              });
+              this.resetAll();
+            } else {
+              this._serviceMessage.addMessage({
+                type: 'error',
+                message: 'Error al editar la información...',
+                life: 5000,
+              });
+            }
+            this._loading.view(false);
+          },
+          error: () => {
+            this._serviceMessage.addMessage({
+              type: 'error',
+              message: 'Error al editar la información...',
+              life: 5000,
+            });
+            this._loading.view(false);
+          },
+        })
+    );
+  }
+
+  private saveDynamicForm(meeting_id: number, form: RegisterForm) {
+    const form_id = form.id;
+    if (form_id) {
+      this._subscription.add(
+        this._serviceForm
+          .updateDynamicForm(form_id, { ...form, meeting_id })
+          .subscribe({
+            next: (value) => {
+              if (value.success) {
+                this._serviceMessage.addMessage({
+                  type: 'success',
+                  message: '¡Información editada exitosamente!',
+                  life: 5000,
+                });
+                this.resetAll();
+              } else {
+                this._serviceMessage.addMessage({
+                  type: 'error',
+                  message: 'Error al editar el formulario...',
+                  life: 5000,
+                });
+              }
+              this._loading.view(false);
+            },
+            error: () => {
+              this._serviceMessage.addMessage({
+                type: 'error',
+                message: 'Error al editar la información...',
+                life: 5000,
+              });
+              this._loading.view(false);
+            },
+          })
+      );
+      return;
+    }
+
+    this._subscription.add(
+      this._serviceForm.createDynamicForm({ ...form, meeting_id }).subscribe({
+        next: (value) => {
+          if (value.success) {
+            this._serviceMessage.addMessage({
+              type: 'success',
+              message: '¡Información guardada exitosamente!',
+              life: 5000,
+            });
+            this.resetAll();
+          } else {
+            this._serviceMessage.addMessage({
+              type: 'error',
+              message: 'Error al guardar el formulario...',
+              life: 5000,
+            });
+          }
+          this._loading.view(false);
+        },
+        error: () => {
+          this._serviceMessage.addMessage({
+            type: 'error',
+            message: 'Error al guardar la información...',
+            life: 5000,
+          });
+          this._loading.view(false);
+        },
+      })
+    );
+  }
+
   private getDataMeeting(): ReqMeetingData {
     let data: ReqMeetingData = {
       file: '',
       meeting_time: '',
       email_template_id: '',
       name: 'Evento',
-      signature_module: false,
+      signature_module: 0,
       residential_id: this.resident!.id,
       whatsapp_id: '',
       login_with_credentials: 0,
@@ -465,13 +602,13 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
       upload_database: 0,
       quality_care_selection: 0,
       color: '#FF7300,',
-      shall_ask_representation_document: false,
+      shall_ask_representation_document: 0,
       limit_raising_by_customer: 0,
       label_name_owner: 'Propietario',
       label_name_agent: 'Apoderado',
       welcome_message: 'Hola, bienvenido a la asamblea de la agrupación NEXOS',
       event_type_id: 0,
-      authority_granted: false
+      authority_granted: 0,
     };
     if (this.dataConfig) {
       const {
@@ -496,7 +633,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
         whatsapp_id,
       };
     }
-    if (this.customize) {
+    if (this.customize && this.statusCustomize) {
       const {
         shall_ask_representation_document,
         label_name_agent,
@@ -517,7 +654,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
         signature_module,
       };
     }
-    if (this.design) {
+    if (this.design && this.statusCustomize) {
       const { logo, color, welcome_message } = this.design;
       data = { ...data, logo, color, welcome_message };
     }
@@ -535,7 +672,7 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (type === 'clone' || type === 'edit') {
       this._loading.view(true);
-      this._serviceForm.getDynamicForm(this.resident?.id!).subscribe({
+      this._serviceForm.getDynamicForm(this.meeting_id!).subscribe({
         next: (value) => {
           if (value.success) {
             this._store.dispatch(DataDynamicForm({ data: value.content }));
@@ -558,6 +695,4 @@ export class RegisterComponent implements OnInit, OnChanges, OnDestroy {
       });
     }
   }
-
-  nextDesign() {}
 }

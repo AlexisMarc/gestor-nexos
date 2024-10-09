@@ -15,7 +15,7 @@
 <!-- START SIDEBAR MENU -->
 <div class="sidebar-menu">
   <ng-template [ngTemplateOutlet]="menuItems"></ng-template>
-  <ul class="menu-items">
+  <ul class="menu-items text-white">
     <li class="m-t-30 " (click)="goHome()">
       <a class="nav-link" class="detailed">
         <span class="title">Inicio</span>
@@ -23,13 +23,13 @@
       </a>
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-home"></i></span>
     </li>
-    <!-- <li class="m-t-30 " (click)="goMenuSetting()" *ngIf="userStorage['profile']=='Super Usuario'">
+    <li class="m-t-30 " (click)="goMenuSetting()" >
       <a class="nav-link" class="detailed">
         <span class="title">Configuración</span>
         <span class="details">Crear/editar </span>
       </a>
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-user"></i></span>
-    </li> -->
+    </li>
     <!-- <li class="m-t-30 " (click)="goQuote()"
       *ngIf="userStorage['profile']=='Super Usuario' || userStorage['profile']=='Supervisor' || userStorage['profile']=='Asesor'">
       <a class="nav-link" class="detailed">
@@ -49,7 +49,7 @@
     <li class="m-t-30" (click)="goSupportTechinical()"
       *ngIf="userStorage['profile']=='Super Usuario'||userStorage['profile']=='Supervisor'||userStorage['profile']=='Moderador'||userStorage['profile']=='Soporte telefonico'">
       <a class="nav-link" class="detailed">
-        <span class="title">Soporte Tecnico</span>
+        <span class="title">Soporte Técnico</span>
       </a>
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-cogs"></i></span>
     </li>
@@ -61,7 +61,15 @@
       </a>
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-cogs"></i></span>
     </li>
-    <li class="m-t-30" (click)="'deleteSwal.show()'">
+    <li class="m-t-30" (click)="goRegisterSetting()"
+      *ngIf="userStorage['profile']=='Super Usuario'||userStorage['profile']=='Supervisor'||userStorage['profile']=='Moderador'">
+      <a class="nav-link" class="detailed">
+        <span class="title">Registro</span>
+        <span class="details">Registro presencial</span>
+      </a>
+      <span class="bg-nexos icon-thumbnail"><i class="fa fa-cogs"></i></span>
+    </li>
+    <li class="m-t-30" (click)="deleteSwal.swalVisible = true">
       <a class="nav-link" class="detailed">
         <span class="title">Salir</span>
       </a>

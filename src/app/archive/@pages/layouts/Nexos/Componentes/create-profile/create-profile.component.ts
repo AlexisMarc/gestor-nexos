@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { UserProfileService } from '../../service/user-profile.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 @Component({
   selector: 'app-create-profile',
@@ -10,6 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-profile.component.scss']
 })
 export class CreateProfileComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() createParametersProfile = {
     name: '',
     id: '0',
@@ -61,7 +63,7 @@ export class CreateProfileComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.createParametersProfile['id']);
     formData.append('name', this.createParametersProfile['name']);
     formData.append('status_id', this.createParametersProfile['status_id']);

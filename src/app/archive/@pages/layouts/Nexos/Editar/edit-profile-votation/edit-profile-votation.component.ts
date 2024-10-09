@@ -1,9 +1,10 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Inject, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { UserProfileService } from '../../service/user-profile.service';
 import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -12,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./edit-profile-votation.component.scss']
 })
 export class EditProfileVotationComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() editParametersProfilevotation = {
     name: '',
     id: '0',
@@ -31,7 +33,7 @@ export class EditProfileVotationComponent implements OnInit {
 
     this.idProfileVotation = this.route.snapshot.paramMap.get('idProfileVotes');
   // get Profile votation for id
-  this.httpClient.get(this.config.endpoint + 'ApiVoting/getVoterProfileById?key=' + this.config.key + '&user_id=' + this.user_id + '&id=' + this.idProfileVotation)
+  this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/getVoterProfileById?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id + '&id=' + this.idProfileVotation)
   .subscribe((resp:any)=> {
     this.editParametersProfilevotation['name'] = resp['content']['name'];
     this.editParametersProfilevotation['id'] = resp['content']['id'];
@@ -61,7 +63,7 @@ export class EditProfileVotationComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.editParametersProfilevotation['id']);
     formData.append('name', this.editParametersProfilevotation['name']);
     formData.append('status_id', this.editParametersProfilevotation['status_id']);

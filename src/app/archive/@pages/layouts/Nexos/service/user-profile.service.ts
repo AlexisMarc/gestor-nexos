@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
+import { EnvServiceService } from '@env';
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileService {
+  private _env = inject(EnvServiceService)
   data: any;
 
   constructor(private httpClient: HttpClient,
@@ -14,7 +16,7 @@ export class UserProfileService {
     private router: Router) { }
 
   CreateProfile(createProfile:any) {
-    this.httpClient.post(this.config.endpoint + 'UserServices/addEditUserProfile', createProfile)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/addEditUserProfile', createProfile)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon  = 'success'
@@ -35,7 +37,7 @@ export class UserProfileService {
   }
 
   editUser(updateProfile:any) {
-    this.httpClient.post(this.config.endpoint + 'UserServices/addEditUserProfile', updateProfile)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/addEditUserProfile', updateProfile)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'
@@ -56,7 +58,7 @@ export class UserProfileService {
 
 
       createProfileVotation(createProfileVotation:any) {
-        this.httpClient.post(this.config.endpoint + 'ApiVoting/createEditVoterProfile', createProfileVotation)
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/createEditVoterProfile', createProfileVotation)
         .subscribe((data:any) => {
           this.data = data;
           let iconStatus: SweetAlertIcon = 'success';
@@ -75,7 +77,7 @@ export class UserProfileService {
         });
       }
       editProfileVotation(editProfileVotation:any) {
-        this.httpClient.post(this.config.endpoint + 'ApiVoting/createEditVoterProfile', editProfileVotation)
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/createEditVoterProfile', editProfileVotation)
         .subscribe((data:any) => {
           this.data = data;
           let iconStatus: SweetAlertIcon = 'success';

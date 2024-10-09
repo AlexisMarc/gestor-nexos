@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { NavigationExtras , Router } from '@angular/router';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-list-send-campaign-whatsapp',
@@ -9,6 +10,7 @@ import { NavigationExtras , Router } from '@angular/router';
   styleUrls: ['./list-send-campaign-whatsapp.component.scss']
 })
 export class ListSendCampaignWhatsappComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   searchPost = '';
   ListQuote: any [] = [];
 
@@ -36,7 +38,7 @@ export class ListSendCampaignWhatsappComponent implements OnInit {
 
 
   Search2() {
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.searchPost + '&quote_type_id=1')
       .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
         

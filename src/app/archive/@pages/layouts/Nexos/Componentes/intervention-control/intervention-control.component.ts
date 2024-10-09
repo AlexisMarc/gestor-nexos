@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -9,6 +9,7 @@ import { SocketService } from '../../service/socket.service';
 import { TwitchCallService } from '../../service/twitch-call.service';
 import { StoreMeetingService } from '../../service/store-meeting.service';
 import { WhatsappService } from '../../service/whatsaap_services';
+import { EnvServiceService } from '@env';
 declare var swal: any;
 declare var bootstrap: any;
 
@@ -18,7 +19,7 @@ declare var bootstrap: any;
   styleUrls: ['./intervention-control.component.scss']
 })
 export class InterventionControlComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   data: any;
   data2: any;
   meeting_status: any;
@@ -105,13 +106,13 @@ export class InterventionControlComponent implements OnInit {
     }
     this.keysession = userStorage['token']
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.meeting_id = response['content']['id'];
       
-      this.httpClient.get(this.config.endpoint6+"api/meetings/getVideoMeetingToken/"+this.keysession+'/'+this.meeting_id).subscribe((response :any)=>{
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2+"api/meetings/getVideoMeetingToken/"+this.keysession+'/'+this.meeting_id).subscribe((response :any)=>{
         this.newTokenJWT = response['content']
       })
-      this.httpClient.get(this.config.endpoint6 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
         .subscribe((resp:any)=> {
           if(resp['message']== "La sesión es inválida"){
 
@@ -155,14 +156,14 @@ export class InterventionControlComponent implements OnInit {
             // console.log(response)
             this.countParticipantsSocket(response);
           });
-          this.httpClient.get(this.config.endpoint6 + 'api/units/getCustomerUnitsRequested/' + this.keysession + '/' + this.meeting_id + '/0')
+          this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/getCustomerUnitsRequested/' + this.keysession + '/' + this.meeting_id + '/0')
             .subscribe((resp:any)=> {
               this.units = resp['content'];
               this.cant_notification = resp['content'].length;
               this.cant_notification_compare = resp['content'].length;
             });
           this.countParticipants();
-          this.httpClient.get(this.config.endpoint6 + 'api/raisinghands/getActiveRecordByMeeting/' + this.keysession + '/' + this.meeting_id)
+          this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/raisinghands/getActiveRecordByMeeting/' + this.keysession + '/' + this.meeting_id)
             .subscribe((resp:any)=> {
               this.intervention_active = resp['status_id'];
             });
@@ -339,24 +340,24 @@ export class InterventionControlComponent implements OnInit {
         this.status = 1;
         var button = document.getElementById("button-event");
         const formData = new FormData();
-        formData.append("key", this.config.key);
+        formData.append("key", this._env.SECRET_KEY);
         formData.append("residential_id", this.residential_id);
         //Antes de iniciar una ronda de intervenciones, primero debe cerrarse la ronda anterior, para ello se usa el servicio closeRasingHandsRecordPost ->
         this.httpClient
           .post(
-            this.config.endpoint3 + "VotingServices/closeRasingHandsRecordPost",
+            this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + "VotingServices/closeRasingHandsRecordPost",
             formData
           )
           .subscribe((resp) => {
             // console.log(resp)
             const formData2 = new FormData();
-            formData2.append("key", this.config.key);
+            formData2.append("key", this._env.SECRET_KEY);
             formData2.append("residential_id", this.residential_id);
             formData2.append("participation_limit", "" + this.intervention_cant);
             //Para activar una ronda de intervención, se usa el servicio createRasingHandsRecordPost ->
             this.httpClient
               .post(
-                this.config.endpoint3 +
+                this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
                   'VotingServices/createRasingHandsRecordPost',
                 formData2
               )
@@ -409,7 +410,7 @@ export class InterventionControlComponent implements OnInit {
     //El servicio getCustomersSession obtiene la lista deusuarios que tienen una sesión activa.
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/customers/getCustomersSession/" +
           this.keysession +
           "/" +
@@ -434,7 +435,7 @@ export class InterventionControlComponent implements OnInit {
     var button = document.getElementById("button-event-2");
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/raisinghands/closeRasingHandsRecord/" +
           this.keysession +
           "/" +
@@ -482,7 +483,7 @@ export class InterventionControlComponent implements OnInit {
     this.meeting_status = "1";
     this.httpClient
       .post(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/meetings/updateMeetingDetails/" +
           this.keysession,
         formData2
@@ -507,7 +508,7 @@ export class InterventionControlComponent implements OnInit {
 
   closeMeeting() {
     const formData2 = new FormData();
-    // formData2.append('key', this.config.key);
+    // formData2.append('key', this._env.SECRET_KEY);
     formData2.append("id", this.meeting_id);
     formData2.append("meeting_status", "2");
     this.meeting_status = "2";
@@ -524,7 +525,7 @@ export class InterventionControlComponent implements OnInit {
         if (result.value) {
           this.httpClient
             .post(
-              this.config.endpoint6 +
+              this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
                 "api/meetings/updateMeetingDetails/" +
                 this.keysession,
               formData2
@@ -551,7 +552,7 @@ export class InterventionControlComponent implements OnInit {
 
   closeRegister() {
     const formData2 = new FormData();
-    formData2.append("key", this.config.key);
+    formData2.append("key", this._env.SECRET_KEY);
     formData2.append("id", this.meeting_id);
     formData2.append("meeting_status", "3");
     this.meeting_status = "2";
@@ -568,7 +569,7 @@ export class InterventionControlComponent implements OnInit {
         if (result.value) {
           this.httpClient
             .post(
-              this.config.endpoint3 +
+              this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
                 "PreRegisterMeetingServices/updateMeetingDetails",
               formData2
             )
@@ -594,12 +595,12 @@ export class InterventionControlComponent implements OnInit {
 
   statuschat1() {
     const formData2 = new FormData();
-    formData2.append("key", this.config.key);
+    formData2.append("key", this._env.SECRET_KEY);
     formData2.append("id", this.meeting_id);
     formData2.append("enable_chat", "1");
     this.httpClient
       .post(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           "PreRegisterMeetingServices/updateMeetingDetails",
         formData2
       )
@@ -622,12 +623,12 @@ export class InterventionControlComponent implements OnInit {
 
   statuschat2() {
     const formData2 = new FormData();
-    formData2.append("key", this.config.key);
+    formData2.append("key", this._env.SECRET_KEY);
     formData2.append("id", this.meeting_id);
     formData2.append("enable_chat", "0");
     this.httpClient
       .post(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           "PreRegisterMeetingServices/updateMeetingDetails",
         formData2
       )
@@ -667,7 +668,7 @@ export class InterventionControlComponent implements OnInit {
     formData.append("meeting_id", this.meeting_id);
     this.httpClient
       .post(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/units/updatePropertyRequestRecord/" +
           this.keysession,
         formData
@@ -713,7 +714,7 @@ export class InterventionControlComponent implements OnInit {
     formData.append("meeting_id", this.meeting_id);
     this.httpClient
       .post(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/units/updatePropertyRequestRecord/" +
           this.keysession,
         formData
@@ -759,7 +760,7 @@ export class InterventionControlComponent implements OnInit {
         if (result.isConfirmed) {
           this.httpClient
             .get(
-              this.config.endpoint6 +
+              this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
                 "api/customers/removeUserFromMeeting/" +
                 this.keysession +
                 "/" +
@@ -795,7 +796,7 @@ export class InterventionControlComponent implements OnInit {
     if (this.cant_notification_compare != this.cant_notification) {
       this.httpClient
         .get(
-          this.config.endpoint6 +
+          this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
             "api/units/getCustomerUnitsRequested/" +
             this.keysession +
             "/" +
@@ -828,7 +829,7 @@ export class InterventionControlComponent implements OnInit {
     formData.append("accepted", "1");
     this.httpClient
       .post(
-        this.config.endpoint6 + "api/raisinghands/store/" + this.keysession,
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + "api/raisinghands/store/" + this.keysession,
         formData
       )
       .subscribe((resp:any) => {
@@ -852,7 +853,7 @@ export class InterventionControlComponent implements OnInit {
       formData.append("accepted", "2");
       this.httpClient
         .post(
-          this.config.endpoint6 + "api/raisinghands/store/" + this.keysession,
+          this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + "api/raisinghands/store/" + this.keysession,
           formData
         )
         .subscribe((resp:any) => {
@@ -871,7 +872,7 @@ export class InterventionControlComponent implements OnInit {
     formData.append("accepted", "1");
     this.httpClient
       .post(
-        this.config.endpoint6 + "api/raisinghands/store/" + this.keysession,
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + "api/raisinghands/store/" + this.keysession,
         formData
       )
       .subscribe((resp:any) => {
@@ -888,12 +889,12 @@ export class InterventionControlComponent implements OnInit {
 
   changeNameOfUser() {
     const formData = new FormData();
-    formData.append("key", this.config.key);
+    formData.append("key", this._env.SECRET_KEY);
     formData.append("id", this.userIdToEdit);
     formData.append("nameRegister", this.nameUserToEdit);
     this.httpClient
       .post(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           "CustomerRegistrationServices/updateCustomerData",
         formData
       )
@@ -933,12 +934,12 @@ export class InterventionControlComponent implements OnInit {
     // }).then((result) => {
     //   if (result.isConfirmed) {
     //     const formData = new FormData();
-    //     formData.append('key', this.config.key);
+    //     formData.append('key', this._env.SECRET_KEY);
     //     formData.append('id', this.meeting_id);
     //     formData.append('end_session_time', this.end_session_time);
-    //     this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe((data:any) => {
+    //     this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/updateMeetingDetails', formData).subscribe((data:any) => {
     //       if (data['success']) {
-    //         this.httpClient.get(this.config.endpoint6 + 'ApiCustomers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe((response :any)=> {
+    //         this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'ApiCustomers/askForCustomerPresence/' + this.keysession + '/' + this.meeting_id).subscribe((response :any)=> {
     //         });
     //       }
     //     });
@@ -950,7 +951,7 @@ export class InterventionControlComponent implements OnInit {
     clearInterval(this.interval3);
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/meetings/startTimer/" +
           this.keysession +
           "/" +
@@ -1007,7 +1008,7 @@ export class InterventionControlComponent implements OnInit {
     clearInterval(this.interval3);
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/meetings/startTimer/" +
           this.keysession +
           "/" +
@@ -1033,7 +1034,7 @@ export class InterventionControlComponent implements OnInit {
       clearInterval(this.interval3);
       this.httpClient
         .get(
-          this.config.endpoint6 +
+          this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
             "api/meetings/startTimer/" +
             this.keysession +
             "/" +
@@ -1054,7 +1055,7 @@ export class InterventionControlComponent implements OnInit {
       clearInterval(this.interval3);
       this.httpClient
         .get(
-          this.config.endpoint6 +
+          this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
             "api/meetings/startTimer/" +
             this.keysession +
             "/" +
@@ -1072,7 +1073,7 @@ export class InterventionControlComponent implements OnInit {
     clearInterval(this.interval3);
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           "api/meetings/startTimer/" +
           this.keysession +
           "/" +
@@ -1105,12 +1106,12 @@ export class InterventionControlComponent implements OnInit {
 
   blockChat(customer_id: string, status_chat:any, index:any) {
     const formData2 = new FormData();
-    formData2.append("key", this.config.key);
+    formData2.append("key", this._env.SECRET_KEY);
     formData2.append("id", customer_id);
     formData2.append("can_chat", status_chat);
     this.httpClient
       .post(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           "CustomerRegistrationServices/updateCustomerData",
         formData2
       )

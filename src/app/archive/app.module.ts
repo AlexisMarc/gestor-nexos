@@ -96,7 +96,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 //import { Select2Module } from 'ng2-select2';
-import { LoginComponent } from './@pages/layouts/Nexos/Componentes/login/login.component';
+//import { LoginComponent } from './@pages/layouts/Nexos/Componentes/login/login.component';
 import { DashboardComponent } from './@pages/layouts/Nexos/Componentes/dashboard/dashboard.component';
 import { RecoverpasswordComponent } from './@pages/layouts/Nexos/Componentes/recoverpassword/recoverpassword.component';
 import { QuoteComponent } from './@pages/layouts/Nexos/Componentes/quote/quote.component';
@@ -221,6 +221,7 @@ import { pgRetinaDirective } from './@pages/components/retina/retina.directive';
 import {MatTabsModule} from '@angular/material/tabs';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AppRoutingModule } from './app-routing.module';
+import { LayoutComponent } from '@ui';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -259,7 +260,7 @@ export class AppHammerConfig extends HammerGestureConfig {}
     BlankCorporateComponent,
     BlankSimplywhiteComponent,
     BlankCasualComponent,
-    LoginComponent,
+    //LoginComponent,
     DashboardComponent,
     RecoverpasswordComponent,
     QuoteComponent,
@@ -397,6 +398,8 @@ export class AppHammerConfig extends HammerGestureConfig {}
     pgSwitchModule,
     ReactiveFormsModule,
     EditorModule,
+    
+    LayoutComponent,
     // tslint:disable-next-line: deprecation
     //Select2Module,
     //NgxQRCodeModule,

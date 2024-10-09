@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NxValidators } from '@helpers';
 import { RespAuth, RespData } from '@models';
 import { AuthService, ReqAuth, StorageService } from '@services';
-import { NxToastService } from '@shared';
+import { NxLoadingService, NxToastService } from '@shared';
 
 @Component({
   selector: 'app-form-login',
@@ -12,27 +12,25 @@ import { NxToastService } from '@shared';
   styleUrl: './form-login.component.css',
 })
 export class FormLoginComponent implements OnInit {
-  public form: FormGroup;
+  public form: FormGroup = new FormGroup({
+    email: new FormControl('', [
+      NxValidators.required(),
+      NxValidators.email(),
+      NxValidators.maxLength(150),
+    ]),
+    password: new FormControl('', [
+      NxValidators.required(),
+      NxValidators.maxLength(50),
+    ]),
+    source: new FormControl('gestor'),
+  });
 
   private _authService = inject(AuthService);
   private _storageService = inject(StorageService);
   private _router = inject(Router);
 
-  constructor() {
-    this.form = new FormGroup({
-      email: new FormControl('', [
-        NxValidators.required(),
-        NxValidators.email(),
-        NxValidators.maxLength(150),
-      ]),
-      password: new FormControl('', [
-        NxValidators.required(),
-        NxValidators.maxLength(50),
-      ]),
-    });
-  }
-
   private _serviceMessage = inject(NxToastService);
+  private _loading = inject(NxLoadingService);
 
   ngOnInit(): void {}
 
@@ -45,21 +43,40 @@ export class FormLoginComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    const values: ReqAuth = this.form.value;
+    const values: ReqAuth = this.form.getRawValue();
     this.authentication(values);
   }
 
   private authentication(data: ReqAuth) {
+    this._loading.view(true);
     this._authService.Authentication(data).subscribe({
-      next: (value: RespData<RespAuth>) => {
+      next: (value) => {
         if (value.success) {
           this._storageService.setToken(value.content.token);
           this._storageService.setClient(value.content);
           this._router.navigateByUrl('/meeting');
-          console.log(value);
+          this._serviceMessage.addMessage({
+            type: 'success',
+            message: '¡Inicio de sesión exitoso!'
+          })
+          this._loading.view(false);
+          this._router.navigateByUrl('/home')
+          return;
         }
+        this._loading.view(false);
+        this._serviceMessage.addMessage({
+          type: 'warning',
+          message: 'Usuario o contraseña incorrectos...'
+        })
+
       },
-      error: () => {},
+      error: () => {
+        this._loading.view(false);
+        this._serviceMessage.addMessage({
+          type: 'error',
+          message: 'Error al iniciar sesión...'
+        })
+      },
     });
   }
 }

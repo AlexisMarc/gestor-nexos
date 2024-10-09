@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
  
 import { listadoUnidad } from '../../interface/listadounidad';
 import { AddSupportCalledService } from '../../service/AddSupportCalled.service';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { SendmailService } from '../../service/sendmail.service';
+import { EnvServiceService } from '@env';
 declare var Swal: any;
 
 @Component({
@@ -14,7 +15,7 @@ declare var Swal: any;
   styleUrls: ['./customer-control.component.scss']
 })
 export class CustomerControlComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   residential_id: any;
   document_number: any;
   customer_id!: string;
@@ -73,7 +74,7 @@ export class CustomerControlComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
       .subscribe((resp4:any) => {
         if (resp4['message'] == "La sesión es inválida") {
           Swal.fire({
@@ -135,7 +136,7 @@ export class CustomerControlComponent implements OnInit {
 
   getCustomerDetails(document_number:any) {
     this.listadoUnidad = [];
-    this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + document_number + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + document_number + '/' + this.meeting_id)
       .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
@@ -185,7 +186,7 @@ export class CustomerControlComponent implements OnInit {
   }
  
   selectedUser(unit_id_of_customer:any, sector_name:any, sector_number:any, unit_name:any, unit_number:any) {
-    this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + unit_id_of_customer)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByUnitNumber?key=' + this._env.SECRET_KEY + '&unit_id=' + unit_id_of_customer)
       .subscribe((resp:any)=> {
         this.form_unit = sector_name + " " + sector_number + ' ' + unit_name + ' ' + unit_number;
         this.getCustomerDetails(resp['content']['document_number']);
@@ -227,13 +228,13 @@ export class CustomerControlComponent implements OnInit {
           } else {
             if (this.customer_email != this.customer_email_compare || this.customer_email_2 != this.customer_email_2_compare || this.customer_email_3 != this.customer_email_3_compare || this.customer_email_4 != this.customer_email_4_compare) {
               const formData2 = new FormData();
-              formData2.append('key', this.config.key);
+              formData2.append('key', this._env.SECRET_KEY);
               formData2.append('id', this.customer_id);
               formData2.append('email', this.customer_email);
               formData2.append('email2', this.customer_email_2);
               formData2.append('email3', this.customer_email_3);
               formData2.append('email4', this.customer_email_4);
-              this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateCustomerData', formData2).subscribe((user:any) => {
+              this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'CustomerRegistrationServices/updateCustomerData', formData2).subscribe((user:any) => {
                 if (user['success'] === true) {
                   if (this.customer_email != '' || this.customer_email_2 != '' || this.customer_email_3 != '' || this.customer_email_4 != '') {
                     this.sendmailService.SendMailServiceByUnit(this.keysession, this.customer_id_send, this.meeting_id);
@@ -265,7 +266,7 @@ export class CustomerControlComponent implements OnInit {
 
   saveFormCall() {
     const formData = new FormData();
-    formData.append('key', this.config.key)
+    formData.append('key', this._env.SECRET_KEY)
     formData.append('id', '0')
     formData.append('name_client', this.form_name)
     formData.append('phone', this.form_phone)

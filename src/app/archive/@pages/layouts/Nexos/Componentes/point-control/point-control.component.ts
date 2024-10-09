@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -6,6 +6,7 @@ import { Globals } from '../../interface/globals.model';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
  
 import swal, { SweetAlertIcon } from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-point-control',
@@ -13,6 +14,7 @@ import swal, { SweetAlertIcon } from 'sweetalert2';
   styleUrls: ['./point-control.component.scss']
 })
 export class PointControlComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   param2 = '2';
   ListQuote: [] = [];
   ListServiceActive: any;
@@ -61,7 +63,7 @@ export class PointControlComponent implements OnInit {
 
   
   Search2() {
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.searchPost + '&quote_type_id=1')
       .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
         

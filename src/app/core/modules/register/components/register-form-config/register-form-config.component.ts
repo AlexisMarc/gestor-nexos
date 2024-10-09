@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 export class FormBasicValuesRegisterComponent
   implements OnInit, OnChanges, OnDestroy
 {
-  onNext = output<void>();
+  onNext = output<boolean>();
   onCustomize = output<boolean>();
   statusCustomize = input.required<boolean>();
   controlCustomize = new FormControl(false);
@@ -51,7 +51,7 @@ export class FormBasicValuesRegisterComponent
     login_with_credentials: new FormControl(false),
     email_template_id: new FormControl('', [NxValidators.required()]),
     whatsapp_id: new FormControl('', [NxValidators.required()]),
-    upload_database: new FormControl(false),
+    upload_database: new FormControl(true),
     event_type_id: new FormControl(0, [NxValidators.required()]),
   });
   private _subscription = new Subscription();
@@ -124,7 +124,7 @@ export class FormBasicValuesRegisterComponent
     }
     const data = this.form.getRawValue() as RegisterDataConfig;
     this._store.dispatch(DataConfig({ data }));
-    this.onNext.emit();
+    this.onNext.emit(!this.statusCustomize());
   }
 
   private setValues() {

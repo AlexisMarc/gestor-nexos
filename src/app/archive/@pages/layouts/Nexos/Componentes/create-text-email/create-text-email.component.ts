@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateOrEditItemService } from '../../service/create-or-edit-item.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateEmailContentService } from '../../service/create-email-content.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-text-email.component.scss']
 })
 export class CreateTextEmailComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @Input() paramTextEmail = {
     id: '0',
     subject: '',
@@ -44,7 +45,7 @@ export class CreateTextEmailComponent implements OnInit {
 
     }
     // service type quote
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getAllActiveTypeQuote?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.typeQuote = resp['content']
       });
@@ -73,7 +74,7 @@ export class CreateTextEmailComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.paramTextEmail['id']);
     formData.append('subject', this.paramTextEmail['subject']);
     formData.append('message', this.paramTextEmail['message']);

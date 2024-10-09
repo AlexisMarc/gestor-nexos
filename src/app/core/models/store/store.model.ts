@@ -1,16 +1,19 @@
 import {
   basicValue,
+  meetingDataAll,
   MeetingWelcome,
   RegisterDataConfig,
   RegisterDataCustomize,
   RegisterDataDesign,
   RegisterForm,
   resident,
+  unit,
 } from '@models';
+import { ArrayUnits } from '@services';
 
 export interface AppStore {
   register: StatusRegister;
-  clientRegister: StatusClientRegister
+  clientRegister: StatusClientRegister;
 }
 export interface StatusRegister {
   meeting_id: undefined | number;
@@ -26,4 +29,9 @@ export interface StatusRegister {
 
 export interface StatusClientRegister {
   welcome: MeetingWelcome | undefined;
+  meeting: meetingDataAll | undefined;
+  id_customer: string | undefined;
+  units: unit[] | undefined;
+  selectUnit: ArrayUnits[] | undefined,
+  task_queu_id: number | undefined
 }

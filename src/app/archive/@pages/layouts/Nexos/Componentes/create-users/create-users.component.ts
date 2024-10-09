@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreateUserServicesService } from '../../service/create-user-services.service';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 declare var bootstrap: any
 
 @Component({
@@ -12,6 +13,7 @@ declare var bootstrap: any
   styleUrls: ['./create-users.component.scss']
 })
 export class CreateUsersComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() createParamtsUser = {
     name: '',
     id: '0',
@@ -51,7 +53,7 @@ export class CreateUsersComponent implements OnInit {
       this.router.navigate(['/']);
     }
     // service profiles
-    this.httpClient.get(this.config.endpoint + 'UserServices/getAllUserProfiles?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/getAllUserProfiles?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.allProfile = resp['content'];
       });
@@ -207,7 +209,7 @@ export class CreateUsersComponent implements OnInit {
     }
 
     const formData = new FormData();
-    // formData.append('key', this.config.key);
+    // formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.createParamtsUser['id']);
     formData.append('name', this.createParamtsUser['name']);
     formData.append('email', this.createParamtsUser['email']);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -6,6 +6,7 @@ import swal, { SweetAlertIcon } from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
  
 import { Globals } from '../../interface/globals.model';
+import { EnvServiceService } from '@env';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { Globals } from '../../interface/globals.model';
   styleUrls: ['./point-control-meeting-active.component.scss']
 })
 export class PointControlMeetingActiveComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   data: any;
   data2: any;
   meeting_status: any;
@@ -60,7 +62,7 @@ export class PointControlMeetingActiveComponent implements OnInit {
     }
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.keysession = this.userStorage['token'];
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         // console.log(resp)
         this.meeting_status = resp['content']['meeting_status'];
@@ -111,7 +113,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
     formData2.append('id', this.meeting_id);
     formData2.append('meeting_status', '1');
     this.meeting_status = '1';
-    this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
       this.data = data;
       let iconStatus: SweetAlertIcon = 'success';
       let iconStatus2: SweetAlertIcon = 'warning';
@@ -143,7 +145,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
           this.data2 = data;
           let iconStatus: SweetAlertIcon = 'success';
           let iconStatus2: SweetAlertIcon = 'warning';
@@ -165,7 +167,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
 
   editMeeting() {
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.meeting_id);
     formData.append('youtube_share', this.youtube_share);
     formData.append('zoom_link', this.zoom_link);
@@ -207,7 +209,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
     } else {
       withRegister = '0'
     }
-    this.httpClient.get(this.config.endpoint6 + 'api/reports/getUnitsInAMeetingExcel/' + this.keysession + '/' + this.meeting_id + '/' + withRegister)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getUnitsInAMeetingExcel/' + this.keysession + '/' + this.meeting_id + '/' + withRegister)
       .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -220,7 +222,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
 
   extractAssistantRepport() {
     // console.log(this.meeting_id)
-    // this.httpClient.get(this.config.endpoint6 + 'api/reports/getUnitsByMeetingForWeb/' + this.keysession + '/' + this.meeting_id)
+    // this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getUnitsByMeetingForWeb/' + this.keysession + '/' + this.meeting_id)
     //   .subscribe((resp:any)=> {
     //     var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
     //       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -233,7 +235,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
 
   startPreregister() {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('id', this.meeting_id);
     formData2.append('status_preregister', '1');
     swal.fire({
@@ -245,7 +247,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
           this.data2 = data;
           let iconStatus: SweetAlertIcon = 'success';
           let iconStatus2: SweetAlertIcon = 'warning';
@@ -267,7 +269,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
 
   endPreregister() {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('id', this.meeting_id);
     formData2.append('status_preregister', '0');
     swal.fire({
@@ -279,7 +281,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
           this.data2 = data;
           let iconStatus: SweetAlertIcon = 'success';
           let iconStatus2: SweetAlertIcon = 'warning';
@@ -309,7 +311,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
 
   status3() {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('id', this.meeting_id);
     formData2.append('meeting_status', '3');
     this.meeting_status = '2';
@@ -322,7 +324,7 @@ this.router.navigate(['home/registervotewhatsapp/'+this.residential_id])
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.value) {
-        this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
           this.data2 = data;
           let iconStatus: SweetAlertIcon = 'success';
           let iconStatus2: SweetAlertIcon = 'warning';

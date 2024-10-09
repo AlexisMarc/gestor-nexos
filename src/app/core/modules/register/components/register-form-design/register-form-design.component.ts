@@ -1,10 +1,10 @@
-import { DataDesign } from './../../../../store/actions/register.actions';
 import { Component, inject, input, OnDestroy, output, type OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NxValidators } from '@helpers';
 import { AppStore } from '@models';
 import { Store } from '@ngrx/store';
 import { NxToastService } from '@shared';
+import { DataDesign } from '@store';
 import { ColorTranslator } from 'colortranslator';
 import { Subscription } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './register-form-design.component.css',
 })
 export class FormDesignRegisterComponent implements OnInit, OnDestroy {
-  onNext = output<void>();
+  onNext = output<boolean>();
   onAfter = output<void>();
   statusProcess = input.required<'pending' | 'create' | 'edit' | 'clone'>();
   color: string = '#FF7300';
@@ -104,6 +104,7 @@ export class FormDesignRegisterComponent implements OnInit, OnDestroy {
     this._store.dispatch(
       DataDesign({ data: { welcome_message, color: this.getColors(), logo } })
     );
+    this.onNext.emit(true);
   }
 
   private getColors() {
@@ -115,7 +116,6 @@ export class FormDesignRegisterComponent implements OnInit, OnDestroy {
 
   private setColors(color: string) {
     const colors = color.split(',');
-    console.log(colors);
     if (colors.length === 9) {
       this.lighterColors = [...colors.slice(1, 5)];
       this.darkerColors = [...colors.slice(5)];

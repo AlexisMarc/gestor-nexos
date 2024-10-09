@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./text-email-list.component.scss']
 })
 export class TextEmailListComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   listTextEmail: [] = [];
 
   constructor(private router: Router,
@@ -35,7 +37,7 @@ export class TextEmailListComponent implements OnInit {
     } }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllQuoteEmailContent?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getAllQuoteEmailContent?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any) => {
         this.listTextEmail = resp['content']
       });

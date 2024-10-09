@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreateEmailContentService } from '../../service/create-email-content.service';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import Swal from 'sweetalert2';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-create-email-icloud',
@@ -11,6 +12,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
   styleUrls: ['./create-email-icloud.component.scss']
 })
 export class CreateEmailIcloudComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   ListServiceActive: any;
   user_id: any;
   @Input() createParamTextEmailContent = {
@@ -62,7 +64,7 @@ export class CreateEmailIcloudComponent implements OnInit {
     //   return;
     // }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('user_id', this.user_id);
     formData.append('id', '0');
     formData.append('subject', this.createParamTextEmailContent['subject']);

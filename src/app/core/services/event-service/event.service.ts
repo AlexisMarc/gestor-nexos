@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { EnvServiceService } from '@env';
 import { events, RespData } from '@models';
 
 export interface ReqDataEvent {
@@ -11,7 +12,8 @@ export interface ReqDataEvent {
   providedIn: 'root',
 })
 export class EventService {
-  private api = 'http://127.0.0.1:8000/management/api';
+  private _env = inject(EnvServiceService)
+  private api = `${this._env.ENDPOINT_SECONDARY}/management/api`;
   private http = inject(HttpClient);
 
   constructor() {}

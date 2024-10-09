@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -11,6 +11,7 @@ import swal from 'sweetalert2';
 import { SendmailService } from '../../service/sendmail.service';
 import { Globals } from '../../interface/globals.model';
 import { WhatsappService } from '../../service/whatsaap_services';
+import { EnvServiceService } from '@env';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { WhatsappService } from '../../service/whatsaap_services';
   styleUrls: ['./addunitscontrol.component.scss']
 })
 export class AddunitscontrolComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   textToSearch: any
   residential_id!: string;
   document_number: any;
@@ -102,7 +103,7 @@ export class AddunitscontrolComponent implements OnInit {
     this.token = userStorage['token'];
     this.quorum_real_time = this.global.quorum_real_time;
     this.keysession = userStorage['token'];
-    this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
 
       .subscribe((resp4:any) => {
         if (resp4['message'] == "La sesión es inválida") {
@@ -151,7 +152,7 @@ export class AddunitscontrolComponent implements OnInit {
   getCustomerDetails() {
     this.listadoUnidad = [];
     this.listadoUnidad2 = []
-    this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + this.document_number + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + this.document_number + '/' + this.meeting_id)
       .subscribe((resp:any)=> {
         
         if (resp['success'] === true) {
@@ -334,7 +335,7 @@ export class AddunitscontrolComponent implements OnInit {
             //  unidades = JSON.stringify(this.id_unidad_envio)
             unidades2 = JSON.stringify(id_unidad_envio2)
             const formData = new FormData();
-            formData.append('key', this.config.key);
+            formData.append('key', this._env.SECRET_KEY);
             formData.append('id', this.customer_id)
             formData.append('nameRegister', this.nameRegister);
             formData.append('email', this.customer_email);
@@ -411,14 +412,14 @@ export class AddunitscontrolComponent implements OnInit {
       .then((result) => {
         if (result.value) {
           const formData3 = new FormData();
-          formData3.append('key', this.config.key);
+          formData3.append('key', this._env.SECRET_KEY);
           formData3.append('customer_id', this.customer_id_send);
           formData3.append('meeting_id', this.meeting_id);
           formData3.append('user_id', this.user_id);
-          this.httpClient.post(this.config.endpoint + 'ApiQrPresence/deleteCustomerFromAttendance', formData3).subscribe((resp2) => {
+          this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiQrPresence/deleteCustomerFromAttendance', formData3).subscribe((resp2) => {
 
             const formData2 = new FormData();
-            formData2.append('key', this.config.key);
+            formData2.append('key', this._env.SECRET_KEY);
             formData2.append('id', this.customer_id)
             formData2.append('status_id', "0");
 
@@ -434,7 +435,7 @@ export class AddunitscontrolComponent implements OnInit {
     this.int2 = 'value';
     this.nameRegister = '';
     this.name = '';
-    this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_unit_search)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByUnitNumber?key=' + this._env.SECRET_KEY + '&unit_id=' + this.id_unit_search)
       .subscribe((resp:any)=> {
         if (resp['success'] == true) {
           this.document_number = resp['content']['document_number'];
@@ -492,7 +493,7 @@ export class AddunitscontrolComponent implements OnInit {
     this.customer_email_2 = "";
     this.customer_email_3 = "";
     this.customer_email_4 = "";
-    this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + this.document_number + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + this.document_number + '/' + this.meeting_id)
       .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
@@ -576,7 +577,7 @@ export class AddunitscontrolComponent implements OnInit {
             unidades2 = JSON.stringify(id_unidad_envio_and_send_email)
             // unidades = JSON.stringify(this.id_unidad_envio)
             const formData = new FormData();
-            formData.append('key', this.config.key);
+            formData.append('key', this._env.SECRET_KEY);
             formData.append('id', this.customer_id)
             formData.append('nameRegister', this.nameRegister);
             formData.append('email', this.customer_email);
@@ -591,11 +592,11 @@ export class AddunitscontrolComponent implements OnInit {
             // formData2.append('meeting_id',this.meeting_id)
 
             if(this.customer_email  != '' || this.customer_email_2!='' || this.customer_email_3!='' || this.customer_email_4!=''){
-              this.httpClient.post(this.config.endpoint6 + 'api/customers/updateCustomerProperties/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id, formData2)
+              this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/updateCustomerProperties/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id, formData2)
               .subscribe((data:any) => {
                 
                 if (data['success']) {
-                  this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateCustomerData', formData).subscribe((user:any) => {
+                  this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'CustomerRegistrationServices/updateCustomerData', formData).subscribe((user:any) => {
                     if (user['success']) {
                       if (this.customer_email != '' || this.customer_email_2 != '' || this.customer_email_3 != '' || this.customer_email_4 != '') {
                         this.sendmailService.SendMailServiceByUnit(this.keysession, this.customer_id, this.meeting_id);
@@ -653,7 +654,7 @@ export class AddunitscontrolComponent implements OnInit {
     })
       .then((result) => {
         if (result.value) {
-          this.httpClient.get(this.config.endpoint6 + 'api/customers/removeUserSessionFromMeeting/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id)
+          this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/removeUserSessionFromMeeting/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id)
             .subscribe((response :any)=> {
               if (response['success']) {
                 swal.fire("Mensaje", response['message'], 'success');
@@ -685,7 +686,7 @@ export class AddunitscontrolComponent implements OnInit {
   }
 
   selectedUser2(unit_id_of_customer:any, sector_name:any, sector_number:any, unit_name:any, unit_number:any) {
-    // this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + unit_id_of_customer)
+    // this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByUnitNumber?key=' + this._env.SECRET_KEY + '&unit_id=' + unit_id_of_customer)
     //   .subscribe((resp:any)=> {
     //     this.form_unit = sector_name + " " + sector_number + ' ' + unit_name + ' ' + unit_number;
     //     this.getCustomerDetails(resp['content']['document_number']);

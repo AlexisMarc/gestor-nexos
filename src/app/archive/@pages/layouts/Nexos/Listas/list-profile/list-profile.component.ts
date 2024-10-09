@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 @Component({
   selector: 'app-list-profile',
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-profile.component.scss']
 })
 export class ListProfileComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   allProfiles: any;
   constructor(private router: Router,
     private config: ConfigurationRestService,
@@ -35,7 +36,7 @@ export class ListProfileComponent implements OnInit {
 
 
     // Obtener all profiles
-    this.httpClient.get(this.config.endpoint + 'UserServices/getAllUserProfiles?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/getAllUserProfiles?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.allProfiles = resp['content'];
       });

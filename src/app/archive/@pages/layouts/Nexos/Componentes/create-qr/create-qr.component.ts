@@ -1,14 +1,16 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
+import { EnvServiceService } from '@env';
 @Component({
   selector: 'app-create-qr',
   templateUrl: './create-qr.component.html',
   styleUrls: ['./create-qr.component.scss']
 })
 export class CreateQrComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   title = 'qrcode-app';
   userEmail: any;
   userEmail2: any;
@@ -71,7 +73,7 @@ export class CreateQrComponent implements OnInit {
   getCustomerDetails() {
    
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByDocumentNumber?key=' + this.config.key + '&document_number=' + this.document_number)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByDocumentNumber?key=' + this._env.SECRET_KEY + '&document_number=' + this.document_number)
       .subscribe((resp:any)=> {
         this.name = resp['content']['name'];
         this.nameRegister = resp['content']['nameRegister'];
@@ -80,7 +82,7 @@ export class CreateQrComponent implements OnInit {
         this.userEmail3 = resp['content']['email3'];
         this.userEmail4 = resp['content']['email4'];
       });
-      this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getSecondTokenByDocumentNumber?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&document_number=' + this.document_number)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiQrPresence/getSecondTokenByDocumentNumber?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id + '&document_number=' + this.document_number)
       .subscribe((resp:any)=> {
         this.token_2 = resp['content']['token_2'];
       });

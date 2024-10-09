@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-users.component.scss']
 })
 export class ListUsersComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   listUsers: [] = [];
 
   constructor(private router: Router,
@@ -37,7 +39,7 @@ export class ListUsersComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint + 'UserServices/getAllUsers?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/getAllUsers?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.listUsers = resp['content'];
 

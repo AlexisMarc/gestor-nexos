@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import swal, { SweetAlertIcon } from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -11,7 +12,7 @@ import swal, { SweetAlertIcon } from 'sweetalert2';
   styleUrls: ['./customer-present.component.scss']
 })
 export class CustomerPresentComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   meeting_id!: string;
   ListCustomer = [];
   residential_id!: string;
@@ -40,7 +41,7 @@ export class CustomerPresentComponent implements OnInit {
     }
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
-    this.httpClient.get(this.config.endpoint6 + 'api/customers/getOfflineCustomers/' + this.keysession + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getOfflineCustomers/' + this.keysession + '/' + this.meeting_id)
       .subscribe((resp:any)=> {
         this.ListCustomer = resp['content']
       });
@@ -73,8 +74,8 @@ export class CustomerPresentComponent implements OnInit {
   }
 
   ChargeAusents() {
-    // this.httpClient.get(this.config.endpoint3 + 'VotingServices/getResidentsInMeetingByPresent?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&present=1')
-    this.httpClient.get(this.config.endpoint6 + 'api/customers/getOfflineCustomers/' + this.keysession + '/' + this.meeting_id)
+    // this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'VotingServices/getResidentsInMeetingByPresent?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id + '&present=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getOfflineCustomers/' + this.keysession + '/' + this.meeting_id)
       .subscribe((resp:any)=> {
         this.ListCustomer = resp['content'];
       });

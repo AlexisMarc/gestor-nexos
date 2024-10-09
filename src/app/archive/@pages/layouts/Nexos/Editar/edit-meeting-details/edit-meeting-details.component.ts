@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { StoreMeetingService } from '../../service/store-meeting.service';
 import { HttpClient } from '@angular/common/http';
  
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-edit-meeting-details',
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./edit-meeting-details.component.scss']
 })
 export class EditMeetingDetailsComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   meeting_id!: string;
   residential_id!: string;
   name_meet!: string;
@@ -50,11 +51,11 @@ export class EditMeetingDetailsComponent implements OnInit {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.user_id = userStorage['id'];
     this.keysession = userStorage['token'];
-    // this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
+    // this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.url_redirection =response['content']['url_redirection']
       this.meeting_id = response['content']['id'];
-      this.httpClient.get(this.config.endpoint6 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/getMeetingDetails/' + this.keysession + '/' + this.meeting_id)
         .subscribe((resp:any)=> {
           this.meeting_id = resp['content']['id'];
           this.name_meet = resp['content']['name'];
@@ -71,7 +72,7 @@ export class EditMeetingDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getAllEmailContent?key=' + this.config.key + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ApiEmailContent/getAllEmailContent?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.listTypeEmail = resp["content"];
       });
@@ -95,7 +96,7 @@ export class EditMeetingDetailsComponent implements OnInit {
 
   editMeet() {
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.meeting_id);
     formData.append('name', this.name_meet);
     formData.append('meeting_time', this.meeting_time);

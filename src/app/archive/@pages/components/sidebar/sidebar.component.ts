@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, TemplateRef, ContentChild, HostListener, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, TemplateRef, ContentChild, HostListener, HostBinding, inject } from '@angular/core';
 import { pagesToggleService } from '../../services/toggler.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../layouts/Nexos/service/configuration.rest.service';
 import { Subscription } from 'rxjs';
+import { EnvServiceService } from '@env';
 
 ////declare var pg: any;
 
@@ -17,6 +18,7 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class SidebarComponent implements OnInit {
+  private _env = inject(EnvServiceService)
 
   token: string;
 
@@ -98,6 +100,8 @@ export class SidebarComponent implements OnInit {
     return;
   }
 
+  @HostListener('mouseleave', ['$event'])
+  @HostListener('dblclick', ['$event'])
   closeSideBar() {
     //if (pg.isVisibleSm() || pg.isVisibleXs()) { return false }
     if (this.pin) { return false; }
@@ -168,12 +172,16 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['home/menusettingVoting']);
   }
 
+  goRegisterSetting() {
+    this.router.navigate(['home/register']);
+  }
+
   goSupportTechinical() {
     this.router.navigate(['home/Soporte']);
   }
 
   singOut() {
-    this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
       sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     })

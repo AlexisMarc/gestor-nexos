@@ -1,16 +1,18 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import { Globals } from '../../interface/globals.model';
  
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 @Component({
   selector: 'app-tracing',
   templateUrl: './tracing.component.html',
   styleUrls: ['./tracing.component.scss']
 })
 export class TracingComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   param = '';
   listQuoteConfirmation: any;
   constructor(
@@ -36,7 +38,7 @@ export class TracingComponent implements OnInit {
     }
 
     global.listadoItems = [];
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getNotHiredQuoteByClient?key=' + this.config.key + '&param=' + this.param)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getNotHiredQuoteByClient?key=' + this._env.SECRET_KEY + '&param=' + this.param)
     .subscribe((resp:any)=> {
       this.listQuoteConfirmation = resp['content'];
 
@@ -52,7 +54,7 @@ export class TracingComponent implements OnInit {
       return;
     }
     else {
-      return this.httpClient.get(this.config.endpoint + 'QuoteServices/getNotHiredQuoteByClient?key=' + this.config.key + '&param=' + this.param)
+      return this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getNotHiredQuoteByClient?key=' + this._env.SECRET_KEY + '&param=' + this.param)
         .subscribe((resp:any)=> {
           this.listQuoteConfirmation = resp['content'];
 

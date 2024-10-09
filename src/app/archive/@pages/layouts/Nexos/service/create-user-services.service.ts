@@ -1,8 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, inject } from '@angular/core';
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
+import { EnvServiceService } from '@env';
  
 
 
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class CreateUserServicesService {
+  private _env = inject(EnvServiceService)
   data: any;
   id: any;
   profile: string = '';
@@ -36,7 +38,7 @@ export class CreateUserServicesService {
   }
 
   CreateUser(createUser:any, keysession:any) {
-    this.httpClient.post(this.config.endpoint6 + 'api/users/record/' + keysession, createUser)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/users/record/' + keysession, createUser)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'
@@ -57,7 +59,7 @@ export class CreateUserServicesService {
 
   editUser(updateUser:any, profile:any) {
     this.profile = this.userStorage['profile'];
-    this.httpClient.post(this.config.endpoint + 'UserServices/addEditUser', updateUser)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/addEditUser', updateUser)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'

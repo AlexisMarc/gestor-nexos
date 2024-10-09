@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
  
 import swal from 'sweetalert2';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import moment from 'moment';
+import { EnvServiceService } from '@env';
 
 
 @Component({
@@ -13,7 +14,7 @@ import moment from 'moment';
   styleUrls: ['./user-work.component.scss']
 })
 export class UserWorkComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   profile!: string;
   listActiveUser: any;
   keysession!: string;
@@ -45,7 +46,7 @@ export class UserWorkComponent implements OnInit {
 
   ngOnInit() {
     //Llamar listado de tareas del día actual
-    this.httpClient.get(this.config.endpoint6 + 'api/tasks/getActiveTaskList/' + this.keysession).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getActiveTaskList/' + this.keysession).subscribe((response:any) => {
       if (response['success']) {
         this.listActiveUser = response['content']
         this.transformTimeZone(this.listActiveUser)

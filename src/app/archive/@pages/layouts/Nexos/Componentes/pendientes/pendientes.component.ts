@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { DataVoterList } from '../../interface/dataVoterList.model';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-pendientes',
@@ -11,7 +12,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
   styleUrls: ['./pendientes.component.scss']
 })
 export class PendientesComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   meeting_id: string;
   residential_id: string;
   user_id: string;
@@ -64,7 +65,7 @@ export class PendientesComponent implements OnInit {
   }
 
   getVoteWithOptions() {
-    this.httpClient.get(this.config.endpoint + 'ApiVoting/getVoteOptionById?key=' + this.config.key + '&id=' + this.voting_header_id + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/getVoteOptionById?key=' + this._env.SECRET_KEY + '&id=' + this.voting_header_id + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.nameVote = resp['content']['name'];
         this.optionsByVote = resp['content']['options'];
@@ -77,7 +78,7 @@ export class PendientesComponent implements OnInit {
     this.list_units = [];
     this.list_units_show = [];
     if (status == 1) {
-      this.httpClient.get(this.config.endpoint6 + 'api/voting/getVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/voting/getVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
         .subscribe((resp:any)=> {
           resp['content'].forEach((voter:any) => {
             voter['coefficient'] = voter['coefficient'].replace(',', '.');
@@ -102,7 +103,7 @@ export class PendientesComponent implements OnInit {
       //   this.refreshData();
       // }, 5000)
     } else {
-      this.httpClient.get(this.config.endpoint6 + 'api/voting/getCurrentVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/voting/getCurrentVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
         .subscribe((resp:any)=> {
           resp['content'].forEach((voter:any) => {
             voter['Coeficiente'] = voter['Coeficiente'].replace(',', '.');
@@ -203,7 +204,7 @@ export class PendientesComponent implements OnInit {
     this.attendancePercent = 0;
     this.voterPercent = 0;
     this.voterByOption = 0;
-    this.httpClient.get(this.config.endpoint6 + 'api/voting/getVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/voting/getVotingReportByHeader/' + this.keysession + '/' + this.voting_header_id)
       .subscribe((resp:any)=> {
         resp['content'].forEach((voter:any) => {
           voter['coefficient'] = voter['coefficient'].replace(',', '.');

@@ -1,15 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
  
 import swal, { SweetAlertIcon } from 'sweetalert2';
+import { EnvServiceService } from '@env';
 @Component({
   selector: 'app-customer-quote-history',
   templateUrl: './customer-quote-history.component.html',
   styleUrls: ['./customer-quote-history.component.scss']
 })
 export class CustomerQuoteHistoryComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   listadoQuoteHistory: any;
   idResidential: any;
 
@@ -41,7 +43,7 @@ export class CustomerQuoteHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuotesByResidential?key=' + this.config.key + '&residential_id=' + this.idResidential)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getQuotesByResidential?key=' + this._env.SECRET_KEY + '&residential_id=' + this.idResidential)
       .subscribe((resp:any)=> {
         this.listadoQuoteHistory = resp['content']
       });

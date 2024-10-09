@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -7,13 +7,14 @@ import { Globals } from '../../interface/globals.model';
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { EnvServiceService } from '@env';
 @Component({
   selector: 'app-search-residential-votes',
   templateUrl: './search-residential-votes.component.html',
   styleUrls: ['./search-residential-votes.component.scss']
 })
 export class SearchResidentialVotesComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   param3 = '2';
   ListQuote: [] = [];
   ListServiceActive: any;
@@ -59,7 +60,7 @@ export class SearchResidentialVotesComponent implements OnInit {
 
   Search3() {
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint3 + 'AppServices/getActiveResidentialByService?key=' + this.config.key + '&service_type=' + '2' )
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'AppServices/getActiveResidentialByService?key=' + this._env.SECRET_KEY + '&service_type=' + '2' )
         .subscribe((resp1 :any)=> {
           this.ListQuote = resp1['content'];
 

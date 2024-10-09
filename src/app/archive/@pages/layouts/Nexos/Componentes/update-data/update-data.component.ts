@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
+import { EnvServiceService } from '@env';
 declare var swal: any;
 
 @Component({
@@ -12,6 +13,7 @@ declare var swal: any;
   styleUrls: ['./update-data.component.scss']
 })
 export class UpdateDataComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   param2 = '2';
   ListQuote: [] = [];
   ListServiceActive: any;
@@ -50,7 +52,7 @@ export class UpdateDataComponent implements OnInit {
   }
 
   Search2() {
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.searchPost + '&quote_type_id=1')
       .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });

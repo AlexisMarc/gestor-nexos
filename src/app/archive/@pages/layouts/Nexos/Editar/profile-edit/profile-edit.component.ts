@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { UserProfileService } from '../../service/user-profile.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-profile-edit',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./profile-edit.component.scss']
 })
 export class ProfileEditComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() EditParametersProfile = {
     name: '',
     id: '',
@@ -43,7 +45,7 @@ export class ProfileEditComponent implements OnInit {
     this.idProfile = this.route.snapshot.paramMap.get('idProfile')!
 
     // get Profile for id
-    this.httpClient.get(this.config.endpoint + 'UserServices/getUserProfileById?key=' + this.config.key + '&id=' + this.idProfile)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/getUserProfileById?key=' + this._env.SECRET_KEY + '&id=' + this.idProfile)
       .subscribe((resp:any)=> {
         this.EditParametersProfile['name'] = resp['content']['name'];
         this.EditParametersProfile['id'] = resp['content']['id'];
@@ -66,7 +68,7 @@ export class ProfileEditComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('name', this.EditParametersProfile['name']);
     formData.append('id', this.EditParametersProfile['id']);
     formData.append('status_id', this.EditParametersProfile['status_id']);

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { EnvServiceService } from '@env';
 import { emailTemplate, RespData } from '@models';
 import { Observable } from 'rxjs';
 
@@ -7,7 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class EmailService {
-  private api = 'http://127.0.0.1:8000/management/api';
+  private _env = inject(EnvServiceService)
+  private api = `${this._env.ENDPOINT_SECONDARY}/management/api`;
   private http = inject(HttpClient);
 
   constructor() {}
@@ -19,6 +21,13 @@ export class EmailService {
   public getTemplateEmail() {
     return this.http.get<RespData<emailTemplate[]>>(
       this.api + '/email/list/actives'
+    );
+  }
+
+  public sendEmail(data: {email: string, file_path: string}) {
+    const file_name = data.file_path.split('/').at(-1);
+    return this.http.post<RespData<emailTemplate[]>>(
+      this.api + '/qr/sendEmail', {...data, file_name}
     );
   }
 }

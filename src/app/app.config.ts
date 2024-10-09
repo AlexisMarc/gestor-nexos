@@ -14,9 +14,11 @@ import { provideStore } from '@ngrx/store';
 import { RootStore } from '@store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authInterceptor } from '@resolver';
+import { EnvServiceProvider } from '../env/env-service.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    EnvServiceProvider,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
@@ -33,6 +35,6 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({
       maxAge: 25,
       //logOnly: environment.production
-    }),
+    }), provideAnimationsAsync(),
   ],
 };

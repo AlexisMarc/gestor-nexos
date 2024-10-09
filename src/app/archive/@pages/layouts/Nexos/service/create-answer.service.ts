@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from './configuration.rest.service';
+import { EnvServiceService } from '@env';
 declare var swal: any
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateAnswerService {
+  private _env = inject(EnvServiceService)
   activeVote: any;
 
   constructor(private httpClient: HttpClient,
@@ -20,7 +22,7 @@ export class CreateAnswerService {
   createAnswer(dataQuestion:any, residential_id:any, iniciada:any, meeting_id:any, keysession:any) {
     dataQuestion.forEach((value:any,key:any) => {
        });
-    this.httpClient.post(this.config.endpoint6 + 'api/voting/createVoteOption/' + keysession, dataQuestion)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/voting/createVoteOption/' + keysession, dataQuestion)
       .subscribe((data:any) => {
         let iconStatus = 'success';
         let iconStatus2 = 'warning';
@@ -48,7 +50,7 @@ export class CreateAnswerService {
 
   // Servicio que se usa para editar y para cerrar la votación. 
   editAnswer(dataQuestion:any, residential_id:any, status:any, message:any, meeting_id:any, keysession:any) {
-    this.httpClient.post(this.config.endpoint6 + 'api/voting/editVoteOption/' + keysession, dataQuestion)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/voting/editVoteOption/' + keysession, dataQuestion)
       .subscribe((data:any) => {
         let iconStatus = 'success';
         let iconStatus2 = 'warning';

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
+import { EnvServiceService } from '@env';
 declare var swal: any;
 
 @Component({
@@ -11,6 +12,8 @@ declare var swal: any;
   styleUrls: ['./edit-task.component.scss']
 })
 export class EditTaskComponent implements OnInit {
+
+  private _env = inject(EnvServiceService)
 
   idTask!: string;
   description = '';
@@ -47,7 +50,7 @@ export class EditTaskComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint6 + 'ApiTasks/getTaskById/' + this.keysession + '/' + this.idTask).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'ApiTasks/getTaskById/' + this.keysession + '/' + this.idTask).subscribe((response:any) => {
       if (response['success']) {
         this.user_name = response['content']['user_name']
         this.description = response['content']['description'];
@@ -69,7 +72,7 @@ export class EditTaskComponent implements OnInit {
     }
     var dataTaskToSend = JSON.stringify(arrayDataTask2);
     formData.append("task", dataTaskToSend);
-    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
       if (resp['success']) {
         swal.fire('Mensaje', 'Se ha editado la información de manera exitosa', 'success');
         this.return();

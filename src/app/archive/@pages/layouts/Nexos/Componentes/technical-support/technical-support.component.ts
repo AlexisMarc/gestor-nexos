@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -6,6 +6,7 @@ import { Globals } from '../../interface/globals.model';
  
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
+import { EnvServiceService } from '@env';
 @Component({
   selector: 'app-technical-support',
   templateUrl: './technical-support.component.html',
@@ -13,6 +14,7 @@ import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active
 })
 
 export class TechnicalSupportComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   param3 = '2';
   listResidentials: [] = [];
   date = "";
@@ -59,7 +61,7 @@ export class TechnicalSupportComponent implements OnInit {
     this.date = date;
 
     // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getActiveMeetingByResidential?key=' + this.config.key + '&date=' + this.date)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getActiveMeetingByResidential?key=' + this._env.SECRET_KEY + '&date=' + this.date)
       .subscribe((resp:any)=> {
         this.listResidentials = resp['content'];
       });
@@ -67,7 +69,7 @@ export class TechnicalSupportComponent implements OnInit {
   }
 
   reLoadList() {
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getActiveMeetingByResidential?key=' + this.config.key + '&date=' + this.date)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getActiveMeetingByResidential?key=' + this._env.SECRET_KEY + '&date=' + this.date)
       .subscribe((resp:any)=> {
         this.listResidentials = resp['content'];
       });

@@ -1,6 +1,6 @@
 
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -9,6 +9,7 @@ import { DataProfileVoter } from '../../interface/dataProfileVoter.model';
 import { DataOptionsvote } from '../../interface/dataOptionsVote.model';
 import { DataProfileVoterSend } from '../../interface/dataProfileVoterSend.model';
 import { CreateAnswerService } from '../../service/create-answer.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-create-virtual-votes',
@@ -16,7 +17,7 @@ import { CreateAnswerService } from '../../service/create-answer.service';
   styleUrls: ['./create-virtual-votes.component.scss']
 })
 export class CreateVirtualVotesComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   residential_id: string;
   nameVote = "";
   options: DataOptionsvote[] = [];
@@ -52,7 +53,7 @@ export class CreateVirtualVotesComponent implements OnInit {
     const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     this.user_id = userStorage['id'];
 
-    this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/getAllVoterProfiles?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         // this.allProfilesVotation = resp['content'];
         // let num = 1;
@@ -118,7 +119,7 @@ export class CreateVirtualVotesComponent implements OnInit {
     const options = JSON.stringify(this.options);
     const voteProfiles = JSON.stringify(this.ProfilesToSend);
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('residential_id', this.residential_id);
     formData.append('name', this.nameVote);
     formData.append('options', options);

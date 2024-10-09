@@ -1,13 +1,15 @@
-import { Inject, Injectable } from '@angular/core';
+import { inject, Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private _env = inject(EnvServiceService)
   arrayToSend: any;
 
   user: any;
@@ -27,7 +29,7 @@ export class UserService {
     this.arrayToSend = JSON.stringify(this.arrayToSend);
 
     this.httpClient
-      .post(this.config.endpoint6 + 'api/users/login', this.arrayToSend)
+      .post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/users/login', this.arrayToSend)
       .subscribe((response: any) => {
         if (response['success'] == true) {
           const user = {

@@ -1,16 +1,17 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
  
 import swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 @Component({
   selector: 'app-visado',
   templateUrl: './visado.component.html',
   styleUrls: ['./visado.component.scss']
 })
 export class VisadoComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   residential_id!: string;
   user_id!: string;
   listado_visado = [];
@@ -40,7 +41,7 @@ export class VisadoComponent implements OnInit {
     this.residential_id = this.route.snapshot.paramMap.get('id')!;
     // this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getPreregisterLogByResidential?key=' + this.config.key + '&user_id=' + this.user_id + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentialServices/getPreregisterLogByResidential?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         // tslint:disable-next-line: max-line-length
         this.listado_visado = resp['content'];

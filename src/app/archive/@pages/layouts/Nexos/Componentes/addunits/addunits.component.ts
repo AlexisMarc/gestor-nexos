@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -8,6 +8,7 @@ import { listadoUnidadEnvio } from '../../interface/listadounidadenvio';
 import { AddunitserviceService } from '../../service/addunitservice.service';
 import swal from 'sweetalert2';
 import { SendmailService } from '../../service/sendmail.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-addunits',
@@ -15,6 +16,7 @@ import { SendmailService } from '../../service/sendmail.service';
   styleUrls: ['./addunits.component.scss'],
 })
 export class AddunitsComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   residential_id!: string;
   document_number: any;
   customer_id!: string;
@@ -85,9 +87,9 @@ export class AddunitsComponent implements OnInit {
     this.keysession = userStorage['token'];
     this.httpClient
       .get(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           'PreRegisterMeetingServices/getMeetingDetails?key=' +
-          this.config.key +
+          this._env.SECRET_KEY +
           '&residential_id=' +
           this.residential_id
       )
@@ -97,9 +99,9 @@ export class AddunitsComponent implements OnInit {
       });
     this.httpClient
       .get(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           'AppServices/getBuildingsUnitByResidential?key=' +
-          this.config.key +
+          this._env.SECRET_KEY +
           '&user_id=' +
           this.customer_id +
           '&residential_id=' +
@@ -127,9 +129,9 @@ export class AddunitsComponent implements OnInit {
     this.listadoUnidad = [];
     this.httpClient
       .get(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           'ResidentServices/getResidentByDocumentNumber?key=' +
-          this.config.key +
+          this._env.SECRET_KEY +
           '&document_number=' +
           this.document_number
       )
@@ -144,9 +146,9 @@ export class AddunitsComponent implements OnInit {
         this.customer_id_send = resp['content']['id'];
         this.httpClient
           .get(
-            this.config.endpoint3 +
+            this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
               'ResidentialServices/getCustomerProperties?key=' +
-              this.config.key +
+              this._env.SECRET_KEY +
               '&user_id=' +
               this.customer_id +
               '&residential_id=' +
@@ -172,9 +174,9 @@ export class AddunitsComponent implements OnInit {
             }
             this.httpClient
               .get(
-                this.config.endpoint3 +
+                this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
                   'CustomerRegistrationServices/getEntryTokenByCustomerByMeeting?key=' +
-                  this.config.key +
+                  this._env.SECRET_KEY +
                   '&customer_id=' +
                   this.customer_id +
                   '&meeting_id=' +
@@ -277,7 +279,7 @@ export class AddunitsComponent implements OnInit {
     unidades = JSON.stringify(this.id_unidad_envio);
 
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.customer_id);
     formData.append('nameRegister', this.nameRegister);
     formData.append('email', this.customer_email);
@@ -328,13 +330,13 @@ export class AddunitsComponent implements OnInit {
 
   enableLogin() {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('is_online', '0');
     formData2.append('document_number', this.document_number);
     formData2.append('token', this.token);
     this.httpClient
       .post(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           'CustomerRegistrationServices/updateUserSignInStatus',
         formData2
       )
@@ -354,18 +356,18 @@ export class AddunitsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         const formData3 = new FormData();
-        formData3.append('key', this.config.key);
+        formData3.append('key', this._env.SECRET_KEY);
         formData3.append('customer_id', this.customer_id_send);
         formData3.append('meeting_id', this.meeting_id);
         formData3.append('user_id', this.user_id);
         this.httpClient
           .post(
-            this.config.endpoint + 'ApiQrPresence/deleteCustomerFromAttendance',
+            this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiQrPresence/deleteCustomerFromAttendance',
             formData3
           )
           .subscribe((resp2) => {
             const formData2 = new FormData();
-            formData2.append('key', this.config.key);
+            formData2.append('key', this._env.SECRET_KEY);
             formData2.append('id', this.customer_id);
             formData2.append('status_id', '0');
 
@@ -378,9 +380,9 @@ export class AddunitsComponent implements OnInit {
   selectedUser() {
     this.httpClient
       .get(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           'ResidentServices/getResidentByUnitNumber?key=' +
-          this.config.key +
+          this._env.SECRET_KEY +
           '&unit_id=' +
           this.id_unit_search
       )
@@ -402,9 +404,9 @@ export class AddunitsComponent implements OnInit {
     this.listadoUnidad = [];
     this.httpClient
       .get(
-        this.config.endpoint3 +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
           'ResidentServices/getResidentByDocumentNumber?key=' +
-          this.config.key +
+          this._env.SECRET_KEY +
           '&document_number=' +
           this.document_number
       )
@@ -418,9 +420,9 @@ export class AddunitsComponent implements OnInit {
         this.customer_id_send = resp['content']['id'];
         this.httpClient
           .get(
-            this.config.endpoint3 +
+            this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
               'ResidentialServices/getCustomerProperties?key=' +
-              this.config.key +
+              this._env.SECRET_KEY +
               '&user_id=' +
               this.customer_id +
               '&residential_id=' +
@@ -446,9 +448,9 @@ export class AddunitsComponent implements OnInit {
             }
             this.httpClient
               .get(
-                this.config.endpoint3 +
+                this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
                   'CustomerRegistrationServices/getEntryTokenByCustomerByMeeting?key=' +
-                  this.config.key +
+                  this._env.SECRET_KEY +
                   '&customer_id=' +
                   this.customer_id +
                   '&meeting_id=' +

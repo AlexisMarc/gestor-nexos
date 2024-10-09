@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateUserServicesService } from '../../service/create-user-services.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 declare var bootstrap: any
 
 @Component({
@@ -12,6 +13,7 @@ declare var bootstrap: any
   styleUrls: ['./edit-users.component.scss']
 })
 export class EditUsersComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() userEdit = {
     name: '',
     id: '',
@@ -60,7 +62,7 @@ export class EditUsersComponent implements OnInit {
     this.idUser = this.route.snapshot.paramMap.get('idUser')!
     this.keysession = userStorage['token'];
     //obtener user for id UserServices/getUserProfileById
-    this.httpClient.get(this.config.endpoint6 + 'api/users/details/' + this.keysession + '/' + this.idUser)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/users/details/' + this.keysession + '/' + this.idUser)
       .subscribe((resp:any)=> {
         this.userEdit['name'] = resp['content']['name'];
         this.userEdit['id'] = resp['content']['id'];
@@ -74,7 +76,7 @@ export class EditUsersComponent implements OnInit {
       })
 
     //obtener all profiles 
-    this.httpClient.get(this.config.endpoint + 'UserServices/getAllUserProfiles?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/getAllUserProfiles?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.allProfile = resp['content']
       });
@@ -191,7 +193,7 @@ export class EditUsersComponent implements OnInit {
       return
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.userEdit['id']);
     formData.append('name', this.userEdit['name']);
     formData.append('email', this.userEdit['email']);

@@ -16,7 +16,8 @@ export interface registerValidation {
 }
 
 export interface registerField {
-  id_fiel?: number,
+  id?: number;
+  form_id?: number,
   label_name: string;
   field_name: string;
   placeholder: string;
@@ -89,14 +90,14 @@ export interface RegisterDataConfig {
 }
 
 export interface RegisterDataCustomize {
-  shall_ask_representation_document: boolean;
+  shall_ask_representation_document: number;
   label_name_owner: string;
   label_name_agent: string;
   limit_raising_by_customer: number;
   mails_to_send_documents?: string;
   quality_care_selection: number;
-  signature_module: boolean;
-  authority_granted: boolean
+  signature_module: number;
+  authority_granted: number
 }
 
 export interface RegisterDataDesign {

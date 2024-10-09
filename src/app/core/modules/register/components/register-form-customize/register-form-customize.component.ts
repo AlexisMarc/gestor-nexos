@@ -37,14 +37,14 @@ export class CustomizeRegisterComponent implements OnInit {
   ]);
 
   public form = new FormGroup({
-    shall_ask_representation_document: new FormControl(false),
+    shall_ask_representation_document: new FormControl(0),
     label_name_owner: new FormControl('Propietario', NxValidators.required()),
     label_name_agent: new FormControl('Apoderado', NxValidators.required()),
     limit_raising_by_customer: new FormControl(0),
     quality_care_selection: new FormControl(0),
     mails_to_send_documents: new FormControl(''),
-    authority_granted: new FormControl(false),
-    signature_module: new FormControl(false),
+    authority_granted: new FormControl(0),
+    signature_module: new FormControl(0),
   });
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class CustomizeRegisterComponent implements OnInit {
             return;
           }
           this.form.patchValue({
-            shall_ask_representation_document: false,
+            shall_ask_representation_document: 0,
             label_name_owner: 'Propietario',
             label_name_agent: 'Apoderado',
             limit_raising_by_customer: 0,
@@ -89,6 +89,8 @@ export class CustomizeRegisterComponent implements OnInit {
     limit_raising_by_customer,
     mails_to_send_documents,
     quality_care_selection,
+    signature_module,
+    authority_granted
   }: RegisterDataCustomize) {
     this.form.patchValue({
       shall_ask_representation_document,
@@ -97,6 +99,8 @@ export class CustomizeRegisterComponent implements OnInit {
       limit_raising_by_customer,
       mails_to_send_documents,
       quality_care_selection,
+      signature_module,
+      authority_granted
     });
 
     if (mails_to_send_documents && mails_to_send_documents !== '') {

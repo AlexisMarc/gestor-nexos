@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
  
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-city-list',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./city-list.component.scss']
 })
 export class CityListComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   listItem: [] = [];
   constructor(private router: Router,
     private httpClient: HttpClient,
@@ -36,7 +38,7 @@ export class CityListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllActiveCities?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllActiveCities?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
 
         this.listItem = resp['content']

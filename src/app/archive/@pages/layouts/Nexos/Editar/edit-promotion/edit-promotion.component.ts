@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateOrEditDiscountService } from '../../service/create-or-edit-discount.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./edit-promotion.component.scss']
 })
 export class EditPromotionComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @Input() createDiscounts = {
     name: '',
     id: '',
@@ -50,7 +51,7 @@ export class EditPromotionComponent implements OnInit {
     this.idDiscounts = this.route.snapshot.paramMap.get('idDiscount')!
 
     //get type quote id 
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getMonthlyDiscountById?key=' + this.config.key + '&id=' + this.idDiscounts)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getMonthlyDiscountById?key=' + this._env.SECRET_KEY + '&id=' + this.idDiscounts)
       .subscribe((resp:any)=> {
         this.createDiscounts['name'] = resp['content']['name'];
         this.createDiscounts['id'] = resp['content']['id'];
@@ -85,7 +86,7 @@ export class EditPromotionComponent implements OnInit {
       return
     }
     const formData = new FormData();
-    formData.append('key', this.config.key)
+    formData.append('key', this._env.SECRET_KEY)
     formData.append('id', this.createDiscounts['id'])
     formData.append('name', this.createDiscounts['name'])
     formData.append('status_id', this.createDiscounts['status_id'])

@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateOrEditDiscountService } from '../../service/create-or-edit-discount.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-promotion.component.scss']
 })
 export class CreatePromotionComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @Input() createDiscounts = {
     name: '',
     id: '0',
@@ -71,7 +72,7 @@ export class CreatePromotionComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('key', this.config.key)
+    formData.append('key', this._env.SECRET_KEY)
     formData.append('id', this.createDiscounts['id'])
     formData.append('name', this.createDiscounts['name'])
     formData.append('status_id', this.createDiscounts['status_id'])

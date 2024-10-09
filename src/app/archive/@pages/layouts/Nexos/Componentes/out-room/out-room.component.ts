@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-out-room',
@@ -11,7 +12,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./out-room.component.scss']
 })
 export class OutRoomComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   meeting_id: string;
   residential_id: string;
   user_id: string;
@@ -44,13 +45,13 @@ export class OutRoomComponent implements OnInit {
 
   sendQR(customerData:any) {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('user_id', this.user_id);
     formData2.append('token_2', customerData['token_2']);
     formData2.append('room', this.room);
     formData2.append('meeting_id', this.meeting_id);
 
-    this.httpClient.post(this.config.endpoint + 'ApiQrPresence/updateCustomerRoomByToken', formData2)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiQrPresence/updateCustomerRoomByToken', formData2)
       .subscribe((resp:any)=> {
         // this.listUserInRoom = resp['content'];
       });

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { Globals } from '../../interface/globals.model';
 import { ItemsCant } from '../../interface/itemscant.model';
 import { ItemSave } from '../../interface/itemsave.model';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-additems',
@@ -13,6 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./additems.component.scss'],
 })
 export class AdditemsComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   quote_type_id = '1';
   listItems: { [key: string]: any }[] = [];
   listadoItems: [] = [];
@@ -75,9 +77,9 @@ export class AdditemsComponent implements OnInit {
     // tslint:disable-next-line: max-line-length
     this.httpClient
       .get(
-        this.config.endpoint +
+        this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+
           'QuoteServices/getAllItemsToSellByTypeQuote?key=' +
-          this.config.key +
+          this._env.SECRET_KEY +
           '&quote_type_id=' +
           this.quote_type_id
       )

@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import swal from 'sweetalert2';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import moment from 'moment';
+import { EnvServiceService } from '@env';
 
 
 @Component({
@@ -13,6 +14,7 @@ import moment from 'moment';
   styleUrls: ['./search-user-task.component.scss']
 })
 export class SearchUserTaskComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   profile!: string;
   listTaksByUser: [] = [];
   showListTaksByUser: [] = [];
@@ -55,7 +57,7 @@ export class SearchUserTaskComponent implements OnInit {
 
   ngOnInit() {
     //Obtener todos los usuarios
-    this.httpClient.get(this.config.endpoint + 'UserServices/getAllUsers?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/getAllUsers?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.listUsers = resp['content'];
       });
@@ -82,11 +84,11 @@ export class SearchUserTaskComponent implements OnInit {
     } else {
       this.userId = user['id'];
       this.nameUser = user['name'];
-      var queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
+      var queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
       if (this.dateFrom == this.dateTo || this.dateTo == '') {
-        queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
+        queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId;
       } else {
-        queryToSearch = this.config.endpoint6 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId + '/' + this.dateTo
+        queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/getTaskByUser/' + this.keysession + '/' + this.dateFrom + '/' + this.userId + '/' + this.dateTo
       }
       //Llamar listado de tareas del día actual
       this.httpClient.get(queryToSearch).subscribe((response:any) => {
@@ -133,7 +135,7 @@ export class SearchUserTaskComponent implements OnInit {
     var dataTaskToSend = JSON.stringify(arrayDataTask2);
     formData.append("task", dataTaskToSend);
     
-    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/storeTask/' + this.keysession, formData).subscribe((resp:any) => {
       if (resp['success']) {
         swal.fire('Mensaje', 'Se ha editado la información de manera exitosa', 'success');
         // this.return();
@@ -147,9 +149,9 @@ export class SearchUserTaskComponent implements OnInit {
   downloadReport() {
     var queryToSearch;
     if (this.dateFrom == this.dateTo || this.dateTo == '') {
-      queryToSearch = this.config.endpoint6 + 'api/reports/getTaskReportExcel/' + this.keysession + '/' + this.userId + '/' + this.dateFrom;
+      queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getTaskReportExcel/' + this.keysession + '/' + this.userId + '/' + this.dateFrom;
     } else {
-      queryToSearch = this.config.endpoint6 + 'api/reports/getTaskReportExcel/' + this.keysession + '/' + this.userId + '/' + this.dateFrom + '/' + this.dateTo
+      queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getTaskReportExcel/' + this.keysession + '/' + this.userId + '/' + this.dateFrom + '/' + this.dateTo
     }
     //Descargar excel con reporte
     this.httpClient.get(queryToSearch).subscribe((response :any)=> {
@@ -166,9 +168,9 @@ export class SearchUserTaskComponent implements OnInit {
   downloadReportAllUsers() {
     var queryToSearch;
     if (this.dateFrom == this.dateTo || this.dateTo == '') {
-      queryToSearch = this.config.endpoint6 + 'api/reports/getTaskReportExcel/' + this.keysession + '/0/' + this.dateFrom;
+      queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getTaskReportExcel/' + this.keysession + '/0/' + this.dateFrom;
     } else {
-      queryToSearch = this.config.endpoint6 + 'api/reports/getTaskReportExcel/' + this.keysession + '/0/' + this.dateFrom + '/' + this.dateTo
+      queryToSearch = this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getTaskReportExcel/' + this.keysession + '/0/' + this.dateFrom + '/' + this.dateTo
     }
     //Descargar excel con reporte
     this.httpClient.get(queryToSearch).subscribe((response :any)=> {

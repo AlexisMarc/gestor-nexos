@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateOrEditQuoteTypeService } from '../../service/create-or-edit-quote-type.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./edit-quotationrate.component.scss']
 })
 export class EditQuotationrateComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @Input() editParamsTypeQuote = {
     name: '',
     id: '',
@@ -47,7 +48,7 @@ export class EditQuotationrateComponent implements OnInit {
     this.idTypeQuote = this.route.snapshot.paramMap.get('id_TypeQuote')!
 
     //get type quote id 
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getTypeQuoteById?key=' + this.config.key + '&id=' + this.idTypeQuote)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getTypeQuoteById?key=' + this._env.SECRET_KEY + '&id=' + this.idTypeQuote)
       .subscribe((resp:any)=> {
         this.editParamsTypeQuote['name'] = resp['content']['name'];
         this.editParamsTypeQuote['id'] = resp['content']['id'];
@@ -78,7 +79,7 @@ export class EditQuotationrateComponent implements OnInit {
       return
     }
     const formData = new FormData();
-    formData.append('key', this.config.key)
+    formData.append('key', this._env.SECRET_KEY)
     formData.append('id', this.editParamsTypeQuote['id'])
     formData.append('name', this.editParamsTypeQuote['name'])
     formData.append('status_id', this.editParamsTypeQuote['status_id'])

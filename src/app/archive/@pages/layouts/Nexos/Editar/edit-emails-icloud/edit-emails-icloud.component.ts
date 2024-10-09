@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, Input, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -7,6 +7,7 @@ import { Globals } from '../../interface/globals.model';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import Swal from 'sweetalert2';
 import { CreateEmailContentService } from '../../service/create-email-content.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-edit-emails-icloud',
@@ -14,6 +15,7 @@ import { CreateEmailContentService } from '../../service/create-email-content.se
   styleUrls: ['./edit-emails-icloud.component.scss']
 })
 export class EditEmailsIcloudComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   user_id: any;
   allEmailId: any;
   idEmail: any;
@@ -59,7 +61,7 @@ export class EditEmailsIcloudComponent implements OnInit {
 
     // Obtener all Emails
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getEmailContentById?key=' + this.config.key + '&user_id=' + this.user_id + '&id=' + this.idEmail)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ApiEmailContent/getEmailContentById?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id + '&id=' + this.idEmail)
       .subscribe((resp:any)=> {
         this.editParamTextEmailContent.id = resp['content']['id'];
         this.editParamTextEmailContent.subject = resp['content']['subject'];
@@ -104,7 +106,7 @@ export class EditEmailsIcloudComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('user_id', this.user_id);
     formData.append('id', this.editParamTextEmailContent['id']);
     formData.append('subject', this.editParamTextEmailContent['subject']);

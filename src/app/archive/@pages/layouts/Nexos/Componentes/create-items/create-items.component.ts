@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateOrEditItemService } from '../../service/create-or-edit-item.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-items.component.scss']
 })
 export class CreateItemsComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() ItemsParameters = {
     name: '',
     id: '0',
@@ -58,7 +60,7 @@ export class CreateItemsComponent implements OnInit {
     this.router.navigate(['/']);
   }
     // service type quote
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getAllActiveTypeQuote?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.typeQuote = resp['content']
       });
@@ -101,7 +103,7 @@ export class CreateItemsComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.ItemsParameters['id']);
     formData.append('name', this.ItemsParameters['name']);
     formData.append('price', this.ItemsParameters['price']);

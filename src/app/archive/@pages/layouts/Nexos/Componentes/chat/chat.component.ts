@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -6,6 +6,7 @@ import * as jsPDF from 'jspdf';
  
 import Swal from 'sweetalert2';
 import { Chats } from '../../interface/chats.model';
+import { EnvServiceService } from '@env';
 declare var moment: any;
 
 @Component({
@@ -14,7 +15,7 @@ declare var moment: any;
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @ViewChild('content', { static: false }) content!: ElementRef;
 
   residential_id: any;
@@ -47,11 +48,11 @@ export class ChatComponent implements OnInit {
     this.user_id = userStorage['id'];
     this.residential_id = this.route.snapshot.paramMap.get('id');
     this.keysession = userStorage['token'];
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];
         this.residential = resp['content']['residential'];
-        this.httpClient.get(this.config.endpoint6 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/0')
+        this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/0')
           .subscribe((resp2 :any)=> {
             if (resp2['success']) {
               for (let index = 0; index < resp2['content']['messages'].length; index++) {

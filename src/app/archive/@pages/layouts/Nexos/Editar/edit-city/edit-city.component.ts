@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateEditCityService } from '../../service/create-edit-city.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./edit-city.component.scss']
 })
 export class EditCityComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @Input() CityParameters = {
     id: '0',
     name: '',
@@ -44,7 +45,7 @@ export class EditCityComponent implements OnInit {
     //ResidentialServices/getCityById7
     this.idCity = this.route.snapshot.paramMap.get('idCity')
     //get city by id
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getCityById?key=' + this.config.key + '&id=' + this.idCity)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getCityById?key=' + this._env.SECRET_KEY + '&id=' + this.idCity)
       .subscribe((resp:any)=> {
         this.CityParameters['id'] = resp['content']['id'];
         this.CityParameters['name'] = resp['content']['name'];
@@ -75,7 +76,7 @@ export class EditCityComponent implements OnInit {
       return
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.CityParameters['id']);
     formData.append('name', this.CityParameters['name']);
     formData.append('status_id', this.CityParameters['status_id']);

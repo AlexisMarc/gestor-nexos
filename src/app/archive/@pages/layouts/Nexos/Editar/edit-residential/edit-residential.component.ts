@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -7,6 +7,7 @@ import { ListService } from '../../interface/listService.model';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import { SaveServiceIcloudService } from '../../service/save-service-icloud.service';
 import swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -15,6 +16,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./edit-residential.component.scss']
 })
 export class EditResidentialComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   exampleData: any;
   uuid_code: any;
 
@@ -56,11 +58,11 @@ export class EditResidentialComponent implements OnInit {
     this.uuid_code = this.route.snapshot.paramMap.get('uuid_code');
     this.editInfoResidential['status_id'] = '1';
 
-    // this.httpClient.get(this.config.endpoint + 'ResidentialServices/getResidentialById?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
+    // this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getResidentialById?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id).subscribe((response:any) => {
     //   this.infoResidential = response['content'];
     // })
 
-    this.httpClient.get(this.config.endpoint5 + 'getResidentialByCode?key=' + this.config.key + '&code=' + this.uuid_code)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_SERVICE_RESIDENTIAL + 'getResidentialByCode?key=' + this._env.SECRET_KEY + '&code=' + this.uuid_code)
       .subscribe((resp:any)=> {
         this.infoResidential = resp['content'];
 
@@ -85,7 +87,7 @@ export class EditResidentialComponent implements OnInit {
   saveService() {
     this.infoResidential['hired_services'] = this.serviceActive;
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('address', this.address);
     formData.append('uuid_code', this.uuid_code);
     formData.append('email', this.infoResidential['email']);

@@ -38,8 +38,8 @@
 
     <div class="mt-4 flex gap-2 col-span-2 justify-end">
         @if (statusProcess()=== 'edit'){
-        <div class="flex-1">
-            <button (click)="onNext.emit()" type="button" class="b-tertiary px-4 py-2 b-fit">Unidades</button>
+        <div class="flex-1 hidden">
+            <button (click)="onNext.emit(false)" type="button" class="b-tertiary px-4 py-2 b-fit">Unidades</button>
         </div>
         }
         <button type="button" (click)="onAfter.emit()" class="b-secondary px-4 py-2 b-fit">Anterior</button>

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-users-voted-in-room',
@@ -10,7 +11,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
   styleUrls: ['./users-voted-in-room.component.scss']
 })
 export class UsersVotedInRoomComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   meeting_id: string;
   residential_id: string;
   user_id: string;
@@ -33,7 +34,7 @@ export class UsersVotedInRoomComponent implements OnInit {
     const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     this.user_id = userStorage['id'];
 
-    this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getCustomerWithoutVote?key=' + this.config.key + '&user_id=' + this.user_id + '&meeting_id=' + this.meeting_id + '&voting_header_id=' + this.voting_header_id )
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiQrPresence/getCustomerWithoutVote?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id + '&meeting_id=' + this.meeting_id + '&voting_header_id=' + this.voting_header_id )
       .subscribe((resp:any)=> {
         this.listUserInRoom = resp['content'];
         this.total = this.listUserInRoom.length
@@ -53,7 +54,7 @@ export class UsersVotedInRoomComponent implements OnInit {
 
   reloadList() {
     
-    this.httpClient.get(this.config.endpoint + 'ApiQrPresence/getCustomerWithoutVote?key=' + this.config.key + '&user_id=' + this.user_id + '&meeting_id=' + this.meeting_id + '&voting_header_id=' + this.voting_header_id )
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiQrPresence/getCustomerWithoutVote?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id + '&meeting_id=' + this.meeting_id + '&voting_header_id=' + this.voting_header_id )
       .subscribe((resp:any)=> {
         this.listUserInRoom = resp['content'];
       });

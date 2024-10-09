@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
 import swal, { SweetAlertIcon } from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateOrEditDiscountService {
-
+  private _env = inject(EnvServiceService)
   data: any;
 
   constructor(
@@ -18,7 +19,7 @@ export class CreateOrEditDiscountService {
   ) { }
 
   CreatetDiscount(createDiscount:any) {
-    this.httpClient.post(this.config.endpoint + 'QuoteServices/createOrEditDiscount', createDiscount)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/createOrEditDiscount', createDiscount)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'
@@ -40,7 +41,7 @@ export class CreateOrEditDiscountService {
   }
 
   EditDiscount(updateDiscount:any) {
-    this.httpClient.post(this.config.endpoint + 'QuoteServices/createOrEditDiscount', updateDiscount)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/createOrEditDiscount', updateDiscount)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'

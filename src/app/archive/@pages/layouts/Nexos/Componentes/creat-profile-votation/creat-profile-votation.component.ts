@@ -1,10 +1,11 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import swal from 'sweetalert2';
  
 import { UserProfileService } from '../../service/user-profile.service';
+import { EnvServiceService } from '@env';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { UserProfileService } from '../../service/user-profile.service';
   styleUrls: ['./creat-profile-votation.component.scss']
 })
 export class CreatProfileVotationComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() createParametersProfileVotation = {
     name: '',
     id: '0',
@@ -54,7 +56,7 @@ export class CreatProfileVotationComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.createParametersProfileVotation['id']);
     formData.append('name', this.createParametersProfileVotation['name']);
     formData.append('status_id', this.createParametersProfileVotation['status_id']);

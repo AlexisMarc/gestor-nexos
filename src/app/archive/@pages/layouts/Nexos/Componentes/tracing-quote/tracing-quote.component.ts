@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import { ConfirmationByQuoteService } from '../../service/confirmation-by-quote.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-tracing-quote',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./tracing-quote.component.scss']
 })
 export class TracingQuoteComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() quoteParameters = {
     id: '',
     residentialName: '',
@@ -72,7 +74,7 @@ export class TracingQuoteComponent implements OnInit {
     this.idQuote = this.route.snapshot.paramMap.get('id_quote');
     this.idResidential = this.route.snapshot.paramMap.get('id_residential');
     //get data quote
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteById?key=' + this.config.key + '&id=' + this.idQuote)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getQuoteById?key=' + this._env.SECRET_KEY + '&id=' + this.idQuote)
       .subscribe((resp:any)=> {
         this.dataQuote = resp['content'];
         this.quoteParameters['residentialName'] = resp['content']['residentialName'];
@@ -88,13 +90,13 @@ export class TracingQuoteComponent implements OnInit {
       });
 
     //get data quote
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getResidentialById?key=' + this.config.key + '&residential_id=' + this.idResidential)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getResidentialById?key=' + this._env.SECRET_KEY + '&residential_id=' + this.idResidential)
       .subscribe((resp:any)=> {
         this.quoteParameters['name_administrator'] = resp['content']['encargado']['name'];
         this.quoteParameters['units'] = resp['content']['total_properties'];
       });
 
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteConfirmationHistoryByQuote?key=' + this.config.key + '&user_id=' + this.id_user + '&quote_id=' + this.idQuote)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getQuoteConfirmationHistoryByQuote?key=' + this._env.SECRET_KEY + '&user_id=' + this.id_user + '&quote_id=' + this.idQuote)
       .subscribe((resp:any)=> {
         this.datatext = resp['content']['messages'];
       });
@@ -122,7 +124,7 @@ export class TracingQuoteComponent implements OnInit {
   saveConfirmationQuote() {
     
       const formData = new FormData();
-      formData.append('key', this.config.key);
+      formData.append('key', this._env.SECRET_KEY);
       formData.append('id', '0');
       formData.append('user_id', this.id_user);
       formData.append('quote_id', this.idQuote);

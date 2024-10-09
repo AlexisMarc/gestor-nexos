@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
  
@@ -7,6 +7,7 @@ import swal from 'sweetalert2';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { SendMessageService } from '../../service/send-message.service';
 import { SocketService } from '../../service/socket.service';
+import { EnvServiceService } from '@env';
 declare var moment: any;
 
 @Component({
@@ -15,7 +16,7 @@ declare var moment: any;
   styleUrls: ['./chat-control.component.scss']
 })
 export class ChatControlComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   profileForm = new FormGroup({
     message: new FormControl(''),
   });
@@ -52,7 +53,7 @@ export class ChatControlComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint6 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/50')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/50')
       .subscribe((resp2 :any)=> {
         if (resp2['message'] == "La sesión es inválida") {
           swal.fire({
@@ -153,10 +154,10 @@ export class ChatControlComponent implements OnInit {
 
   cahngeStatusChat(statusChat:any) {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('id', this.meeting_id);
     formData2.append('enable_chat', statusChat);
-    this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/updateMeetingDetails', formData2).subscribe((data:any) => {
       if (statusChat == '1') {
         this.enable_chat = 1;
       } else {

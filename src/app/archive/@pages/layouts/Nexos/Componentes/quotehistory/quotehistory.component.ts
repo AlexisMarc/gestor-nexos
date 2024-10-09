@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, Input, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
  
 import { SaveQuotationHistoryService } from '../../service/save-quotation-history.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-quotehistory',
@@ -11,6 +12,7 @@ import { SaveQuotationHistoryService } from '../../service/save-quotation-histor
   styleUrls: ['./quotehistory.component.scss']
 })
 export class QuotehistoryComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() dataQuote: any = {
     id: '',
     number: '',
@@ -46,7 +48,7 @@ export class QuotehistoryComponent implements OnInit {
     const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     this.id = userStorage['id'];
 
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteConfirmationHistoryByQuote?key=' + this.config.key + '&user_id=' + this.id + '&quote_id=' + this.idQuote)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getQuoteConfirmationHistoryByQuote?key=' + this._env.SECRET_KEY + '&user_id=' + this.id + '&quote_id=' + this.idQuote)
       .subscribe((resp:any)=> {
         this.dataQuote = resp['content'];
       });
@@ -66,7 +68,7 @@ export class QuotehistoryComponent implements OnInit {
   }
   Save() {
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('user_id', this.id);
     formData.append('id', this.idj);
     formData.append('quote_id', this.idQuote);

@@ -44,15 +44,15 @@ export interface meeting {
 
 export interface meetingSettings {
   mails_to_send_documents?: string;
-  shall_ask_representation_document: boolean;
+  shall_ask_representation_document: number;
   label_name_owner: string;
   label_name_agent: string;
   limit_raising_by_customer: number;
   color: string;
   welcome_message: string;
   quality_care_selection: number;
-  signature_module: boolean;
-  authority_granted: boolean;
+  signature_module: number;
+  authority_granted: number;
 }
 
 export interface MeetingWelcome {
@@ -77,6 +77,7 @@ export interface events {
 }
 
 export interface unit {
+  id: number
   name: string;
   number: string;
   created_at: string;

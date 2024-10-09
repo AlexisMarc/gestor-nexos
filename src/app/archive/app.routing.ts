@@ -249,7 +249,12 @@ export const AppRoutes: Routes = [
         { path: 'createcampaign', component: CreateCampaignWhatsappComponent},
         { path: 'registervotewhatsapp/:idResidential', component: RegisterAssamblyMeetingWhatsappComponent},
 
-        
+        //Register
+        {
+          path: 'register',
+          loadChildren: () =>
+            import('../core/modules/register/register.module').then((m) => m.RegisterModule),
+        },
 
     ]
   },

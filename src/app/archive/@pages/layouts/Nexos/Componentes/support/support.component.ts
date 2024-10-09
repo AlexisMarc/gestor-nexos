@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -15,6 +15,7 @@ import { AddSupportCalledService } from '../../service/AddSupportCalled.service'
 import { SendmailService } from '../../service/sendmail.service';
 import { SocketService } from '../../service/socket.service';
 import { TwitchCallService } from '../../service/twitch-call.service';
+import { EnvServiceService } from '@env';
 declare var moment: any;
 
 @Component({
@@ -23,7 +24,7 @@ declare var moment: any;
   styleUrls: ['./support.component.scss']
 })
 export class SupportComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   profileForm = new FormGroup({
     message: new FormControl(''),
   });
@@ -99,7 +100,7 @@ export class SupportComponent implements OnInit {
     this.userStorage = JSON.parse(sessionStorage.getItem('user')!)!;
     this.user_id = this.userStorage['id'];
     this.keysession = this.userStorage['token'];
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.residential_name = resp['content']['residential'];
         this.meeting_id = resp['content']['id'];
@@ -118,7 +119,7 @@ export class SupportComponent implements OnInit {
             }
           }
         }, 1000);
-        this.httpClient.get(this.config.endpoint6 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/50')
+        this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/chat/getMessagesFromMeeting/' + this.keysession + '/' + this.meeting_id + '/50')
           .subscribe((resp2 :any)=> {
             this.messages = resp2['content']['messages'];
             if (this.scrollAuto == 1) {
@@ -142,12 +143,12 @@ export class SupportComponent implements OnInit {
         });
       });
     //Listado de documentos
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp2 :any)=> {
         this.listDocument = resp2['content']
       });
     //servicio obtener unidades
-    this.httpClient.get(this.config.endpoint3 + 'AppServices/getBuildingsUnitByResidential?key=' + this.config.key + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'AppServices/getBuildingsUnitByResidential?key=' + this._env.SECRET_KEY + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
       .subscribe((resp4:any) => {
         this.ListadoConjuntosSelect = resp4['content'];
         if (resp4['success'] === true) {
@@ -231,11 +232,11 @@ export class SupportComponent implements OnInit {
 
   enableLogin() {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('is_online', "0")
     formData2.append('document_number', this.document_number)
     formData2.append('token', this.token);
-    this.httpClient.post(this.config.endpoint3 + 'CustomerRegistrationServices/updateUserSignInStatus', formData2).subscribe((resp3:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'CustomerRegistrationServices/updateUserSignInStatus', formData2).subscribe((resp3:any) => {
       swal.fire({
         title: '<strong>Mensaje</strong>',
         icon: 'success',
@@ -254,7 +255,7 @@ export class SupportComponent implements OnInit {
 
   getCustomerDetails() {
     this.listadoUnidad = [];
-    this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByDocumentNumber?key=' + this.config.key + '&document_number=' + this.document_number)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByDocumentNumber?key=' + this._env.SECRET_KEY + '&document_number=' + this.document_number)
       .subscribe((resp:any)=> {
         if (resp['success'] === true) {
           this.show_components = 1;
@@ -265,7 +266,7 @@ export class SupportComponent implements OnInit {
         }
         this.customer_id = resp['content']['id'];
         this.customer_id_send = resp['content']['id'];
-        this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getCustomerProperties?key=' + this.config.key + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
+        this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentialServices/getCustomerProperties?key=' + this._env.SECRET_KEY + '&user_id=' + this.customer_id + '&residential_id=' + this.residential_id)
           .subscribe((resp2 :any)=> {
             this.listadoUnidadData = resp2['content']['properties'];
             this.moroso = resp2['content']['moroso'];
@@ -275,7 +276,7 @@ export class SupportComponent implements OnInit {
                 this.listadoUnidadData[index]['total_users'])
               this.listadoUnidad.push(unidad);
             }
-            this.httpClient.get(this.config.endpoint3 + 'CustomerRegistrationServices/getEntryTokenByCustomerByMeeting?key=' + this.config.key + '&customer_id=' + this.customer_id + '&meeting_id=' + this.meeting_id)
+            this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'CustomerRegistrationServices/getEntryTokenByCustomerByMeeting?key=' + this._env.SECRET_KEY + '&customer_id=' + this.customer_id + '&meeting_id=' + this.meeting_id)
               .subscribe((resp3:any) => {
                 this.token = resp3['content'];
               });
@@ -286,7 +287,7 @@ export class SupportComponent implements OnInit {
   selectedUser() {
     var unit_name = this.ListadoUnidades.find(units => units['id'] === this.id_unit_add)!;
     this.form_unit = this.ListadoConjuntosSelect[this.int2]['name'] + " " + this.ListadoConjuntosSelect[this.int2]['number'] + ' ' + unit_name['name'] + ' ' + unit_name['number']
-    this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_unit_add)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByUnitNumber?key=' + this._env.SECRET_KEY + '&unit_id=' + this.id_unit_add)
       .subscribe((resp:any)=> {
         this.document_number = resp['content']['document_number'];
         this.getCustomerDetails();
@@ -317,7 +318,7 @@ export class SupportComponent implements OnInit {
 
   editEmail() {
     const formData2 = new FormData();
-    formData2.append('key', this.config.key);
+    formData2.append('key', this._env.SECRET_KEY);
     formData2.append('id', this.customer_id);
     formData2.append('email', this.userEmail);
     this.editEmailService.editMail(formData2);
@@ -325,7 +326,7 @@ export class SupportComponent implements OnInit {
 
   saveFormCall() {
     const formData = new FormData();
-    formData.append('key', this.config.key)
+    formData.append('key', this._env.SECRET_KEY)
     formData.append('id', '0')
     formData.append('name_client', this.form_name)
     formData.append('phone', this.form_phone)
@@ -344,7 +345,7 @@ export class SupportComponent implements OnInit {
   }
 
   download(id_file:any, name_file:any) {
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFileById?key=' + this.config.key + '&id=' + id_file)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingFileById?key=' + this._env.SECRET_KEY + '&id=' + id_file)
       .subscribe((resp2 :any)=> {
         const linkSource = `data:application/pdf;base64,${resp2['content']['file_content']}`;
         const downloadLink = document.createElement("a");

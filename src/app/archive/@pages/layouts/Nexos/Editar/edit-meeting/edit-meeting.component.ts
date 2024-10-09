@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { StoreMeetingService } from '../../service/store-meeting.service';
@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
  
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { NgForm } from '@angular/forms';
+import { EnvServiceService } from '@env';
 declare var Swal: any;
 
 @Component({
@@ -14,6 +15,7 @@ declare var Swal: any;
   styleUrls: ['./edit-meeting.component.scss']
 })
 export class EditMeetingComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   residential_id: any;
   meeting_id: any;
   residential_name!: string;
@@ -116,12 +118,12 @@ export class EditMeetingComponent implements OnInit {
     this.user_id = userStorage['id'];
     this.keysession = userStorage['token']
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.residential_name = resp['content']['name'];
       });
 
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp2 :any)=> {
         this.listDocument = resp2['content']
       });
@@ -132,7 +134,7 @@ export class EditMeetingComponent implements OnInit {
 
   loadFiles(form: NgForm) {
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('meeting_id', this.meeting_id);
     formData.append('document1', this.loadDatabase['document1']);
     formData.append('document2', this.loadDatabase['document2']);
@@ -156,7 +158,7 @@ export class EditMeetingComponent implements OnInit {
     formData.append('file9', this.fileData9!);
     formData.append('file10', this.fileData10!);
     formData.append('file11', this.fileData11!);
-    this.httpClient.post(this.config.endpoint6 + 'api/meetings/uploadDocumentsForMeeting/' + this.keysession + '/' + this.meeting_id, formData).subscribe((data:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/uploadDocumentsForMeeting/' + this.keysession + '/' + this.meeting_id, formData).subscribe((data:any) => {
       let iconStatus: SweetAlertIcon = 'error';
       if (data['success']) {
         iconStatus = 'success';
@@ -481,7 +483,7 @@ export class EditMeetingComponent implements OnInit {
     }).then((result:any) => {
       if (result.value) {
         const formData = new FormData();
-        formData.append('key', this.config.key);
+        formData.append('key', this._env.SECRET_KEY);
         formData.append('user_id', this.user_id);
         formData.append('document_id', id_document);
         this.storeMeeting.deleteDocument(formData);
@@ -494,14 +496,14 @@ export class EditMeetingComponent implements OnInit {
 
   reLoadFiles() {
     this.listDocument = [];
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingFilesListedEncoded?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp2 :any)=> {
         this.listDocument = resp2['content'];
       });
   }
 
   downloadDocument(documentId:any, nameFile:any) {
-    this.httpClient.get(this.config.endpoint6 + 'ApiMeetings/getMeetingFileById/' + this.keysession + '/' + documentId + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'ApiMeetings/getMeetingFileById/' + this.keysession + '/' + documentId + '/' + this.meeting_id)
       .subscribe((response :any)=> {
         var file = new Blob([this._base64ToArrayBuffer(response['file_content'])], { type: 'application/pdf' });
         var fileURL = URL.createObjectURL(file);

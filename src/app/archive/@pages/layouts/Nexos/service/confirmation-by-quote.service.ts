@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
 import swal, { SweetAlertIcon } from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfirmationByQuoteService {
+  private _env = inject(EnvServiceService)
   data: any;
 
   constructor(private httpClient: HttpClient,
@@ -15,7 +17,7 @@ export class ConfirmationByQuoteService {
     private router: Router) { }
 
   createConfirmationByQuote(createConfirmation:any) {
-    this.httpClient.post(this.config.endpoint + 'QuoteServices/storeQuoteConfirmationByQuote', createConfirmation)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/storeQuoteConfirmationByQuote', createConfirmation)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'

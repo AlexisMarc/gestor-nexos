@@ -1,5 +1,5 @@
 
-import { OnInit, OnDestroy, ViewChild, Input, HostListener, Inject, Component } from '@angular/core';
+import { OnInit, OnDestroy, ViewChild, Input, HostListener, Inject, Component, inject } from '@angular/core';
 import { pagesToggleService } from '../../services/toggler.service';
 import { Router, Event, NavigationEnd,  } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { ConfigurationRestService } from '../Nexos/service/configuration.rest.se
 import { UserService } from '../Nexos/service/user.service';
 import { Globals } from '../Nexos/interface/globals.model';
 import { Subscription } from 'rxjs';
+import { EnvServiceService } from '@env';
 
 ////declare var pg: any;
 
@@ -17,7 +18,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./root.component.scss'],
 })
 export class RootLayout implements OnInit, OnDestroy {
-
+  private _env = inject(EnvServiceService)
   nameResidencial!: string;
 
 
@@ -285,7 +286,7 @@ export class RootLayout implements OnInit, OnDestroy {
   }
 
   singOut() {
-    this.httpClient.get(this.config.endpoint6 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/users/closeSession/' + this.token).subscribe((response :any)=> {
       sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     })
@@ -293,6 +294,5 @@ export class RootLayout implements OnInit, OnDestroy {
 
   goEditUser() {
     this.router.navigate(['/home/editUsers/' + this.id]);
-
   }
 }

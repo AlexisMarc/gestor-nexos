@@ -1,22 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from './configuration.rest.service';
 import swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserTaskService {
-
+  private _env = inject(EnvServiceService)
   constructor(
     private httpClient: HttpClient,
     private config: ConfigurationRestService,
     private router: Router
   ) { }
 
-  createOrEditTask(data, token) {
-    this.httpClient.post(this.config.endpoint6 + 'api/tasks/storeTask/' + token, data).subscribe((response :any)=> {
+  createOrEditTask(data:any, token:any) {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/tasks/storeTask/' + token, data).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -28,8 +29,8 @@ export class UserTaskService {
     });
   }
 
-  getTasksByUser(userId, date, token) {
-    this.httpClient.get(this.config.endpoint + 'ApiTasks/getTaskByUser/' + userId + '/' + date + '/' + token).subscribe((response :any)=> {
+  getTasksByUser(userId:any, date:any, token:any) {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiTasks/getTaskByUser/' + userId + '/' + date + '/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -41,8 +42,8 @@ export class UserTaskService {
     });
   }
 
-  getTaskToday(token) {
-    this.httpClient.get(this.config.endpoint + 'api/tasks/getActiveTaskList/' + token).subscribe((response :any)=> {
+  getTaskToday(token:any) {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'api/tasks/getActiveTaskList/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -54,8 +55,8 @@ export class UserTaskService {
     });
   }
 
-  getTaskDefault(token) {
-    this.httpClient.get(this.config.endpoint + 'api/tasks/getTasks/' + token).subscribe((response :any)=> {
+  getTaskDefault(token:any) {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'api/tasks/getTasks/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');
@@ -67,8 +68,8 @@ export class UserTaskService {
     });
   }
 
-  getTaskDetails(userId, token) {
-    this.httpClient.get(this.config.endpoint + 'api/tasks/getActiveTaskByUser/' + userId + '/' + token).subscribe((response :any)=> {
+  getTaskDetails(userId:any, token:any) {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'api/tasks/getActiveTaskByUser/' + userId + '/' + token).subscribe((response :any)=> {
       if (response['success'] == true) {
 
         swal.fire('Correcto', response['message'], 'success');

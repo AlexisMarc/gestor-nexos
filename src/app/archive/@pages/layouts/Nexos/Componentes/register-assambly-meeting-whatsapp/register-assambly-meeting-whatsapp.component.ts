@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WhatsappService } from '../../service/whatsaap_services';
 import { Global_Services } from '../../service/global_services';
 import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-register-assambly-meeting-whatsapp',
@@ -12,6 +13,7 @@ import { ConfigurationRestService } from '../../service/configuration.rest.servi
   styleUrls: ['./register-assambly-meeting-whatsapp.component.scss']
 })
 export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   residential_id:any
   searchPost = '';
   contrys = []
@@ -116,7 +118,7 @@ export class RegisterAssamblyMeetingWhatsappComponent implements OnInit {
 
   build_selected(){
     
-    this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_selected)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByUnitNumber?key=' + this._env.SECRET_KEY + '&unit_id=' + this.id_selected)
     .subscribe((resp:any)=>{
       let document_aux = resp['content']['document_number']
       let phone_aux = resp['content']['phone1']

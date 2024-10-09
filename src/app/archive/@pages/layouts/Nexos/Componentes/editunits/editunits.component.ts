@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit, } from '@angular/core';
+import { Component, inject, Inject, OnInit, } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
  
 // import { ExecOptionsWithStringEncoding } from 'child_process';
@@ -8,6 +8,7 @@ import { UnitEdit } from '../../interface/unitEdit.model';
 import { FormArray, FormBuilder , FormControl, FormGroup, Validators } from '@angular/forms';
 import { SocketService } from '../../service/socket.service';
 import { isEmpty, toArray } from 'rxjs/operators';
+import { EnvServiceService } from '@env';
 declare var swal: any;
 @Component({
   selector: 'app-edit-units',
@@ -15,6 +16,7 @@ declare var swal: any;
   styleUrls: ['./editunits.component.scss']
 })
 export class EditUnitsComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   arraySearching: any [] = []
   arrayToChangeCoef : any [] = []
   inputSearch: any;
@@ -57,11 +59,11 @@ export class EditUnitsComponent implements OnInit {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!
     const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     this.token = userStorage['token'];
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];
         this.meeting_id_full = this.meeting_id
-        this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
+        this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
           .subscribe((resp:any)=> {
             this.unitsListbyMeeting = resp['content'];
             
@@ -196,7 +198,7 @@ export class EditUnitsComponent implements OnInit {
       
   }
   serviceToSendMultipleUnits(form:any){
-    this.httpClient.post(this.config.endpoint6 + 'api/units/updateMultipleUnits/' +this.token, form).subscribe((response:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/updateMultipleUnits/' +this.token, form).subscribe((response:any) => {
       if (response['success']) {
         swal.fire('mensaje', response['message'], 'success'
         ).then((response:any)=>{
@@ -341,7 +343,7 @@ export class EditUnitsComponent implements OnInit {
     formData2.append('buildings',buildsToSave)
     formData2.append('meeting_id',this.meeting_id)
 
-    this.httpClient.post(this.config.endpoint6+ 'api/units/updateMultipleBuildings/'+this.token,formData2).subscribe((response:any)=>{
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2+ 'api/units/updateMultipleBuildings/'+this.token,formData2).subscribe((response:any)=>{
       if (response['success']) {
         swal.fire('mensaje', response['message'], 'success'
         ).then((response:any)=>{

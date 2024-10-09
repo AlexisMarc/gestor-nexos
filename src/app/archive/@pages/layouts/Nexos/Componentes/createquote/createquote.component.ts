@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, ɵConsole } from '@angular/core';
+import { Component, OnInit, Input, Inject, ɵConsole, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { variance } from 'd3';
 import { Discounts } from '../../interface/discounts.model';
 import { CreatecuoteService } from '../../service/createcuote.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-createquote',
@@ -17,6 +18,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./createquote.component.scss']
 })
 export class CreatequoteComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   text = "Ocultar";
   dataResidential:any = {};
   dataAdministrator:any = [];
@@ -90,7 +92,7 @@ export class CreatequoteComponent implements OnInit {
       this.id_user = userStorage['id'];
     }
     // get all active discounts
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveMonthlyDiscounts?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getAllActiveMonthlyDiscounts?key=' + this._env.SECRET_KEY)
       .subscribe((resp3:any) => {
         this.activeDiscount = resp3['content'];
       });
@@ -124,7 +126,7 @@ export class CreatequoteComponent implements OnInit {
       if (globals.dataQuote['name_residential']) { 
       } else {
         // tslint:disable-next-line: max-line-length
-        this.httpClient.get(this.config.endpoint + 'ResidentialServices/getResidentialById?key=' + this.config.key + '&residential_id=' + this.id_building)
+        this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getResidentialById?key=' + this._env.SECRET_KEY + '&residential_id=' + this.id_building)
           .subscribe((resp1 :any)=> {
             this.dataResidential = resp1['content'];
             this.totalproperties = this.dataResidential['total_properties'];
@@ -218,7 +220,7 @@ export class CreatequoteComponent implements OnInit {
     }
 
     //get all active city
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllActiveCities?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllActiveCities?key=' + this._env.SECRET_KEY)
       .subscribe((resp2 :any)=> {
         this.activeCity = resp2['content'];
       });
@@ -235,7 +237,7 @@ export class CreatequoteComponent implements OnInit {
       this.listadoItemsSave = [];
     }
     else {
-      this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteById?key=' + this.config.key + '&id=' + this.id_quote)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getQuoteById?key=' + this._env.SECRET_KEY + '&id=' + this.id_quote)
         .subscribe((resp4:any) => {
           this.DevicePercent = resp4['content']['device_percentage'] * 1;
           this.DeviceCant = Math.round((this.totalproperties * 1) * (this.DevicePercent * 1) / 100);
@@ -641,7 +643,7 @@ export class CreatequoteComponent implements OnInit {
             }).then((result) => {
               if (result.value) {
                 const formData = new FormData();
-                formData.append('key', this.config.key);
+                formData.append('key', this._env.SECRET_KEY);
                 formData.append('id', this.id_quote);
                 formData.append('observations', this.observationsQuote);
                 formData.append('date', this.dateQuote);
@@ -703,7 +705,7 @@ export class CreatequoteComponent implements OnInit {
             }).then((result) => {
               if (result.value) {
                 const formData = new FormData();
-                formData.append('key', this.config.key);
+                formData.append('key', this._env.SECRET_KEY);
                 formData.append('id', this.id_quote);
                 formData.append('observations', this.observationsQuote);
                 formData.append('date', this.dateQuote);
@@ -746,7 +748,7 @@ export class CreatequoteComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         const formData = new FormData();
-        formData.append('key', this.config.key);
+        formData.append('key', this._env.SECRET_KEY);
         formData.append('id', this.id_quote);
         formData.append('observations', this.observationsQuote);
         formData.append('date', this.dateQuote);
@@ -829,7 +831,7 @@ this.createcuoteService.CreateQuote(formData, this.id_user);
   FormatoMadre() {
     this.listItems = [];
     //Obtener todos los items a cotizar
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllItemsToSellByTypeQuote?key=' + this.config.key + '&quote_type_id=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getAllItemsToSellByTypeQuote?key=' + this._env.SECRET_KEY + '&quote_type_id=1')
       .subscribe((resp2 :any)=> {
         for (let index3 = 0; index3 < resp2['content'].length; index3++) {
           if (resp2['content'][index3]['id'] == '5') {

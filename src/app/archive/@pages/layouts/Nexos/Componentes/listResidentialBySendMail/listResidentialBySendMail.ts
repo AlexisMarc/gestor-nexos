@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { Globals } from '../../interface/globals.model';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'listResidentialBySendMail',
@@ -11,6 +12,7 @@ import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active
   styleUrls: ['./listResidentialBySendMail.component.scss']
 })
 export class listResidentialBySendMail implements OnInit {
+  private _env = inject(EnvServiceService)
   param2 = '0';
   ListQuote: [] = [];
   ListServiceActive: any;
@@ -42,7 +44,7 @@ export class listResidentialBySendMail implements OnInit {
 
   Search2() {
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.searchPost + '&quote_type_id=1')
       .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });

@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import swal from 'sweetalert2';
 import { CreateAnswerService } from '../../service/create-answer.service';
 import { SocketService } from '../../service/socket.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-vote-result2',
@@ -13,7 +14,7 @@ import { SocketService } from '../../service/socket.service';
   styleUrls: ['./vote-result2.component.scss']
 })
 export class VoteResult2Component implements OnInit {
-
+  private _env = inject(EnvServiceService)
   id_vote = 0;
   votes: [] = [];
   meeting_id!: string;
@@ -67,12 +68,12 @@ export class VoteResult2Component implements OnInit {
     this.meeting_id = this.route.snapshot.paramMap.get('idMeeting')!;
     this.keysession = userStorage['token'];
     //Obtener listado de votaciones
-    this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'UtilServices/getVotesByMeeting?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.votes = resp['content'];
       });
     //Obeter votacion activa
-    this.httpClient.get(this.config.endpoint3 + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id)
       .subscribe((resp:any)=> {
         if (resp['success'] == false) {
           this.name_vote = "No hay votaciones activas"
@@ -80,7 +81,7 @@ export class VoteResult2Component implements OnInit {
           this.id_vote = resp['content']['id'];
           this.dato = 1;
 
-          this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
+          this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
             .subscribe((resp:any)=> {
               this.total_votes = 0;
               this.name_vote = resp['content']['vote']['name'];
@@ -139,7 +140,7 @@ export class VoteResult2Component implements OnInit {
   selectedVote(id_vote:any, status:any) {
     this.id_vote = id_vote;
     this.dato = 1;
-    this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
       .subscribe((resp:any)=> {
         this.total_votes = 0;
         this.name_vote = resp['content']['vote']['name'];

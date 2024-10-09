@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
 import swal, { SweetAlertIcon, SweetAlertOptions } from 'sweetalert2';
 import { SaveQuotationHistoryService } from './save-quotation-history.service';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreatecuoteService {
-
+  private _env = inject(EnvServiceService)
   data: any;
 
   constructor(private httpClient: HttpClient,
@@ -18,7 +19,7 @@ export class CreatecuoteService {
     private saveQuotationHistoryService: SaveQuotationHistoryService) { }
 
   CreateQuote(dataQuote:any, user_id:any) {
-    this.httpClient.post(this.config.endpoint + 'QuoteServices/storeQuote', dataQuote)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/storeQuote', dataQuote)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'
@@ -43,7 +44,7 @@ export class CreatecuoteService {
             if (result.value) {
               let texto = (<HTMLInputElement>document.getElementById("d")).value;
               const formData = new FormData();
-              formData.append('key', this.config.key);
+              formData.append('key', this._env.SECRET_KEY);
               formData.append('user_id', user_id);
               formData.append('id', '0');
               formData.append('quote_id', data['quote_id']);
@@ -55,7 +56,7 @@ export class CreatecuoteService {
             else {
               let texto = (<HTMLInputElement>document.getElementById("d")).value;
               const formData = new FormData();
-              formData.append('key', this.config.key);
+              formData.append('key', this._env.SECRET_KEY);
               formData.append('user_id', user_id);
               formData.append('id', '0');
               formData.append('quote_id', data['quote_id']);

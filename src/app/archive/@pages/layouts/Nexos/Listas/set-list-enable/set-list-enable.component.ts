@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { ListSet } from '../../interface/listSet.model';
 import { Globals } from '../../interface/globals.model';
 import swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -13,7 +14,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./set-list-enable.component.scss']
 })
 export class SetListEnableComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
 ListadoConjuntos: ListSet[] = [];
 param = '';
 idTypeQuote = '1';
@@ -47,7 +48,7 @@ ListQuote: [] = [];
       }
 
        // servicio consulta Residenciales
-    // this.httpClient.get(this.config.endpoint2 + 'getAllResidentials?key=' + this.config.key)
+    // this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_API + 'getAllResidentials?key=' + this._env.SECRET_KEY)
     // .subscribe((resp2 :any)=> {
      // for (let index in resp2['content']) {
      //   this.ListadoConjuntos[index] = resp2['content'][index];
@@ -55,7 +56,7 @@ ListQuote: [] = [];
     // });
 
     if (this.param != '') {
-      this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
         .subscribe((resp:any) => {
           this.ListQuote = resp['content'];
           
@@ -81,7 +82,7 @@ ListQuote: [] = [];
       return;
     } else {
       // tslint:disable-next-line: max-line-length
-      return this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
+      return this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.param + '&quote_type_id=' + this.idTypeQuote)
         .subscribe((resp1:any) => {
           this.ListQuote = resp1['content'];
         });

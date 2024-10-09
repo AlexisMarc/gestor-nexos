@@ -4,6 +4,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@env": ["./src/env/env.index.ts"],
       "@login": ["./src/app/core/modules/login/pages/index.ts"],
       "@home": ["./src/app/core/modules/home/components/home.index.ts"],
       "@meeting": ["./src/app/core/modules/meeting/components/meeting.index.ts"],
@@ -19,7 +20,10 @@
       "@constants": ["./src/app/core/utils/constants/constants.index.ts"],
       "@helpers": ["./src/app/core/utils/helpers/helpers.index.ts"],
       "@directives": ["./src/app/core/directives/directives.index.ts"],
-      "@resolver": ["./src/app/core/resolvers/Auth.interceptor.ts"]
+      "@resolver": ["./src/app/core/resolvers/Auth.interceptor.ts"],
+      "@guard": ["./src/app/core/guards/guards.index.ts"],
+      "@archive": ["./src/app/archive"],
+      "@interceptor": ["./src/app/core/interceptor/auth.interceptor.ts"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
  
 import { Globals } from '../../interface/globals.model';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
 import { Global_Services } from '../../service/global_services';
+import { EnvServiceService } from '@env';
 
 declare var swal: any;
 
@@ -15,6 +16,7 @@ declare var swal: any;
   styleUrls: ['./searchclient.component.scss']
 })
 export class SearchClientComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   param3 = '2';
   ListQuote: [] = [];
   ListServiceActive: any;
@@ -61,7 +63,7 @@ export class SearchClientComponent implements OnInit {
   }
 
   Search3() {
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.searchPost + '&quote_type_id=1')
       .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });

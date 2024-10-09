@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { Globals } from '../../interface/globals.model';
 import swal from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-preregistration-meeting-setup',
@@ -12,6 +13,7 @@ import { StoreMeetingService } from '../../service/store-meeting.service';
   styleUrls: ['./preregistration-meeting-setup.component.scss']
 })
 export class PreregistrationMeetingSetupComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   residential_id:  any;
   dataResidential: [] = [];
   token!: string;
@@ -92,7 +94,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
   ) {
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
     this.interval21 = setTimeout(() => {
-      this.loadDatabase.youtube_link = this.config.endpoint4 + 'votacion/#/login/' + this.residential_id;
+      this.loadDatabase.youtube_link = this._env.ENDPOINT_SECONDARY + 'votacion/#/login/' + this.residential_id;
     }, 500);
    }
 
@@ -248,7 +250,7 @@ export class PreregistrationMeetingSetupComponent implements OnInit {
       } else {
         const formData = new FormData();
 
-        formData.append('key', this.config.key);
+        formData.append('key', this._env.SECRET_KEY);
         formData.append('id', '0');
         formData.append('name', this.loadDatabase['name']);
         formData.append('residential_id', this.residential_id);

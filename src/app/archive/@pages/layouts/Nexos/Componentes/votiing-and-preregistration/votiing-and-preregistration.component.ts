@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { Globals } from '../../interface/globals.model';
 import swal from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -13,6 +14,7 @@ import { StoreMeetingService } from '../../service/store-meeting.service';
   styleUrls: ['./votiing-and-preregistration.component.scss']
 })
 export class VotiingAndPreregistrationComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   residential_id: any;
   dataResidential: [] = [];
 
@@ -100,7 +102,7 @@ export class VotiingAndPreregistrationComponent implements OnInit {
     }
 
     this.residential_id = this.route.snapshot.paramMap.get('idResidential');
-    this.loadDatabase.youtube_link = this.config.endpoint4 + 'votacion/#/login/' + this.residential_id;
+    this.loadDatabase.youtube_link = this._env.ENDPOINT_SECONDARY + 'votacion/#/login/' + this.residential_id;
    }
 
   ngOnInit() {
@@ -262,7 +264,7 @@ export class VotiingAndPreregistrationComponent implements OnInit {
       else {
         const formData = new FormData();
 
-        formData.append('key', this.config.key);
+        formData.append('key', this._env.SECRET_KEY);
         formData.append('id', '0');
         formData.append('name', this.loadDatabase['name']);
         formData.append('residential_id', this.residential_id);

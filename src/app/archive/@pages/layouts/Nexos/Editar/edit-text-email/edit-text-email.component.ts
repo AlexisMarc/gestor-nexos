@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateOrEditItemService } from '../../service/create-or-edit-item.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateEmailContentService } from '../../service/create-email-content.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -13,6 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./edit-text-email.component.scss']
 })
 export class EditTextEmailComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() editParamTextEmail = {
     id: '',
     subject: '',
@@ -50,7 +52,7 @@ export class EditTextEmailComponent implements OnInit {
 
 
     // Get text email by id
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getQuoteEmailContentById?key=' + this.config.key + '&id=' + this.idTextEmail)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getQuoteEmailContentById?key=' + this._env.SECRET_KEY + '&id=' + this.idTextEmail)
       .subscribe((resp:any)=> {
         this.editParamTextEmail['id'] = resp['content']['id'];
         this.editParamTextEmail['subject'] = resp['content']['subject'];
@@ -59,7 +61,7 @@ export class EditTextEmailComponent implements OnInit {
         this.editParamTextEmail['status_id'] = resp['content']['status_id'];
       });
     // service type quote
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllActiveTypeQuote?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getAllActiveTypeQuote?key=' + this._env.SECRET_KEY)
       .subscribe((resp1 :any)=> {
         this.typeQuote = resp1['content'];
 
@@ -89,7 +91,7 @@ export class EditTextEmailComponent implements OnInit {
       return
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.editParamTextEmail['id']);
     formData.append('subject', this.editParamTextEmail['subject']);
     formData.append('message', this.editParamTextEmail['message']);

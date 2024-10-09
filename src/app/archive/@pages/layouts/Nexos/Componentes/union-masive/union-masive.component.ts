@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { listadoUnidadEnvio } from '../../interface/listadounidadenvio';
 import { listadoUnidadToUnion } from '../../interface/listadounidadtounion';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { SocketService } from '../../service/socket.service';
+import { EnvServiceService } from '@env';
 declare var require: any
 declare var swal: any;
 
@@ -15,7 +16,7 @@ declare var swal: any;
   styleUrls: ['./union-masive.component.scss']
 })
 export class UnionMasiveComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   residential_id!: string;
   residential_name!: string;
   keysession!: string;
@@ -60,9 +61,9 @@ export class UnionMasiveComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id).subscribe((response:any) => {
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id).subscribe((response:any) => {
       this.meeting_id = response['content']['id'];
-      this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.keysession + '/' + this.meeting_id)
         .subscribe((response :any)=> {
           this.ListadoConjuntosSelect = response['content'];
           this.ListadoConjuntosSelect2 = response['content']
@@ -151,7 +152,7 @@ export class UnionMasiveComponent implements OnInit {
         unidades = JSON.stringify(this.unitsListToSend)
         const formData2 = new FormData();
         formData2.append('units', unidades);
-        this.httpClient.post(this.config.endpoint6 + 'api/customers/updateCustomerProperties/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id, formData2)
+        this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/updateCustomerProperties/' + this.keysession + '/' + this.customer_id + '/' + this.meeting_id, formData2)
           .subscribe((response :any)=> {
             if (response['success']) {
               swal.fire('Mensaje', response['message'], 'success');
@@ -186,11 +187,11 @@ export class UnionMasiveComponent implements OnInit {
     }
     this.showTable = true;
     this.name = '';
-    this.httpClient.get(this.config.endpoint3 + 'ResidentServices/getResidentByUnitNumber?key=' + this.config.key + '&unit_id=' + this.id_unit_search)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentServices/getResidentByUnitNumber?key=' + this._env.SECRET_KEY + '&unit_id=' + this.id_unit_search)
       .subscribe((resp:any)=> {
         this.customer_id = resp['content']['id'];
         this.name = resp['content']['name'];
-        this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + resp['content']['document_number'] + '/' + this.meeting_id)
+        this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + resp['content']['document_number'] + '/' + this.meeting_id)
           .subscribe((response :any)=> {
             response['content']['units'].forEach((unitByCustomer:any) => {
               var unitSearching = this.unitslist.find(unitFind => unitFind['unit_id'] === unitByCustomer['unit_id']);

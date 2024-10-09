@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./promotion-list.component.scss']
 })
 export class PromotionListComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   ListDiscounts: [] = [];
 
   constructor(
@@ -35,7 +36,7 @@ export class PromotionListComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/']);
     }
-    this.httpClient.get(this.config.endpoint + 'QuoteServices/getAllDiscounts?key=' + this.config.key)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getAllDiscounts?key=' + this._env.SECRET_KEY)
       .subscribe((resp:any)=> {
         this.ListDiscounts = resp['content'];
       });

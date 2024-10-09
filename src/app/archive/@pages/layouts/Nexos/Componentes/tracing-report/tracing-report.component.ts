@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
  
 import swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-tracing-report',
@@ -11,7 +12,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./tracing-report.component.scss']
 })
 export class TracingReportComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   init_date: any;
   end_date: any;
   init_date_save: any;
@@ -53,8 +54,8 @@ export class TracingReportComponent implements OnInit {
     let fecha2 = this.end_date.split("T", 3);
     this.end_date_save = fecha2[0] + ' ' + fecha2[1] + ':00';
     //get report quote confirmation
-    window.open(this.config.endpoint + 'QuoteServices/getHiredQuotesReportExcel?key=' + this.config.key + '&init_date=' + this.init_date_save + '&end_date='  + this.end_date_save);
-    //this.httpClient.get(this.config.endpoint + 'QuoteServices/getHiredQuotesReportExcel?key=' + this.config.key + '&init_date=' + this.init_date_save + '&end_date='  + this.end_date_save)
+    window.open(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getHiredQuotesReportExcel?key=' + this._env.SECRET_KEY + '&init_date=' + this.init_date_save + '&end_date='  + this.end_date_save);
+    //this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/getHiredQuotesReportExcel?key=' + this._env.SECRET_KEY + '&init_date=' + this.init_date_save + '&end_date='  + this.end_date_save)
     //.subscribe((resp:any)=> {
     //})
   }

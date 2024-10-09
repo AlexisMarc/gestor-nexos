@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { Router } from '@angular/router';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateOrEditQuoteTypeService {
-
+  private _env = inject(EnvServiceService)
   data: any;
 
   constructor(private httpClient: HttpClient,
@@ -16,7 +17,7 @@ export class CreateOrEditQuoteTypeService {
     private router: Router) { }
 
   CreateOrEditQuoteType(createTypeQuote:any) {
-    this.httpClient.post(this.config.endpoint + 'QuoteServices/createOrEditTypeQuote', createTypeQuote)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/createOrEditTypeQuote', createTypeQuote)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'
@@ -37,7 +38,7 @@ export class CreateOrEditQuoteTypeService {
   }
 
   EditQuoteType(updateTypeQuote:any) {
-    this.httpClient.post(this.config.endpoint + 'QuoteServices/createOrEditTypeQuote', updateTypeQuote)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'QuoteServices/createOrEditTypeQuote', updateTypeQuote)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'

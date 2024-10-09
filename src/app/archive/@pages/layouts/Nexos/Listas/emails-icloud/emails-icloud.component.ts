@@ -1,10 +1,11 @@
- import { Component, OnInit, Inject, Input } from '@angular/core';
+ import { Component, OnInit, Inject, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { Globals } from '../../interface/globals.model';
  
 import swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-emails-icloud',
@@ -12,6 +13,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./emails-icloud.component.scss']
 })
 export class EmailsIcloudComponent implements OnInit {
+  private _env = inject(EnvServiceService)
 allEmail: any;
 user_id: any;
 
@@ -40,7 +42,7 @@ user_id: any;
     }
     // Obtener all Emails
     // tslint:disable-next-line: max-line-length
-    this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getAllEmailContent?key=' + this.config.key + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ApiEmailContent/getAllEmailContent?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.allEmail = resp['content'];
       });

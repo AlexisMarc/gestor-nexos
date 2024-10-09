@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { ForgotPasswordService } from '../../service/forgot-password.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-recoverpassword',
@@ -9,7 +10,7 @@ import { ForgotPasswordService } from '../../service/forgot-password.service';
   styleUrls: ['./recoverpassword.component.scss']
 })
 export class RecoverpasswordComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @Input() parametros
 
   constructor(private router: Router,
@@ -17,7 +18,7 @@ export class RecoverpasswordComponent implements OnInit {
     private config: ConfigurationRestService,
     private forgotPassword: ForgotPasswordService) { 
       this.parametros = {
-        key: this.config.key,
+        key: this._env.SECRET_KEY,
         email: ''
       }
     }
@@ -27,7 +28,7 @@ export class RecoverpasswordComponent implements OnInit {
 
   recuperar_clave() {
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('email', this.parametros.email);
     this.forgotPassword.forgotPassword(formData);
   }

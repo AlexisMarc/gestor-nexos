@@ -1,73 +1,96 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../../service/user.service';
- 
-import swal from 'sweetalert2';
-import { ConfigurationRestService } from '../../service/configuration.rest.service';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { NxValidators } from '@helpers';
+import { AuthService, ReqAuth, StorageService } from '@services';
+import { NxLoadingService, NxToastService } from '@shared';
+import { ControlErrorsDirective, FormSubmitDirective } from '@directives';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormSubmitDirective,
+    ControlErrorsDirective,
+    RouterModule
+  ],
 })
 export class LoginComponent implements OnInit {
-  @Input() parametrosLogin = {
-    key: '',
-    email: '',
-    password: ''
-  } 
-  errorMessage: string | null = null;
-  errorActive = false;
-  localStorage: any;
-  user: any;
-  source = 'gestor';
-  number:any
-  constructor(private router: Router,
-    private config: ConfigurationRestService,
-    private userService: UserService,  
-     ) {
-      this.parametrosLogin = {
-        key: this.config.key,
-        email: '',
-        password: ''
-      }
-    const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
-    if (userStorage != null && userStorage.success) {
-      this.router.navigate(['/home']);
-    }
-  }
+  public form: FormGroup = new FormGroup({
+    email: new FormControl('', [
+      NxValidators.required(),
+      NxValidators.email(),
+      NxValidators.maxLength(150),
+    ]),
+    password: new FormControl('', [
+      NxValidators.required(),
+      NxValidators.maxLength(50),
+    ]),
+    source: new FormControl('gestor'),
+  });
 
-  ngOnInit() {
-    this.number = new Date().getFullYear();
-  }
+  private _authService = inject(AuthService);
+  private _storageService = inject(StorageService);
+  private _router = inject(Router);
 
-  login() {
-    const emailFormat = this.validateEmail(this.parametrosLogin.email);
-    if (!emailFormat) {
-      swal.fire('Atención', 'Por Favor agrege un formato de email valido', 'error');
+  private _serviceMessage = inject(NxToastService);
+  private _loading = inject(NxLoadingService);
+
+  ngOnInit(): void {}
+
+  saveForm() {
+    if (this.form.invalid) {
+      this._serviceMessage.addMessage({
+        type: 'warning',
+        message: 'Por favor completar todos los campos requeridos',
+      });
+      this.form.markAllAsTouched();
       return;
     }
-    if (this.parametrosLogin.email.length == 0, this.parametrosLogin.password.length === 0) {
-      swal.fire('Atención', 'La contraseña es obligatoria', 'error');
-      return;
-    }
-    const formData = new FormData();
-    formData.append('key', this.config.key);
-    formData.append('password', this.parametrosLogin.password);
-    formData.append('email', this.parametrosLogin.email);
-    formData.append('source', this.source);
-    this.userService.authentication(formData);
+    const values: ReqAuth = this.form.getRawValue();
+    this.authentication(values);
   }
 
-  navigate() {
-    this.router.navigateByUrl('');
+  private authentication(data: ReqAuth) {
+    this._loading.view(true);
+    this._authService.Authentication(data).subscribe({
+      next: (value) => {
+        if (value.success) {
+          this._storageService.setToken(value.content.token);
+          this._storageService.setClient(value.content);
+          this._router.navigateByUrl('/meeting');
+          this._serviceMessage.addMessage({
+            type: 'success',
+            message: '¡Inicio de sesión exitoso!',
+          });
+          this._loading.view(false);
+          this._router.navigateByUrl('/home');
+          return;
+        }
+        this._loading.view(false);
+        this._serviceMessage.addMessage({
+          type: 'warning',
+          message: 'Usuario o contraseña incorrectos...',
+        });
+      },
+      error: () => {
+        this._loading.view(false);
+        this._serviceMessage.addMessage({
+          type: 'error',
+          message: 'Error al iniciar sesión...',
+        });
+      },
+    });
   }
-
-  validateEmail(email: String) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  
 }

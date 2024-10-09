@@ -35,9 +35,11 @@
                 "output": "/plugins/"
               },
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/env.js"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css",
               "src/assets/plugins/bootstrap/css/bootstrap.min.css",
               "src/assets/plugins/codrops-stepsform/css/component.css",

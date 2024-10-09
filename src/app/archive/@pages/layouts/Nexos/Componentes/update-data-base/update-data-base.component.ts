@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -10,6 +10,7 @@ import { SendmailService } from '../../service/sendmail.service';
 import { listadoUnidad } from '../../interface/listadounidad';
 import { listadoUnidadEnvio } from '../../interface/listadounidadenvio';
 import { AddunitserviceService } from '../../service/addunitservice.service';
+import { EnvServiceService } from '@env';
 
 @Component({
   selector: 'app-update-data-base',
@@ -17,7 +18,7 @@ import { AddunitserviceService } from '../../service/addunitservice.service';
   styleUrls: ['./update-data-base.component.scss']
 })
 export class UpdateDataBaseComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   residential_id!: string;
   EmailSearch = '';
   user_id: string;
@@ -68,7 +69,7 @@ export class UpdateDataBaseComponent implements OnInit {
     this.token = userStorage['token'];
     this.residential_id = this.route.snapshot.paramMap.get('idResidential')!;
     this.keysession = userStorage['token'];
-    this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + this.residential_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + this.residential_id)
       .subscribe((resp:any)=> {
         this.meeting_id = resp['content']['id'];
       });
@@ -82,7 +83,7 @@ export class UpdateDataBaseComponent implements OnInit {
     this.id_unidad_envio = [];
     this.users = [];
     this.messageIfNotResultsOfSearch = '';
-    this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerRecordsByEmail/' + this.keysession + '/' + this.EmailSearch + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getCustomerRecordsByEmail/' + this.keysession + '/' + this.EmailSearch + '/' + this.meeting_id)
       .subscribe((resp1 :any)=> {
         if (resp1['success'] == true) {
           for (let index = 0; index < resp1['content'].length; index++) {
@@ -104,7 +105,7 @@ export class UpdateDataBaseComponent implements OnInit {
             this.users.push(item);
             //Trae las unidades
             this.listadoUnidad = [];
-            this.httpClient.get(this.config.endpoint6 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + resp1['content'][index]['document_number'] + '/' + this.meeting_id)
+            this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/customers/getCustomerDetails/' + this.keysession + '/' + resp1['content'][index]['document_number'] + '/' + this.meeting_id)
               .subscribe((resp2 :any)=> {
                 for (let index2 = 0; index2 < resp2['content']['units'].length; index2++) {
                   let unidad = new listadoUnidad(resp2['content']['units'][index2]['building_name'], resp2['content']['units'][index2]['building_number'],
@@ -123,7 +124,7 @@ export class UpdateDataBaseComponent implements OnInit {
 
   getSectors(customer_id:any) {
     //Obtener los sectores
-    this.httpClient.get(this.config.endpoint6 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/units/getBuildingsUnitByUserByMeeting/' + this.token + '/' + this.meeting_id)
       .subscribe((resp4:any) => {
         this.ListadoConjuntosSelect = resp4['content'];
         this.ListadoConjuntosSelect2 = resp4['content']
@@ -218,7 +219,7 @@ export class UpdateDataBaseComponent implements OnInit {
       }
       unidades = JSON.stringify(this.id_unidad_envio)
       const formData = new FormData();
-      formData.append('key', this.config.key);
+      formData.append('key', this._env.SECRET_KEY);
       formData.append('id', customer_id)
       formData.append('nameRegister', nameRegister);
       formData.append('email', email_1);
@@ -228,7 +229,7 @@ export class UpdateDataBaseComponent implements OnInit {
       formData.append('email4', email_4);
       formData.append('moroso', moroso);
       const formData2 = new FormData();
-      // formData2.append('key', this.config.key);
+      // formData2.append('key', this._env.SECRET_KEY);
       // formData2.append('user_id', customer_id);
       // formData2.append('residential_id', this.residential_id);
       // formData2.append('agents', '[]');
@@ -237,13 +238,13 @@ export class UpdateDataBaseComponent implements OnInit {
     }
     else {
       //Buscar si existe el usuario del nuevo correo
-      this.httpClient.get(this.config.endpoint + 'ResidentialServices/getCustomerRecordsByEmail?key=' + this.config.key + '&user_id=' + this.user_id + '&email=' + email_1)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getCustomerRecordsByEmail?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id + '&email=' + email_1)
         .subscribe((resp1 :any)=> {
           //1. Si existe el usuario
           if (resp1['success'] == true) {
             for (let index = 0; index < resp1['content'].length; index++) {
               //Buscar si el usuario del nuevo correo pertenece al reisdential
-              this.httpClient.get(this.config.endpoint3 + 'ResidentialServices/getCustomerProperties?key=' + this.config.key + '&user_id=' + resp1['content'][index]['id'] + '&residential_id=' + this.residential_id)
+              this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ResidentialServices/getCustomerProperties?key=' + this._env.SECRET_KEY + '&user_id=' + resp1['content'][index]['id'] + '&residential_id=' + this.residential_id)
                 .subscribe((resp2 :any)=> {
                   //2. Si el usuario del nuevo correo pertence a ese residential
                   if (resp2['content']['properties'].length > 0) {
@@ -269,13 +270,13 @@ export class UpdateDataBaseComponent implements OnInit {
                         }
                         unidades = JSON.stringify(this.id_unidad_envio)
                         const formData = new FormData();
-                        formData.append('key', this.config.key);
+                        formData.append('key', this._env.SECRET_KEY);
                         formData.append('id', resp2['content']['id'])
                         formData.append('nameRegister', resp2['content']['nameRegister']);
                         formData.append('email', resp2['content']['email']);
                         formData.append('moroso', resp2['content']['moroso']);
                         const formData2 = new FormData();
-                        // formData2.append('key', this.config.key);
+                        // formData2.append('key', this._env.SECRET_KEY);
                         // formData2.append('user_id', resp2['content']['id']);
                         // formData2.append('residential_id', this.residential_id);
                         // formData2.append('agents', '[]');
@@ -322,14 +323,14 @@ export class UpdateDataBaseComponent implements OnInit {
                               }
                               unidades = JSON.stringify(this.id_unidad_envio)
                               const formData = new FormData();
-                              formData.append('key', this.config.key);
+                              formData.append('key', this._env.SECRET_KEY);
                               formData.append('id', resp2['content']['id'])
                               formData.append('nameRegister', resp2['content']['nameRegister']);
                               formData.append('email', resp2['content']['email']);
                               formData.append('moroso', resp2['content']['moroso']);
 
                               const formData2 = new FormData();
-                              // formData2.append('key', this.config.key);
+                              // formData2.append('key', this._env.SECRET_KEY);
                               // formData2.append('user_id', resp2['content']['id']);
                               // formData2.append('residential_id', this.residential_id);
                               // formData2.append('agents', '[]');
@@ -354,7 +355,7 @@ export class UpdateDataBaseComponent implements OnInit {
                 unidades = JSON.stringify(this.id_unidad_envio)
                 var pass_new = Math.floor(Math.random() * (9999999 - 1000000)) + 1000000;
                 const formData = new FormData();
-                formData.append('key', this.config.key);
+                formData.append('key', this._env.SECRET_KEY);
                 formData.append('id', customer_id)
                 formData.append('nameRegister', nameRegister);
                 formData.append('email', email_1);
@@ -362,7 +363,7 @@ export class UpdateDataBaseComponent implements OnInit {
                 formData.append('moroso', moroso);
                 formData.append('password', '' + pass_new);
                 const formData2 = new FormData();
-                // formData2.append('key', this.config.key);
+                // formData2.append('key', this._env.SECRET_KEY);
                 // formData2.append('user_id', customer_id);
                 // formData2.append('residential_id', this.residential_id);
                 // formData2.append('agents', '[]');
@@ -380,7 +381,7 @@ export class UpdateDataBaseComponent implements OnInit {
             unidades = JSON.stringify(this.id_unidad_envio)
             var pass_new = Math.floor(Math.random() * (9999999 - 1000000)) + 1000000;
             const formData = new FormData();
-            formData.append('key', this.config.key);
+            formData.append('key', this._env.SECRET_KEY);
             formData.append('id', customer_id)
             formData.append('nameRegister', nameRegister);
             formData.append('name', name);
@@ -391,7 +392,7 @@ export class UpdateDataBaseComponent implements OnInit {
             formData.append('moroso', moroso);
             formData.append('password', '' + pass_new);
             const formData2 = new FormData();
-            // formData2.append('key', this.config.key);
+            // formData2.append('key', this._env.SECRET_KEY);
             // formData2.append('user_id', customer_id);
             // formData2.append('residential_id', this.residential_id);
             // formData2.append('agents', '[]');

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -8,6 +8,7 @@ import { CreateAnswerService } from '../../service/create-answer.service';
 import { SocketService } from '../../service/socket.service';
 import { WhatsappService } from '../../service/whatsaap_services';
 import { DomToImage } from 'dom-to-image';
+import { EnvServiceService } from '@env';
 
 declare var require: any
 
@@ -17,6 +18,7 @@ declare var require: any
   styleUrls: ['./vote-result.component.scss']
 })
 export class VoteResultComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   private name_name = '';
   private vote_vote = 0;
 
@@ -103,13 +105,13 @@ export class VoteResultComponent implements OnInit {
 
   chargeVotes() {
     //Obtener listado de votaciones
-    this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'UtilServices/getVotesByMeeting?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.votes = resp['content'];
       });
 
     //Obeter votacion activa
-    this.httpClient.get(this.config.endpoint3 + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id)
       .subscribe((response :any)=> {
         if (response['success'] == false) {
           this.name_vote = "En este momento no hay una votación activa"
@@ -144,7 +146,7 @@ export class VoteResultComponent implements OnInit {
           });
 
 
-          this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
+          this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
             .subscribe((resp:any)=> {
               this.total_votes = 0;
               this.name_vote = resp['content']['vote']['name'];
@@ -194,7 +196,7 @@ export class VoteResultComponent implements OnInit {
   }
 
   getListVotes() {
-    this.httpClient.get(this.config.endpoint3 + 'UtilServices/getVotesByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'UtilServices/getVotesByMeeting?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.votes = resp['content'];
       });
@@ -214,7 +216,7 @@ export class VoteResultComponent implements OnInit {
     this.id_vote = id_vote;
     this.vote_vote = id_vote;
     this.dato = 1;
-    this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
       .subscribe((resp:any)=> {
         this.total_votes = 0;
         this.name_vote = resp['content']['vote']['name'];
@@ -275,7 +277,7 @@ export class VoteResultComponent implements OnInit {
       cancelButtonColor: '#262626',
       confirmButtonText: text
     }).then((result) => {
-      this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
+      this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
         .subscribe((resp:any)=> {
           this.total_votes = 0;
           this.name_vote = resp['content']['vote']['name'];
@@ -318,7 +320,7 @@ export class VoteResultComponent implements OnInit {
 
   Inform() {
     
-    this.httpClient.get(this.config.endpoint6 + 'api/voting/getVotingReportByHeaderExcel/' + this.keysession + '/' + this.vote_vote + '/' + this.with_cutomer_name)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/voting/getVotingReportByHeaderExcel/' + this.keysession + '/' + this.vote_vote + '/' + this.with_cutomer_name)
       .subscribe((resp:any)=> {
         var base64decode = decodeURIComponent(atob(resp['content']).split('').map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -346,7 +348,7 @@ export class VoteResultComponent implements OnInit {
   }
 
   getResults() {
-    this.httpClient.get(this.config.endpoint6 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/reports/getVotingOptionResults/' + this.keysession + '/' + this.id_vote)
       .subscribe((resp:any)=> {
         this.total_votes = 0;
         this.name_vote = resp['content']['vote']['name'];

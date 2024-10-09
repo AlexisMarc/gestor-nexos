@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateEditCityService } from '../../service/create-edit-city.service';
 import Swal from 'sweetalert2';
+import { EnvServiceService } from '@env';
  
 
 @Component({
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create-city.component.scss']
 })
 export class CreateCityComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   @Input() CityParameters = {
     id: '0',
     name: '',
@@ -63,7 +65,7 @@ export class CreateCityComponent implements OnInit {
       return;
     }
     const formData = new FormData();
-    formData.append('key', this.config.key);
+    formData.append('key', this._env.SECRET_KEY);
     formData.append('id', this.CityParameters['id']);
     formData.append('name', this.CityParameters['name']);
     formData.append('status_id', this.CityParameters['status_id']);

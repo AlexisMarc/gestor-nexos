@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { GetAllActiveAppServicesTypeService } from '../../service/get-all-active-app-services-type.service';
+import { EnvServiceService } from '@env';
 declare var Swal: any;
 
 @Component({
@@ -11,6 +12,7 @@ declare var Swal: any;
   styleUrls: ['./search-active-sets.component.scss']
 })
 export class SearchActiveSetsComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   param2 = '0';
   ListQuote: [] = [];
   ListServiceActive: any;
@@ -66,7 +68,7 @@ export class SearchActiveSetsComponent implements OnInit {
   }
 
   Search2() {
-    this.httpClient.get(this.config.endpoint + 'ResidentialServices/getAllResidentialByParam?key=' + this.config.key + '&param=' + this.searchPost + '&quote_type_id=1')
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/getAllResidentialByParam?key=' + this._env.SECRET_KEY + '&param=' + this.searchPost + '&quote_type_id=1')
       .subscribe((resp1 :any)=> {
         this.ListQuote = resp1['content'];
       });
@@ -83,7 +85,7 @@ export class SearchActiveSetsComponent implements OnInit {
       cancelButtonText: 'No'
     }).then((result:any) => {
       if (result.value) {
-        this.httpClient.get(this.config.endpoint3 + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this.config.key + '&residential_id=' + idResidential).subscribe((response:any) => {
+        this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/getMeetingDetails?key=' + this._env.SECRET_KEY + '&residential_id=' + idResidential).subscribe((response:any) => {
           if (response['success']) {
             if (response['content']['status_preregister'] == '1') {
               Swal.fire('Mensaje', 'Tiene un preregistro activo, no puede clonar la reunión sin haberlo cerrado', 'info')
@@ -95,9 +97,9 @@ export class SearchActiveSetsComponent implements OnInit {
                 const formData2 = new FormData();
                 formData2.append('id', this.meeting_id);
                 formData2.append('meeting_status', '2');
-                this.httpClient.post(this.config.endpoint6 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
+                this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/updateMeetingDetails/' + this.keysession, formData2).subscribe((data:any) => {
                   if (data['success']) {
-                    this.httpClient.get(this.config.endpoint6 + 'api/meetings/cloneMeeting/' + this.keysession + '/' + this.meeting_id)
+                    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/cloneMeeting/' + this.keysession + '/' + this.meeting_id)
                       .subscribe((resp2 :any)=> {
                         if (resp2['success']) {
                           Swal.fire('Atención', 'Se ha clonado con exito la reunión', 'success');

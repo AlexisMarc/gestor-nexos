@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="saveForm()" class="w-full h-fit flex flex-col gap-8">
     <div class="flex gap-2 items-center flex-1">
-        <nx-toggle-switch [values]="values" formControlName="shall_ask_representation_document"></nx-toggle-switch>
+        <nx-toggle-switch [values]="valuesNumber" formControlName="shall_ask_representation_document"></nx-toggle-switch>
         <span class="font-bold text-neutral-400">Selección de calidad de asistencia</span>
     </div>
     <div class="flex gap-2 items-center flex-1">
@@ -8,11 +8,11 @@
         <span class="font-bold text-neutral-400">Escaneo y envió de poderes</span>
     </div>
     <div class="flex gap-2 items-center flex-1">
-        <nx-toggle-switch [values]="values" formControlName="authority_granted"></nx-toggle-switch>
+        <nx-toggle-switch [values]="valuesNumber" formControlName="authority_granted"></nx-toggle-switch>
         <span class="font-bold text-neutral-400">Entregas en físico y posteriores de poderes</span>
     </div>
     <div class="flex gap-2 items-center flex-1">
-        <nx-toggle-switch [values]="values" formControlName="signature_module"></nx-toggle-switch>
+        <nx-toggle-switch [values]="valuesNumber" formControlName="signature_module"></nx-toggle-switch>
         <span class="font-bold text-neutral-400">Solicitud de firma</span>
     </div>
     <div class="flex flex-col gap-2 justify-center flex-1">

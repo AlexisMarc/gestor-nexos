@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { SocketService } from '../../service/socket.service';
 import { DomToImage } from 'dom-to-image';
+import { EnvServiceService } from '@env';
 declare var swal: any;
 declare var require: any;
 
@@ -14,6 +15,7 @@ declare var require: any;
   styleUrls: ['./quorum.component.scss'],
 })
 export class QuorumComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   quorum!: number;
   quorumShow = 0;
   residential_id: any;
@@ -74,7 +76,7 @@ export class QuorumComponent implements OnInit {
     this.keysession = userStorage['token'];
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           'api/meetings/getMeetingDetails/' +
           this.keysession +
           '/' +
@@ -90,7 +92,7 @@ export class QuorumComponent implements OnInit {
   ngOnInit() {
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           'api/reports/getChartsByMeeting/' +
           this.keysession +
           '/' +
@@ -176,7 +178,7 @@ export class QuorumComponent implements OnInit {
       this.quorum;
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           'api/reports/getUnitsByMeetingForWeb/' +
           this.keysession +
           '/' +
@@ -307,12 +309,12 @@ export class QuorumComponent implements OnInit {
         .then((result: any) => {
           if (result.isConfirmed) {
             const formData = new FormData();
-            formData.append('key', this.config.key);
+            formData.append('key', this._env.SECRET_KEY);
             formData.append('id', this.meeting_id);
             formData.append('end_session_time', this.end_session_time);
             this.httpClient
               .post(
-                this.config.endpoint3 +
+                this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
                   'PreRegisterMeetingServices/updateMeetingDetails',
                 formData
               )
@@ -320,7 +322,7 @@ export class QuorumComponent implements OnInit {
                 if (data['success']) {
                   this.httpClient
                     .get(
-                      this.config.endpoint6 +
+                      this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
                         'api/customers/askForCustomerPresence/' +
                         this.keysession +
                         '/' +
@@ -329,7 +331,7 @@ export class QuorumComponent implements OnInit {
                     .subscribe((response: any) => {
                       this.httpClient
                         .get(
-                          this.config.endpoint6 +
+                          this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
                             'api/reports/getChartsByMeeting/' +
                             this.keysession +
                             '/' +
@@ -385,12 +387,12 @@ export class QuorumComponent implements OnInit {
           if (result.isConfirmed) {
             this.end_session_time = 2000;
             const formData = new FormData();
-            formData.append('key', this.config.key);
+            formData.append('key', this._env.SECRET_KEY);
             formData.append('id', this.meeting_id);
             formData.append('end_session_time', this.end_session_time);
             this.httpClient
               .post(
-                this.config.endpoint3 +
+                this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO +
                   'PreRegisterMeetingServices/updateMeetingDetails',
                 formData
               )
@@ -398,7 +400,7 @@ export class QuorumComponent implements OnInit {
                 if (data['success']) {
                   this.httpClient
                     .get(
-                      this.config.endpoint6 +
+                      this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
                         'api/customers/askForCustomerPresence/' +
                         this.keysession +
                         '/' +
@@ -407,7 +409,7 @@ export class QuorumComponent implements OnInit {
                     .subscribe((response: any) => {
                       this.httpClient
                         .get(
-                          this.config.endpoint6 +
+                          this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
                             'api/reports/getChartsByMeeting/' +
                             this.keysession +
                             '/' +
@@ -455,7 +457,7 @@ export class QuorumComponent implements OnInit {
   closeVerifyQuorum() {
     this.httpClient
       .get(
-        this.config.endpoint6 +
+        this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 +
           'api/customers/dropCustomerSessionsByMeeting/' +
           this.keysession +
           '/' +

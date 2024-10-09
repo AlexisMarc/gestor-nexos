@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
  
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -9,6 +9,7 @@ import { DataOptionsvote } from '../../interface/dataOptionsVote.model';
 import { DataProfileVoterSend } from '../../interface/dataProfileVoterSend.model';
 import { CreateAnswerService } from '../../service/create-answer.service';
 import { DataOptionVote } from '../../interface/dataOptionVote.model';
+import { EnvServiceService } from '@env';
 declare var bootstrap: any;
 
 @Component({
@@ -17,7 +18,7 @@ declare var bootstrap: any;
   styleUrls: ['./createquestioncontrol.component.scss']
 })
 export class CreatequestioncontrolComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   @Input() residential_id!: string;
   @Input() meeting_id!: string;
 
@@ -60,7 +61,7 @@ export class CreatequestioncontrolComponent implements OnInit {
     const userStorage:any = JSON.parse(sessionStorage.getItem('user')!)!;
     this.user_id = userStorage['id'];
     var profileVoterForAddList;
-    this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/getAllVoterProfiles?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.totalProfiles = resp['content'].length;
         for (let index = 0; index < resp['content'].length; index++) {
@@ -155,7 +156,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                     '<i class="fa fa-thumbs-down"></i> No',
                 }).then((result) => {
                   if (result.value) {
-                    this.httpClient.get(this.config.endpoint3 + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this.config.key + '&meeting_id=' + this.meeting_id)
+                    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'VotingServices/getActiveVoteOptionByMeeting?key=' + this._env.SECRET_KEY + '&meeting_id=' + this.meeting_id)
                       .subscribe((resp:any)=> {
                         if (resp['success']) {
                           var formData2 = new FormData();
@@ -164,7 +165,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                           formData2.append('id', resp['content']['id']);
                           formData2.append('request_accepted', resp['content']['request_accepted']);
                           formData2.append('status_id', "0");
-                          this.httpClient.post(this.config.endpoint6 + 'api/voting/editVoteOption/' + this.keysession, formData2)
+                          this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/voting/editVoteOption/' + this.keysession, formData2)
                             .subscribe((data:any) => {
                               if (data['success']) {
                                 const options = JSON.stringify(this.options);
@@ -194,7 +195,7 @@ export class CreatequestioncontrolComponent implements OnInit {
                           // formData2.append('id', resp['content']['id']);
                           // formData2.append('request_accepted', resp['content']['request_accepted']);
                           // formData2.append('status_id', "0");
-                          // this.httpClient.post(this.config.endpoint6 + 'ApiVoting/editVoteOption/' + this.keysession, formData2)
+                          // this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'ApiVoting/editVoteOption/' + this.keysession, formData2)
                           //   .subscribe((data:any) => {
                           // if (data['success']) {
                           const options = JSON.stringify(this.options);

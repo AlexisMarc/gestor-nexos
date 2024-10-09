@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
@@ -7,6 +7,7 @@ import swal from 'sweetalert2';
 import { StoreMeetingService } from '../../service/store-meeting.service';
  
 import { json } from 'd3';
+import { EnvServiceService } from '@env';
 ​
 @Component({
   selector: 'app-voting-meeting-setup',
@@ -14,6 +15,7 @@ import { json } from 'd3';
   styleUrls: ['./voting-meeting-setup.component.scss']
 })
 export class VotingMeetingSetupComponent implements OnInit {
+  private _env = inject(EnvServiceService)
   residential_id: any;
   dataResidential: [] = [];
   max_agents = '3';
@@ -94,19 +96,19 @@ export class VotingMeetingSetupComponent implements OnInit {
     this.userToken = userStorage['token'];
     this.user_id = userStorage['id'];
     this.interval20 = setTimeout(() => {
-      this.loadDatabase.youtube_link = this.config.endpoint4 + 'votacion/#/login/' + this.residential_id;
+      this.loadDatabase.youtube_link = this._env.ENDPOINT_SECONDARY + 'votacion/#/login/' + this.residential_id;
     }, 500);
 ​
-    this.OptionsURL[0] = this.config.endpoint4 + 'votacion/#/login/' + this.residential_id;
-    this.OptionsURL[1] = this.config.endpoint4 + 'preregistro/#/login/' + this.residential_id;
-    this.OptionsURL[2] = this.config.endpoint4 + 'votacionslch/#/login/' + this.residential_id;
-    this.OptionsURL[3] = this.config.endpoint4 + 'votacionslp/#/login/' + this.residential_id;
-    // this.OptionsURL[4] = this.config.endpoint4 + 'votacionacciones/#/login/' + this.residential_id;
+    this.OptionsURL[0] = this._env.ENDPOINT_SECONDARY + 'votacion/#/login/' + this.residential_id;
+    this.OptionsURL[1] = this._env.ENDPOINT_SECONDARY + 'preregistro/#/login/' + this.residential_id;
+    this.OptionsURL[2] = this._env.ENDPOINT_SECONDARY + 'votacionslch/#/login/' + this.residential_id;
+    this.OptionsURL[3] = this._env.ENDPOINT_SECONDARY + 'votacionslp/#/login/' + this.residential_id;
+    // this.OptionsURL[4] = this._env.ENDPOINT_SECONDARY + 'votacionacciones/#/login/' + this.residential_id;
   }
 ​
 ​
   ngOnInit() {
-    this.httpClient.get(this.config.endpoint3 + 'ApiEmailContent/getAllEmailContent?key=' + this.config.key + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'ApiEmailContent/getAllEmailContent?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.listTypeEmail = resp["content"]
       });

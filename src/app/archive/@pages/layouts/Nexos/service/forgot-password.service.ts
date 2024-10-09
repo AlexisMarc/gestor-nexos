@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ConfigurationRestService } from './configuration.rest.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import swal, { SweetAlertIcon } from 'sweetalert2';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForgotPasswordService {
+  private _env = inject(EnvServiceService)
   data: any;
 
   constructor(private httpClient: HttpClient,
@@ -15,7 +17,7 @@ export class ForgotPasswordService {
     private router: Router) { }
 
   forgotPassword(datosforgotPassword:any) {
-    this.httpClient.post(this.config.endpoint + 'UserServices/forgotPassword', datosforgotPassword)
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'UserServices/forgotPassword', datosforgotPassword)
       .subscribe((data:any) => {
         this.data = data;
         var iconStatus: SweetAlertIcon = 'success'

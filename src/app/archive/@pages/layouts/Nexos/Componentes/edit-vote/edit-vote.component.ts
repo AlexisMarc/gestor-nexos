@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
  
 import { DataOptionsvote } from '../../interface/dataOptionsVote.model';
@@ -8,6 +8,7 @@ import { DataProfileVoter } from '../../interface/dataProfileVoter.model';
 import { DataProfileVoterSend } from '../../interface/dataProfileVoterSend.model';
 import { ConfigurationRestService } from '../../service/configuration.rest.service';
 import { CreateAnswerService } from '../../service/create-answer.service';
+import { EnvServiceService } from '@env';
 declare var swal: any;
 
 @Component({
@@ -16,7 +17,7 @@ declare var swal: any;
   styleUrls: ['./edit-vote.component.scss']
 })
 export class EditVoteComponent implements OnInit {
-
+  private _env = inject(EnvServiceService)
   residential_id: string;
   nameVote_edit = '';
   options_edit: DataOptionsvote[] = [];
@@ -56,7 +57,7 @@ export class EditVoteComponent implements OnInit {
     this.keysession_edit = userStorage['token']
     var profileVoterForAddList_edit: DataProfileVoter;
 
-    this.httpClient.get(this.config.endpoint + 'ApiVoting/getAllVoterProfiles?key=' + this.config.key + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/getAllVoterProfiles?key=' + this._env.SECRET_KEY + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         this.totalProfiles_edit = resp['content'].length;
         for (let index = 0; index < resp['content'].length; index++) {
@@ -71,7 +72,7 @@ export class EditVoteComponent implements OnInit {
         this.ProfilesToSend_edit.push(profileDefault);
       });
 
-    this.httpClient.get(this.config.endpoint + 'ApiVoting/getVoteOptionById?key=' + this.config.key + '&id=' + this.vote_id_edit + '&user_id=' + this.user_id)
+    this.httpClient.get(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ApiVoting/getVoteOptionById?key=' + this._env.SECRET_KEY + '&id=' + this.vote_id_edit + '&user_id=' + this.user_id)
       .subscribe((resp:any)=> {
         if (resp['content']['mode_chart'] == '1') {
           this.pendientes_edit = true;

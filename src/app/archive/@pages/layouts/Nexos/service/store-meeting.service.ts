@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationRestService } from './configuration.rest.service';
 import swal from 'sweetalert2';
 import { catchError } from 'rxjs/operators';
+import { EnvServiceService } from '@env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreMeetingService {
+
+  private _env = inject(EnvServiceService)
 
   constructor(
     private httpClient: HttpClient,
@@ -19,8 +22,8 @@ export class StoreMeetingService {
 
   storeMeetingService(createMeetingVoting:any, token:any, base_large:any) {
     if (base_large == 1) {
-      // this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/storeMeeting64', createMeetingVoting)
-      this.httpClient.post(this.config.endpoint6 + 'api/meetings/store/' + token, createMeetingVoting) 
+      // this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/storeMeeting64', createMeetingVoting)
+      this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/store/' + token, createMeetingVoting) 
         .subscribe((data:any) => {
           let iconStatus = 'error';
           if (data['success']) {
@@ -35,7 +38,7 @@ export class StoreMeetingService {
           swal.fire('Mensaje', 'Ha ocurrido un error verifique los datos cargados y la base de datos', 'warning');
         });
     } else {
-      this.httpClient.post(this.config.endpoint6 + 'api/meetings/storeRegularMeeting/' + token, createMeetingVoting)
+      this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/storeRegularMeeting/' + token, createMeetingVoting)
         .subscribe((data:any) => {
           let iconStatus:any = 'error';
           if (data['success']) {
@@ -50,7 +53,7 @@ export class StoreMeetingService {
   }
 
   editstoreMeetingService(editMeetingVoting:any) {
-    this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', editMeetingVoting).subscribe((data:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/updateMeetingDetails', editMeetingVoting).subscribe((data:any) => {
       let iconStatus:any = 'error';
       if (data['success']) {
         iconStatus = 'success';
@@ -61,8 +64,8 @@ export class StoreMeetingService {
   }
 
   loadFiles(dataFiles:any, meeting_id:any, keySession:any) {
-    // this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/uploadDocumentsForMeeting', dataFiles).subscribe((data:any) => {
-    this.httpClient.post(this.config.endpoint6 + 'api/meetings/uploadDocumentsForMeeting/' + keySession + '/' + meeting_id, dataFiles).subscribe((data:any) => {
+    // this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/uploadDocumentsForMeeting', dataFiles).subscribe((data:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.GESTOR_V2 + 'api/meetings/uploadDocumentsForMeeting/' + keySession + '/' + meeting_id, dataFiles).subscribe((data:any) => {
       let iconStatus:any = 'error';
       if (data['success']) {
         iconStatus = 'success';
@@ -73,7 +76,7 @@ export class StoreMeetingService {
   }
 
   editMeeting(dataFiles:any) {
-    this.httpClient.post(this.config.endpoint3 + 'PreRegisterMeetingServices/updateMeetingDetails', dataFiles).subscribe((data:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_PREREGISTRO + 'PreRegisterMeetingServices/updateMeetingDetails', dataFiles).subscribe((data:any) => {
       let iconStatus:any = 'error';
       if (data['success']) {
         iconStatus = 'success';
@@ -84,7 +87,7 @@ export class StoreMeetingService {
   }
 
   deleteDocument(dataDocument:any) {
-    this.httpClient.post(this.config.endpoint + 'ResidentialServices/deleteDocumentById', dataDocument).subscribe((resp:any) => {
+    this.httpClient.post(this._env.ENDPOINT_PRIMARY + this._env.APP_MANAGEMENT+ 'ResidentialServices/deleteDocumentById', dataDocument).subscribe((resp:any) => {
       let iconStatus:any = 'error';
       if (resp['success']) {
         iconStatus = 'success';

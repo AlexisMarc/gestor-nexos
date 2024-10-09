@@ -42,7 +42,7 @@
 				</button>
 				<button type="button"
 					class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none"
-					data-toggle-pin="sidebar" (click)="'toggleMenuPin()'"><i class="fa fs-12"></i>
+					data-toggle-pin="sidebar"><i class="fa fs-12"></i>
 				</button>
 			</div>
 		</ng-template>
@@ -60,8 +60,8 @@
 			<!-- END MOBILE SIDEBAR TOGGLE -->
 			<div>
 				<div class="brand inline">
-					<img class="h-5" src="./assets/img/logo.png" src1x="./assets/img/logo.png" src2x="./assets/img/logo.png"
-						alt="logo" pgRetina height="22">
+					<img src="./assets/img/logo.png" src1x="./assets/img/logo.png" src2x="./assets/img/logo.png"
+						alt="logo" pgRetina class="h-6">
 				</div>
 				<!-- START NOTIFICATION LIST -->
 
@@ -87,12 +87,12 @@
 						<a (click)="goEditUser()" routerLinkActive="router-link-active" class="dropdown-item"><i
 								class="fs-13 pg pg-settings_small"></i>
 							Cambiar Contraseña</a>
-						<swal #deleteSwal title="Esta seguro que desea cerrar sesion?" type="question"
+						<swal #deleteSwal title="Esta seguro que desea cerrar sesión?" type="question"
 							[showCancelButton]="true" [focusCancel]="true" (confirm)="singOut()">
 						</swal>
-						<a class="clearfix bg-master-lighter dropdown-item" (click)="'deleteSwal.show()'"
+						<a (click)="deleteSwal.swalVisible = true" class="clearfix bg-master-lighter dropdown-item"
 							style="cursor: pointer">
-							<span class="pull-left">Cerrar Sesion</span>
+							<span class="pull-left">Cerrar Sesión</span>
 							<span class="pull-right"><i class="fs-13 pg pg-power"></i></span>
 						</a>
 					</div>
@@ -120,7 +120,7 @@
 							<span class="sm-block">
 								<a class="m-l-10" target="_blank"
 									href="https://votacioneselectronicas.com.co/politica-de-privacidad/" style="text-decoration: none; color: rgb(255, 115, 0);">
-									Politicas de privacidad
+									Políticas de privacidad
 								</a>
 							</span>
 						</p>
