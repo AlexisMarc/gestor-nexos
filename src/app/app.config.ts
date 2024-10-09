@@ -13,8 +13,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { RootStore } from '@store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { authInterceptor } from '@resolver';
 import { EnvServiceProvider } from '../env/env-service.provider';
+import { authInterceptor } from '@interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

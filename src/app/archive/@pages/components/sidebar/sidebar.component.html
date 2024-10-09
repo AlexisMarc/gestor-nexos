@@ -23,7 +23,7 @@
       </a>
       <span class="bg-nexos icon-thumbnail"><i class="fa fa-home"></i></span>
     </li>
-    <li class="m-t-30 " (click)="goMenuSetting()" >
+    <li class="m-t-30 " (click)="goMenuSetting()" *ngIf="userStorage['profile']=='Super Usuario'">
       <a class="nav-link" class="detailed">
         <span class="title">Configuración</span>
         <span class="details">Crear/editar </span>
