@@ -8,7 +8,6 @@ import { NxToastComponent, NxConfirmDialogComponent, NxLoadingComponent } from '
   standalone: true,
   imports: [RouterOutlet, NxToastComponent, NxConfirmDialogComponent, NxLoadingComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
 export class AppComponent  {
   constructor(){
