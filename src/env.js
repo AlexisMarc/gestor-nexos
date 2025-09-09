@@ -10,7 +10,6 @@
   window._env.APP_API = "/app/Api/";
   window._env.APP_PREREGISTRO = "/app-preregistro/";
   window._env.APP_SERVICE_RESIDENTIAL = "/app/ServicesResidential/";
-  window._env.GESTOR_V2 = "/gestor-v2/";
 
   window._env.SECRET_KEY = "GiUBniR9UtmfKDaeOc9tXKt16lk=";
 })(this);
